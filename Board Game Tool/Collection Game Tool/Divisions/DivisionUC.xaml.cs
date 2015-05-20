@@ -47,7 +47,6 @@ namespace Collection_Game_Tool.Divisions
 
         public void setDataContextToModel()
         {
-            totalPicksLabel.DataContext = DivModel;
             totalValueLabel.DataContext = DivModel;
             divisionNumberLabel.DataContext = DivModel;
         }
@@ -70,7 +69,6 @@ namespace Collection_Game_Tool.Divisions
                 DivModel.levelBoxes[i].IsSelected = false;
             }
 
-            DivModel.TotalPlayerPicks = DivModel.calculateTotalCollections();
             DivModel.TotalPrizeValue = DivModel.calculateDivisionValue();
             SectionContainer.validateDivision();
         }
@@ -99,7 +97,6 @@ namespace Collection_Game_Tool.Divisions
                     }
                 }
 
-                DivModel.TotalPlayerPicks = DivModel.calculateTotalCollections();
                 DivModel.TotalPrizeValue = DivModel.calculateDivisionValue();
             }
 
@@ -122,7 +119,6 @@ namespace Collection_Game_Tool.Divisions
                     }
                 }
 
-                DivModel.TotalPlayerPicks = DivModel.calculateTotalCollections();
                 DivModel.TotalPrizeValue = DivModel.calculateDivisionValue();
             }
         }
