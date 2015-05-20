@@ -16,14 +16,14 @@
         x:Name="OuterGrid">
         <Grid
             Height="50"
-            Width="530"
+            Width="515"
             VerticalAlignment="Top"
             Name="LevelGrid">
             <Grid.Background>
                 <SolidColorBrush Color="#ADADAD"/> <!--#9e9d9d-->
             </Grid.Background>
             <Border BorderBrush="Black" BorderThickness="2" />
-            <Border BorderBrush="#007baa" BorderThickness="3" Height="40" Width="40" HorizontalAlignment="Left" Margin="10,2,0,2">
+            <Border BorderBrush="#007baa" BorderThickness="3" Height="40" Width="40" HorizontalAlignment="Left" Margin="5,2,0,2">
                 <Grid Background="#FFFFFF"
                       Width="36">
                     <Label
@@ -41,7 +41,7 @@
                 Width="100"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Left"
-                Margin="60,2,0,2">
+                Margin="50,2,0,2">
                 <Label
                     Foreground="White"
                     FontSize="12"
@@ -71,7 +71,7 @@
                 Width="130"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Left"
-                Margin="175,2,0,2">
+                Margin="160,2,0,2">
                 <Label
                     Foreground="White"
                     FontSize="12"
@@ -104,7 +104,7 @@
                 Width="90"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Left"
-                Margin="320,2,0,2">
+                Margin="300,2,0,2">
                 <Label
                     Foreground="White"
                     FontSize="12"
@@ -125,15 +125,15 @@
             <Grid
                 Background="#007CAA"
                 Height="40"
-                Width="90"
+                Width="95"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Left"
-                Margin="420,2,0,2">
+                Margin="400,2,0,2">
                 <Label
                     Foreground="White"
                     FontSize="12"
                     VerticalContentAlignment="Center">
-                    Instant Win:
+                    Bonus Game:
                 </Label>
                 <CheckBox 
                     Name="BonusGameCheckBox"
