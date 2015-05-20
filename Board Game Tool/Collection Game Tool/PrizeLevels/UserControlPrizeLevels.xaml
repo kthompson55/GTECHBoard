@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="Collection_Game_Tool.PrizeLevels.UserControlPrizeLevels"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="600">
+    <Grid Width="460"> <!--465">-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <Grid.Background>
+            <SolidColorBrush Color="#C9C9C9"/>
+        </Grid.Background>
+        <Label Grid.Row="0"
+               VerticalAlignment="Stretch"
+               HorizontalAlignment="Stretch"
+               VerticalContentAlignment="Center"
+               HorizontalContentAlignment="Center"
+               FontSize="30"
+               FontWeight="Bold"
+               Foreground="#FFFFFF">
+            <Label.Background>
+                <SolidColorBrush Color="#007CAA"/>
+            </Label.Background>
+            Prize Levels
+        </Label>
+        <Grid
+            Grid.Row="1"
+            Background="#e87e02">
+            <Label
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top">
+                The different prizes a player can win. (12 max and 2 min)
+            </Label>
+            <Label
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+                Each prize includes a level, a prize value, the number of collections
+            </Label>
+            <Label
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom">
+                needed to win, and can be set to be won instantly in the game.
+            </Label>
+        </Grid>
+        <ScrollViewer x:Name="prizeLevelScroll" 
+                      Grid.Row="2"
+                      MaxHeight="790">
+            <Grid 
+                Name="Prizes"
+                VerticalAlignment="Top"
+                Margin="0,10,0,0">
+            </Grid>
+        </ScrollViewer>
+        <Button
+            Name="AddButton"
+            Grid.Row="3"
+            VerticalAlignment="Center"
+            Width="100"
+            Click="Add_Prize_Level">
+            Add Prize Level +
+        </Button>
+    </Grid>
+</UserControl>

@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="Collection_Game_Tool.Divisions.DivisionPanelUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="600"> <!--450-->
+    <Grid Background="#C9C9C9"
+          Width="535">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="divisionSectionHeader" 
+              Background="#007CAA"
+              Grid.Row="0">
+            <Label x:Name="divisionTitle" 
+                   Content="Divisions" 
+                   VerticalAlignment="Center" 
+                   HorizontalAlignment="Center"
+                   FontSize="30"
+                   FontWeight="Bold"
+                   Foreground="#FFFFFF"/>
+        </Grid>
+
+        <Grid Background="#e87e02"
+                    Grid.Row="1">
+            <Label Content="The different combinations to wn prize levels (30 max and 2 min)" 
+                   VerticalAlignment="Top" 
+                   HorizontalAlignment="Center" 
+                   Margin="0"/>
+            <Label Content="Each division must be a unique combination of prizes and have the" 
+                   VerticalAlignment="Center" 
+                   HorizontalAlignment="Center" />
+            <Label Content="sane or lower number of player picks as set in Game Setup." 
+                   VerticalAlignment="Bottom" 
+                   HorizontalAlignment="Center" />
+        </Grid>
+
+        <ScrollViewer x:Name="divisionsScroll" 
+                      Grid.Row="2"
+                      MaxHeight="790"
+                      Margin="0,0,14,0">
+            <StackPanel x:Name="divisionsHolderPanel"
+                        VerticalAlignment="Top"
+                        Orientation="Vertical">
+            </StackPanel>
+        </ScrollViewer>
+
+        <Grid Grid.Row="3">
+            <Button x:Name="addDivisionButton" 
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Content="Add New Division"
+                    Click="addDivisionButton_Click"/>
+        </Grid>
+
+    </Grid>
+</UserControl>

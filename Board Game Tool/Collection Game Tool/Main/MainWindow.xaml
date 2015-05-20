@@ -1,0 +1,33 @@
+﻿<Window x:Class="Collection_Game_Tool.Main.Window1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:gs="clr-namespace:Collection_Game_Tool.GameSetup"
+        xmlns:pl="clr-namespace:Collection_Game_Tool.PrizeLevels"
+        xmlns:dv="clr-namespace:Collection_Game_Tool.Divisions"
+        Title="Board Game Tool" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+        SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen"
+        LayoutUpdated="Window_LayoutUpdated_1"
+        Closing="Window_Closing">
+
+    <StackPanel>
+
+        <Menu x:Name="toolMenu" HorizontalAlignment="Right">
+            <MenuItem Header="File" Margin="10 0 0 0">
+                <MenuItem Header="Save Project" Click="SaveItem_Clicked"/>
+                <MenuItem Header="Save Project As" Click="SaveAsItem_Clicked"/>
+                <MenuItem Header="Open Project" Click="OpenItem_Clicked"/>
+            </MenuItem>
+        </Menu>
+
+        <StackPanel x:Name="windowHeader" Orientation="Horizontal" Background="white">
+            <Image Source="logo.png" Margin="10"></Image>
+            <Label Foreground="#007CAA" Background="white" FontSize="48" FontWeight="Bold">Board Game Generator</Label>
+
+        </StackPanel>
+        <StackPanel Name="UserControls" Orientation="Horizontal" HorizontalAlignment="Stretch"/>
+        
+        
+
+    
+    </StackPanel>
+</Window>
