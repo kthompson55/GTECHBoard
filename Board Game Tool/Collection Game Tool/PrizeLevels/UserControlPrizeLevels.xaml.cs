@@ -26,7 +26,6 @@ namespace Collection_Game_Tool.PrizeLevels
     {
         List<Listener> listenerList = new List<Listener>();
         public PrizeLevels plsObject;
-        private int collectionCheck;
         private const double MARGIN = 60;
         private string plsID;
 
@@ -167,23 +166,6 @@ namespace Collection_Game_Tool.PrizeLevels
                     }
                     if (!sameFound)
                         ErrorService.Instance.resolveWarning("004", null, plsID);
-
-                    if (collectionCheck < collectionToShout)
-                    {
-                        plsID=ErrorService.Instance.reportError("004", new List<string>
-                        {
-                            (string)plc.Convert(ucplList[index].plObject.prizeLevel,typeof(string), null, new System.Globalization.CultureInfo("en-us")),
-                            collectionCheck.ToString()
-                        }, plsID);
-                    }
-                    else if (collectionCheck >= collectionToShout)
-                    {
-                        ErrorService.Instance.resolveError("004", new List<string>
-                        {
-                            (string)plc.Convert(ucplList[index].plObject.prizeLevel,typeof(string), null, new System.Globalization.CultureInfo("en-us")),
-                            collectionCheck.ToString()
-                        }, plsID);
-                    }
                 }
             }
             else if(pass is UserControlPrizeLevel)
@@ -245,12 +227,6 @@ namespace Collection_Game_Tool.PrizeLevels
         public void addListener(Listener list)
         {
             listenerList.Add(list);
-        }
-
-        public void setCollectionCheck(int CC)
-        {
-            collectionCheck = CC;
-            ((UserControlPrizeLevel)Prizes.Children[0]).shout("Update");
         }
     }
 }
