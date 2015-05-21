@@ -44,7 +44,6 @@ namespace Collection_Game_Tool.GameSetup
 
         public void loadExistingData(GameSetupModel savedSetup)
         {
-            TotalPicksSlider.Value = savedSetup.totalPicks;
             NearWinCheckbox.IsChecked = savedSetup.isNearWin;
             NumNearWinsSlider.Value = savedSetup.nearWins;
             MaxPermutationsTextBox.Text = savedSetup.maxPermutations.ToString();
@@ -52,7 +51,6 @@ namespace Collection_Game_Tool.GameSetup
             gsObject.initializeListener();
             Window parentWindow = Window.GetWindow(this.Parent);
             gsObject.addListener((Window1)parentWindow);
-            pickCheck = gsObject.totalPicks;
         }
 
         //When Create is clicked, validates data and creates a text file
@@ -105,18 +103,7 @@ namespace Collection_Game_Tool.GameSetup
 
         }
 
-        private void TotalPicksSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (gsObject != null)
-            {
-                Slider slider = sender as Slider;
-                gsObject.totalPicks = Convert.ToInt16(slider.Value);
-                shout((int)gsObject.totalPicks);
-                pickCheck = gsObject.totalPicks;
-            }
-        }
-
-        private void NumNearWinsSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+       private void NumNearWinsSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (gsObject != null)
             {
@@ -253,6 +240,16 @@ namespace Collection_Game_Tool.GameSetup
             {
                 ErrorBoxBorder.Visibility = Visibility.Visible;
             }
+        }
+
+        private void NumDiceSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+
+        }
+
+        private void SpinnerValueSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+
         }
     }
 }
