@@ -21,14 +21,12 @@ namespace Collection_Game_Tool.Divisions
         public const int MAX_PRIZE_BOXES = 12;
 
         private int _divisionNumber;
-        private int _totalPlayerPicks;
         private double _totalPrizeValue;
 
         public DivisionModel()
         {
             errorID = null;
             DivisionNumber = 0;
-            TotalPlayerPicks = 0;
             TotalPrizeValue = 0.00;
         }
 
@@ -75,19 +73,6 @@ namespace Collection_Game_Tool.Divisions
             return divisionValue;
         }
 
-        public int calculateTotalCollections()
-        {
-            int collections = 0;
-            foreach (PrizeLevel p in selectedPrizes)
-            {
-                if (p.isInstantWin)
-                    collections += 1;
-                else
-                    collections += p.numCollections;
-            }
-            return collections;
-        }
-
         public int DivisionNumber
         {
             get
@@ -100,21 +85,6 @@ namespace Collection_Game_Tool.Divisions
                 _divisionNumber = value;
                 if (PropertyChanged != null)
                     PropertyChanged(this, new PropertyChangedEventArgs("DivisionNumber"));
-            }
-        }
-
-        public int TotalPlayerPicks
-        {
-            get
-            {
-                return _totalPlayerPicks;
-            }
-
-            set
-            {
-                _totalPlayerPicks = value;
-                if (PropertyChanged != null)
-                    PropertyChanged(this, new PropertyChangedEventArgs("TotalPlayerPicks"));
             }
         }
 
@@ -137,13 +107,6 @@ namespace Collection_Game_Tool.Divisions
         {
             DivisionModel dm = (DivisionModel)obj;
             return (int)Math.Ceiling(dm.calculateDivisionValue() - this.calculateDivisionValue());
-        }
-
-        internal List<int> getNeededPicks()
-        {
-            List<int> picks = new List<int>();
-
-            return picks;
         }
     }
 }

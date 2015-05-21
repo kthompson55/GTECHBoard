@@ -42,21 +42,24 @@
             		HorizontalAlignment="Stretch"
             		MinWidth="200">
 
-                    <UniformGrid x:Name="infoPanel" Height="60" Background="#007baa" MaxWidth="201">
-                        <UniformGrid.Resources>
+                    <Grid x:Name="infoPanel" Height="50" Background="#007baa" MaxWidth="201">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="45*"/>
+                            <ColumnDefinition Width="55*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.Resources>
                             <Style x:Key="divisionInfoStyle" TargetType="{x:Type Label}">
                                 <Setter Property="Foreground" Value="White"/>
                                 <Setter Property="FontSize" Value="15"/>
                                 <Setter Property="Padding" Value="4" />
+                                <Setter Property="VerticalContentAlignment" Value="Center"/>
                             </Style>
-                        </UniformGrid.Resources>
-                        <Label Style="{StaticResource divisionInfoStyle}" HorizontalAlignment="Right" Content="Collections:"/>
-                        <Label x:Name="totalPicksLabel" Style="{StaticResource divisionInfoStyle}" Content="{Binding Path=TotalPlayerPicks, Mode=TwoWay, FallbackValue=0}"/>
-                        <Label Style="{StaticResource divisionInfoStyle}" HorizontalAlignment="Right" Content="Total Value:"/>
-                        <Label x:Name="totalValueLabel" Style="{StaticResource divisionInfoStyle}" Content="{Binding Path=TotalPrizeValue, Mode=TwoWay, FallbackValue=0}"/>
-                    </UniformGrid>
+                        </Grid.Resources>
+                        <Label Grid.Column="0" Style="{StaticResource divisionInfoStyle}" HorizontalAlignment="Right" Content="Total Value:"/>
+                        <Label Grid.Column="1" x:Name="totalValueLabel" Style="{StaticResource divisionInfoStyle}" Content="{Binding Path=TotalPrizeValue, Mode=TwoWay, FallbackValue=0}"/>
+                    </Grid>
 
-                    <StackPanel x:Name="divisionButtons" Orientation="Horizontal" Height="31" Background="#e87e02" Width="201" >
+                    <StackPanel x:Name="divisionButtons" Orientation="Horizontal" Height="41" Background="#e87e02" Width="201" >
                         <StackPanel.Resources>
                             <Style x:Key="divisionButton" TargetType="{x:Type Button}">
                                 <Setter Property="Height" Value="20"/>

@@ -51,11 +51,13 @@
         </ScrollViewer>
 
         <Grid Grid.Row="3">
-            <Button x:Name="addDivisionButton" 
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center"
-                    Content="Add New Division"
-                    Click="addDivisionButton_Click"/>
+            <Border BorderBrush="Black" BorderThickness="0,2,0,0" Grid.Row="3">
+                <Button x:Name="addDivisionButton" 
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Content="Add Division"
+                        Click="addDivisionButton_Click"/>
+            </Border>
         </Grid>
 
     </Grid>

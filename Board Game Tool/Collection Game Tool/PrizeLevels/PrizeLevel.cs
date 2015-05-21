@@ -83,6 +83,22 @@ namespace Collection_Game_Tool.PrizeLevels
             }
         }
 
+        private bool _isBonusGame;
+        public bool isBonusGame
+        {
+            get
+            {
+                return _isBonusGame;
+            }
+            set
+            {
+                _isBonusGame = value;
+
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs("isBonusGame"));
+            }
+        }
+
         public int CompareTo(object obj)
         {
             if (obj == null)

@@ -6,7 +6,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d"
              Loaded="MainView_Loaded"
-             d:DesignHeight="100" d:DesignWidth="440"
+             d:DesignHeight="100" d:DesignWidth="550"
              xmlns:Services="clr-namespace:Collection_Game_Tool.Services">
     <UserControl.Resources>
         <Services:PrizeLevelConverter x:Key="LevelConverter"/>
@@ -16,14 +16,14 @@
         x:Name="OuterGrid">
         <Grid
             Height="50"
-            Width="435"
+            Width="515"
             VerticalAlignment="Top"
             Name="LevelGrid">
             <Grid.Background>
                 <SolidColorBrush Color="#ADADAD"/> <!--#9e9d9d-->
             </Grid.Background>
             <Border BorderBrush="Black" BorderThickness="2" />
-            <Border BorderBrush="#007baa" BorderThickness="3" Height="40" Width="40" HorizontalAlignment="Left" Margin="10,2,0,2">
+            <Border BorderBrush="#007baa" BorderThickness="3" Height="40" Width="40" HorizontalAlignment="Left" Margin="5,2,0,2">
                 <Grid Background="#FFFFFF"
                       Width="36">
                     <Label
@@ -41,7 +41,7 @@
                 Width="100"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Left"
-                Margin="60,2,0,2">
+                Margin="50,2,0,2">
                 <Label
                     Foreground="White"
                     FontSize="12"
@@ -71,7 +71,7 @@
                 Width="130"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Left"
-                Margin="175,2,0,2">
+                Margin="160,2,0,2">
                 <Label
                     Foreground="White"
                     FontSize="12"
@@ -104,7 +104,7 @@
                 Width="90"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Left"
-                Margin="320,2,0,2">
+                Margin="300,2,0,2">
                 <Label
                     Foreground="White"
                     FontSize="12"
@@ -116,6 +116,30 @@
                     Checked="boxChangedEventHandler"
                     Unchecked="boxChangedEventHandler"
                     IsChecked="{Binding Path=isInstantWin, Mode=TwoWay}"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Margin="0,0,0,0"
+                    Height="15"
+                    Width="15"/>
+            </Grid>
+            <Grid
+                Background="#007CAA"
+                Height="40"
+                Width="95"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Left"
+                Margin="400,2,0,2">
+                <Label
+                    Foreground="White"
+                    FontSize="12"
+                    VerticalContentAlignment="Center">
+                    Bonus Game:
+                </Label>
+                <CheckBox 
+                    Name="BonusGameCheckBox"
+                    Checked="boxChangedEventHandler"
+                    Unchecked="boxChangedEventHandler"
+                    IsChecked="{Binding Path=isBonusGame, Mode=TwoWay}"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Margin="0,0,0,0"
