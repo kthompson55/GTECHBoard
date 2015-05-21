@@ -81,7 +81,6 @@ namespace Collection_Game_Tool.Main
             this.MinWidth = this.Width;
             toolMenu.Width = this.ActualWidth - 10;
 
-            pl.setCollectionCheck((int)gs.TotalPicksSlider.Value);
         }
 
         private void Window_LayoutUpdated_1(object sender, EventArgs e)
@@ -116,10 +115,7 @@ namespace Collection_Game_Tool.Main
                     bgWorker.RunWorkerAsync();  
                 }
             }
-            if (pass is int)
-            {
-                pl.setCollectionCheck((int)gs.TotalPicksSlider.Value);
-            }
+           
             divUC.validateDivision();
         }
 
