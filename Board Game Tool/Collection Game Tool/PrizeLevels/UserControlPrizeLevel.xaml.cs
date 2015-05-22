@@ -96,7 +96,7 @@ namespace Collection_Game_Tool.PrizeLevels
         {
             validateMyself();
             shout("Update");
-            LevelGrid.Background = Brushes.Orange;
+            LevelGrid.Background = Brushes.Yellow;
         }
 
         public void addListener(Listener list)

@@ -38,10 +38,10 @@
             <Grid
                 Background="#007CAA"
                 Height="40"
-                Width="100"
+                Width="105"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Left"
-                Margin="50,2,0,2">
+                Margin="50,5,0,5">
                 <Label
                     Foreground="White"
                     FontSize="12"
@@ -58,9 +58,9 @@
                     MaxLength="34"
                     Text="{Binding prizeValue, Mode=TwoWay, Converter={StaticResource ValueConverter}}"
                     HorizontalAlignment="Right"
-                    Margin="0,8,5,7"
+                    Margin="0,8,7,7"
                     Height="25"
-                    Width="47"/>
+                    Width="50"/>
                 <!-- Max Length is set to 34 because that is what we deterimned
                         the amount of characters a double will take before overflowing
                         or causing an error-->
@@ -68,10 +68,10 @@
             <Grid
                 Background="#007CAA"
                 Height="40"
-                Width="130"
+                Width="135"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Left"
-                Margin="160,2,0,2">
+                Margin="160,5,0,5">
                 <Label
                     Foreground="White"
                     FontSize="12"
@@ -87,7 +87,7 @@
                     GotMouseCapture="TextBox_MouseCapture" 
                     MaxLength="2"
                     HorizontalAlignment="Right"
-                    Margin="0,0,5,0"
+                    Margin="0,8,8,8"
                     Height="25"
                     Width="40"
                     ToolTip="Enter a value between 0 and 20">
@@ -101,10 +101,10 @@
             <Grid
                 Background="#007CAA"
                 Height="40"
-                Width="90"
+                Width="94"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Left"
-                Margin="300,2,0,2">
+                Margin="300,5,0,5">
                 <Label
                     Foreground="White"
                     FontSize="12"
@@ -118,17 +118,17 @@
                     IsChecked="{Binding Path=isInstantWin, Mode=TwoWay}"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
-                    Margin="0,0,0,0"
-                    Height="15"
-                    Width="15"/>
+                    Margin="0,12,7,15"
+                    Height="13"
+                    Width="13"/>
             </Grid>
             <Grid
                 Background="#007CAA"
                 Height="40"
-                Width="95"
+                Width="98"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Left"
-                Margin="400,2,0,2">
+                Margin="399,5,0,5">
                 <Label
                     Foreground="White"
                     FontSize="12"
@@ -142,9 +142,9 @@
                     IsChecked="{Binding Path=isBonusGame, Mode=TwoWay}"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
-                    Margin="0,0,0,0"
-                    Height="15"
-                    Width="15"/>
+                    Margin="0,12,5,15"
+                    Height="13"
+                    Width="13"/>
             </Grid>
             <Grid>
                 <Button
