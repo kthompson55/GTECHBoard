@@ -8,13 +8,13 @@ namespace Collection_Game_Tool.Services
 {
     interface Tile
     {
-        List<Tile> nodes;
+        List<Tile> connections{get;set;}
 
         //Talan you should probably flesh this out how you want it
         //I doubt you will want to override this each time
-        public void addTile(Tile tile);
+        void addTile(Tile tile);
 
         //Again change this how you need it
-        public void tileAction();
+        void tileAction();
     }
 }

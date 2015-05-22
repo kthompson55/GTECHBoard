@@ -79,6 +79,8 @@
     <Compile Include="GameSetup\ErrorService.cs" />
     <Compile Include="Main\ProjectData.cs" />
     <Compile Include="PrizeLevels\PrizeLevel.cs" />
+    <Compile Include="Services\Board.cs" />
+    <Compile Include="Services\BoardGeneration.cs" />
     <Compile Include="Services\Error.cs" />
     <Compile Include="PrizeLevels\PrizeLevels.cs" />
     <Compile Include="PrizeLevels\UserControlPrizeLevel.xaml.cs">
@@ -88,10 +90,12 @@
       <DependentUpon>UserControlPrizeLevels.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\CreateOpacityConverter.cs" />
+    <Compile Include="Services\GamePlayGeneration.cs" />
     <Compile Include="Services\Listener.cs" />
     <Compile Include="Services\PrizeLevelConverter.cs" />
     <Compile Include="Services\RangeRule.cs" />
     <Compile Include="Services\Teller.cs" />
+    <Compile Include="Services\Tiles\Tile.cs" />
     <Compile Include="Services\ValueConverter.cs" />
     <Compile Include="Services\Warning.cs" />
   </ItemGroup>
