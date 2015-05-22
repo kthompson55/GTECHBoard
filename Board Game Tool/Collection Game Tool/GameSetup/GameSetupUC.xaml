@@ -41,6 +41,10 @@
                     <Setter Property="BorderThickness" Value="2" />
                     <Setter Property="Margin" Value="0,0,0,10"/>
                 </Style>
+                <Style x:Key="internalBorderStyle" TargetType="Border">
+                    <Setter Property="BorderBrush" Value="Black" />
+                    <Setter Property="BorderThickness" Value="0,0,0,2"/>
+                </Style>
 
             </Grid.Resources>
             <Label Grid.Row="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Background="#007CAA" Foreground="White" FontSize="30" FontWeight="Bold" >Game Setup</Label>
@@ -50,41 +54,7 @@
                 <!--VerticalScrollBarVisibility="Auto"-->
                 <StackPanel x:Name="GameSetupOptionsPanel" 
                             Margin="10,0">
-                    <Border Style="{StaticResource externalBorderStyle}">
-                        <StackPanel x:Name="GSPlayerPicksPanel" 
-                                Background="LightGray">
-                            <Label Style="{StaticResource titleStyle}">Player Picks</Label>
-                            <Border BorderBrush="Black" BorderThickness="0,0,0,2">
-                                <Label Style="{StaticResource instructionStyle}">The number of picks the player gets to attempt to win a prize</Label>
-                            </Border>
-                            <StackPanel Orientation="Horizontal" Background="#ADADAD">
-                                <Label Style="{StaticResource dataLabelStyle}">Total Number:</Label>
-                                <Label x:Name="NumPicksLabel" 
-                                       Content="{Binding ElementName=TotalPicksSlider, Path=Value}" 
-                                       ContentStringFormat="{}{0:#}" 
-                                       FontSize="14" 
-                                       FontWeight="Bold"
-                                       HorizontalContentAlignment="Center" 
-                                       VerticalAlignment="Center" 
-                                       Background="White" 
-                                       Width="30"
-                                       Margin="0,0,30,0"></Label>
-                                <StackPanel Orientation="Horizontal" Margin="10,0">
-                                    <Label FontSize="14">1</Label>
-                                    <Slider x:Name="TotalPicksSlider" 
-                                            ValueChanged="TotalPicksSlider_ValueChanged" 
-                                            MinWidth="200" Maximum="20" Minimum="1"
-                                            IsSelectionRangeEnabled="True" 
-                                            VerticalAlignment="Center" 
-                                            IsSnapToTickEnabled="True" TickPlacement="Both" TickFrequency="1"></Slider>
-                                    <Label FontSize="14">20</Label>
-                                </StackPanel>
-
-                            </StackPanel>
-
-                        </StackPanel>
-                    </Border>
-
+                 
                     <Border Style="{StaticResource externalBorderStyle}">
                         <StackPanel x:Name="GSNearWinPanel" Background="#ADADAD">
                             <Label Style="{StaticResource titleStyle}">Near Win Experience</Label>
@@ -147,6 +117,99 @@
                         </StackPanel>
                     </Border>
 
+                    <Border Style="{StaticResource externalBorderStyle}">
+
+                        <StackPanel x:Name="GSDicePanel" Background="#ADADAD">
+                            <Label Style="{StaticResource titleStyle}">Dice/Spinner</Label>
+                            <Border BorderBrush="Black" BorderThickness="0,0,0,2">
+                                <Label Style="{StaticResource instructionStyle}">The tools that determine player movement</Label>
+                            </Border>
+                            <Border Style="{StaticResource internalBorderStyle}">
+                            <StackPanel Orientation="Horizontal">
+                                <Label>Dice</Label>
+                                <RadioButton x:Name="DiceRadioButton" GroupName="DiceSpinnerSelection" VerticalAlignment="Center"></RadioButton>
+                                <Label>Spinner</Label>
+                                <RadioButton x:Name="SpinnerRadioButton" GroupName="DiceSpinnerSelection" VerticalAlignment="Center"></RadioButton>
+                            </StackPanel>
+                            </Border>
+                            <Border Style="{StaticResource internalBorderStyle}">
+
+                                <StackPanel IsEnabled="{Binding ElementName=DiceRadioButton, Path=IsChecked}" Orientation="Horizontal" x:Name="GSDiceOptional" Background="#ADADAD" >
+                                <Label Style="{StaticResource dataLabelStyle}">Number of Dice:</Label>
+                                <Label x:Name="NumDiceLabel" 
+                                       Content="{Binding ElementName=NumDiceSlider, Path=Value}" 
+                                       FontSize="14" 
+                                       FontWeight="Bold"
+                                       ContentStringFormat="{}{0:#}" 
+                                       HorizontalContentAlignment="Center" 
+                                       Background="White" 
+                                       Width="30"
+                                       Margin="0,0,30,0"></Label>
+                                <StackPanel Orientation="Horizontal" Margin="10,0">
+                                    <Label FontSize="14">1</Label>
+                                    <Slider x:Name="NumDiceSlider" 
+                                            ValueChanged="NumDiceSlider_ValueChanged" 
+                                            MinWidth="200" Maximum="5" Minimum="1" 
+                                            IsSelectionRangeEnabled="True" 
+                                            VerticalAlignment="Center" 
+                                            IsSnapToTickEnabled="True" TickPlacement="Both" TickFrequency="1"></Slider>
+                                    <Label FontSize="14">5</Label>
+                                </StackPanel>
+
+                                
+                                    </StackPanel>
+                            </Border>
+
+                            <StackPanel IsEnabled="{Binding ElementName=SpinnerRadioButton, Path=IsChecked}" Orientation="Horizontal" x:Name="GSSpinnerOptional" Background="#ADADAD" >
+                                <Label Style="{StaticResource dataLabelStyle}">Max Spinner Value:</Label>
+                                <Label x:Name="SpinnerValueLabel" 
+                                       Content="{Binding ElementName=SpinnerValueSlider, Path=Value}" 
+                                       FontSize="14" 
+                                       FontWeight="Bold"
+                                       ContentStringFormat="{}{0:#}" 
+                                       HorizontalContentAlignment="Center" 
+                                       Background="White" 
+                                       Width="30"
+                                       Margin="0,0,30,0"></Label>
+                                <StackPanel Orientation="Horizontal" Margin="10,0">
+                                    <Label FontSize="14">1</Label>
+                                    <Slider x:Name="SpinnerValueSlider" 
+                                            ValueChanged="SpinnerValueSlider_ValueChanged" 
+                                            MinWidth="200" Maximum="8" Minimum="1" 
+                                            IsSelectionRangeEnabled="True" 
+                                            VerticalAlignment="Center" 
+                                            IsSnapToTickEnabled="True" TickPlacement="Both" TickFrequency="1"></Slider>
+                                    <Label FontSize="14">8</Label>
+                                </StackPanel>
+
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Style="{StaticResource externalBorderStyle}">
+
+                        <StackPanel x:Name="GSBoard" Background="#ADADAD">
+                            <Label Style="{StaticResource titleStyle}">Board</Label>
+                            <Border BorderBrush="Black" BorderThickness="0,0,0,2">
+                                <Label Style="{StaticResource instructionStyle}">The board on which the game will take place</Label>
+                            </Border>
+                            <DockPanel>
+                                <Label Style="{StaticResource dataLabelStyle}">Number of Tiles:</Label>
+                                <TextBox x:Name="BoardSizeTextBox" 
+                                     GotFocus="MaxPermutationsTextBox_GotFocus" 
+                                     GotMouseCapture="MaxPermutationsTextBox_GotMouseCapture" 
+                                     TextChanged="MaxPermutationsTextBox_TextChanged"
+                                     PreviewTextInput="MaxPermutationsTextBox_PreviewTextInput"
+                                     FontSize="14"
+                                     VerticalAlignment="Center"
+                                     HorizontalAlignment="Left"
+                                     Width="100"
+                                         >1</TextBox>
+
+                            </DockPanel>
+                        </StackPanel>
+                    </Border>
+
 
                     <Button x:Name="CreateButton" Click="createButton_Click" Width="200" Height="50" FontSize="28" FontWeight="Bold" Background="#007CAA" Foreground="White" Margin="0,30,0,0" IsEnabled="{Binding Path=canCreate}" Opacity="{Binding Path=canCreate, Converter={StaticResource OpacityConverter}}">Create File</Button>
                     <StackPanel x:Name="GeneratingFileAnimation" Margin="10" Visibility="Hidden">
@@ -161,17 +224,7 @@
                     <Label x:Name="GeneratingCompleteMessage" FontSize="20" Margin="10" HorizontalAlignment="Center" Visibility="Hidden">File Generated!</Label>
 
 
-                    <Border x:Name="ErrorBoxBorder" BorderThickness="2" BorderBrush="#D60804" Margin="0,0,0,10">
-                        <ScrollViewer x:Name="errorPanelScroll" MaxHeight="350">
-                            <StackPanel Background="White">
-                                <Label FontWeight="Bold" FontSize="14" Background="#D60804" Foreground="White">Errors:</Label>
-                                <TextBlock x:Name="ErrorTextBlock" MaxWidth="400" Foreground="Black" TextWrapping="Wrap" TargetUpdated="ErrorTextBlock_TargetUpdated" Text="{Binding Path=errorText, Mode=TwoWay, NotifyOnTargetUpdated=True}"></TextBlock>
-                                <Label FontWeight="Bold" FontSize="14" Background="#FFEE00" Foreground="Black">Warnings:</Label>
-                                <TextBlock x:Name="WarningTextBlock" MaxWidth="400" Foreground="Black" TextWrapping="Wrap" TargetUpdated="WarningTextBlock_TargetUpdated" Text="{Binding Path=warningText, Mode=TwoWay, NotifyOnTargetUpdated=True}"></TextBlock>
-                            </StackPanel>
-                        </ScrollViewer>
-
-                    </Border>
+                    
 
                 </StackPanel>
             </ScrollViewer>

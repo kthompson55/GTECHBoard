@@ -36,15 +36,12 @@ namespace Collection_Game_Tool.GameSetup
             gsObject = new GameSetupModel();
             gsObject.canCreate = true;
             CreateButton.DataContext = gsObject;
-            ErrorTextBlock.DataContext = ErrorService.Instance;
-            WarningTextBlock.DataContext = ErrorService.Instance;
-            errorPanelScroll.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+            
             //gameSetupScroll.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
         }
 
         public void loadExistingData(GameSetupModel savedSetup)
         {
-            TotalPicksSlider.Value = savedSetup.totalPicks;
             NearWinCheckbox.IsChecked = savedSetup.isNearWin;
             NumNearWinsSlider.Value = savedSetup.nearWins;
             MaxPermutationsTextBox.Text = savedSetup.maxPermutations.ToString();
@@ -52,7 +49,6 @@ namespace Collection_Game_Tool.GameSetup
             gsObject.initializeListener();
             Window parentWindow = Window.GetWindow(this.Parent);
             gsObject.addListener((Window1)parentWindow);
-            pickCheck = gsObject.totalPicks;
         }
 
         //When Create is clicked, validates data and creates a text file
@@ -105,18 +101,7 @@ namespace Collection_Game_Tool.GameSetup
 
         }
 
-        private void TotalPicksSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (gsObject != null)
-            {
-                Slider slider = sender as Slider;
-                gsObject.totalPicks = Convert.ToInt16(slider.Value);
-                shout((int)gsObject.totalPicks);
-                pickCheck = gsObject.totalPicks;
-            }
-        }
-
-        private void NumNearWinsSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+       private void NumNearWinsSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (gsObject != null)
             {
@@ -218,19 +203,10 @@ namespace Collection_Game_Tool.GameSetup
             }
         }
 
-        private void ErrorTextBlock_TargetUpdated(object sender, DataTransferEventArgs e)
-        {
-            adjustBorderVisibility();
-            adjustCreateButtonEnabled();
-        }
-
-        private void WarningTextBlock_TargetUpdated(object sender, DataTransferEventArgs e)
-        {
-            adjustBorderVisibility();
-        }
+       
 
 
-        private void adjustCreateButtonEnabled()
+        public void adjustCreateButtonEnabled()
         {
             if (ErrorService.Instance.errorText == "" || ErrorService.Instance.errorText == null)
             {
@@ -242,17 +218,16 @@ namespace Collection_Game_Tool.GameSetup
             }
         }
 
-        private void adjustBorderVisibility()
+       
+
+        private void NumDiceSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if ((ErrorService.Instance.errorText == "" || ErrorService.Instance.errorText == null) && 
-                (ErrorService.Instance.warningText == "" || ErrorService.Instance.warningText == null))
-            {
-                ErrorBoxBorder.Visibility = Visibility.Hidden;
-            }
-            else
-            {
-                ErrorBoxBorder.Visibility = Visibility.Visible;
-            }
+
+        }
+
+        private void SpinnerValueSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+
         }
     }
 }

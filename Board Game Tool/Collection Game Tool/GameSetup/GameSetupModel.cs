@@ -43,18 +43,7 @@ namespace Collection_Game_Tool.GameSetup
             audience = new List<Listener>();
         }
 
-        private short tp=2;
-        public short totalPicks
-        {
-            get
-            {
-                return tp;
-            }
-            set
-            {
-                tp = value; //Max 20
-            } 
-        }
+        
         private bool inw;
         public bool isNearWin 
         {
