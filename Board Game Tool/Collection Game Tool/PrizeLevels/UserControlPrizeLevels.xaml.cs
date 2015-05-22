@@ -57,6 +57,7 @@ namespace Collection_Game_Tool.PrizeLevels
 
             this.Loaded += new RoutedEventHandler(UserControlPrizeLevels_Loaded);
             prizeLevelScroll.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+            prizeLevelCounterLabel.Content = Prizes.Children.Count;
         }
 
         private void UserControlPrizeLevels_Loaded(object sender, RoutedEventArgs e)
@@ -99,6 +100,7 @@ namespace Collection_Game_Tool.PrizeLevels
             }
 
             prizeLevelScroll.ScrollToBottom();
+            prizeLevelCounterLabel.Content = Prizes.Children.Count;
             //Shouts the PrizeLevels object so that they can be analyzed in Divisions
             shout(plsObject);
         }
@@ -114,6 +116,7 @@ namespace Collection_Game_Tool.PrizeLevels
             ucpl.plObject.initializeListener();
             ucpl.setDataContext();
             ucpl.plObject.prizeLevel = Prizes.Children.Count;
+            prizeLevelCounterLabel.Content = Prizes.Children.Count;
         }
 
         public void onListen(object pass)
@@ -230,6 +233,8 @@ namespace Collection_Game_Tool.PrizeLevels
                     AddButton.Opacity = 1;
                 }
             }
+            prizeLevelCounterLabel.Content = Prizes.Children.Count;
+
             //Shouts PrizeLevels object so divisions can analyze it
             shout(plsObject);
         }

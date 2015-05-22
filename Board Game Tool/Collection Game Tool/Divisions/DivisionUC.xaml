@@ -42,24 +42,26 @@
             		HorizontalAlignment="Stretch"
             		MinWidth="200">
 
-                    <Grid x:Name="infoPanel" Height="50" Background="#007baa" MaxWidth="201">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="45*"/>
-                            <ColumnDefinition Width="55*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.Resources>
-                            <Style x:Key="divisionInfoStyle" TargetType="{x:Type Label}">
-                                <Setter Property="Foreground" Value="White"/>
-                                <Setter Property="FontSize" Value="15"/>
-                                <Setter Property="Padding" Value="4" />
-                                <Setter Property="VerticalContentAlignment" Value="Center"/>
-                            </Style>
-                        </Grid.Resources>
-                        <Label Grid.Column="0" Style="{StaticResource divisionInfoStyle}" HorizontalAlignment="Right" Content="Total Value:"/>
-                        <Label Grid.Column="1" x:Name="totalValueLabel" Style="{StaticResource divisionInfoStyle}" Content="{Binding Path=TotalPrizeValue, Mode=TwoWay, FallbackValue=0}"/>
-                    </Grid>
+                    <Border BorderBrush="Black" BorderThickness="0,0,0,2">
+                        <Grid x:Name="infoPanel" Height="50" Background="#0068ad" MaxWidth="201">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="45*"/>
+                                <ColumnDefinition Width="55*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.Resources>
+                                <Style x:Key="divisionInfoStyle" TargetType="{x:Type Label}">
+                                    <Setter Property="Foreground" Value="White"/>
+                                    <Setter Property="FontSize" Value="15"/>
+                                    <Setter Property="Padding" Value="4" />
+                                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                </Style>
+                            </Grid.Resources>
+                            <Label Grid.Column="0" Style="{StaticResource divisionInfoStyle}" HorizontalAlignment="Right" Content="Total Value:"/>
+                            <Label Grid.Column="1" x:Name="totalValueLabel" Style="{StaticResource divisionInfoStyle}" Content="{Binding Path=TotalPrizeValue, Mode=TwoWay, FallbackValue=0}"/>
+                        </Grid>
+                    </Border>
 
-                    <StackPanel x:Name="divisionButtons" Orientation="Horizontal" Height="41" Background="#e87e02" Width="201" >
+                    <StackPanel x:Name="divisionButtons" Orientation="Horizontal" Height="41" Background="#009ad8" Width="201" >
                         <StackPanel.Resources>
                             <Style x:Key="divisionButton" TargetType="{x:Type Button}">
                                 <Setter Property="Height" Value="20"/>
