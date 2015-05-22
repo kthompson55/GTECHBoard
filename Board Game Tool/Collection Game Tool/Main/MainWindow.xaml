@@ -27,17 +27,7 @@
         <StackPanel Name="UserControls" Orientation="Horizontal" HorizontalAlignment="Stretch"/>
 
 
-        <Border x:Name="ErrorBoxBorder" BorderThickness="2" BorderBrush="#D60804" Margin="0,0,0,10">
-            <ScrollViewer x:Name="errorPanelScroll" MaxHeight="350">
-                <StackPanel Background="White">
-                    <Label FontWeight="Bold" FontSize="14" Background="#D60804" Foreground="White">Errors:</Label>
-                    <TextBlock x:Name="ErrorTextBlock" HorizontalAlignment="Left"  Padding="10,0,0,0" MaxWidth="400" Foreground="Black" TextWrapping="Wrap" TargetUpdated="ErrorTextBlock_TargetUpdated" Text="{Binding Path=errorText, Mode=TwoWay, NotifyOnTargetUpdated=True}"></TextBlock>
-                    <Label FontWeight="Bold" FontSize="14" Background="#FFEE00" Foreground="Black">Warnings:</Label>
-                    <TextBlock x:Name="WarningTextBlock" HorizontalAlignment="Left" Padding="10,0,0,0" MaxWidth="400" Foreground="Black" TextWrapping="Wrap" TargetUpdated="WarningTextBlock_TargetUpdated" Text="{Binding Path=warningText, Mode=TwoWay, NotifyOnTargetUpdated=True}"></TextBlock>
-                </StackPanel>
-            </ScrollViewer>
-
-        </Border>
+        
 
     </StackPanel>
     

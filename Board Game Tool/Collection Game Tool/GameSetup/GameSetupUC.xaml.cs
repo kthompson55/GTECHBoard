@@ -36,7 +36,9 @@ namespace Collection_Game_Tool.GameSetup
             gsObject = new GameSetupModel();
             gsObject.canCreate = true;
             CreateButton.DataContext = gsObject;
-            
+            ErrorTextBlock.DataContext = ErrorService.Instance;
+            WarningTextBlock.DataContext = ErrorService.Instance;
+            errorPanelScroll.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
             //gameSetupScroll.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
         }
 
@@ -218,7 +220,29 @@ namespace Collection_Game_Tool.GameSetup
             }
         }
 
-       
+        private void ErrorTextBlock_TargetUpdated(object sender, DataTransferEventArgs e)
+        {
+            adjustBorderVisibility();
+            adjustCreateButtonEnabled();
+        }
+
+        private void WarningTextBlock_TargetUpdated(object sender, DataTransferEventArgs e)
+        {
+            adjustBorderVisibility();
+        }
+
+        private void adjustBorderVisibility()
+        {
+            if ((ErrorService.Instance.errorText == "" || ErrorService.Instance.errorText == null) &&
+                (ErrorService.Instance.warningText == "" || ErrorService.Instance.warningText == null))
+            {
+                ErrorBoxBorder.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                ErrorBoxBorder.Visibility = Visibility.Visible;
+            }
+        }
 
         private void NumDiceSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {

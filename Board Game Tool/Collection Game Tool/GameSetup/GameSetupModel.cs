@@ -98,10 +98,64 @@ namespace Collection_Game_Tool.GameSetup
             }
         }
 
+        private bool ds;
+        public bool diceSelected
+        {
+            get
+            {
+                return ds;
+            }
+            set
+            {
+                ds = value;
+            }
+        }
+
+        private int nt = 1;
+        public int numTurns
+        {
+            get
+            {
+                return nt;
+            }
+            set
+            {
+                nt = value;
+            }
+        }
+
+        private int nd = 1;
+        public int numDice
+        {
+            get
+            {
+                return nd;
+            }
+            set
+            {
+                nd = value;
+            }
+        }
+
+        private int smv = 1;
+        public int spinnerMaxValue
+        {
+            get
+            {
+                return smv;
+            }
+            set
+            {
+                smv = value;
+            }
+        }
+
         public void toggleNearWin()
         {
             isNearWin = !isNearWin;
         }
+
+
 
         public void shout(object pass)
         {
