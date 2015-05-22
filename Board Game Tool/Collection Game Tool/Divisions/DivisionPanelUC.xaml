@@ -5,17 +5,17 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600"> <!--450-->
-    <Grid Background="#C9C9C9"
+    <Grid Background="#575757"
           Width="535">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
-            <RowDefinition Height="*"/>
             <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Grid x:Name="divisionSectionHeader" 
-              Background="#007CAA"
+              Background="#0068ad"
               Grid.Row="0">
             <Label x:Name="divisionTitle" 
                    Content="Divisions" 
@@ -26,39 +26,56 @@
                    Foreground="#FFFFFF"/>
         </Grid>
 
-        <Grid Background="#e87e02"
+        <Grid Background="#009ad8"
                     Grid.Row="1">
             <Label Content="The different combinations to wn prize levels (30 max and 2 min)" 
                    VerticalAlignment="Top" 
                    HorizontalAlignment="Center" 
-                   Margin="0"/>
+                   Margin="0" Foreground="White"/>
             <Label Content="Each division must be a unique combination of prizes and have the" 
                    VerticalAlignment="Center" 
-                   HorizontalAlignment="Center" />
+                   HorizontalAlignment="Center" Foreground="White" />
             <Label Content="sane or lower number of player picks as set in Game Setup." 
                    VerticalAlignment="Bottom" 
-                   HorizontalAlignment="Center" />
+                   HorizontalAlignment="Center" Foreground="White" />
         </Grid>
 
+        <Border Grid.Row="2" BorderBrush="Black" BorderThickness="0,0,0,2">
+        <Grid HorizontalAlignment="Left" Width="535" Background="#959494">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="35*"/>
+                <ColumnDefinition Width="50*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" x:Name="addDivisionButton"
+                        Height="30"
+                        Width="200"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left"
+                        Margin="5,0,5,0"
+                        Background="#009ad8"
+                        Click="addDivisionButton_Click">
+                <Label Content="Add Division" FontFamily="Arial Bold" FontSize="15" Foreground="#FFFFFF"/>
+            </Button>
+
+            <StackPanel Grid.Column="1" VerticalAlignment="Center" Orientation="Horizontal">
+                <Label HorizontalAlignment="Left" VerticalAlignment="Center" 
+                           Content="Number of Divisions (30 Max):" FontFamily="Arial" FontSize="18"/>
+                <Label x:Name="divisionCounterLabel" 
+                           Content="30" FontFamily="Arial" FontSize="18" FontWeight="Bold"/>
+            </StackPanel>
+        </Grid>
+        </Border>
+
         <ScrollViewer x:Name="divisionsScroll" 
-                      Grid.Row="2"
-                      MaxHeight="590"
-                      Margin="0,0,14,0">
+                      Grid.Row="3"
+                      MaxHeight="790"
+                      Margin="0,0,14,0"
+                      Padding="0,0,0,5">
             <StackPanel x:Name="divisionsHolderPanel"
                         VerticalAlignment="Top"
                         Orientation="Vertical">
             </StackPanel>
         </ScrollViewer>
-
-        <Grid Grid.Row="3">
-            <Border BorderBrush="Black" BorderThickness="0,2,0,0" Grid.Row="3">
-                <Button x:Name="addDivisionButton" 
-                        VerticalAlignment="Center"
-                        HorizontalAlignment="Center"
-                        Content="Add Division"
-                        Click="addDivisionButton_Click"/>
-            </Border>
-        </Grid>
 
     </Grid>
 </UserControl>
