@@ -42,7 +42,7 @@
 
         <ScrollViewer x:Name="divisionsScroll" 
                       Grid.Row="2"
-                      MaxHeight="790"
+                      MaxHeight="590"
                       Margin="0,0,14,0">
             <StackPanel x:Name="divisionsHolderPanel"
                         VerticalAlignment="Top"
