@@ -74,9 +74,7 @@ namespace Collection_Game_Tool.Main
             this.MaxHeight = screen.WorkingArea.Height;
             this.Height = this.MaxHeight - 50;
 
-            ErrorTextBlock.DataContext = ErrorService.Instance;
-            WarningTextBlock.DataContext = ErrorService.Instance;
-            errorPanelScroll.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+            
         }
 
         void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -89,7 +87,7 @@ namespace Collection_Game_Tool.Main
 
         private void Window_LayoutUpdated_1(object sender, EventArgs e)
         {
-            double controlsHeight = this.ActualHeight - toolMenu.ActualHeight - windowHeader.ActualHeight - 195;
+            double controlsHeight = this.ActualHeight - toolMenu.ActualHeight - windowHeader.ActualHeight - 35;
             if (controlsHeight < 0) controlsHeight = 0;
             pl.Height = controlsHeight;
             gs.Height = controlsHeight;
@@ -230,28 +228,6 @@ namespace Collection_Game_Tool.Main
             }
         }
 
-        private void ErrorTextBlock_TargetUpdated(object sender, DataTransferEventArgs e)
-        {
-            adjustBorderVisibility();
-            gs.adjustCreateButtonEnabled();
-        }
-
-        private void WarningTextBlock_TargetUpdated(object sender, DataTransferEventArgs e)
-        {
-            adjustBorderVisibility();
-        }
-
-        private void adjustBorderVisibility()
-        {
-            if ((ErrorService.Instance.errorText == "" || ErrorService.Instance.errorText == null) &&
-                (ErrorService.Instance.warningText == "" || ErrorService.Instance.warningText == null))
-            {
-                ErrorBoxBorder.Visibility = Visibility.Hidden;
-            }
-            else
-            {
-                ErrorBoxBorder.Visibility = Visibility.Visible;
-            }
-        }
+        
     }
 }
