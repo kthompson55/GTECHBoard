@@ -67,6 +67,7 @@ namespace Collection_Game_Tool.Divisions
             if (divisionsList.getSize() >= MAX_DIVISIONS)
             {
                 addDivisionButton.IsEnabled = false;
+                addDivisionButton.Opacity = 0.3;
             }
             divisionCounterLabel.Content = divisionsHolderPanel.Children.Count;
             isSectionEmpty();
@@ -95,6 +96,7 @@ namespace Collection_Game_Tool.Divisions
             if (divisionsList.getSize() >= MAX_DIVISIONS)
             {
                 addDivisionButton.IsEnabled = false;
+                addDivisionButton.Opacity = 0.3;
             }
 
             divisionCounterLabel.Content = divisionsHolderPanel.Children.Count;
@@ -117,6 +119,7 @@ namespace Collection_Game_Tool.Divisions
             if (divisionsList.getSize() < MAX_DIVISIONS)
             {
                 addDivisionButton.IsEnabled = true;
+                addDivisionButton.Opacity = 1.0;
             }
 
             divisionCounterLabel.Content = divisionsHolderPanel.Children.Count;
