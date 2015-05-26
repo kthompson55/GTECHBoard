@@ -29,6 +29,7 @@ namespace Collection_Game_Tool.GameSetup
         public GameSetupModel gsObject;
         List<Listener> listenerList = new List<Listener>();
         private string lastAcceptableMaxPermutationValue = 0 + "";
+        private string lastAcceptableBoardSizeValue = 0 + "";
 
         public GameSetupUC()
         {
@@ -246,12 +247,73 @@ namespace Collection_Game_Tool.GameSetup
 
         private void NumDiceSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
+            if (gsObject != null)
+            {
+                Slider slider = sender as Slider;
+                gsObject.numDice = Convert.ToInt32(slider.Value);
+
+                //Insert error logging here
+            }
 
         }
 
         private void SpinnerValueSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
+            if (gsObject != null)
+            {
+                Slider slider = sender as Slider;
+                gsObject.spinnerMaxValue = Convert.ToInt32(slider.Value);
 
+                //Insert error logging here
+            }
+        }
+
+        private void BoardSizeTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            textBox.SelectAll();
+        }
+
+        private void BoardSizeTextBox_GotMouseCapture(object sender, MouseEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            textBox.SelectAll();
+        }
+
+        private void BoardSizeTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (gsObject != null)
+            {
+                TextBox textBox = sender as TextBox;
+                if (textBox.Text == "")
+                {
+                    textBox.Text = 0 + "";
+                }
+                else if (!WithinViableBoardSizeRange(textBox.Text))
+                {
+                    textBox.Text = lastAcceptableBoardSizeValue;
+                }
+                else
+                {
+                    gsObject.boardSize = Convert.ToInt32(textBox.Text);
+                }
+                gsObject.shout("validate");
+            }
+        }
+
+        private bool WithinViableBoardSizeRange(string s)
+        {
+            //TODO:Calculate viable range 
+            //Optional: Create another orphan, so Phil won't be lonely.
+            //Extra Optional: Make an orphanage collection to house the orphans.
+            //Prohibited: Make parents for the orphans. They know what they've done.
+            return true;
+        }
+
+        private void BoardSizeTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            lastAcceptableBoardSizeValue = tb.Text;
         }
     }
 }
