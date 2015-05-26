@@ -206,8 +206,31 @@ namespace Collection_Game_Tool.GameSetup
             }
         }
 
-       
+        private int maximumBoardSize()
+        {
+            if ((bool)DiceRadioButton.IsChecked)
+            {
+                return ((int)NumDiceSlider.Value * 6) * (int)NumTurnsSlider.Value;
+            }
+            else if ((bool)SpinnerRadioButton.IsChecked)
+            {
+                return ((int)SpinnerValueSlider.Value) * (int)NumTurnsSlider.Value;
+            }
+            return 0;
+        }
 
+        private int minimumBoardSize()
+        {
+            if ((bool)DiceRadioButton.IsChecked)
+            {
+                return ((int)NumDiceSlider.Value) * (int)NumTurnsSlider.Value;
+            }
+            else if ((bool)SpinnerRadioButton.IsChecked)
+            {
+                return 1 * (int)NumTurnsSlider.Value;
+            }
+            return 0;
+        }
 
         public void adjustCreateButtonEnabled()
         {
@@ -253,6 +276,14 @@ namespace Collection_Game_Tool.GameSetup
                 gsObject.numDice = Convert.ToInt32(slider.Value);
 
                 //Insert error logging here
+                if (int.Parse(BoardSizeTextBox.Text) > maximumBoardSize() || int.Parse(BoardSizeTextBox.Text) < minimumBoardSize())
+                {
+                    gsucID=ErrorService.Instance.reportError("013", new List<String> { }, gsucID);
+                }
+                else
+                {
+                    ErrorService.Instance.resolveError("013", null, gsucID);
+                }
             }
 
         }
@@ -265,6 +296,14 @@ namespace Collection_Game_Tool.GameSetup
                 gsObject.spinnerMaxValue = Convert.ToInt32(slider.Value);
 
                 //Insert error logging here
+                if (int.Parse(BoardSizeTextBox.Text) > maximumBoardSize() || int.Parse(BoardSizeTextBox.Text) < minimumBoardSize())
+                {
+                    gsucID = ErrorService.Instance.reportError("013", new List<String> { }, gsucID);
+                }
+                else
+                {
+                    ErrorService.Instance.resolveError("013", null, gsucID);
+                }
             }
         }
 
@@ -289,25 +328,25 @@ namespace Collection_Game_Tool.GameSetup
                 {
                     textBox.Text = 0 + "";
                 }
-                else if (!WithinViableBoardSizeRange(textBox.Text))
-                {
-                    textBox.Text = lastAcceptableBoardSizeValue;
-                }
                 else
                 {
                     gsObject.boardSize = Convert.ToInt32(textBox.Text);
                 }
+                WithinViableBoardSizeRange(textBox.Text);
                 gsObject.shout("validate");
             }
         }
 
-        private bool WithinViableBoardSizeRange(string s)
+        private void WithinViableBoardSizeRange(string s)
         {
-            //TODO:Calculate viable range 
-            //Optional: Create another orphan, so Phil won't be lonely.
-            //Extra Optional: Make an orphanage collection to house the orphans.
-            //Prohibited: Make parents for the orphans. They know what they've done.
-            return true;
+            if (int.Parse(BoardSizeTextBox.Text) > maximumBoardSize() || int.Parse(BoardSizeTextBox.Text) < minimumBoardSize())
+            {
+                gsucID = ErrorService.Instance.reportError("013", new List<String> { }, gsucID);
+            }
+            else
+            {
+                ErrorService.Instance.resolveError("013", null, gsucID);
+            }
         }
 
         private void BoardSizeTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
