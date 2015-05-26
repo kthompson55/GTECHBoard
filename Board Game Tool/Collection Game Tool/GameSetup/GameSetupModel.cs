@@ -150,6 +150,19 @@ namespace Collection_Game_Tool.GameSetup
             }
         }
 
+        private int bs = 0;
+        public int boardSize
+        {
+            get
+            {
+                return bs;
+            }
+            set
+            {
+                bs = value;
+            }
+        }
+
         public void toggleNearWin()
         {
             isNearWin = !isNearWin;
