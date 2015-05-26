@@ -12,7 +12,7 @@
              d:DesignHeight="800" d:DesignWidth="300">
     <Border BorderBrush="Black" BorderThickness="2,0,2,0">
         <Grid x:Name="GameSetupMainPanel" 
-                    Background="#C9C9C9">
+                    Background="#575757">
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="60"/>
@@ -22,13 +22,14 @@
             <Grid.Resources>
                 <Services:CreateOpacityConverter x:Key="OpacityConverter"/>
                 <Style x:Key="instructionStyle" TargetType="Label">
-                    <Setter Property="Background" Value="#e87e02" />
+                    <Setter Property="Background" Value="#009ad8" />
+                    <Setter Property="Foreground" Value="White" />
                     <Setter Property="HorizontalAlignment" Value="Stretch" />
                     <Setter Property="HorizontalContentAlignment" Value="Center" />
                 </Style>
                 <Style x:Key="titleStyle" TargetType="Label">
                     <Setter Property="Foreground" Value="White" />
-                    <Setter Property="Background" Value="#007CAA" />
+                    <Setter Property="Background" Value="#0068ad" />
                     <Setter Property="HorizontalAlignment" Value="Stretch" />
                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
                     <Setter Property="FontSize" Value="18" />
@@ -48,7 +49,7 @@
                 </Style>
 
             </Grid.Resources>
-            <Label Grid.Row="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Background="#007CAA" Foreground="White" FontSize="30" FontWeight="Bold" >Game Setup</Label>
+            <Label Grid.Row="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Background="#0068ad" Foreground="White" FontSize="30" FontWeight="Bold" >Game Setup</Label>
             <Label Grid.Row="1" Style="{StaticResource instructionStyle}" Margin="0,0,0,10" Height="50" Content="The basic game settings" VerticalContentAlignment="Center"></Label>
 
             <ScrollViewer Grid.Row="2" x:Name="gameSetupScroll" MaxHeight="800" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto">
