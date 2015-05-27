@@ -4,17 +4,57 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Collection_Game_Tool.Services
+namespace Collection_Game_Tool.Services.Tiles
 {
-    interface Tile
+    class Tile : ITile
     {
-        List<Tile> connections{get;set;}
+        private ITile _parent;
+        public ITile parent
+        {
+            get
+            {
+                return _parent;
+            }
+            set
+            {
+                _parent = value;
+            }
+        }
 
-        //Talan you should probably flesh this out how you want it
-        //I doubt you will want to override this each time
-        void addTile(Tile tile);
+        private ITile _child;
+        public ITile child
+        {
+            get
+            {
+                return _child;
+            }
+            set
+            {
+                _child = value;
+            }
+        }
 
-        //Again change this how you need it
-        void tileAction();
+        private Dictionary<int, ITile> _connections;
+        private Dictionary<int, ITile> connections
+        {
+            get
+            {
+                return _connections;
+            }
+            set
+            {
+                _connections = value;
+            }
+        }
+
+        public void addTile(int diceRoll, ITile tile)
+        {
+            connections.Add(diceRoll, tile);
+        }
+
+        public void tileAction()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
