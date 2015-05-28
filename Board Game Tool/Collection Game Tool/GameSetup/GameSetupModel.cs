@@ -98,7 +98,7 @@ namespace Collection_Game_Tool.GameSetup
             }
         }
 
-        private bool ds;
+        private bool ds = true;
         public bool diceSelected
         {
             get

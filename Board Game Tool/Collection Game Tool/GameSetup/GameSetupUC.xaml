@@ -130,7 +130,7 @@
                             <Border Style="{StaticResource internalBorderStyle}">
                                 <StackPanel Orientation="Horizontal">
                                     <Label>Dice</Label>
-                                    <RadioButton x:Name="DiceRadioButton" GroupName="DiceSpinnerSelection" VerticalAlignment="Center" Checked="DiceRadioButton_Checked"></RadioButton>
+                                    <RadioButton x:Name="DiceRadioButton" IsChecked="{Binding Path=diceSelected, Mode=TwoWay}" GroupName="DiceSpinnerSelection" VerticalAlignment="Center" Checked="DiceRadioButton_Checked"></RadioButton>
                                     <Label>Spinner</Label>
                                     <RadioButton x:Name="SpinnerRadioButton" GroupName="DiceSpinnerSelection" VerticalAlignment="Center" Checked="SpinnerRadioButton_Checked"></RadioButton>
                                 </StackPanel>
