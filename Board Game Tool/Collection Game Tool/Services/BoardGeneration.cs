@@ -25,17 +25,17 @@ namespace Collection_Game_Tool.Services
             fillInTiles(boardSize, minMove, maxMove, minNumCollectionSpots, Tiles.TileTypes.collection);
             if (moveBackInclude)
             {
-                fillInTiles(boardSize, minMove, maxMove, (int)(Math.Round((double)boardSize, 5, MidpointRounding.AwayFromZero) + 1), Tiles.TileTypes.moveBack);
+                fillInTiles(boardSize, minMove, maxMove, (int)(Math.Round((double)(boardSize/5), MidpointRounding.AwayFromZero) + 1), Tiles.TileTypes.moveBack);
 
             }
             if (moveForwardInclude)
             {
-                fillInTiles(boardSize, minMove, maxMove, (int)(Math.Round((double)boardSize, 5, MidpointRounding.AwayFromZero) + 1), Tiles.TileTypes.moveForward);
+                fillInTiles(boardSize, minMove, maxMove, (int)(Math.Round((double)(boardSize/5), MidpointRounding.AwayFromZero) + 1), Tiles.TileTypes.moveForward);
 
             }
             if (extraGameInclude)
             {
-                fillInTiles(boardSize, minMove, maxMove, (int)(Math.Round((double)boardSize, 10, MidpointRounding.AwayFromZero) + 1), Tiles.TileTypes.extraGame);
+                fillInTiles(boardSize, minMove, maxMove, (int)(Math.Round((double)(boardSize/10), MidpointRounding.AwayFromZero) + 1), Tiles.TileTypes.extraGame);
             }
             connectTiles(boardSize, minMove, maxMove, moveBack, moveForward);
             return firstTile;
@@ -46,11 +46,11 @@ namespace Collection_Game_Tool.Services
             firstTile = new Tiles.Tile();
             firstTile.type = Tiles.TileTypes.blank;
             Tiles.ITile tempTile = firstTile;
-            for (int i = 0; i < boardSize; i++)
+            for (int i = 1; i < boardSize; i++)
             {
                 Tiles.ITile newTile = new Tiles.Tile();
                 newTile.type = Tiles.TileTypes.blank;
-                tempTile.connectParentToChild(newTile);
+                newTile.connectParentToChild(tempTile);
                 tempTile = newTile;
             }
             lastTile = tempTile;
