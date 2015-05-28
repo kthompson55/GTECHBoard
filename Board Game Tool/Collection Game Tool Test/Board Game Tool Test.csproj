@@ -57,8 +57,8 @@
     <Compile Include="PrizeLevelsTests\PrizeLevelTests.cs" />
     <Compile Include="PrizeLevelsTests\PrizeLevelsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServicesTests\boadGenTest.cs" />
     <Compile Include="ServicesTests\CreateOpacityConverterTest.cs" />
-    <Compile Include="ServicesTests\FileGenerationServiceTest.cs" />
     <Compile Include="ServicesTests\PrizeLevelConverterTest.cs" />
     <Compile Include="ServicesTests\RangeRuleTests.cs" />
     <Compile Include="ServicesTests\ValueConverterTest.cs" />

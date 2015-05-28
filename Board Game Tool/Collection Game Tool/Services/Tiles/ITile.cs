@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace Collection_Game_Tool.Services.Tiles
 {
-    interface ITile
+    public interface ITile
     {
+        TileTypes type { get; set; }
+
         /// <summary>
         /// The tile Immediately before this tile.
         /// </summary>

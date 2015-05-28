@@ -8,6 +8,21 @@ namespace Collection_Game_Tool.Services.Tiles
 {
     class Tile : ITile
     {
+
+
+        private TileTypes _type;
+        public TileTypes type
+        {
+            get
+            {
+                return _type;
+            }
+            set
+            {
+                _type = value;
+            }
+        }
+
         private ITile _parent;
         public ITile parent
         {
@@ -35,7 +50,7 @@ namespace Collection_Game_Tool.Services.Tiles
         }
 
         private Dictionary<int, ITile> _connections;
-        private Dictionary<int, ITile> connections
+        public Dictionary<int, ITile> connections
         {
             get
             {
@@ -55,6 +70,12 @@ namespace Collection_Game_Tool.Services.Tiles
         public void tileAction()
         {
             throw new NotImplementedException();
+        }
+
+        public void connectParentToChild(ITile tile)
+        {
+            this.parent = tile;
+            tile.child = this;
         }
     }
 }
