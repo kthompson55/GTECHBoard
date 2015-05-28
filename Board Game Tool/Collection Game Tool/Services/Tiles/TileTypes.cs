@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace Collection_Game_Tool.Services.Tiles
 {
-    class CollectionTile
+    public enum TileTypes
     {
+        blank,
+        collection,
+        moveForward,
+        moveBack,
+        extraGame
     }
 }

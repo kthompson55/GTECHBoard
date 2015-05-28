@@ -8,10 +8,6 @@ namespace Collection_Game_Tool.Services
 {
     class Board
     {
-        //Do with this what you would like
-        public void addTile(Tile tile)
-        {
-            
-        }
+        
     }
 }
