@@ -29,6 +29,7 @@ namespace Collection_Game_Tool.GameSetup
         public GameSetupModel gsObject;
         List<Listener> listenerList = new List<Listener>();
         private string lastAcceptableMaxPermutationValue = 0 + "";
+        private string lastAcceptableBoardSizeValue = 0 + "";
 
         public GameSetupUC()
         {
@@ -205,8 +206,31 @@ namespace Collection_Game_Tool.GameSetup
             }
         }
 
-       
+        private int maximumBoardSize()
+        {
+            if ((bool)DiceRadioButton.IsChecked)
+            {
+                return ((int)NumDiceSlider.Value * 6) * (int)NumTurnsSlider.Value;
+            }
+            else if ((bool)SpinnerRadioButton.IsChecked)
+            {
+                return ((int)SpinnerValueSlider.Value) * (int)NumTurnsSlider.Value;
+            }
+            return 0;
+        }
 
+        private int minimumBoardSize()
+        {
+            if ((bool)DiceRadioButton.IsChecked)
+            {
+                return ((int)NumDiceSlider.Value) * (int)NumTurnsSlider.Value;
+            }
+            else if ((bool)SpinnerRadioButton.IsChecked)
+            {
+                return 1 * (int)NumTurnsSlider.Value;
+            }
+            return 0;
+        }
 
         public void adjustCreateButtonEnabled()
         {
@@ -246,12 +270,113 @@ namespace Collection_Game_Tool.GameSetup
 
         private void NumDiceSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
+            if (gsObject != null)
+            {
+                Slider slider = sender as Slider;
+                gsObject.numDice = Convert.ToInt32(slider.Value);
+
+                //Insert error logging here
+                if (int.Parse(BoardSizeTextBox.Text) > maximumBoardSize() || int.Parse(BoardSizeTextBox.Text) < minimumBoardSize())
+                {
+                    gsucID=ErrorService.Instance.reportError("013", new List<String> { }, gsucID);
+                }
+                else
+                {
+                    ErrorService.Instance.resolveError("013", null, gsucID);
+                }
+            }
 
         }
 
         private void SpinnerValueSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
+            if (gsObject != null)
+            {
+                Slider slider = sender as Slider;
+                gsObject.spinnerMaxValue = Convert.ToInt32(slider.Value);
 
+                //Insert error logging here
+                if (int.Parse(BoardSizeTextBox.Text) > maximumBoardSize() || int.Parse(BoardSizeTextBox.Text) < minimumBoardSize())
+                {
+                    gsucID = ErrorService.Instance.reportError("013", new List<String> { }, gsucID);
+                }
+                else
+                {
+                    ErrorService.Instance.resolveError("013", null, gsucID);
+                }
+            }
+        }
+
+        private void BoardSizeTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            textBox.SelectAll();
+        }
+
+        private void BoardSizeTextBox_GotMouseCapture(object sender, MouseEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            textBox.SelectAll();
+        }
+
+        private void BoardSizeTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (gsObject != null)
+            {
+                TextBox textBox = sender as TextBox;
+                if (textBox.Text == "")
+                {
+                    textBox.Text = 0 + "";
+                }
+                else
+                {
+                    gsObject.boardSize = Convert.ToInt32(textBox.Text);
+                }
+                WithinViableBoardSizeRange(textBox.Text);
+                gsObject.shout("validate");
+            }
+        }
+
+        private void WithinViableBoardSizeRange(string s)
+        {
+            if (int.Parse(BoardSizeTextBox.Text) > maximumBoardSize() || int.Parse(BoardSizeTextBox.Text) < minimumBoardSize())
+            {
+                gsucID = ErrorService.Instance.reportError("013", new List<String> { }, gsucID);
+            }
+            else
+            {
+                ErrorService.Instance.resolveError("013", null, gsucID);
+            }
+        }
+
+        private void BoardSizeTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            lastAcceptableBoardSizeValue = tb.Text;
+        }
+
+        private void DiceRadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            if (int.Parse(BoardSizeTextBox.Text) > maximumBoardSize() || int.Parse(BoardSizeTextBox.Text) < minimumBoardSize())
+            {
+                gsucID = ErrorService.Instance.reportError("013", new List<String> { }, gsucID);
+            }
+            else
+            {
+                ErrorService.Instance.resolveError("013", null, gsucID);
+            }
+        }
+
+        private void SpinnerRadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            if (int.Parse(BoardSizeTextBox.Text) > maximumBoardSize() || int.Parse(BoardSizeTextBox.Text) < minimumBoardSize())
+            {
+                gsucID = ErrorService.Instance.reportError("013", new List<String> { }, gsucID);
+            }
+            else
+            {
+                ErrorService.Instance.resolveError("013", null, gsucID);
+            }
         }
     }
 }

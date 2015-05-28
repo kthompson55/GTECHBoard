@@ -93,7 +93,7 @@
                     ToolTip="Enter a value between 0 and 20">
                     <Binding Path="numCollections" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
-                            <Services:RangeRule Max="20" Min="0" ValidatesOnTargetUpdated="True"/>
+                            <Services:RangeRule Max="10" Min="0" ValidatesOnTargetUpdated="True"/>
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox>

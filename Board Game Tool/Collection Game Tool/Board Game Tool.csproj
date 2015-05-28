@@ -95,6 +95,8 @@
     <Compile Include="Services\PrizeLevelConverter.cs" />
     <Compile Include="Services\RangeRule.cs" />
     <Compile Include="Services\Teller.cs" />
+    <Compile Include="Services\Tiles\CollectionTile.cs" />
+    <Compile Include="Services\Tiles\ITile.cs" />
     <Compile Include="Services\Tiles\Tile.cs" />
     <Compile Include="Services\ValueConverter.cs" />
     <Compile Include="Services\Warning.cs" />

@@ -95,29 +95,7 @@
                         </StackPanel>
                     </Border>
 
-                    <Border Style="{StaticResource externalBorderStyle}">
-
-                        <StackPanel x:Name="GSPermutationsPanel" Background="#ADADAD">
-                            <Label Style="{StaticResource titleStyle}">Game Win Permutations</Label>
-                            <Border BorderBrush="Black" BorderThickness="0,0,0,2">
-                                <Label Style="{StaticResource instructionStyle}">The number of division combinations to calculate that lead to a win</Label>
-                            </Border>
-                            <DockPanel>
-                                <Label Style="{StaticResource dataLabelStyle}">Maximum Permutations:</Label>
-                                <TextBox x:Name="MaxPermutationsTextBox" 
-                                     GotFocus="MaxPermutationsTextBox_GotFocus" 
-                                     GotMouseCapture="MaxPermutationsTextBox_GotMouseCapture" 
-                                     TextChanged="MaxPermutationsTextBox_TextChanged"
-                                     PreviewTextInput="MaxPermutationsTextBox_PreviewTextInput"
-                                     FontSize="14"
-                                     VerticalAlignment="Center"
-                                     HorizontalAlignment="Left"
-                                     Width="100"
-                                         >1</TextBox>
-
-                            </DockPanel>
-                        </StackPanel>
-                    </Border>
+                    
 
                     <Border Style="{StaticResource externalBorderStyle}">
 
@@ -152,9 +130,9 @@
                             <Border Style="{StaticResource internalBorderStyle}">
                                 <StackPanel Orientation="Horizontal">
                                     <Label>Dice</Label>
-                                    <RadioButton x:Name="DiceRadioButton" GroupName="DiceSpinnerSelection" VerticalAlignment="Center"></RadioButton>
+                                    <RadioButton x:Name="DiceRadioButton" GroupName="DiceSpinnerSelection" VerticalAlignment="Center" Checked="DiceRadioButton_Checked"></RadioButton>
                                     <Label>Spinner</Label>
-                                    <RadioButton x:Name="SpinnerRadioButton" GroupName="DiceSpinnerSelection" VerticalAlignment="Center"></RadioButton>
+                                    <RadioButton x:Name="SpinnerRadioButton" GroupName="DiceSpinnerSelection" VerticalAlignment="Center" Checked="SpinnerRadioButton_Checked"></RadioButton>
                                 </StackPanel>
                             </Border>
 
@@ -222,6 +200,30 @@
                             <DockPanel>
                                 <Label Style="{StaticResource dataLabelStyle}">Number of Tiles:</Label>
                                 <TextBox x:Name="BoardSizeTextBox" 
+                                     GotFocus="BoardSizeTextBox_GotFocus" 
+                                     GotMouseCapture="BoardSizeTextBox_GotMouseCapture" 
+                                     TextChanged="BoardSizeTextBox_TextChanged"
+                                     PreviewTextInput="BoardSizeTextBox_PreviewTextInput"
+                                     FontSize="14"
+                                     VerticalAlignment="Center"
+                                     HorizontalAlignment="Left"
+                                     Width="100"
+                                         >1</TextBox>
+
+                            </DockPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Style="{StaticResource externalBorderStyle}">
+
+                        <StackPanel x:Name="GSPermutationsPanel" Background="#ADADAD">
+                            <Label Style="{StaticResource titleStyle}">Game Win Permutations</Label>
+                            <Border BorderBrush="Black" BorderThickness="0,0,0,2">
+                                <Label Style="{StaticResource instructionStyle}">The number of division combinations to calculate that lead to a win</Label>
+                            </Border>
+                            <DockPanel>
+                                <Label Style="{StaticResource dataLabelStyle}">Maximum Permutations:</Label>
+                                <TextBox x:Name="MaxPermutationsTextBox" 
                                      GotFocus="MaxPermutationsTextBox_GotFocus" 
                                      GotMouseCapture="MaxPermutationsTextBox_GotMouseCapture" 
                                      TextChanged="MaxPermutationsTextBox_TextChanged"
