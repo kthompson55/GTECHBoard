@@ -28,16 +28,16 @@
 
         <Grid Background="#009ad8"
                     Grid.Row="1">
-            <Label Content="The different combinations to wn prize levels (30 max and 2 min)" 
+            <Label Content="-The different combinations to win prize levels (30 max)-" 
                    VerticalAlignment="Top" 
                    HorizontalAlignment="Center" 
                    Margin="0" Foreground="White"/>
-            <Label Content="Each division must be a unique combination of prizes and have the" 
+            <Label Content="Each division must be a unique combination of prizes. The total" 
                    VerticalAlignment="Center" 
-                   HorizontalAlignment="Center" Foreground="White" />
-            <Label Content="sane or lower number of player picks as set in Game Setup." 
+                   HorizontalAlignment="Center" Foreground="White"/>
+            <Label Content="value of the division is displayed to the right of each division." 
                    VerticalAlignment="Bottom" 
-                   HorizontalAlignment="Center" Foreground="White" />
+                   HorizontalAlignment="Center" Foreground="White"/>
         </Grid>
 
         <Border Grid.Row="2" BorderBrush="Black" BorderThickness="0,0,0,2">

@@ -354,5 +354,29 @@ namespace Collection_Game_Tool.GameSetup
             TextBox tb = sender as TextBox;
             lastAcceptableBoardSizeValue = tb.Text;
         }
+
+        private void DiceRadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            if (int.Parse(BoardSizeTextBox.Text) > maximumBoardSize() || int.Parse(BoardSizeTextBox.Text) < minimumBoardSize())
+            {
+                gsucID = ErrorService.Instance.reportError("013", new List<String> { }, gsucID);
+            }
+            else
+            {
+                ErrorService.Instance.resolveError("013", null, gsucID);
+            }
+        }
+
+        private void SpinnerRadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            if (int.Parse(BoardSizeTextBox.Text) > maximumBoardSize() || int.Parse(BoardSizeTextBox.Text) < minimumBoardSize())
+            {
+                gsucID = ErrorService.Instance.reportError("013", new List<String> { }, gsucID);
+            }
+            else
+            {
+                ErrorService.Instance.resolveError("013", null, gsucID);
+            }
+        }
     }
 }
