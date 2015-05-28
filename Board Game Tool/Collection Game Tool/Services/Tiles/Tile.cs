@@ -8,8 +8,6 @@ namespace Collection_Game_Tool.Services.Tiles
 {
     class Tile : ITile
     {
-
-
         private TileTypes _type;
         public TileTypes type
         {
@@ -60,6 +58,11 @@ namespace Collection_Game_Tool.Services.Tiles
             {
                 _connections = value;
             }
+        }
+
+        public Tile()
+        {
+            connections = new Dictionary<int, ITile>();
         }
 
         public void addTile(int diceRoll, ITile tile)

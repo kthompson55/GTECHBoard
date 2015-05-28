@@ -50,9 +50,9 @@ namespace Collection_Game_Tool_Test.ServicesTests
                 currentTile = currentTile.child;
             }
             Assert.IsTrue(numberOfCollection == numberOfExpectedCollection, "Number Of Collection Tiles not correct");
-            Assert.IsTrue(numberOfextraGames == numberOfExpectedextraGames, "Number Of Extra Game Tiles not correct");
-            Assert.IsTrue(numberOfMoveBack == numberOfExpectedMoveBack, "Number Of MoveBack Tiles not correct");
-            Assert.IsTrue(numberOfMoveForward == numberOfExpectedMoveForward, "Number Of MoveForward Tiles not correct");
+            Assert.IsTrue(numberOfextraGames <= numberOfExpectedextraGames, "Number Of Extra Game Tiles not correct");
+            Assert.IsTrue(numberOfMoveBack <= numberOfExpectedMoveBack, "Number Of MoveBack Tiles not correct");
+            Assert.IsTrue(numberOfMoveForward <= numberOfExpectedMoveForward, "Number Of MoveForward Tiles not correct");
             Assert.IsTrue(boardSize == numberOfTiles, "Number Of Tiles not correct");
 
         }
