@@ -76,6 +76,7 @@ namespace Collection_Game_Tool.Divisions
         private void deleteDivisionButton_Click(object sender, RoutedEventArgs e)
         {
             ErrorService.Instance.resolveWarning("005", null, DivModel.errorID);
+            ErrorService.Instance.resolveWarning("007", null, DivModel.errorID);
             ErrorService.Instance.resolveError("009", null, DivModel.errorID);
             ErrorService.Instance.resolveError("010", null, DivModel.errorID);
             ErrorService.Instance.resolveError("011", null, DivModel.errorID);
