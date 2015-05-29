@@ -28,6 +28,10 @@ namespace Collection_Game_Tool.GameSetup
             }
         }
 
+        /// <summary>
+        /// This dictionary contains all of the possible error messages in template form. 
+        /// If you need additional errors, add them here.
+        /// </summary>
         private Dictionary<string, string> errorTemplates = new Dictionary<string, string>
         {
             {"001","{0} dun goofed. Fix it.\n"},
@@ -41,9 +45,13 @@ namespace Collection_Game_Tool.GameSetup
             {"010", "The collections field in Division {0} needs to be less than or equal to the set player picks in the Game Setup.\n"},
             {"011", "The collection in Division {0} is invalid, the possible collection must be higher so that the division cannot win other prizes.\n"},
             {"012", "With the current setup the player cannot lose. Either decrease the amount of player picks, or increase the amount of collections one of the prize levels has."},
-            {"013", "The Board Size is either too small or too large for the current game setup."}
+            {"013", "The Board Size is either too small or too large for the current game setup."},
         };
 
+        /// <summary>
+        /// This dictionary contains all of the possible warning messages in template form. 
+        /// If you need additional warnings, add them here.
+        /// </summary>
         private Dictionary<string, string> warningTemplates = new Dictionary<string, string>
         {
             {"001","{0} has no prize levels.\n"},
@@ -51,7 +59,11 @@ namespace Collection_Game_Tool.GameSetup
             {"003","{0} is identical to {1}.\n"},
             {"004", "Prize Level {0} and Prize Level {1} are the same.\n"},
             {"005", "Division {0} has no selected prize levels.\n"},
-            {"006", "There are no divisions in this project.\n"}
+            {"006", "There are no divisions in this project.\n"},
+            {"007", "A spinner size of 1 will offer no variation in movement."},
+            {"008", "A spinner size of 2 will be equivalent to a coin flip."},
+
+
         };
 
         private Dictionary<Error,string> unresolvedErrors = new Dictionary<Error, string>();
@@ -72,6 +84,14 @@ namespace Collection_Game_Tool.GameSetup
             }
         }
 
+        /// <summary>
+        /// Constructs a unique error message from the provided illegalObjects strings and an error template
+        /// and adds a new error to the dictionary of unresolved errors. 
+        /// </summary>
+        /// <param name="errorCode">The error code which indicates what error template to use</param>
+        /// <param name="illegalObjects">The names of all of the objects to be plugged into the error template</param>
+        /// <param name="senderId">The Id of the object reporting the error</param>
+        /// <returns>The id of the object reporting the error. Creates a new id if one is not provided.</returns>
         public string reportError(string errorCode, List<string> illegalObjects, string senderId)
         {
             if(senderId == null) senderId = currentId++ + "";

@@ -37,6 +37,7 @@ namespace Collection_Game_Tool.GameSetup
             gsObject = new GameSetupModel();
             gsObject.canCreate = true;
             CreateButton.DataContext = gsObject;
+            DiceRadioButton.DataContext = gsObject;
             ErrorTextBlock.DataContext = ErrorService.Instance;
             WarningTextBlock.DataContext = ErrorService.Instance;
             errorPanelScroll.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
@@ -296,13 +297,19 @@ namespace Collection_Game_Tool.GameSetup
                 gsObject.spinnerMaxValue = Convert.ToInt32(slider.Value);
 
                 //Insert error logging here
-                if (int.Parse(BoardSizeTextBox.Text) > maximumBoardSize() || int.Parse(BoardSizeTextBox.Text) < minimumBoardSize())
+                if (gsObject.spinnerMaxValue == 1)
                 {
-                    gsucID = ErrorService.Instance.reportError("013", new List<String> { }, gsucID);
+                    gsucID = ErrorService.Instance.reportWarning("007", new List<string> { }, gsucID);
+
+                }
+                else if (int.Parse(BoardSizeTextBox.Text) > maximumBoardSize() || int.Parse(BoardSizeTextBox.Text) < minimumBoardSize())
+                {
+                    gsucID = ErrorService.Instance.reportWarning("008", new List<String> { }, gsucID);
                 }
                 else
                 {
-                    ErrorService.Instance.resolveError("013", null, gsucID);
+                    ErrorService.Instance.resolveWarning("007", null, gsucID);
+                    ErrorService.Instance.resolveWarning("008", null, gsucID);
                 }
             }
         }
@@ -328,25 +335,36 @@ namespace Collection_Game_Tool.GameSetup
                 {
                     textBox.Text = 0 + "";
                 }
-                else
+                else if (WithinViableBoardSizeRange(textBox.Text))
                 {
+
                     gsObject.boardSize = Convert.ToInt32(textBox.Text);
                 }
-                WithinViableBoardSizeRange(textBox.Text);
+                else
+                {
+                    textBox.Text = lastAcceptableBoardSizeValue;
+                }
                 gsObject.shout("validate");
             }
         }
 
-        private void WithinViableBoardSizeRange(string s)
+        private bool WithinViableBoardSizeRange(string s)
         {
-            if (int.Parse(BoardSizeTextBox.Text) > maximumBoardSize() || int.Parse(BoardSizeTextBox.Text) < minimumBoardSize())
+
+            int boardSizeValue;
+            bool successful = Int32.TryParse(s, out boardSizeValue);
+            if (successful)
             {
-                gsucID = ErrorService.Instance.reportError("013", new List<String> { }, gsucID);
+                if (boardSizeValue > maximumBoardSize() || boardSizeValue < minimumBoardSize())
+                {
+                    gsucID = ErrorService.Instance.reportError("013", new List<String> { }, gsucID);
+                }
+                else
+                {
+                    ErrorService.Instance.resolveError("013", null, gsucID);
+                }
             }
-            else
-            {
-                ErrorService.Instance.resolveError("013", null, gsucID);
-            }
+            return successful;
         }
 
         private void BoardSizeTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
