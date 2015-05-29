@@ -135,14 +135,14 @@ namespace Collection_Game_Tool.Main
 
                 //gs.loadExistingData(savedProject.savedGameSetup);
 
-                //divUC.divisionsList = savedProject.savedDivisions;
-                //divUC.prizes = savedProject.savedPrizeLevels;
-                //divUC.divisionsHolderPanel.Children.Clear();
+                divUC.divisionsList = savedProject.savedDivisions;
+                divUC.prizes = savedProject.savedPrizeLevels;
+                divUC.divisionsHolderPanel.Children.Clear();
 
-                //for (int i = 0; i < divUC.divisionsList.getSize(); i++)
-                //{
-                //    divUC.loadInDivision(i + 1, divUC.divisionsList.divisions[i]);
-                //}
+                for (int i = 0; i < divUC.divisionsList.getSize(); i++)
+                {
+                    divUC.loadInDivision(divUC.divisionsList.divisions[i]);
+                }
             }
         }
 
