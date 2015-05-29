@@ -48,6 +48,7 @@ namespace Collection_Game_Tool.PrizeLevels
             TextBoxValue.DataContext = plObject;
             CollectionBoxValue.DataContext = plObject;
             InstantWinCheckBox.DataContext = plObject;
+            BonusGameCheckBox.DataContext = plObject;
         }
 
         void MainView_Loaded(object sender, RoutedEventArgs e)
