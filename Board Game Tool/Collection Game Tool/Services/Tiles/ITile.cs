@@ -37,6 +37,6 @@ namespace Collection_Game_Tool.Services.Tiles
         void connectParentToChild(ITile tile);
 
         //Again change this how you need it
-        void tileAction();
+        Object tileAction();
     }
 }
