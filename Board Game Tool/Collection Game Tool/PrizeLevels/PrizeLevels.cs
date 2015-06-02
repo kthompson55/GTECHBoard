@@ -10,6 +10,7 @@ namespace Collection_Game_Tool.PrizeLevels
     public class PrizeLevels
     {
         static public int numPrizeLevels;
+        static public int totalCollections;
         public List<PrizeLevel> prizeLevels = new List<PrizeLevel>();
 
         public PrizeLevel getPrizeLevel(int index)
@@ -25,6 +26,7 @@ namespace Collection_Game_Tool.PrizeLevels
                 prizeLevels.Add(obj);
 
             numPrizeLevels = prizeLevels.Count;
+            calculateTotalCollections();
         }
 
         public void removePrizeLevel(int index)
@@ -33,6 +35,7 @@ namespace Collection_Game_Tool.PrizeLevels
                 prizeLevels.RemoveAt(index);
 
             numPrizeLevels = prizeLevels.Count;
+            calculateTotalCollections();
         }
 
         public void addPrizeLevelAt(PrizeLevel obj, int index)
@@ -62,6 +65,16 @@ namespace Collection_Game_Tool.PrizeLevels
             }
 
             return -1;
+        }
+
+        public void calculateTotalCollections()
+        {
+            int count = 0;
+            foreach (PrizeLevel pl in prizeLevels)
+            {
+                count += pl.numCollections;
+            }
+            totalCollections = count;
         }
     }
 }

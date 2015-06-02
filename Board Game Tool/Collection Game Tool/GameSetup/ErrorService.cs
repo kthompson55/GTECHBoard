@@ -30,7 +30,7 @@ namespace Collection_Game_Tool.GameSetup
 
         /// <summary>
         /// This dictionary contains all of the possible error messages in template form. 
-        /// If you need additional errors, add them here.
+        /// If you need additional error templates, add them here.
         /// </summary>
         private Dictionary<string, string> errorTemplates = new Dictionary<string, string>
         {
@@ -46,11 +46,12 @@ namespace Collection_Game_Tool.GameSetup
             {"011", "The collection in Division {0} is invalid, the possible collection must be higher so that the division cannot win other prizes.\n"},
             {"012", "With the current setup the player cannot lose. Either decrease the amount of player picks, or increase the amount of collections one of the prize levels has."},
             {"013", "The Board Size is either too small or too large for the current game setup."},
+            {"014", "The Board does not have enough space to accomodate the current setup. You must reduce the amount of special tiles or increase the total number of tiles."},
         };
 
         /// <summary>
         /// This dictionary contains all of the possible warning messages in template form. 
-        /// If you need additional warnings, add them here.
+        /// If you need additional warning templates, add them here.
         /// </summary>
         private Dictionary<string, string> warningTemplates = new Dictionary<string, string>
         {
@@ -66,6 +67,11 @@ namespace Collection_Game_Tool.GameSetup
 
         };
 
+        /// <summary>
+        /// The Dictionary of unresolved errors. 
+        /// Key is an Error object. 
+        /// Value is the error message which will be displayed to the user.
+        /// </summary>
         private Dictionary<Error,string> unresolvedErrors = new Dictionary<Error, string>();
         private string _errorText;
         public string errorText
@@ -107,10 +113,14 @@ namespace Collection_Game_Tool.GameSetup
             return senderId;
         }
 
+        /// <summary>
+        /// Removes an error from the dictionary of unresolved errors.
+        /// </summary>
+        /// <param name="errorCode">The error code which the error to remove contains</param>
+        /// <param name="senderId">The sender Id which the error to remove contains</param>
         public void resolveError(string errorCode, List<string> illegalObjects, string senderId)
         {
             Error theError = new Error(senderId, errorCode);
-            //string theErrorMessage = String.Format(errorTemplates[errorCode], illegalObjects);
             if (unresolvedErrors.ContainsKey(theError))
             {
                 unresolvedErrors.Remove(theError);
@@ -119,6 +129,9 @@ namespace Collection_Game_Tool.GameSetup
 
         }
 
+        /// <summary>
+        /// Uses the errors contained in unresolvedErrors to update the text in the error box.
+        /// </summary>
         private void updateErrorText()
         {
             string updatedErrorText = "";
@@ -175,6 +188,9 @@ namespace Collection_Game_Tool.GameSetup
 
         }
 
+        /// <summary>
+        /// Uses the warnings contained in unresolvedWarnings to update the text in the error box.
+        /// </summary>
         private void updateWarningText()
         {
             string updatedWarningText = "";
