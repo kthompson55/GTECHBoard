@@ -53,7 +53,12 @@ namespace Collection_Game_Tool.Services
                     }
                     else if (board.connections[t].type == TileTypes.moveForward || board.connections[t].type == TileTypes.moveBack)
                     {
-                        GeneratePlaysFromBoardHelper((ITile)board.connections[t].tileAction(), 1, "|" + t, new PlayGen());
+                        ITile nextTile = (ITile)board.connections[t].tileAction();
+                        while (nextTile.type == TileTypes.moveForward || nextTile.type == TileTypes.moveBack)
+                        {
+                            nextTile = (ITile)nextTile.tileAction();
+                        }
+                        GeneratePlaysFromBoardHelper(nextTile, 1, "|" + t, new PlayGen());
                     }
                     else
                     {
@@ -69,7 +74,12 @@ namespace Collection_Game_Tool.Services
                     }
                     else if (board.connections[t].type == TileTypes.moveForward || board.connections[t].type == TileTypes.moveBack)
                     {
-                        GeneratePlaysFromBoardHelper((ITile)board.connections[t].tileAction(), 1, "|" + rollOptions[t][rand.Next(0, rollOptions[t].Count)], new PlayGen());
+                        ITile nextTile = (ITile)board.connections[t].tileAction();
+                        while (nextTile.type == TileTypes.moveForward || nextTile.type == TileTypes.moveBack)
+                        {
+                            nextTile = (ITile)nextTile.tileAction();
+                        }
+                        GeneratePlaysFromBoardHelper(nextTile, 1, "|" + rollOptions[t][rand.Next(0, rollOptions[t].Count)], new PlayGen());
                     }
                     else
                     {
@@ -127,7 +137,12 @@ namespace Collection_Game_Tool.Services
                     }
                     else if (board.connections[t].type == TileTypes.moveForward || board.connections[t].type == TileTypes.moveBack)
                     {
-                        GeneratePlaysFromBoardHelper((ITile)board.connections[t].tileAction(), moves + 1, curPath + "," + t, new PlayGen(pg));
+                        ITile nextTile = (ITile)board.connections[t].tileAction();
+                        while (nextTile.type == TileTypes.moveBack || nextTile.type == TileTypes.moveForward)
+                        {
+                            nextTile = (ITile)nextTile.tileAction();
+                        }
+                        GeneratePlaysFromBoardHelper(nextTile, moves + 1, curPath + "," + t, new PlayGen(pg));
                     }
                     else
                     {
@@ -143,7 +158,12 @@ namespace Collection_Game_Tool.Services
                     }
                     else if (board.connections[t].type == TileTypes.moveForward || board.connections[t].type == TileTypes.moveBack)
                     {
-                        GeneratePlaysFromBoardHelper((ITile)board.connections[t].tileAction(), moves + 1, curPath + "," + rollOptions[t][rand.Next(0, rollOptions[t].Count)], new PlayGen(pg));
+                        ITile nextTile = (ITile)board.connections[t].tileAction();
+                        while (nextTile.type == TileTypes.moveBack || nextTile.type == TileTypes.moveForward)
+                        {
+                            nextTile = (ITile)nextTile.tileAction();
+                        }
+                        GeneratePlaysFromBoardHelper(nextTile, moves + 1, curPath + "," + rollOptions[t][rand.Next(0, rollOptions[t].Count)], new PlayGen(pg));
                     }
                     else
                     {
