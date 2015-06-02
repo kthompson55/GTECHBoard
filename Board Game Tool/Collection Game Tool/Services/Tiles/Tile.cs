@@ -70,9 +70,36 @@ namespace Collection_Game_Tool.Services.Tiles
             connections.Add(diceRoll, tile);
         }
 
-        public void tileAction()
+        public Object tileAction()
         {
-            throw new NotImplementedException();
+            if (type == TileTypes.moveForward)
+            {
+                ITile ret = this;
+                for (int i = 0; i < 4; i++)
+                {
+                    //Replace this with the actual implementation
+                    ret = ret.parent;
+                }
+                return ret;
+            }
+            else if (type == TileTypes.moveBack)
+            {
+                //Replace this with the actual implementation
+                ITile ret = this;
+                for (int i = 0; i < 4; i++)
+                {
+                    ret = ret.parent;
+                }
+                return ret;
+            }
+            else if (type == TileTypes.collection)
+            {
+                return "A";
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public void connectParentToChild(ITile tile)

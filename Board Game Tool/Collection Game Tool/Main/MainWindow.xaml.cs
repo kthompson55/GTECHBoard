@@ -17,9 +17,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Forms;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Runtime.Serialization;
-using System.IO;
 
 namespace Collection_Game_Tool.Main
 {
@@ -32,16 +29,10 @@ namespace Collection_Game_Tool.Main
         private GameSetupUC gs;
         private DivisionPanelUC divUC;
         private ProjectData savedProject;
-        private string projectFileName;
-        private bool isProjectSaved;
-        private const string DEFAULT_EXT = ".cggproj";
 
         public Window1()
         {
             InitializeComponent();
-
-            projectFileName = null;
-            isProjectSaved = false;
             savedProject = new ProjectData();
 
             //Programmaticaly add UserControls to mainwindow.
@@ -58,7 +49,6 @@ namespace Collection_Game_Tool.Main
             this.UserControls.Children.Add(divUC);
             divUC.prizes = pl.plsObject;
 
-            
             //Listener stuff between divisions and Prize Levels
             pl.addListener(divUC);
             gs.addListener(divUC);
@@ -67,14 +57,12 @@ namespace Collection_Game_Tool.Main
             gs.addListener(pl);
             gs.addListener(divUC);
             gs.addListener(this);
-            
+
             this.Loaded += new RoutedEventHandler(MainWindow_Loaded);
 
             Screen screen = System.Windows.Forms.Screen.FromHandle(new System.Windows.Interop.WindowInteropHelper(this).Handle);
             this.MaxHeight = screen.WorkingArea.Height;
             this.Height = this.MaxHeight - 50;
-
-            
         }
 
         void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -82,7 +70,6 @@ namespace Collection_Game_Tool.Main
             this.MaxWidth = this.Width;
             this.MinWidth = this.Width;
             toolMenu.Width = this.ActualWidth - 10;
-
         }
 
         private void Window_LayoutUpdated_1(object sender, EventArgs e)
@@ -117,87 +104,36 @@ namespace Collection_Game_Tool.Main
                 //    bgWorker.RunWorkerAsync();  
                 //}
             }
-           
+
             divUC.validateDivision();
         }
 
         private void SaveItem_Clicked(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("SaveItem_Clicked");
-            SaveProject();
+            savedProject.SaveProject(gs.gsObject, pl.plsObject, divUC.divisionsList);
         }
 
         private void SaveAsItem_Clicked(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("SaveAsItem_Clicked");
-            SaveProjectAs();
+            savedProject.SaveProjectAs(gs.gsObject, pl.plsObject, divUC.divisionsList);
         }
 
         private void OpenItem_Clicked(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("OpenItem_Clicked");
-            OpenProject();
-        }
+            bool projectLoadingSuccessful = savedProject.OpenProject();
 
-        private void SaveProject()
-        {
-            if (isProjectSaved)
+            if (projectLoadingSuccessful)
             {
-                savedProject.savedGameSetup = gs.gsObject;
-                savedProject.savedPrizeLevels = pl.plsObject;
-                savedProject.savedDivisions = divUC.divisionsList;
-
-                IFormatter formatter = new BinaryFormatter();
-                Stream stream = new FileStream(projectFileName, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
-                formatter.Serialize(stream, savedProject);
-                stream.Close();
-            }
-            else
-            {
-                SaveProjectAs();
-            }
-        }
-
-        private void SaveProjectAs()
-        {
-            Microsoft.Win32.SaveFileDialog dialog = new Microsoft.Win32.SaveFileDialog();
-            dialog.DefaultExt = DEFAULT_EXT;
-            dialog.Filter = "Collection Game Generator Project (" + DEFAULT_EXT + ")|*"+DEFAULT_EXT;
-            bool? result = dialog.ShowDialog();
-
-            if (result == true)
-            {
-                projectFileName = dialog.FileName;
-                isProjectSaved = true;
-                SaveProject();
-            }
-        }
-
-        private void OpenProject()
-        {
-            Microsoft.Win32.OpenFileDialog openDialog = new Microsoft.Win32.OpenFileDialog();
-            openDialog.DefaultExt = DEFAULT_EXT;
-            openDialog.Filter = "Collection Game Generator Project (" + DEFAULT_EXT + ")|*"+DEFAULT_EXT;
-            Nullable<bool> result = openDialog.ShowDialog();
-            bool isCorrectFileType = System.Text.RegularExpressions.Regex.IsMatch(openDialog.FileName, DEFAULT_EXT);
-
-            if (result == true && isCorrectFileType)
-            {
-                isProjectSaved = true;
-                projectFileName = openDialog.FileName;
-
-                IFormatter format = new BinaryFormatter();
-                Stream stream = new FileStream(projectFileName, FileMode.Open, FileAccess.Read, FileShare.Read);
-                savedProject = (ProjectData)format.Deserialize(stream);
-
                 pl.plsObject = savedProject.savedPrizeLevels;
+                PrizeLevels.PrizeLevels.numPrizeLevels = savedProject.savedPrizeLevels.getNumPrizeLevels();
                 pl.Prizes.Children.Clear();
                 for (int i = 0; i < pl.plsObject.getNumPrizeLevels(); i++)
                 {
                     pl.loadExistingPrizeLevel(pl.plsObject.prizeLevels[i]);
                 }
+                pl.checkLoadedPrizeLevels();
 
-                gs.loadExistingData(savedProject.savedGameSetup);
+                //gs.loadExistingData(savedProject.savedGameSetup);
 
                 divUC.divisionsList = savedProject.savedDivisions;
                 divUC.prizes = savedProject.savedPrizeLevels;
@@ -205,13 +141,8 @@ namespace Collection_Game_Tool.Main
 
                 for (int i = 0; i < divUC.divisionsList.getSize(); i++)
                 {
-                    divUC.loadInDivision(i + 1, divUC.divisionsList.divisions[i]);
+                    divUC.loadInDivision(divUC.divisionsList.divisions[i]);
                 }
-
-            }
-            else if (result == true && !isCorrectFileType)
-            {
-                System.Windows.MessageBox.Show("The file must be of type .cggproj");
             }
         }
 
@@ -220,14 +151,12 @@ namespace Collection_Game_Tool.Main
             MessageBoxResult result = System.Windows.MessageBox.Show("Would you like to save the project's data before exiting?", "Exiting Application", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                SaveProject();
+                savedProject.SaveProject(gs.gsObject, pl.plsObject, divUC.divisionsList);
             }
             else if (result == MessageBoxResult.Cancel)
             {
                 e.Cancel = true;
             }
         }
-
-        
     }
 }

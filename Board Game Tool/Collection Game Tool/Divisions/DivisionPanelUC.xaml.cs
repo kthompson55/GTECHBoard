@@ -73,14 +73,16 @@ namespace Collection_Game_Tool.Divisions
             isSectionEmpty();
         }
 
-        public void loadInDivision(int number, DivisionModel div)
+        //Remove int parameter in collectin game as well.
+        public void loadInDivision(DivisionModel div)
         {
             if (divisionsList.getSize() < MAX_DIVISIONS)
             {
-                DivisionUC division = new DivisionUC(prizes, number);
+                int divNumber = divisionsHolderPanel.Children.Count + 1;
+                DivisionUC division = new DivisionUC(prizes, divNumber);
                 division.DivModel = div;
                 division.setDataContextToModel();
-                division.DivModel.DivisionNumber = number;
+                division.DivModel.DivisionNumber = divNumber;
                 division.DivModel.levelBoxes = div.levelBoxes;
                 division.Margin = new Thickness(marginAmount, marginAmount, 0, 0);
                 division.SectionContainer = this;

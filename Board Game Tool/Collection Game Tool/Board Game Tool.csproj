@@ -92,6 +92,7 @@
     <Compile Include="Services\CreateOpacityConverter.cs" />
     <Compile Include="Services\GamePlayGeneration.cs" />
     <Compile Include="Services\Listener.cs" />
+    <Compile Include="Services\PlayGen.cs" />
     <Compile Include="Services\PrizeLevelConverter.cs" />
     <Compile Include="Services\RangeRule.cs" />
     <Compile Include="Services\Teller.cs" />

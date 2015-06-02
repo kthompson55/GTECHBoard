@@ -118,6 +118,29 @@ namespace Collection_Game_Tool.PrizeLevels
             prizeLevelCounterLabel.Content = Prizes.Children.Count;
         }
 
+        public void checkLoadedPrizeLevels()
+        {
+            //Gets rid of any highlight of previously selected PrizeLevel
+            for (int i = 0; i < Prizes.Children.Count; i++)
+            {
+                UserControlPrizeLevel ucpl = (UserControlPrizeLevel)Prizes.Children[i];
+                //ucpl.LevelGrid.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("LightGray"));
+                ucpl.OuterGrid.Margin = new Thickness(0, i * MARGIN, 0, 0);
+                ucpl.plObject.prizeLevel = (i + 1);
+
+                if (Prizes.Children.Count > 2)
+                {
+                    ucpl.CloseButton.IsEnabled = true;
+                    ucpl.CloseButton.Opacity = 1;
+                }
+                else
+                {
+                    ucpl.CloseButton.IsEnabled = false;
+                    ucpl.CloseButton.Opacity = 0;
+                }
+            }
+        }
+
         public void onListen(object pass)
         {
             if (pass is string)
