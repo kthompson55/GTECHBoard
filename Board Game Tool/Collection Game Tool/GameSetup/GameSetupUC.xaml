@@ -197,11 +197,12 @@
                             <Border BorderBrush="Black" BorderThickness="0,0,0,2">
                                 <Label Style="{StaticResource instructionStyle}">The board on which the game will take place</Label>
                             </Border>
-                            <DockPanel>
-                                <Label Style="{StaticResource dataLabelStyle}">Number of Tiles:</Label>
-                                <TextBox x:Name="BoardSizeTextBox" 
-                                     GotFocus="BoardSizeTextBox_GotFocus" 
-                                     GotMouseCapture="BoardSizeTextBox_GotMouseCapture" 
+                            <Border Style="{StaticResource internalBorderStyle}">
+                                <DockPanel>
+                                    <Label Style="{StaticResource dataLabelStyle}">Number of Tiles:</Label>
+                                    <TextBox x:Name="BoardSizeTextBox" 
+                                     GotFocus="TextBox_GotFocus" 
+                                     GotMouseCapture="TextBox_GotMouseCapture" 
                                      TextChanged="BoardSizeTextBox_TextChanged"
                                      PreviewTextInput="BoardSizeTextBox_PreviewTextInput"
                                      FontSize="14"
@@ -210,7 +211,72 @@
                                      Width="100"
                                          >1</TextBox>
 
-                            </DockPanel>
+                                </DockPanel>
+                            </Border>
+                            <Border Style="{StaticResource internalBorderStyle}">
+                                <DockPanel>
+                                    <Label Style="{StaticResource dataLabelStyle}">Number of Move Forward Tiles:</Label>
+                                    <TextBox x:Name="NumMoveForwardTilesTextBox" 
+                                     GotFocus="TextBox_GotFocus" 
+                                     GotMouseCapture="TextBox_GotMouseCapture" 
+                                     TextChanged="NumMoveForwardTilesTextBox_TextChanged"
+                                     PreviewTextInput="NumMoveForwardTilesTextBox_PreviewTextInput"
+                                     FontSize="14"
+                                     VerticalAlignment="Center"
+                                     HorizontalAlignment="Left"
+                                     Width="100"
+                                         >1</TextBox>
+
+                                </DockPanel>
+                            </Border>
+                            <Border Style="{StaticResource internalBorderStyle}">
+                                <DockPanel>
+                                    <Label Style="{StaticResource dataLabelStyle}">Move Forward Length:</Label>
+                                    <TextBox x:Name="MoveForwardLengthTextBox" 
+                                     GotFocus="TextBox_GotFocus" 
+                                     GotMouseCapture="TextBox_GotMouseCapture" 
+                                     TextChanged="MoveForwardLengthTextBox_TextChanged"
+                                     PreviewTextInput="MoveForwardLengthTextBox_PreviewTextInput"
+                                     FontSize="14"
+                                     VerticalAlignment="Center"
+                                     HorizontalAlignment="Left"
+                                     Width="100"
+                                         >1</TextBox>
+
+                                </DockPanel>
+                            </Border>
+                            <Border Style="{StaticResource internalBorderStyle}">
+                                <DockPanel>
+                                    <Label Style="{StaticResource dataLabelStyle}">Number of Move Backward Tiles:</Label>
+                                    <TextBox x:Name="NumMoveBackwardTilesTextBox" 
+                                     GotFocus="TextBox_GotFocus" 
+                                     GotMouseCapture="TextBox_GotMouseCapture" 
+                                     TextChanged="NumMoveBackwardTilesTextBox_TextChanged"
+                                     PreviewTextInput="NumMoveBackwardTilesTextBox_PreviewTextInput"
+                                     FontSize="14"
+                                     VerticalAlignment="Center"
+                                     HorizontalAlignment="Left"
+                                     Width="100"
+                                         >1</TextBox>
+
+                                </DockPanel>
+                            </Border>
+                            <Border Style="{StaticResource internalBorderStyle}">
+                                <DockPanel>
+                                    <Label Style="{StaticResource dataLabelStyle}">Move Backward Length:</Label>
+                                    <TextBox x:Name="MoveBackwardLengthTextBox" 
+                                     GotFocus="TextBox_GotFocus" 
+                                     GotMouseCapture="TextBox_GotMouseCapture" 
+                                     TextChanged="MoveBackwardLengthTextBox_TextChanged"
+                                     PreviewTextInput="MoveBackwardLengthTextBox_PreviewTextInput"
+                                     FontSize="14"
+                                     VerticalAlignment="Center"
+                                     HorizontalAlignment="Left"
+                                     Width="100"
+                                         >1</TextBox>
+
+                                </DockPanel>
+                            </Border>
                         </StackPanel>
                     </Border>
 
@@ -224,8 +290,8 @@
                             <DockPanel>
                                 <Label Style="{StaticResource dataLabelStyle}">Maximum Permutations:</Label>
                                 <TextBox x:Name="MaxPermutationsTextBox" 
-                                     GotFocus="MaxPermutationsTextBox_GotFocus" 
-                                     GotMouseCapture="MaxPermutationsTextBox_GotMouseCapture" 
+                                     GotFocus="TextBox_GotFocus" 
+                                     GotMouseCapture="TextBox_GotMouseCapture" 
                                      TextChanged="MaxPermutationsTextBox_TextChanged"
                                      PreviewTextInput="MaxPermutationsTextBox_PreviewTextInput"
                                      FontSize="14"

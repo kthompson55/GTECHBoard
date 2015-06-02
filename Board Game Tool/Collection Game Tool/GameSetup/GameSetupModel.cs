@@ -108,6 +108,7 @@ namespace Collection_Game_Tool.GameSetup
             set
             {
                 ds = value;
+                calculateSpacesWithinReach();
             }
         }
 
@@ -121,6 +122,7 @@ namespace Collection_Game_Tool.GameSetup
             set
             {
                 nt = value;
+                calculateSpacesWithinReach();
             }
         }
 
@@ -134,6 +136,7 @@ namespace Collection_Game_Tool.GameSetup
             set
             {
                 nd = value;
+                calculateSpacesWithinReach();
             }
         }
 
@@ -147,6 +150,7 @@ namespace Collection_Game_Tool.GameSetup
             set
             {
                 smv = value;
+                calculateSpacesWithinReach();
             }
         }
 
@@ -163,12 +167,86 @@ namespace Collection_Game_Tool.GameSetup
             }
         }
 
+        private int nmft = 0;
+        public int numMoveForwardTiles
+        {
+            get
+            {
+                return nmft;
+            }
+            set
+            {
+                nmft = value;
+                calculateSpacesWithinReach();
+            }
+        }
+
+        private int nmbt = 0;
+        public int numMoveBackwardTiles
+        {
+            get
+            {
+                return nmbt;
+            }
+            set
+            {
+                nmbt = value;
+            }
+        }
+
+        private int mfl = 0;
+        public int moveForwardLength
+        {
+            get
+            {
+                return mfl;
+            }
+            set
+            {
+                mfl = value;
+                calculateSpacesWithinReach();
+            }
+        }
+
+        private int mbl = 0;
+        public int moveBackwardLength
+        {
+            get
+            {
+                return mbl;
+            }
+            set
+            {
+                mbl = value;
+            }
+        }
+
+        private int rs = 0;
+        public int reachableSpaces
+        {
+            get
+            {
+                return rs;
+            }
+        }
+
         public void toggleNearWin()
         {
             isNearWin = !isNearWin;
         }
 
-
+        private void calculateSpacesWithinReach()
+        {
+            if (diceSelected)
+            {
+                rs = (numDice * 6) * numTurns + (numMoveForwardTiles * moveForwardLength);
+            }
+            else
+            {
+                rs = spinnerMaxValue * numTurns;
+            }
+           
+        }
 
         public void shout(object pass)
         {

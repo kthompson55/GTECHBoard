@@ -30,6 +30,10 @@ namespace Collection_Game_Tool.GameSetup
         List<Listener> listenerList = new List<Listener>();
         private string lastAcceptableMaxPermutationValue = 0 + "";
         private string lastAcceptableBoardSizeValue = 0 + "";
+        private string lastAcceptableNumMoveForwardTiles = 0 + "";
+        private string lastAcceptableNumMoveBackwardTiles = 0 + "";
+        private string lastAcceptableMoveForwardLength = 0 + "";
+        private string lastAcceptableMoveBackwardLength = 0 + "";
 
         public GameSetupUC()
         {
@@ -150,17 +154,6 @@ namespace Collection_Game_Tool.GameSetup
             }
         }
 
-        private void MaxPermutationsTextBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            TextBox textBox = sender as TextBox;
-            textBox.SelectAll();
-        }
-
-        private void MaxPermutationsTextBox_GotMouseCapture(object sender, MouseEventArgs e)
-        {
-            TextBox textBox = sender as TextBox;
-            textBox.SelectAll();
-        }
 
         private void MaxPermutationsTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
@@ -172,7 +165,7 @@ namespace Collection_Game_Tool.GameSetup
         private bool WithinPermutationRange(string s)
         {
             uint philTheOrphan;
-            return UInt32.TryParse(s, out philTheOrphan);
+            return (UInt32.TryParse(s, out philTheOrphan) && philTheOrphan < 100000);
         }
 
        
@@ -314,18 +307,8 @@ namespace Collection_Game_Tool.GameSetup
             }
         }
 
-        private void BoardSizeTextBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            TextBox textBox = sender as TextBox;
-            textBox.SelectAll();
-        }
-
-        private void BoardSizeTextBox_GotMouseCapture(object sender, MouseEventArgs e)
-        {
-            TextBox textBox = sender as TextBox;
-            textBox.SelectAll();
-        }
-
+       
+      
         private void BoardSizeTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (gsObject != null)
@@ -395,6 +378,168 @@ namespace Collection_Game_Tool.GameSetup
             {
                 ErrorService.Instance.resolveError("013", null, gsucID);
             }
+        }
+
+        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            textBox.SelectAll();
+        }
+
+        private void TextBox_GotMouseCapture(object sender, MouseEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            textBox.SelectAll();
+        }
+
+
+
+
+
+        private void NumMoveForwardTilesTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (gsObject != null)
+            {
+                TextBox textBox = sender as TextBox;
+                if (textBox.Text == "")
+                {
+                    textBox.Text = 0 + "";
+                }
+                int numMFValue;
+                if (Int32.TryParse(textBox.Text, out numMFValue) && numMFValue >= 0)
+                {
+                    gsObject.numMoveForwardTiles = numMFValue;
+                    int spacesAvailableForMoveForward = gsObject.reachableSpaces - (PrizeLevels.PrizeLevels.totalCollections + gsObject.numMoveBackwardTiles);
+                    if (numMFValue > spacesAvailableForMoveForward)
+                    {
+                        gsucID = ErrorService.Instance.reportError("014", new List<string> { }, gsucID);
+                    }
+                    else
+                    {
+                        ErrorService.Instance.resolveError("014", null, gsucID);
+                    }
+                }
+                else
+                {
+                    textBox.Text = lastAcceptableNumMoveForwardTiles;
+                }
+            }
+        }
+
+        private void NumMoveForwardTilesTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            lastAcceptableNumMoveForwardTiles = tb.Text;
+        }
+
+
+
+
+        
+
+        private void MoveForwardLengthTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (gsObject != null)
+            {
+                TextBox textBox = sender as TextBox;
+                if (textBox.Text == "")
+                {
+                    textBox.Text = 0 + "";
+                }
+                int MFLValue;
+                if (Int32.TryParse(textBox.Text, out MFLValue) && MFLValue >= 0)
+                {
+                    gsObject.moveForwardLength = MFLValue;
+                    //int maxMoveLength;
+                    //if (gsObject.diceSelected) maxMoveLength = 6;
+                    //else maxMoveLength = gsObject.spinnerMaxValue;
+                    //int spacesAvailableForMoveForward = (gsObject.boardSize - maxMoveLength)/gsObject.numMoveForwardTiles;
+                    //if (MFLValue > spacesAvailableForMoveForward)
+                    //{
+                    //    ErrorService.Instance.reportError("015", new List<string> { }, gsucID);
+                    //}
+                    //else
+                    //{
+                    //    ErrorService.Instance.resolveError("015", null, gsucID);
+                    //}
+                }
+                else
+                {
+                    textBox.Text = lastAcceptableMoveForwardLength;
+                }
+            }
+        }
+
+        private void MoveForwardLengthTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            lastAcceptableMoveForwardLength = tb.Text;
+        }
+
+        
+
+
+
+
+        private void NumMoveBackwardTilesTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (gsObject != null)
+            {
+                TextBox textBox = sender as TextBox;
+                if (textBox.Text == "")
+                {
+                    textBox.Text = 0 + "";
+                }
+                int numMBValue;
+                if (Int32.TryParse(textBox.Text, out numMBValue) && numMBValue >= 0)
+                {
+                    gsObject.numMoveBackwardTiles = numMBValue;
+                    
+                }
+                else
+                {
+                    textBox.Text = lastAcceptableNumMoveBackwardTiles;
+                }
+            }
+        }
+
+        private void NumMoveBackwardTilesTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            lastAcceptableNumMoveBackwardTiles = tb.Text;
+        }
+
+       
+
+
+
+
+        private void MoveBackwardLengthTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (gsObject != null)
+            {
+                TextBox textBox = sender as TextBox;
+                if (textBox.Text == "")
+                {
+                    textBox.Text = 0 + "";
+                }
+                int MBLValue;
+                if (Int32.TryParse(textBox.Text, out MBLValue) && MBLValue >= 0)
+                {
+                    gsObject.moveBackwardLength = MBLValue;
+                   
+                }
+                else
+                {
+                    textBox.Text = lastAcceptableMoveBackwardLength;
+                }
+            }
+        }
+
+        private void MoveBackwardLengthTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            lastAcceptableMoveBackwardLength = tb.Text;
         }
     }
 }

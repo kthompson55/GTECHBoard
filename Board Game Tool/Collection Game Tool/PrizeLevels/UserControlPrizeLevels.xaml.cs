@@ -125,6 +125,8 @@ namespace Collection_Game_Tool.PrizeLevels
                 String parse=(String)pass;
                 if (parse.Equals("Update"))
                 {
+                    plsObject.calculateTotalCollections();
+
                     List<UserControlPrizeLevel> ucplList = new List<UserControlPrizeLevel>();
                     ucplList = Prizes.Children.Cast<UserControlPrizeLevel>().ToList<UserControlPrizeLevel>();
                     Prizes.Children.Clear();
@@ -170,6 +172,7 @@ namespace Collection_Game_Tool.PrizeLevels
                     if (!sameFound)
                         ErrorService.Instance.resolveWarning("004", null, plsID);
                 }
+             
             }
             else if(pass is UserControlPrizeLevel)
             {
