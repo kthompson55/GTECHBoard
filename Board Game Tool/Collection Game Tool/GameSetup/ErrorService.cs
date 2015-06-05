@@ -143,7 +143,11 @@ namespace Collection_Game_Tool.GameSetup
             errorText = updatedErrorText;
         }
 
-
+        /// <summary>
+        /// The Dictionary of unresolved warnings. 
+        /// Key is a warning object. 
+        /// Value is the warning message which will be displayed to the user.
+        /// </summary>
         private Dictionary<Warning, string> unresolvedWarnings = new Dictionary<Warning, string>();
         private string _warningText;
         public string warningText
@@ -162,6 +166,14 @@ namespace Collection_Game_Tool.GameSetup
             }
         }
 
+        /// <summary>
+        /// Constructs a unique warning message from the provided illegalObjects strings and a warning template
+        /// and adds a new warning to the dictionary of unresolved warnings. 
+        /// </summary>
+        /// <param name="warningCode">The warning code which indicates what warning template to use</param>
+        /// <param name="illegalObjects">The names of all of the objects to be plugged into the warning template</param>
+        /// <param name="senderId">The Id of the object reporting the warning</param>
+        /// <returns>The id of the object reporting the warning. Creates a new id if one is not provided.</returns>
         public string reportWarning(string warningCode, List<string> illegalObjects, string senderId)
         {
             if (senderId == null) senderId = currentId++ + "";
@@ -176,6 +188,11 @@ namespace Collection_Game_Tool.GameSetup
             return senderId;
         }
 
+        /// <summary>
+        /// Removes a warning from the dictionary of unresolved warnings.
+        /// </summary>
+        /// <param name="warningCode">The warning code which the warning to remove contains</param>
+        /// <param name="senderId">The sender Id which the warning to remove contains</param>
         public void resolveWarning(string warningCode, List<string> illegalObjects, string senderId)
         {
             Warning theWarning = new Warning(senderId, warningCode);
