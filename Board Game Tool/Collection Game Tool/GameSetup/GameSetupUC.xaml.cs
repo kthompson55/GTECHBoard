@@ -409,7 +409,7 @@ namespace Collection_Game_Tool.GameSetup
                 if (Int32.TryParse(textBox.Text, out numMFValue) && numMFValue >= 0)
                 {
                     gsObject.numMoveForwardTiles = numMFValue;
-                    int spacesAvailableForMoveForward = gsObject.reachableSpaces - (PrizeLevels.PrizeLevels.totalCollections + gsObject.numMoveBackwardTiles);
+                    int spacesAvailableForMoveForward = gsObject.initialReachableSpaces - (PrizeLevels.PrizeLevels.totalCollections);
                     if (numMFValue > spacesAvailableForMoveForward)
                     {
                         gsucID = ErrorService.Instance.reportError("014", new List<string> { }, gsucID);
@@ -435,41 +435,6 @@ namespace Collection_Game_Tool.GameSetup
 
 
 
-        
-
-        private void MoveForwardLengthTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (gsObject != null)
-            {
-                TextBox textBox = sender as TextBox;
-                if (textBox.Text == "")
-                {
-                    textBox.Text = 0 + "";
-                }
-                int MFLValue;
-                if (Int32.TryParse(textBox.Text, out MFLValue) && MFLValue >= 0)
-                {
-                    gsObject.moveForwardLength = MFLValue;
-                    //int maxMoveLength;
-                    //if (gsObject.diceSelected) maxMoveLength = 6;
-                    //else maxMoveLength = gsObject.spinnerMaxValue;
-                    //int spacesAvailableForMoveForward = (gsObject.boardSize - maxMoveLength)/gsObject.numMoveForwardTiles;
-                    //if (MFLValue > spacesAvailableForMoveForward)
-                    //{
-                    //    ErrorService.Instance.reportError("015", new List<string> { }, gsucID);
-                    //}
-                    //else
-                    //{
-                    //    ErrorService.Instance.resolveError("015", null, gsucID);
-                    //}
-                }
-                else
-                {
-                    textBox.Text = lastAcceptableMoveForwardLength;
-                }
-            }
-        }
-
         private void MoveForwardLengthTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             TextBox tb = sender as TextBox;
@@ -477,8 +442,6 @@ namespace Collection_Game_Tool.GameSetup
         }
 
         
-
-
 
 
         private void NumMoveBackwardTilesTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -509,37 +472,29 @@ namespace Collection_Game_Tool.GameSetup
             lastAcceptableNumMoveBackwardTiles = tb.Text;
         }
 
-       
-
-
-
-
-        private void MoveBackwardLengthTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (gsObject != null)
-            {
-                TextBox textBox = sender as TextBox;
-                if (textBox.Text == "")
-                {
-                    textBox.Text = 0 + "";
-                }
-                int MBLValue;
-                if (Int32.TryParse(textBox.Text, out MBLValue) && MBLValue >= 0)
-                {
-                    gsObject.moveBackwardLength = MBLValue;
-                   
-                }
-                else
-                {
-                    textBox.Text = lastAcceptableMoveBackwardLength;
-                }
-            }
-        }
 
         private void MoveBackwardLengthTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             TextBox tb = sender as TextBox;
             lastAcceptableMoveBackwardLength = tb.Text;
+        }
+
+        private void MoveForwardLengthSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (gsObject != null)
+            {
+                Slider slider = sender as Slider;
+                gsObject.moveForwardLength = Convert.ToInt32(slider.Value);
+            }
+        }
+
+        private void MoveBackwardLengthSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (gsObject != null)
+            {
+                Slider slider = sender as Slider;
+                gsObject.moveBackwardLength = Convert.ToInt32(slider.Value);
+            }
         }
     }
 }
