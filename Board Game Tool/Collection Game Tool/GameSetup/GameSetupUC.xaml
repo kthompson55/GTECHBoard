@@ -230,20 +230,27 @@
                                 </DockPanel>
                             </Border>
                             <Border Style="{StaticResource internalBorderStyle}">
-                                <DockPanel>
+                                <StackPanel Orientation="Horizontal">
                                     <Label Style="{StaticResource dataLabelStyle}">Move Forward Length:</Label>
-                                    <TextBox x:Name="MoveForwardLengthTextBox" 
-                                     GotFocus="TextBox_GotFocus" 
-                                     GotMouseCapture="TextBox_GotMouseCapture" 
-                                     TextChanged="MoveForwardLengthTextBox_TextChanged"
-                                     PreviewTextInput="MoveForwardLengthTextBox_PreviewTextInput"
-                                     FontSize="14"
-                                     VerticalAlignment="Center"
-                                     HorizontalAlignment="Left"
-                                     Width="100"
-                                         >1</TextBox>
-
-                                </DockPanel>
+                                    <Label x:Name="MoveForwardLengthLabel" Content="{Binding ElementName=MoveForwardLengthSlider, Path=Value}"
+                                       FontSize="14" 
+                                       FontWeight="Bold"
+                                       ContentStringFormat="{}{0:#}" 
+                                       HorizontalContentAlignment="Center" 
+                                       Background="White" 
+                                       Width="30"
+                                       Margin="0,0,30,0"></Label>
+                                    <StackPanel Orientation="Horizontal" Margin="10,0">
+                                        <Label FontSize="14">1</Label>
+                                        <Slider x:Name="MoveForwardLengthSlider" 
+                                            ValueChanged="MoveForwardLengthSlider_ValueChanged" 
+                                            MinWidth="200" Maximum="5" Minimum="1" 
+                                            IsSelectionRangeEnabled="True" 
+                                            VerticalAlignment="Center" 
+                                            IsSnapToTickEnabled="True" TickPlacement="Both" TickFrequency="1"></Slider>
+                                        <Label FontSize="14">5</Label>
+                                    </StackPanel>
+                                </StackPanel>
                             </Border>
                             <Border Style="{StaticResource internalBorderStyle}">
                                 <DockPanel>
@@ -262,20 +269,27 @@
                                 </DockPanel>
                             </Border>
                             <Border Style="{StaticResource internalBorderStyle}">
-                                <DockPanel>
+                                <StackPanel Orientation="Horizontal">
                                     <Label Style="{StaticResource dataLabelStyle}">Move Backward Length:</Label>
-                                    <TextBox x:Name="MoveBackwardLengthTextBox" 
-                                     GotFocus="TextBox_GotFocus" 
-                                     GotMouseCapture="TextBox_GotMouseCapture" 
-                                     TextChanged="MoveBackwardLengthTextBox_TextChanged"
-                                     PreviewTextInput="MoveBackwardLengthTextBox_PreviewTextInput"
-                                     FontSize="14"
-                                     VerticalAlignment="Center"
-                                     HorizontalAlignment="Left"
-                                     Width="100"
-                                         >1</TextBox>
-
-                                </DockPanel>
+                                    <Label x:Name="MoveBackwardLengthLabel" Content="{Binding ElementName=MoveBackwardLengthSlider, Path=Value}"
+                                       FontSize="14" 
+                                       FontWeight="Bold"
+                                       ContentStringFormat="{}{0:#}" 
+                                       HorizontalContentAlignment="Center" 
+                                       Background="White" 
+                                       Width="30"
+                                       Margin="0,0,30,0"></Label>
+                                    <StackPanel Orientation="Horizontal" Margin="10,0">
+                                        <Label FontSize="14">1</Label>
+                                        <Slider x:Name="MoveBackwardLengthSlider" 
+                                            ValueChanged="MoveBackwardLengthSlider_ValueChanged"
+                                            MinWidth="200" Maximum="5" Minimum="1" 
+                                            IsSelectionRangeEnabled="True" 
+                                            VerticalAlignment="Center" 
+                                            IsSnapToTickEnabled="True" TickPlacement="Both" TickFrequency="1"></Slider>
+                                        <Label FontSize="14">5</Label>
+                                    </StackPanel>
+                                </StackPanel>
                             </Border>
                         </StackPanel>
                     </Border>

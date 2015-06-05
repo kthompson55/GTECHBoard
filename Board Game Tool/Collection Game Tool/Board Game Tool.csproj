@@ -79,7 +79,6 @@
     <Compile Include="GameSetup\ErrorService.cs" />
     <Compile Include="Main\ProjectData.cs" />
     <Compile Include="PrizeLevels\PrizeLevel.cs" />
-    <Compile Include="Services\Board.cs" />
     <Compile Include="Services\BoardGeneration.cs" />
     <Compile Include="Services\Error.cs" />
     <Compile Include="PrizeLevels\PrizeLevels.cs" />

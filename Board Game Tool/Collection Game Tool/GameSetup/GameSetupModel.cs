@@ -108,7 +108,6 @@ namespace Collection_Game_Tool.GameSetup
             set
             {
                 ds = value;
-                calculateSpacesWithinReach();
             }
         }
 
@@ -122,7 +121,6 @@ namespace Collection_Game_Tool.GameSetup
             set
             {
                 nt = value;
-                calculateSpacesWithinReach();
             }
         }
 
@@ -136,7 +134,6 @@ namespace Collection_Game_Tool.GameSetup
             set
             {
                 nd = value;
-                calculateSpacesWithinReach();
             }
         }
 
@@ -150,7 +147,6 @@ namespace Collection_Game_Tool.GameSetup
             set
             {
                 smv = value;
-                calculateSpacesWithinReach();
             }
         }
 
@@ -177,7 +173,6 @@ namespace Collection_Game_Tool.GameSetup
             set
             {
                 nmft = value;
-                calculateSpacesWithinReach();
             }
         }
 
@@ -204,7 +199,6 @@ namespace Collection_Game_Tool.GameSetup
             set
             {
                 mfl = value;
-                calculateSpacesWithinReach();
             }
         }
 
@@ -221,12 +215,26 @@ namespace Collection_Game_Tool.GameSetup
             }
         }
 
-        private int rs = 0;
-        public int reachableSpaces
+        public int initialReachableSpaces
         {
             get
             {
-                return rs;
+                if (diceSelected)
+                {
+                    return (numDice * 6) * numTurns;
+                }
+                else
+                {
+                    return spinnerMaxValue * numTurns;
+                }
+            }
+        }
+
+        public int finalReachableSpaces
+        {
+            get
+            {
+                return initialReachableSpaces + (numMoveForwardTiles * moveForwardLength);
             }
         }
 
@@ -235,18 +243,6 @@ namespace Collection_Game_Tool.GameSetup
             isNearWin = !isNearWin;
         }
 
-        private void calculateSpacesWithinReach()
-        {
-            if (diceSelected)
-            {
-                rs = (numDice * 6) * numTurns + (numMoveForwardTiles * moveForwardLength);
-            }
-            else
-            {
-                rs = spinnerMaxValue * numTurns;
-            }
-           
-        }
 
         public void shout(object pass)
         {
