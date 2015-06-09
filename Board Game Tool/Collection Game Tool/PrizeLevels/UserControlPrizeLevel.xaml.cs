@@ -96,6 +96,9 @@ namespace Collection_Game_Tool.PrizeLevels
         private void boxSelected()
         {
             validateMyself();
+            double set = 0.0;
+            if(double.TryParse(TextBoxValue.Text, out set))
+                this.plObject.prizeValue = set;
             shout("Update");
             LevelGrid.Background = Brushes.Yellow;
         }
@@ -107,14 +110,14 @@ namespace Collection_Game_Tool.PrizeLevels
 
         private void textBoxValue_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            shout("Update");
             e.Handled = !TextBoxTextAllowed(e.Text);
+            shout("Update");
         }
 
         private void textBoxCollection_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            shout("Update");
             e.Handled = !CollectionBoxTextAllowed(e.Text);
+            shout("Update");
         }
 
         private bool TextBoxTextAllowed(string p)
