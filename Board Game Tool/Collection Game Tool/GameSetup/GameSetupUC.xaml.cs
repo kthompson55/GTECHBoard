@@ -52,6 +52,15 @@ namespace Collection_Game_Tool.GameSetup
         {
             NearWinCheckbox.IsChecked = savedSetup.isNearWin;
             NumNearWinsSlider.Value = savedSetup.nearWins;
+            NumTurnsSlider.Value = savedSetup.numTurns;
+            DiceRadioButton.IsChecked = savedSetup.diceSelected;
+            NumDiceSlider.Value = savedSetup.numDice;
+            SpinnerValueSlider.Value = savedSetup.spinnerMaxValue;
+            BoardSizeTextBox.Text = savedSetup.boardSize.ToString();
+            NumMoveForwardTilesTextBox.Text = savedSetup.numMoveForwardTiles.ToString();
+            MoveForwardLengthSlider.Value = savedSetup.moveForwardLength;
+            NumMoveBackwardTilesTextBox.Text = savedSetup.numMoveBackwardTiles.ToString();
+            MoveBackwardLengthSlider.Value = savedSetup.moveBackwardLength;
             MaxPermutationsTextBox.Text = savedSetup.maxPermutations.ToString();
             gsObject = savedSetup;
             gsObject.initializeListener();
@@ -495,6 +504,11 @@ namespace Collection_Game_Tool.GameSetup
                 Slider slider = sender as Slider;
                 gsObject.moveBackwardLength = Convert.ToInt32(slider.Value);
             }
+        }
+
+        private void NumTurnsSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+
         }
     }
 }

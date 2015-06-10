@@ -6,16 +6,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:Services="clr-namespace:Collection_Game_Tool.Services"
              xmlns:local="clr-namespace:Collection_Game_Tool.GameSetup"
-
              mc:Ignorable="d" 
              Loaded="GameSetupUserControl_Loaded"
-             d:DesignHeight="800" d:DesignWidth="300">
+             d:DesignHeight="800" d:DesignWidth="500">
+    
     <Border BorderBrush="Black" BorderThickness="2,0,2,0">
         <Grid x:Name="GameSetupMainPanel" 
                     Background="#575757">
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
-                <RowDefinition Height="60"/>
+                <RowDefinition Height="50"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="150"/>
             </Grid.RowDefinitions>
@@ -50,12 +50,13 @@
 
             </Grid.Resources>
             <Label Grid.Row="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Background="#0068ad" Foreground="White" FontSize="30" FontWeight="Bold" >Game Setup</Label>
-            <Label Grid.Row="1" Style="{StaticResource instructionStyle}" Margin="0,0,0,10" Height="50" Content="-The basic game settings-" VerticalContentAlignment="Center"></Label>
-
+            <Border Grid.Row="1" BorderBrush="Black" BorderThickness="0,0,0,2">
+                <Label Grid.Row="1" Style="{StaticResource instructionStyle}" Height="50" Content="The basic game settings" VerticalContentAlignment="Center"></Label>
+            </Border>
             <ScrollViewer Grid.Row="2" x:Name="gameSetupScroll" MaxHeight="800" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto">
                 <!--VerticalScrollBarVisibility="Auto"-->
                 <StackPanel x:Name="GameSetupOptionsPanel" 
-                            Margin="10,0">
+                            Margin="10,10,10,0">
                  
                     <Border Style="{StaticResource externalBorderStyle}">
                         <StackPanel x:Name="GSNearWinPanel" Background="#ADADAD">
@@ -69,8 +70,8 @@
                                     <CheckBox x:Name="NearWinCheckbox" Click="NearWinCheckbox_Click" VerticalAlignment="Center"></CheckBox>
                                 </StackPanel>
                             </Border>
-                            <StackPanel IsEnabled="{Binding ElementName=NearWinCheckbox, Path=IsChecked}" Orientation="Horizontal" x:Name="GSNearWinOptional" Background="#ADADAD" >
-                                <Label Style="{StaticResource dataLabelStyle}">Total Near Wins:</Label>
+                            <StackPanel IsEnabled="{Binding ElementName=NearWinCheckbox, Path=IsChecked}" Orientation="Horizontal" x:Name="GSNearWinOptional" Background="#8a8a8a" >
+                                <Label Style="{StaticResource dataLabelStyle}" Margin="0,1,0,0">Total Near Wins:</Label>
                                 <Label x:Name="NumNearWinsLabel" 
                                        Content="{Binding ElementName=NumNearWinsSlider, Path=Value}" 
                                        FontSize="14" 
@@ -79,7 +80,7 @@
                                        HorizontalContentAlignment="Center" 
                                        Background="White" 
                                        Width="30"
-                                       Margin="0,0,30,0"></Label>
+                                       Margin="0,2,30,2"></Label>
                                 <StackPanel Orientation="Horizontal" Margin="10,0">
                                     <Label FontSize="14">2</Label>
                                     <Slider x:Name="NumNearWinsSlider" 
@@ -106,7 +107,7 @@
                             </Border>
                             <Border Style="{StaticResource internalBorderStyle}">
                                 <StackPanel Orientation="Horizontal">
-                                    <Label Style="{StaticResource dataLabelStyle}">Number of Turns:</Label>
+                                    <Label Style="{StaticResource dataLabelStyle}" Margin="9,1,0,0">Number of Turns:</Label>
                                     <Label x:Name="NumTurnsLabel" Content="{Binding ElementName=NumTurnsSlider, Path=Value}"
                                        FontSize="14" 
                                        FontWeight="Bold"
@@ -114,7 +115,7 @@
                                        HorizontalContentAlignment="Center" 
                                        Background="White" 
                                        Width="30"
-                                       Margin="0,0,30,0"></Label>
+                                       Margin="0,2,30,2"></Label>
                                     <StackPanel Orientation="Horizontal" Margin="10,0">
                                         <Label FontSize="14">1</Label>
                                         <Slider x:Name="NumTurnsSlider" 
@@ -128,18 +129,20 @@
                                 </StackPanel>
                             </Border>
                             <Border Style="{StaticResource internalBorderStyle}">
-                                <StackPanel Orientation="Horizontal">
-                                    <Label>Dice</Label>
-                                    <RadioButton x:Name="DiceRadioButton" IsChecked="{Binding Path=diceSelected, Mode=TwoWay}" GroupName="DiceSpinnerSelection" VerticalAlignment="Center" Checked="DiceRadioButton_Checked"></RadioButton>
-                                    <Label>Spinner</Label>
-                                    <RadioButton x:Name="SpinnerRadioButton" GroupName="DiceSpinnerSelection" VerticalAlignment="Center" Checked="SpinnerRadioButton_Checked"></RadioButton>
-                                </StackPanel>
+                                <Grid Background="#8a8a8a">
+                                    <StackPanel Orientation="Horizontal" Width="127">
+                                        <Label>Dice</Label>
+                                        <RadioButton x:Name="DiceRadioButton" IsChecked="{Binding Path=diceSelected, Mode=TwoWay}" GroupName="DiceSpinnerSelection" VerticalAlignment="Center" Checked="DiceRadioButton_Checked"></RadioButton>
+                                        <Label Margin="15,0,0,0">Spinner</Label>
+                                        <RadioButton x:Name="SpinnerRadioButton" GroupName="DiceSpinnerSelection" VerticalAlignment="Center" Checked="SpinnerRadioButton_Checked"></RadioButton>
+                                    </StackPanel>
+                                </Grid>
                             </Border>
 
                             <Border Style="{StaticResource internalBorderStyle}">
 
                                 <StackPanel IsEnabled="{Binding ElementName=DiceRadioButton, Path=IsChecked}" Orientation="Horizontal" x:Name="GSDiceOptional" Background="#ADADAD" >
-                                <Label Style="{StaticResource dataLabelStyle}">Number of Dice:</Label>
+                                <Label Style="{StaticResource dataLabelStyle}" Margin="17,1,0,0">Number of Dice:</Label>
                                 <Label x:Name="NumDiceLabel" 
                                        Content="{Binding ElementName=NumDiceSlider, Path=Value}" 
                                        FontSize="14" 
@@ -148,7 +151,7 @@
                                        HorizontalContentAlignment="Center" 
                                        Background="White" 
                                        Width="30"
-                                       Margin="0,0,30,0"></Label>
+                                       Margin="0,2,30,2"></Label>
                                 <StackPanel Orientation="Horizontal" Margin="10,0">
                                     <Label FontSize="14">1</Label>
                                     <Slider x:Name="NumDiceSlider" 
@@ -164,8 +167,8 @@
                                     </StackPanel>
                             </Border>
 
-                            <StackPanel IsEnabled="{Binding ElementName=SpinnerRadioButton, Path=IsChecked}" Orientation="Horizontal" x:Name="GSSpinnerOptional" Background="#ADADAD" >
-                                <Label Style="{StaticResource dataLabelStyle}">Max Spinner Value:</Label>
+                            <StackPanel IsEnabled="{Binding ElementName=SpinnerRadioButton, Path=IsChecked}" Orientation="Horizontal" x:Name="GSSpinnerOptional" Background="#8a8a8a" >
+                                <Label Style="{StaticResource dataLabelStyle}" Margin="0,1,0,0">Max Spinner Value:</Label>
                                 <Label x:Name="SpinnerValueLabel" 
                                        Content="{Binding ElementName=SpinnerValueSlider, Path=Value}" 
                                        FontSize="14" 
@@ -174,7 +177,7 @@
                                        HorizontalContentAlignment="Center" 
                                        Background="White" 
                                        Width="30"
-                                       Margin="0,0,30,0"></Label>
+                                       Margin="0,2,30,2"></Label>
                                 <StackPanel Orientation="Horizontal" Margin="10,0">
                                     <Label FontSize="14">1</Label>
                                     <Slider x:Name="SpinnerValueSlider" 
@@ -193,13 +196,13 @@
                     <Border Style="{StaticResource externalBorderStyle}">
 
                         <StackPanel x:Name="GSBoard" Background="#ADADAD">
-                            <Label Style="{StaticResource titleStyle}">Board</Label>
+                            <Label Style="{StaticResource titleStyle}">Board Setup</Label>
                             <Border BorderBrush="Black" BorderThickness="0,0,0,2">
                                 <Label Style="{StaticResource instructionStyle}">The board on which the game will take place</Label>
                             </Border>
                             <Border Style="{StaticResource internalBorderStyle}">
                                 <DockPanel>
-                                    <Label Style="{StaticResource dataLabelStyle}">Number of Tiles:</Label>
+                                    <Label Style="{StaticResource dataLabelStyle}" Margin="118,0,0,0">Number of Tiles:</Label>
                                     <TextBox x:Name="BoardSizeTextBox" 
                                      GotFocus="TextBox_GotFocus" 
                                      GotMouseCapture="TextBox_GotMouseCapture" 
@@ -214,8 +217,8 @@
                                 </DockPanel>
                             </Border>
                             <Border Style="{StaticResource internalBorderStyle}">
-                                <DockPanel>
-                                    <Label Style="{StaticResource dataLabelStyle}">Number of Move Forward Tiles:</Label>
+                                <DockPanel Background="#8a8a8a">
+                                    <Label Style="{StaticResource dataLabelStyle}" Margin="26,0,0,0">Number of Move Forward Tiles:</Label>
                                     <TextBox x:Name="NumMoveForwardTilesTextBox" 
                                      GotFocus="TextBox_GotFocus" 
                                      GotMouseCapture="TextBox_GotMouseCapture" 
@@ -231,7 +234,7 @@
                             </Border>
                             <Border Style="{StaticResource internalBorderStyle}">
                                 <StackPanel Orientation="Horizontal">
-                                    <Label Style="{StaticResource dataLabelStyle}">Move Forward Length:</Label>
+                                    <Label Style="{StaticResource dataLabelStyle}" Margin="81,1,0,0">Move Forward Length:</Label>
                                     <Label x:Name="MoveForwardLengthLabel" Content="{Binding ElementName=MoveForwardLengthSlider, Path=Value}"
                                        FontSize="14" 
                                        FontWeight="Bold"
@@ -239,12 +242,12 @@
                                        HorizontalContentAlignment="Center" 
                                        Background="White" 
                                        Width="30"
-                                       Margin="0,0,30,0"></Label>
-                                    <StackPanel Orientation="Horizontal" Margin="10,0">
+                                       Margin="0,2,15,2"></Label>
+                                    <StackPanel Orientation="Horizontal">
                                         <Label FontSize="14">1</Label>
                                         <Slider x:Name="MoveForwardLengthSlider" 
                                             ValueChanged="MoveForwardLengthSlider_ValueChanged" 
-                                            MinWidth="200" Maximum="5" Minimum="1" 
+                                            MinWidth="120" Maximum="5" Minimum="1" 
                                             IsSelectionRangeEnabled="True" 
                                             VerticalAlignment="Center" 
                                             IsSnapToTickEnabled="True" TickPlacement="Both" TickFrequency="1"></Slider>
@@ -253,8 +256,8 @@
                                 </StackPanel>
                             </Border>
                             <Border Style="{StaticResource internalBorderStyle}">
-                                <DockPanel>
-                                    <Label Style="{StaticResource dataLabelStyle}">Number of Move Backward Tiles:</Label>
+                                <DockPanel Background="#8a8a8a">
+                                    <Label Style="{StaticResource dataLabelStyle}" Margin="17,0,0,0">Number of Move Backward Tiles:</Label>
                                     <TextBox x:Name="NumMoveBackwardTilesTextBox" 
                                      GotFocus="TextBox_GotFocus" 
                                      GotMouseCapture="TextBox_GotMouseCapture" 
@@ -268,9 +271,9 @@
 
                                 </DockPanel>
                             </Border>
-                            <Border Style="{StaticResource internalBorderStyle}">
+                            <Border>
                                 <StackPanel Orientation="Horizontal">
-                                    <Label Style="{StaticResource dataLabelStyle}">Move Backward Length:</Label>
+                                    <Label Style="{StaticResource dataLabelStyle}" Margin="73,1,0,0">Move Backward Length:</Label>
                                     <Label x:Name="MoveBackwardLengthLabel" Content="{Binding ElementName=MoveBackwardLengthSlider, Path=Value}"
                                        FontSize="14" 
                                        FontWeight="Bold"
@@ -278,12 +281,12 @@
                                        HorizontalContentAlignment="Center" 
                                        Background="White" 
                                        Width="30"
-                                       Margin="0,0,30,0"></Label>
-                                    <StackPanel Orientation="Horizontal" Margin="10,0">
+                                       Margin="0,2,15,2"></Label>
+                                    <StackPanel Orientation="Horizontal">
                                         <Label FontSize="14">1</Label>
                                         <Slider x:Name="MoveBackwardLengthSlider" 
                                             ValueChanged="MoveBackwardLengthSlider_ValueChanged"
-                                            MinWidth="200" Maximum="5" Minimum="1" 
+                                            MinWidth="120" Maximum="5" Minimum="1" 
                                             IsSelectionRangeEnabled="True" 
                                             VerticalAlignment="Center" 
                                             IsSnapToTickEnabled="True" TickPlacement="Both" TickFrequency="1"></Slider>
@@ -297,9 +300,12 @@
                     <Border Style="{StaticResource externalBorderStyle}">
 
                         <StackPanel x:Name="GSPermutationsPanel" Background="#ADADAD">
-                            <Label Style="{StaticResource titleStyle}">Game Win Permutations</Label>
+                            <Label Style="{StaticResource titleStyle}">Game Win/Lose Permutations</Label>
                             <Border BorderBrush="Black" BorderThickness="0,0,0,2">
-                                <Label Style="{StaticResource instructionStyle}">The number of division combinations to calculate that lead to a win</Label>
+                                <StackPanel>
+                                    <Label Style="{StaticResource instructionStyle}">The number of winning combinations to calculate for each division,</Label>
+                                    <Label Style="{StaticResource instructionStyle}" Padding="0,0,0,2">including an extra losing division</Label>
+                                </StackPanel>
                             </Border>
                             <DockPanel>
                                 <Label Style="{StaticResource dataLabelStyle}">Maximum Permutations:</Label>
@@ -336,7 +342,7 @@
 
                 </StackPanel>
             </ScrollViewer>
-            <Border x:Name="ErrorBoxBorder" Grid.Row="4" BorderThickness="2" BorderBrush="#D60804" Margin="0,0,0,10">
+            <Border x:Name="ErrorBoxBorder" Grid.Row="4" BorderThickness="0,2" BorderBrush="Black">
                 <ScrollViewer x:Name="errorPanelScroll" MaxHeight="350">
                     <StackPanel Background="White">
                         <Label FontWeight="Bold" FontSize="14" Background="#D60804" Foreground="White">Errors:</Label>
