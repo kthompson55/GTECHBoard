@@ -133,7 +133,7 @@ namespace Collection_Game_Tool.Main
                 }
                 pl.checkLoadedPrizeLevels();
 
-                //gs.loadExistingData(savedProject.savedGameSetup);
+                gs.loadExistingData(savedProject.savedGameSetup);
 
                 divUC.divisionsList = savedProject.savedDivisions;
                 divUC.prizes = savedProject.savedPrizeLevels;
