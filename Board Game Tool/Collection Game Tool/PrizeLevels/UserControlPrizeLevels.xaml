@@ -28,28 +28,29 @@
             </Label.Background>
             Prize Levels
         </Label>
-        <Grid
-            Grid.Row="1"
+        <Border Grid.Row="1" BorderBrush="Black" BorderThickness="0,0,0,2">
+            <Grid
             Background="#009ad8">
-            <Label
+                <Label
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                  Foreground="White">
-                -The different prizes a player can win. (12 max and 2 min)-
-            </Label>
-            <Label
+                    The different prizes a player can win. (12 max and 2 min)
+                </Label>
+                <Label
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                  Foreground="White">
-                Each prize includes a level, a prize value, the number of collections needed to
-            </Label>
-            <Label
+                    Each prize includes a level, a prize value, the number of collections needed to
+                </Label>
+                <Label
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
                  Foreground="White">
-                win, and can be set to be won instantly and/or give the player a bonus game.
-            </Label>
-        </Grid>
+                    win, and can be set to be won instantly and/or give the player a bonus game.
+                </Label>
+            </Grid>
+        </Border>
 
         <Border Grid.Row="2" BorderBrush="Black" BorderThickness="0,0,0,2">
             <Grid HorizontalAlignment="Left" Width="535" Background="#959494">
