@@ -65,7 +65,7 @@ namespace Collection_Game_Tool.Divisions
         }
 
         /// <summary>
-        /// Click event for clearing the selected prize levels in the division
+        /// Click event for clearing the selected prize levels in the division (Clear)
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

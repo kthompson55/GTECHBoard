@@ -77,7 +77,7 @@ namespace Collection_Game_Tool.Divisions
         }
 
         /// <summary>
-        /// Loads in an existing division into the divisions section
+        /// Loads in an existing division into the divisions section. If the max of 30 is met, nothing is added and the add buttom is disabled
         /// </summary>
         /// <param name="div">The existing division</param>
         public void loadInDivision(DivisionModel div)
@@ -207,7 +207,7 @@ namespace Collection_Game_Tool.Divisions
         }
 
         /// <summary>
-        /// Checks whether or not there are divisions in the divisions section
+        /// Verifies whether or not there are divisions in the divisions section
         /// </summary>
         private void isSectionEmpty()
         {
