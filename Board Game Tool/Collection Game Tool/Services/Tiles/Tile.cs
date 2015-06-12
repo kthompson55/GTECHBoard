@@ -6,8 +6,25 @@ using System.Threading.Tasks;
 
 namespace Collection_Game_Tool.Services.Tiles
 {
+    /// <summary>
+    /// Tile is the basic object in a board. A generic tile is blank with no special Properties. 
+    /// </summary>
     class Tile : ITile
     {
+        private string _tileInformation;
+        public string tileInformation
+        {
+            get
+            {
+                return _tileInformation;
+            }
+            set
+            {
+                _tileInformation = value;
+            }
+        }
+
+
         private TileTypes _type;
         public TileTypes type
         {
@@ -74,19 +91,22 @@ namespace Collection_Game_Tool.Services.Tiles
         {
             if (type == TileTypes.moveForward)
             {
+                int moveAmount = int.Parse(tileInformation);
                 ITile ret = this;
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < moveAmount; i++)
                 {
                     //Replace this with the actual implementation
-                    ret = ret.parent;
+                    ret = ret.child;
                 }
                 return ret;
             }
             else if (type == TileTypes.moveBack)
             {
+                int moveAmount = int.Parse(tileInformation);
+
                 //Replace this with the actual implementation
                 ITile ret = this;
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < moveAmount; i++)
                 {
                     ret = ret.parent;
                 }
@@ -94,7 +114,7 @@ namespace Collection_Game_Tool.Services.Tiles
             }
             else if (type == TileTypes.collection)
             {
-                return "A";
+                return tileInformation;
             }
             else
             {

@@ -6,18 +6,31 @@ using System.Threading.Tasks;
 
 namespace Collection_Game_Tool.Services.Tiles
 {
+    /// <summary>
+    /// ITile is the interface needed for all Tile objects to be used inside of board generation
+    /// </summary>
     public interface ITile
     {
+        /// <summary>
+        /// Contains extra information for the tile such as collection type or move amount.
+        /// </summary>
+        string tileInformation { get; set; }
+
+        /// <summary>
+        /// Signifies what kind of Tile This is
+        /// </summary>
         TileTypes type { get; set; }
 
         /// <summary>
         /// The tile Immediately before this tile.
         /// </summary>
         ITile parent { get; set; }
+        
         /// <summary>
         /// The tile immediately after this tile.
         /// </summary>
         ITile child { get; set; }
+        
         /// <summary>
         /// The tiles that can be reached from this tile with the distance used as a key.
         /// </summary>
@@ -35,7 +48,7 @@ namespace Collection_Game_Tool.Services.Tiles
         /// </summary>
         /// <param name="tile"> The tile that is immediately before this tile on the board</param>
         void connectParentToChild(ITile tile);
-
+        
         //Again change this how you need it
         Object tileAction();
     }
