@@ -8,7 +8,7 @@
              xmlns:local="clr-namespace:Collection_Game_Tool.GameSetup"
              mc:Ignorable="d" 
              Loaded="GameSetupUserControl_Loaded"
-             d:DesignHeight="800" d:DesignWidth="500">
+             d:DesignHeight="1000" d:DesignWidth="500">
     
     <Border BorderBrush="Black" BorderThickness="2,0,2,0">
         <Grid x:Name="GameSetupMainPanel" 
@@ -119,7 +119,7 @@
                                     <StackPanel Orientation="Horizontal" Margin="10,0">
                                         <Label FontSize="14">1</Label>
                                         <Slider x:Name="NumTurnsSlider" 
-                                            ValueChanged="NumDiceSlider_ValueChanged" 
+                                            ValueChanged="NumTurnsSlider_ValueChanged"
                                             MinWidth="200" Maximum="10" Minimum="1" 
                                             IsSelectionRangeEnabled="True" 
                                             VerticalAlignment="Center" 
