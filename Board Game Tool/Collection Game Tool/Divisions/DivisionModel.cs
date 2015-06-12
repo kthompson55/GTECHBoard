@@ -33,19 +33,16 @@ namespace Collection_Game_Tool.Divisions
         public void addPrizeLevel(PrizeLevel prizeLevelToAdd)
         {
             selectedPrizes.Add(prizeLevelToAdd);
-            selectedPrizes.Sort();
         }
 
         public void removePrizeLevel(PrizeLevel prizeLevelToRemove)
         {
             selectedPrizes.Remove(prizeLevelToRemove);
-            selectedPrizes.Sort();
         }
 
         public void removePrizeLevel(int prizeLevelIndex)
         {
             selectedPrizes.RemoveAt(prizeLevelIndex);
-            selectedPrizes.Sort();
         }
 
         public void clearPrizeLevelList()

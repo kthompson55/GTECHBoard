@@ -35,6 +35,11 @@ namespace Collection_Game_Tool.Divisions
             prizeLevelLabel.DataContext = levelModel;
         }
 
+        /// <summary>
+        /// Event for when a prize level in a division is selected
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void levelBox_MouseDown(object sender, MouseButtonEventArgs e)
         {
             levelModel.switchIsSelected();
