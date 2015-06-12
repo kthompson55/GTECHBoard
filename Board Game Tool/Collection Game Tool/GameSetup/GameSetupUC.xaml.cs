@@ -45,9 +45,9 @@ namespace Collection_Game_Tool.GameSetup
             ErrorTextBlock.DataContext = ErrorService.Instance;
             WarningTextBlock.DataContext = ErrorService.Instance;
             errorPanelScroll.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
-            //gameSetupScroll.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
         }
 
+        //populates the fields from a saved cggproj file
         public void loadExistingData(GameSetupModel savedSetup)
         {
             NearWinCheckbox.IsChecked = savedSetup.isNearWin;
@@ -68,7 +68,7 @@ namespace Collection_Game_Tool.GameSetup
             gsObject.addListener((Window1)parentWindow);
         }
 
-        //When Create is clicked, validates data and creates a text file
+        //Initiates save process when Create Button is clicked
         public void createButton_Click(object sender, RoutedEventArgs e)
         {
             //open save dialog
@@ -76,6 +76,10 @@ namespace Collection_Game_Tool.GameSetup
             MaxPermutationsTextBox.Focus();
         }
 
+        /// <summary>
+        /// Opens the standard save menu for the user to specify the save location
+        /// Initiates generation of the file once the user is finished
+        /// </summary>
         private void openSaveWindow()
         {
             Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
@@ -118,7 +122,7 @@ namespace Collection_Game_Tool.GameSetup
 
         }
 
-       private void NumNearWinsSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void NumNearWinsSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (gsObject != null)
             {
@@ -171,6 +175,11 @@ namespace Collection_Game_Tool.GameSetup
            
         }
 
+        /// <summary>
+        /// Checks that the value entered in Max Permutations is acceptable
+        /// </summary>
+        /// <param name="s">The input from the Max Permutations Textbox</param>
+        /// <returns>whether the value is in the acceptable range</returns>
         private bool WithinPermutationRange(string s)
         {
             uint philTheOrphan;
@@ -223,6 +232,7 @@ namespace Collection_Game_Tool.GameSetup
             return 0;
         }
 
+        //Calculates the smallest possible board size for the current settings
         private int minimumBoardSize()
         {
             if ((bool)DiceRadioButton.IsChecked)
@@ -236,6 +246,9 @@ namespace Collection_Game_Tool.GameSetup
             return 0;
         }
 
+        /// <summary>
+        /// Ensures that the Create Button can only be pressed when there are no errors
+        /// </summary>
         public void adjustCreateButtonEnabled()
         {
             if (ErrorService.Instance.errorText == "" || ErrorService.Instance.errorText == null)
@@ -259,6 +272,9 @@ namespace Collection_Game_Tool.GameSetup
             adjustBorderVisibility();
         }
 
+        /// <summary>
+        /// Ensures the Error/Warning box is only visible if there is at least one warning or error
+        /// </summary>
         private void adjustBorderVisibility()
         {
             if ((ErrorService.Instance.errorText == "" || ErrorService.Instance.errorText == null) &&
@@ -356,10 +372,6 @@ namespace Collection_Game_Tool.GameSetup
                 {
                     gsucID = ErrorService.Instance.reportError("014", new List<String> { }, gsucID);
                 }
-                //if (boardSizeValue > maximumBoardSize() || boardSizeValue < minimumBoardSize())
-                //{
-                //    gsucID = ErrorService.Instance.reportError("013", new List<String> { }, gsucID);
-                //}
                 else
                 {
                     ErrorService.Instance.resolveError("014", null, gsucID);
