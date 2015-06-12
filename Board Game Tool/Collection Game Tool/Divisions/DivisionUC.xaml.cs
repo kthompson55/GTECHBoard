@@ -51,6 +51,9 @@ namespace Collection_Game_Tool.Divisions
             divisionNumberLabel.DataContext = DivModel;
         }
 
+        /// <summary>
+        /// Setup a loaded division
+        /// </summary>
         public void setupLoadedDivision()
         {
             for (int i = 0; i < DivModel.levelBoxes.Count; i++)
@@ -61,6 +64,11 @@ namespace Collection_Game_Tool.Divisions
             }
         }
 
+        /// <summary>
+        /// Click event for clearing the selected prize levels in the division
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void clearDivisionButton_Click(object sender, RoutedEventArgs e)
         {
             DivModel.clearPrizeLevelList();
@@ -73,6 +81,11 @@ namespace Collection_Game_Tool.Divisions
             SectionContainer.validateDivision();
         }
 
+        /// <summary>
+        /// Click event for the Delete button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void deleteDivisionButton_Click(object sender, RoutedEventArgs e)
         {
             ErrorService.Instance.resolveWarning("005", null, DivModel.errorID);
@@ -85,6 +98,9 @@ namespace Collection_Game_Tool.Divisions
             SectionContainer.validateDivision();
         }
 
+        /// <summary>
+        /// Updates the total prize value of the division
+        /// </summary>
         public void updateInfo()
         {
             if (Prizes.getNumPrizeLevels() > 0)
@@ -104,6 +120,9 @@ namespace Collection_Game_Tool.Divisions
             SectionContainer.validateDivision();
         }
 
+        /// <summary>
+        /// Updates the prize levels and the total prize value of the division
+        /// </summary>
         public void updateDivision()
         {
             if (Prizes.getNumPrizeLevels() > 0)
@@ -124,6 +143,10 @@ namespace Collection_Game_Tool.Divisions
             }
         }
 
+        /// <summary>
+        /// Get the index of this division relative to where it is in the division panel
+        /// </summary>
+        /// <returns>its index</returns>
         public int getIndex()
         {
             StackPanel divisionsPanel = (StackPanel)this.Parent;

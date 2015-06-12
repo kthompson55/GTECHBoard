@@ -48,6 +48,9 @@ namespace Collection_Game_Tool.Divisions
             addDivision();
         }
 
+        /// <summary>
+        /// Adds a new division to the division's section. If the max of 30 is met, nothing is added and the add buttom is disabled
+        /// </summary>
         public void addDivision()
         {
             if (divisionsList.getSize() < MAX_DIVISIONS)
@@ -73,7 +76,10 @@ namespace Collection_Game_Tool.Divisions
             isSectionEmpty();
         }
 
-        //Remove int parameter in collectin game as well.
+        /// <summary>
+        /// Loads in an existing division into the divisions section
+        /// </summary>
+        /// <param name="div">The existing division</param>
         public void loadInDivision(DivisionModel div)
         {
             if (divisionsList.getSize() < MAX_DIVISIONS)
@@ -105,6 +111,10 @@ namespace Collection_Game_Tool.Divisions
             isSectionEmpty();
         }
 
+        /// <summary>
+        /// Removes a division at the specified index
+        /// </summary>
+        /// <param name="index">index to remove at</param>
         public void removeDivision(int index)
         {
             for (int i = index; i < divisionsList.getSize(); i++)
@@ -128,12 +138,20 @@ namespace Collection_Game_Tool.Divisions
             isSectionEmpty();
         }
 
+        /// <summary>
+        /// Click event for the AddDivision button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void addDivisionButton_Click(object sender, RoutedEventArgs e)
         {
             addDivision();
             divisionsScroll.ScrollToBottom();
         }
 
+        /// <summary>
+        /// Checks whether the available divisions are valid by checking if the divisions are not empty and/or unique from the other divisions
+        /// </summary>
         public void validateDivision()
         {
             for (int index = 0; index < divisionsHolderPanel.Children.Count; index++)
@@ -188,6 +206,9 @@ namespace Collection_Game_Tool.Divisions
             }
         }
 
+        /// <summary>
+        /// Checks whether or not there are divisions in the divisions section
+        /// </summary>
         private void isSectionEmpty()
         {
             if (divisionsList.getSize() <= 0)
