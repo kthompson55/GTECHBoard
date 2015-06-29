@@ -10,7 +10,7 @@ using Collection_Game_Tool.PrizeLevels;
 namespace Collection_Game_Tool_Test.ServicesTests
 {
     [TestClass]
-    public class boadGenTest
+    public class BoardGenTest
     {
         [TestMethod]
         public void personalGenBoardTest()
