@@ -7,7 +7,8 @@
         Title="Board Game Tool" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
         SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen"
         LayoutUpdated="Window_LayoutUpdated_1"
-        Closing="Window_Closing">
+        Closing="Window_Closing"
+		Icon="logo.png">
 
     <StackPanel>
 
