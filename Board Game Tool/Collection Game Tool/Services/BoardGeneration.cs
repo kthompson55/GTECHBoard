@@ -257,7 +257,7 @@ namespace Collection_Game_Tool.Services
             StringBuilder sb = new StringBuilder();
             while (currentTile != null)
             {
-                sb.Append(currentTile.tileInformation + " :");
+                sb.Append(currentTile.type + " :");
                 currentTile = currentTile.child;
             }
             return sb.ToString();
