@@ -38,7 +38,7 @@ namespace Collection_Game_Tool_Test.ServicesTests
             int numberOfExpectedMoveBack = 5;
             int numberOfExpectedMoveForward = 5;
             int numberOfExpectedextraGames = 3;
-            ITile firstTile = bg.genBoard(boardSize, 1, 2, true, true, true, prizes, 1, 2);
+            ITile firstTile = bg.genBoard(boardSize, 1, 2, numberOfExpectedMoveBack, numberOfExpectedMoveForward, numberOfExpectedextraGames, prizes, 1, 2);
             
             int numberOfCollection = 0;
             int numberOfMoveBack = 0;

@@ -38,9 +38,9 @@ namespace Collection_Game_Tool.Services
         public Tiles.ITile genBoard(int boardSize,
             int minMove,
             int maxMove,
-            bool moveBackInclude,
-            bool moveForwardInclude,
-            bool extraGameInclude,
+            int moveBackCount,
+            int moveForwardCount,
+            int extraGameCount,
             PrizeLevels.PrizeLevels prizes,
             int moveForward = 1,
             int moveBack =  1)
@@ -52,17 +52,17 @@ namespace Collection_Game_Tool.Services
             }
             fillInBlankBoardTiles(boardSize);
             fillInTiles(boardSize, minMove, maxMove, numberOfCollectionSpots, Tiles.TileTypes.collection);
-            if (moveBackInclude)
+            if (moveBackCount > 0)
             {
                 fillInTiles(boardSize, minMove, maxMove, (int)(Math.Round((double)(boardSize/5), MidpointRounding.AwayFromZero) + 1), Tiles.TileTypes.moveBack);
 
             }
-            if (moveForwardInclude)
+            if (moveForwardCount > 0)
             {
                 fillInTiles(boardSize, minMove, maxMove, (int)(Math.Round((double)(boardSize/5), MidpointRounding.AwayFromZero) + 1), Tiles.TileTypes.moveForward);
 
             }
-            if (extraGameInclude)
+            if (extraGameCount > 0)
             {
                 fillInTiles(boardSize, minMove, maxMove, (int)(Math.Round((double)(boardSize/10), MidpointRounding.AwayFromZero) + 1), Tiles.TileTypes.extraGame);
             }
