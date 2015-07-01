@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,7 +22,7 @@ namespace Collection_Game_Tool.Services
         /// last tile is the last tile of the board.
         /// </summary>
         private Tiles.ITile lastTile;
-        
+
         /// <summary>
         /// Board generation creates the board for play. The board uses a doubly linked list for its design.
         /// </summary>
@@ -36,48 +37,12 @@ namespace Collection_Game_Tool.Services
         /// <param name="moveBack"><How far move back tiles will move you/param>
         /// <returns>Returns the first tile of the board.</returns>
         public Tiles.ITile genBoard(int boardSize,
-            int minMove,
-            int maxMove,
-            int moveBackCount,
-            int moveForwardCount,
-            int extraGameCount,
-            PrizeLevels.PrizeLevels prizes,
-            int moveForward = 1,
-            int moveBack =  1)
-        {
-            int numberOfCollectionSpots = 0;
-            foreach (PrizeLevels.PrizeLevel p in prizes.prizeLevels)
-            {
-                numberOfCollectionSpots += p.numCollections;
-            }
-            fillInBlankBoardTiles(boardSize);
-            fillInTiles(boardSize, minMove, maxMove, numberOfCollectionSpots, Tiles.TileTypes.collection);
-            if (moveBackCount > 0)
-            {
-                fillInTiles(boardSize, minMove, maxMove, (int)(Math.Round((double)(boardSize/5), MidpointRounding.AwayFromZero) + 1), Tiles.TileTypes.moveBack);
-
-            }
-            if (moveForwardCount > 0)
-            {
-                fillInTiles(boardSize, minMove, maxMove, (int)(Math.Round((double)(boardSize/5), MidpointRounding.AwayFromZero) + 1), Tiles.TileTypes.moveForward);
-
-            }
-            if (extraGameCount > 0)
-            {
-                fillInTiles(boardSize, minMove, maxMove, (int)(Math.Round((double)(boardSize/10), MidpointRounding.AwayFromZero) + 1), Tiles.TileTypes.extraGame);
-            }
-            connectTiles(boardSize, minMove, maxMove, moveBack, moveForward);
-            return firstTile;
-        }
-
-        public Tiles.ITile genBoard(
-            int boardSize,
+            int initialReachable,
             int minMove,
             int maxMove,
             int moveBackCount,
             int moveForwardCount,
             PrizeLevels.PrizeLevels prizes,
-            int initialReachCount,
             int moveForward = 1,
             int moveBack = 1)
         {
@@ -87,19 +52,143 @@ namespace Collection_Game_Tool.Services
                 numberOfCollectionSpots += p.numCollections;
             }
             fillInBlankBoardTiles(boardSize);
-            fillInTiles(boardSize, minMove, maxMove, numberOfCollectionSpots, Tiles.TileTypes.collection);
-            if (moveBackCount > 0)
-            {
-                fillInTiles(boardSize, minMove, maxMove, (int)(Math.Round((double)(boardSize/5), MidpointRounding.AwayFromZero) + 1), Tiles.TileTypes.moveBack);
 
-            }
-            if (moveForwardCount > 0)
-            {
-                fillInTiles(boardSize, minMove, maxMove, (int)(Math.Round((double)(boardSize/5), MidpointRounding.AwayFromZero) + 1), Tiles.TileTypes.moveForward);
+            Tiles.TileTypes[] specialTiles = new Tiles.TileTypes[moveBackCount + moveForwardCount];
+            Tiles.TileTypes[] collectionTiles = new Tiles.TileTypes[numberOfCollectionSpots];
 
+            for (int i = 0; i < collectionTiles.Length; i++)
+            {
+                collectionTiles[i] = Tiles.TileTypes.collection;
             }
+
+            int index = 0;
+            while (index < specialTiles.Length)
+            {
+                if (index < moveForwardCount)
+                {
+                    specialTiles[index] = Tiles.TileTypes.moveForward;
+                }
+                else
+                {
+                    specialTiles[index] = Tiles.TileTypes.moveBack;
+                }
+                index++;
+            }
+
+            specialTiles = shuffleTiles(specialTiles);
+            fillInSpecialTiles(initialReachable, minMove, maxMove, moveForward, moveBack, specialTiles);
+            fillInSpecialTiles(initialReachable, minMove, maxMove, moveForward, moveBack, collectionTiles);
             connectTiles(boardSize, minMove, maxMove, moveBack, moveForward);
+
+
             return firstTile;
+        }
+
+        private void fillInSpecialTiles(int initialReachable,
+                int minMove,
+                int maxMove,
+                int moveForward,
+                int moveBack,
+                Tiles.TileTypes[] tiles)
+        {
+            Tiles.ITile currentTile = firstTile;
+            for (int i = 0; i < tiles.Length; i++)
+            {
+                bool tilePlaced = false;
+                int currentSpace = 0;
+                Tiles.TileTypes myTile = tiles[i];
+                
+                int moveAmount = SRandom.nextInt(minMove, (initialReachable / maxMove)) * (i + 1);
+                for (int j = 0; j < moveAmount; j++)
+                {
+                    if (currentTile.child != null && (currentSpace + 1) < initialReachable)
+                    {
+                        currentTile = currentTile.child;
+                        currentSpace++;
+                    }
+                    else
+                    {
+                        currentTile = firstTile;
+                        currentSpace = 0;
+                    }
+                }
+
+                while (!tilePlaced)
+                {
+                    if (currentTile.type == Tiles.TileTypes.blank)
+                    {
+                        if (myTile.ToString().Equals("moveForward"))
+                        {
+                            Tiles.ITile tempTile = currentTile;
+                            for (int k = 0; k < moveForward; k++)
+                            {
+                                if (tempTile.child != null)
+                                {
+                                    tempTile = tempTile.child;
+                                }
+                            }
+                            if (tempTile.type != Tiles.TileTypes.moveBack)
+                            {
+                                currentTile.type = myTile;
+                                tilePlaced = true;
+                            }
+                        }
+                        else if (myTile.ToString().Equals("moveBack"))
+                        {
+                            Tiles.ITile tempTile = currentTile;
+                            for (int k = 0; k < moveBack; k++)
+                            {
+                                if (tempTile.parent != null)
+                                {
+                                    tempTile = tempTile.parent;
+                                }
+                            }
+                            if (tempTile.type != Tiles.TileTypes.moveForward)
+                            {
+                                currentTile.type = myTile;
+                                tilePlaced = true;
+                            }
+                        }
+                        else
+                        {
+                            currentTile.type = myTile;
+                            tilePlaced = true;
+                        }
+                    }
+                    else if (currentTile.child != null && (currentSpace + 1) < initialReachable)
+                    {
+                        currentTile = currentTile.child;
+                        currentSpace++;
+                    }
+                    else
+                    {
+                        currentTile = firstTile;
+                        currentSpace = 0;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Shuffles an array of tiles
+        /// </summary>
+        /// <param name="originalArray"> The array of tiles to be shuffled</param>
+        private Tiles.TileTypes[] shuffleTiles(Tiles.TileTypes[] originalArray)
+        {
+            SortedList matrix = new SortedList();
+            Random r = new Random();
+
+            for (int x = 0; x <= originalArray.GetUpperBound(0); x++)
+            {
+                int i = r.Next();
+                while (matrix.ContainsKey(i)) { i = r.Next(); }
+                matrix.Add(i, originalArray[x]);
+            }
+
+            Tiles.TileTypes[] OutputArray = new Tiles.TileTypes[originalArray.Length];
+            matrix.Values.CopyTo(OutputArray, 0);
+
+            return OutputArray;
         }
         
         /// <summary>
@@ -120,38 +209,6 @@ namespace Collection_Game_Tool.Services
             }
             lastTile = tempTile;
         }
-
-        /// <summary>
-        /// Fills in specail tiles throughout the board the player might hit. 
-        /// </summary>
-        /// <param name="boardSize">The board size. </param>
-        /// <param name="minMove">The min movement a player can make</param>
-        /// <param name="maxMove">The max movment a player can make</param>
-        /// <param name="numTiles">The number of tiles in the board</param>
-        /// <param name="type">the type of tile to fill in.</param>
-        private void fillInTiles(int boardSize,
-            int minMove,
-            int maxMove,
-            int numTiles,
-            Tiles.TileTypes type)
-        {
-            Tiles.ITile currentTile = firstTile;
-            int currentSpace = 0;
-            for (int i = 0; i < numTiles; i++)
-            {
-                int moveAmount = SRandom.nextInt(minMove, maxMove + 1);
-                for (int j = 0; j < moveAmount && currentSpace < boardSize; j++)
-                {
-                    currentTile = currentTile.child;
-                }
-                if (currentTile.type == Tiles.TileTypes.blank)
-                {
-                    currentTile.type = type;
-                }
-                currentSpace += moveAmount;
-            }
-        }
-
 
         ///NOT FINISHED
         /// <summary>
@@ -188,10 +245,10 @@ namespace Collection_Game_Tool.Services
                     {
 
                     }
-                } 
+                }
             }
-            
-           
+
+
         }
 
         /// <summary>
@@ -214,7 +271,8 @@ namespace Collection_Game_Tool.Services
                 {
                     numToCollectPrizes += p.numCollections;
                 }
-                if (numToCollectPrizes == numberOfDesiredCollection){
+                if (numToCollectPrizes == numberOfDesiredCollection)
+                {
                     divs.addDivision(dm);
                 }
             }
@@ -250,8 +308,9 @@ namespace Collection_Game_Tool.Services
                         currentTile.addTile(BackMove, targetGameFromTile);
                         currentTile.tileInformation = BackMove.ToString();
                     }
-                } 
-                else if(currentTile.type == Tiles.TileTypes.moveForward){
+                }
+                else if (currentTile.type == Tiles.TileTypes.moveForward)
+                {
                     Tiles.ITile targetGameFromTile = currentTile;
                     for (int j = 0; j < ForwardMove && targetGameFromTile != null; j++)
                     {

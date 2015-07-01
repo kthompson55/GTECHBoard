@@ -16,7 +16,8 @@ namespace Collection_Game_Tool_Test.ServicesTests
         public void personalGenBoardTest()
         {
             BoardGeneration bg = new BoardGeneration();
-            int boardSize = 24;
+            int boardSize = 26;
+            int initialReachable = 17;
             PrizeLevels prizes = new PrizeLevels();
             PrizeLevel A1 = new PrizeLevel();
             A1.numCollections = 3;
@@ -35,10 +36,9 @@ namespace Collection_Game_Tool_Test.ServicesTests
             prizes.addPrizeLevel(A4);
 
             int numberOfExpectedCollection = 12;
-            int numberOfExpectedMoveBack = 5;
-            int numberOfExpectedMoveForward = 5;
-            int numberOfExpectedextraGames = 3;
-            ITile firstTile = bg.genBoard(boardSize, 1, 2, numberOfExpectedMoveBack, numberOfExpectedMoveForward, numberOfExpectedextraGames, prizes, 1, 2);
+            int numberOfExpectedMoveBack = 3;
+            int numberOfExpectedMoveForward = 2;
+            ITile firstTile = bg.genBoard(boardSize, initialReachable, 1, 6, numberOfExpectedMoveBack, numberOfExpectedMoveForward, prizes, 1, 2);
             
             int numberOfCollection = 0;
             int numberOfMoveBack = 0;
@@ -67,12 +67,11 @@ namespace Collection_Game_Tool_Test.ServicesTests
                 numberOfTiles++;
                 currentTile = currentTile.child;
             }
-            Assert.IsTrue(numberOfCollection == numberOfExpectedCollection, "Number Of Collection Tiles not correct");
-            Assert.IsTrue(numberOfextraGames <= numberOfExpectedextraGames, "Number Of Extra Game Tiles not correct");
-            Assert.IsTrue(numberOfMoveBack <= numberOfExpectedMoveBack, "Number Of MoveBack Tiles not correct");
-            Assert.IsTrue(numberOfMoveForward <= numberOfExpectedMoveForward, "Number Of MoveForward Tiles not correct");
-            Assert.IsTrue(boardSize == numberOfTiles, "Number Of Tiles not correct");
             string board = bg.ToString();
+            Assert.IsTrue(numberOfCollection == numberOfExpectedCollection, "Number Of Collection Tiles not correct");
+            Assert.IsTrue(numberOfMoveBack == numberOfExpectedMoveBack, "Number Of MoveBack Tiles not correct");
+            Assert.IsTrue(numberOfMoveForward == numberOfExpectedMoveForward, "Number Of MoveForward Tiles not correct");
+            Assert.IsTrue(boardSize == numberOfTiles, "Number Of Tiles not correct");
             if (board == "")
             {
 
