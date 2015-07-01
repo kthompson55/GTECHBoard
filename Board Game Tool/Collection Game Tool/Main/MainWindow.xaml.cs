@@ -41,7 +41,7 @@ namespace Collection_Game_Tool.Main
             pl = ucpl;
             this.UserControls.Children.Add(ucpl);
 
-            GameSetupUC gsuc = new GameSetupUC(ucpl);
+            GameSetupUC gsuc = new GameSetupUC();
             gs = gsuc;
             this.UserControls.Children.Add(gsuc);
 
@@ -59,6 +59,10 @@ namespace Collection_Game_Tool.Main
             gs.addListener(this);
 
             this.Loaded += new RoutedEventHandler(MainWindow_Loaded);
+
+            MainWindowModel.gameSetupModel = gs.gsObject;
+            MainWindowModel.prizeLevelsModel = pl.plsObject;
+            MainWindowModel.divisionsModel = divUC.divisionsList;
 
             Screen screen = System.Windows.Forms.Screen.FromHandle(new System.Windows.Interop.WindowInteropHelper(this).Handle);
             this.MaxHeight = screen.WorkingArea.Height;

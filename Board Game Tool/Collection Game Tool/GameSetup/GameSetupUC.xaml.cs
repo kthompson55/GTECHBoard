@@ -26,7 +26,6 @@ namespace Collection_Game_Tool.GameSetup
         public static int pickCheck;
         private String gsucID = null;
         private BoardGeneration boardGen;
-        private PrizeLevels.UserControlPrizeLevels prizeLevelHolder;
 
         public GameSetupModel gsObject;
         List<Listener> listenerList = new List<Listener>();
@@ -37,7 +36,7 @@ namespace Collection_Game_Tool.GameSetup
         private string lastAcceptableMoveForwardLength = 0 + "";
         private string lastAcceptableMoveBackwardLength = 0 + "";
 
-        public GameSetupUC(PrizeLevels.UserControlPrizeLevels prizeLevelGUI)
+        public GameSetupUC()
         {
             InitializeComponent();
             gsObject = new GameSetupModel();
@@ -49,7 +48,6 @@ namespace Collection_Game_Tool.GameSetup
             errorPanelScroll.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
 
             boardGen = new BoardGeneration();
-            prizeLevelHolder = prizeLevelGUI;
         }
 
         //populates the fields from a saved cggproj file
@@ -97,7 +95,7 @@ namespace Collection_Game_Tool.GameSetup
                     maxMove, 
                     gsObject.numMoveBackwardTiles, 
                     gsObject.numMoveForwardTiles,
-                    prizeLevelHolder.plsObject,
+                    MainWindowModel.prizeLevelsModel,
                     gsObject.moveForwardLength, 
                     gsObject.moveBackwardLength
                 );
