@@ -70,6 +70,38 @@ namespace Collection_Game_Tool.Services
             return firstTile;
         }
 
+        public Tiles.ITile genBoard(
+            int boardSize,
+            int minMove,
+            int maxMove,
+            int moveBackCount,
+            int moveForwardCount,
+            PrizeLevels.PrizeLevels prizes,
+            int initialReachCount,
+            int moveForward = 1,
+            int moveBack = 1)
+        {
+            int numberOfCollectionSpots = 0;
+            foreach (PrizeLevels.PrizeLevel p in prizes.prizeLevels)
+            {
+                numberOfCollectionSpots += p.numCollections;
+            }
+            fillInBlankBoardTiles(boardSize);
+            fillInTiles(boardSize, minMove, maxMove, numberOfCollectionSpots, Tiles.TileTypes.collection);
+            if (moveBackCount > 0)
+            {
+                fillInTiles(boardSize, minMove, maxMove, (int)(Math.Round((double)(boardSize/5), MidpointRounding.AwayFromZero) + 1), Tiles.TileTypes.moveBack);
+
+            }
+            if (moveForwardCount > 0)
+            {
+                fillInTiles(boardSize, minMove, maxMove, (int)(Math.Round((double)(boardSize/5), MidpointRounding.AwayFromZero) + 1), Tiles.TileTypes.moveForward);
+
+            }
+            connectTiles(boardSize, minMove, maxMove, moveBack, moveForward);
+            return firstTile;
+        }
+        
         /// <summary>
         /// Creates the blank board.
         /// </summary>

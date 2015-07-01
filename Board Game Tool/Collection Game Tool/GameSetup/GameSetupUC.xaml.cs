@@ -25,6 +25,8 @@ namespace Collection_Game_Tool.GameSetup
     {
         public static int pickCheck;
         private String gsucID = null;
+        private BoardGeneration boardGen;
+        private PrizeLevels.UserControlPrizeLevels prizeLevelHolder;
 
         public GameSetupModel gsObject;
         List<Listener> listenerList = new List<Listener>();
@@ -35,7 +37,7 @@ namespace Collection_Game_Tool.GameSetup
         private string lastAcceptableMoveForwardLength = 0 + "";
         private string lastAcceptableMoveBackwardLength = 0 + "";
 
-        public GameSetupUC()
+        public GameSetupUC(PrizeLevels.UserControlPrizeLevels prizeLevelGUI)
         {
             InitializeComponent();
             gsObject = new GameSetupModel();
@@ -45,6 +47,9 @@ namespace Collection_Game_Tool.GameSetup
             ErrorTextBlock.DataContext = ErrorService.Instance;
             WarningTextBlock.DataContext = ErrorService.Instance;
             errorPanelScroll.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+
+            boardGen = new BoardGeneration();
+            prizeLevelHolder = prizeLevelGUI;
         }
 
         //populates the fields from a saved cggproj file
@@ -71,6 +76,31 @@ namespace Collection_Game_Tool.GameSetup
         //Initiates save process when Create Button is clicked
         public void createButton_Click(object sender, RoutedEventArgs e)
         {
+            int minMove = 0;
+            int maxMove = 0;
+            if(gsObject.diceSelected)
+            {
+                minMove = gsObject.numDice;
+                maxMove = gsObject.numDice * 6;
+            }
+            else 
+            {
+                minMove = 1;
+                maxMove = gsObject.spinnerMaxValue;
+            }
+
+            Collection_Game_Tool.Services.Tiles.ITile boardFirstTile = 
+                boardGen.genBoard(
+                    gsObject.boardSize,
+                    minMove, 
+                    maxMove, 
+                    gsObject.numMoveBackwardTiles, 
+                    gsObject.numMoveForwardTiles,
+                    prizeLevelHolder.plsObject,
+                    gsObject.initialReachableSpaces,
+                    gsObject.moveForwardLength, 
+                    gsObject.moveBackwardLength
+                );
             //open save dialog
             openSaveWindow();
             MaxPermutationsTextBox.Focus();
