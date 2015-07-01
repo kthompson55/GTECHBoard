@@ -41,7 +41,7 @@ namespace Collection_Game_Tool.Main
             pl = ucpl;
             this.UserControls.Children.Add(ucpl);
 
-            GameSetupUC gsuc = new GameSetupUC();
+            GameSetupUC gsuc = new GameSetupUC(ucpl);
             gs = gsuc;
             this.UserControls.Children.Add(gsuc);
 
