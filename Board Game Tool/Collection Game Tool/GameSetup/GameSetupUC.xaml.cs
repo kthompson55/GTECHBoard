@@ -92,12 +92,12 @@ namespace Collection_Game_Tool.GameSetup
             Collection_Game_Tool.Services.Tiles.ITile boardFirstTile = 
                 boardGen.genBoard(
                     gsObject.boardSize,
+                    gsObject.initialReachableSpaces,
                     minMove, 
                     maxMove, 
                     gsObject.numMoveBackwardTiles, 
                     gsObject.numMoveForwardTiles,
                     prizeLevelHolder.plsObject,
-                    gsObject.initialReachableSpaces,
                     gsObject.moveForwardLength, 
                     gsObject.moveBackwardLength
                 );
