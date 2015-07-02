@@ -20,7 +20,7 @@ namespace Collection_Game_Tool.Services
         List<PrizeLevels.PrizeLevel> prizeLevels;
 
         //THis constructs the Game Play Generater that generates the possible games a board can have. It needs the different boards to generate the games.
-        GamePlayGeneration(List<ITile> boards)
+        public GamePlayGeneration(List<ITile> boards)
         {
             this.boards = boards;
             paths = new Dictionary<String, List<String>>();
@@ -203,6 +203,13 @@ namespace Collection_Game_Tool.Services
                     }
                 }
             }
+        }
+
+
+        // NOT FINISHED
+        public string GetFormattedGameplay(List<ITile> boards)
+        {
+            return "";
         }
 
         //This generates all the plays from each board
