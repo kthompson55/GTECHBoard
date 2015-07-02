@@ -60,7 +60,7 @@ namespace Collection_Game_Tool.Main
             // Game setup logic
             MainWindowModel.gameSetupModel = new GameSetupModel();
             MainWindowModel.gameSetupModel.canCreate = true;
-            gsuc.DataBind();
+            gs.DataBind();
 
             // Divisions logic
             MainWindowModel.divisionsModel = new DivisionsModel();
