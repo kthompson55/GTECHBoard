@@ -22,7 +22,7 @@
                HorizontalContentAlignment="Center"
                FontSize="30"
                FontWeight="Bold"
-               Foreground="#FFFFFF">
+               Foreground="#FFFFFF" ToolTip="The different prizes a player can win. (12 max and 2 min) Each prize includes a level, a prize value, the number of collections needed to win, and can be set to be won instantly and/or give the player a bonus game.">
             <Label.Background>
                 <SolidColorBrush Color="#0068ad"/>
             </Label.Background>

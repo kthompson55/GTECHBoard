@@ -74,6 +74,7 @@ namespace Collection_Game_Tool.GameSetup
         //Initiates save process when Create Button is clicked
         public void createButton_Click(object sender, RoutedEventArgs e)
         {
+			showGeneratingAnimation();
             int minMove = 0;
             int maxMove = 0;
             if (MainWindowModel.gameSetupModel.diceSelected)
@@ -132,7 +133,6 @@ namespace Collection_Game_Tool.GameSetup
             {
                 // Save document
                 filename = dlg.FileName;
-                showGeneratingAnimation();
                 MainWindowModel.gameSetupModel.shout("generate/" + filename);
             }
 

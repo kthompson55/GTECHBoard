@@ -16,7 +16,7 @@
 
         <Grid x:Name="divisionSectionHeader" 
               Background="#0068ad"
-              Grid.Row="0">
+              Grid.Row="0" ToolTip="The different combinations to win prize levels (30 max). Each division must be a unique combination of prizes. The total value of the division is displayed to the right of each division.">
             <Label x:Name="divisionTitle" 
                    Content="Divisions" 
                    VerticalAlignment="Center" 

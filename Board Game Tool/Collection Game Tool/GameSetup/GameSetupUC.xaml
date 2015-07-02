@@ -344,7 +344,7 @@
 
 				</StackPanel>
             </ScrollViewer>
-			<Border x:Name="ErrorBoxBorder" Grid.Row="4" BorderThickness="0,2" BorderBrush="Black" MaxHeight="350">
+			<Border x:Name="ErrorBoxBorder" Grid.Row="4" BorderThickness="0,2" BorderBrush="Black" MaxHeight="150">
                 <ScrollViewer x:Name="errorPanelScroll">
                     <StackPanel Background="White">
                         <Label FontWeight="Bold" FontSize="14" Background="#D60804" Foreground="White">Errors:</Label>
