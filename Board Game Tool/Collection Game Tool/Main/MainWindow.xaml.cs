@@ -55,7 +55,7 @@ namespace Collection_Game_Tool.Main
             // Prize levels logic
             MainWindowModel.prizeLevelsModel = new PrizeLevels.PrizeLevels();
             divUC.prizes = MainWindowModel.prizeLevelsModel;
-            ucpl.AddDefaultPrizeLevels();
+            pl.AddDefaultPrizeLevels();
 
             // Game setup logic
             MainWindowModel.gameSetupModel = new GameSetupModel();
