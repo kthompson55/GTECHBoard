@@ -38,14 +38,16 @@ namespace Collection_Game_Tool.GameSetup
         public GameSetupUC()
         {
             InitializeComponent();
-            MainWindowModel.gameSetupModel.canCreate = true;
+            boardGen = new BoardGeneration();
+        }
+
+        public void DataBind()
+        {
             CreateButton.DataContext = MainWindowModel.gameSetupModel;
             DiceRadioButton.DataContext = MainWindowModel.gameSetupModel;
             ErrorTextBlock.DataContext = ErrorService.Instance;
             WarningTextBlock.DataContext = ErrorService.Instance;
             errorPanelScroll.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
-
-            boardGen = new BoardGeneration();
         }
 
         //populates the fields from a saved cggproj file
@@ -106,7 +108,7 @@ namespace Collection_Game_Tool.GameSetup
                 formattedPlays = generator.GetFormattedGameplay(boards);
             }
             //open save dialog
-            openSaveWindow();
+            string filename = openSaveWindow();
             MaxPermutationsTextBox.Focus();
         }
 
@@ -114,7 +116,7 @@ namespace Collection_Game_Tool.GameSetup
         /// Opens the standard save menu for the user to specify the save location
         /// Initiates generation of the file once the user is finished
         /// </summary>
-        private void openSaveWindow()
+        private string openSaveWindow()
         {
             Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
             dlg.FileName = "CollectionGameFile"; // Default file name
@@ -124,14 +126,17 @@ namespace Collection_Game_Tool.GameSetup
             // Show save file dialog box
             Nullable<bool> result = dlg.ShowDialog();
 
+            string filename = "";
             // Process save file dialog box results
             if (result == true)
             {
                 // Save document
-                string filename = dlg.FileName;
+                filename = dlg.FileName;
                 showGeneratingAnimation();
                 MainWindowModel.gameSetupModel.shout("generate/" + filename);
             }
+
+            return filename;
         }
 
         private void showGeneratingAnimation()
