@@ -39,14 +39,12 @@ namespace Collection_Game_Tool.Main
             //Did this because couldn't find a way to access the usercontrol from within the xaml.
 
             // Prize Levels Column
-            UserControlPrizeLevels ucpl = new UserControlPrizeLevels();
-            pl = ucpl;
-            this.UserControls.Children.Add(ucpl);
+            pl = new UserControlPrizeLevels();
+            this.UserControls.Children.Add(pl);
 
             // Game Setup Column
-            GameSetupUC gsuc = new GameSetupUC();
-            gs = gsuc;
-            this.UserControls.Children.Add(gsuc);
+            gs = new GameSetupUC();
+            this.UserControls.Children.Add(gs);
 
             // Divisions Column
             divUC = new DivisionPanelUC();
@@ -59,7 +57,6 @@ namespace Collection_Game_Tool.Main
 
             // Game setup logic
             MainWindowModel.gameSetupModel = new GameSetupModel();
-            MainWindowModel.gameSetupModel.canCreate = true;
             gs.DataBind();
 
             // Divisions logic
@@ -67,12 +64,11 @@ namespace Collection_Game_Tool.Main
 
             //Listener stuff between divisions and Prize Levels
             pl.addListener(divUC);
-            gs.addListener(divUC);
 
             //Listeners for GameSetup so they can see player picks for validation
             gs.addListener(pl);
             gs.addListener(divUC);
-            gs.addListener(this);
+            gs.addListener(this);            
 
             this.Loaded += new RoutedEventHandler(MainWindow_Loaded);
 

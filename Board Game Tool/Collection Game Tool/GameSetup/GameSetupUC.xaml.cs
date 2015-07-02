@@ -43,8 +43,9 @@ namespace Collection_Game_Tool.GameSetup
 
         public void DataBind()
         {
+            MainWindowModel.gameSetupModel.canCreate = true;
             CreateButton.DataContext = MainWindowModel.gameSetupModel;
-            DiceRadioButton.DataContext = MainWindowModel.gameSetupModel;
+            DiceRadioButton.DataContext = MainWindowModel.gameSetupModel.diceSelected;
             ErrorTextBlock.DataContext = ErrorService.Instance;
             WarningTextBlock.DataContext = ErrorService.Instance;
             errorPanelScroll.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
@@ -349,14 +350,12 @@ namespace Collection_Game_Tool.GameSetup
                 if (int.Parse(BoardSizeTextBox.Text) < minimumBoardSize())
                 {
                     gsucID = ErrorService.Instance.reportError("014", new List<String> { }, gsucID);
+                    gsucID = ErrorService.Instance.reportError("013", new List<String> { }, gsucID);
                 }
-                //if (int.Parse(BoardSizeTextBox.Text) > maximumBoardSize() || int.Parse(BoardSizeTextBox.Text) < minimumBoardSize())
-                //{
-                //    gsucID=ErrorService.Instance.reportError("013", new List<String> { }, gsucID);
-                //}
                 else
                 {
                     ErrorService.Instance.resolveError("014", gsucID);
+                    ErrorService.Instance.resolveError("013", gsucID);
                 }
             }
 
@@ -373,11 +372,13 @@ namespace Collection_Game_Tool.GameSetup
                 if (MainWindowModel.gameSetupModel.spinnerMaxValue == 1)
                 {
                     gsucID = ErrorService.Instance.reportWarning("007", new List<string> { }, gsucID);
+                    ErrorService.Instance.resolveWarning("008", gsucID);
 
                 }
-                else if (int.Parse(BoardSizeTextBox.Text) > maximumBoardSize() || int.Parse(BoardSizeTextBox.Text) < minimumBoardSize())
+                else if (int.Parse(BoardSizeTextBox.Text) > maximumBoardSize() || int.Parse(BoardSizeTextBox.Text) < minimumBoardSize() || MainWindowModel.gameSetupModel.spinnerMaxValue == 2)
                 {
                     gsucID = ErrorService.Instance.reportWarning("008", new List<String> { }, gsucID);
+                    ErrorService.Instance.resolveWarning("007", gsucID);
                 }
                 else
                 {
@@ -387,8 +388,6 @@ namespace Collection_Game_Tool.GameSetup
             }
         }
 
-       
-      
         private void BoardSizeTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (MainWindowModel.gameSetupModel != null)
@@ -440,30 +439,38 @@ namespace Collection_Game_Tool.GameSetup
             if (int.Parse(BoardSizeTextBox.Text) < minimumBoardSize())
             {
                 gsucID = ErrorService.Instance.reportError("014", new List<String> { }, gsucID);
+                gsucID = ErrorService.Instance.reportError("013", new List<String> { }, gsucID);
             }
-            //if (int.Parse(BoardSizeTextBox.Text) > maximumBoardSize() || int.Parse(BoardSizeTextBox.Text) < minimumBoardSize())
-            //{
-            //    gsucID = ErrorService.Instance.reportError("013", new List<String> { }, gsucID);
-            //}
             else
             {
                 ErrorService.Instance.resolveError("014", gsucID);
+                ErrorService.Instance.resolveError("013", gsucID);
+                ErrorService.Instance.resolveWarning("007", gsucID);
+                ErrorService.Instance.resolveWarning("008", gsucID);
             }
         }
 
         private void SpinnerRadioButton_Checked(object sender, RoutedEventArgs e)
         {
+            if (MainWindowModel.gameSetupModel.spinnerMaxValue == 1)
+            {
+                gsucID = ErrorService.Instance.reportWarning("007", new List<string> { }, gsucID);
+                ErrorService.Instance.resolveWarning("008", gsucID);
+            }
+            else if (MainWindowModel.gameSetupModel.spinnerMaxValue == 2)
+            {
+                gsucID = ErrorService.Instance.reportWarning("008", new List<string> { }, gsucID);
+                ErrorService.Instance.resolveWarning("007", gsucID);
+            }
             if (int.Parse(BoardSizeTextBox.Text) < minimumBoardSize())
             {
                 gsucID = ErrorService.Instance.reportError("014", new List<String> { }, gsucID);
+                gsucID = ErrorService.Instance.reportError("013", new List<String> { }, gsucID);
             }
-            //if (int.Parse(BoardSizeTextBox.Text) > maximumBoardSize() || int.Parse(BoardSizeTextBox.Text) < minimumBoardSize())
-            //{
-            //    gsucID = ErrorService.Instance.reportError("013", new List<String> { }, gsucID);
-            //}
             else
             {
                 ErrorService.Instance.resolveError("014", gsucID);
+                ErrorService.Instance.resolveError("013", gsucID);
             }
         }
 
@@ -478,10 +485,6 @@ namespace Collection_Game_Tool.GameSetup
             TextBox textBox = sender as TextBox;
             textBox.SelectAll();
         }
-
-
-
-
 
         private void NumMoveForwardTilesTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -593,6 +596,20 @@ namespace Collection_Game_Tool.GameSetup
             {
                 Slider slider = sender as Slider;
                 MainWindowModel.gameSetupModel.numTurns = Convert.ToInt32(slider.Value);
+
+                if (int.Parse(BoardSizeTextBox.Text) < minimumBoardSize())
+                {
+                    gsucID = ErrorService.Instance.reportError("014", new List<String> { }, gsucID);
+                }
+                if (int.Parse(BoardSizeTextBox.Text) < minimumBoardSize())
+                {
+                    gsucID = ErrorService.Instance.reportError("013", new List<String> { }, gsucID);
+                }
+                else
+                {
+                    ErrorService.Instance.resolveError("014", gsucID);
+                    ErrorService.Instance.resolveError("013", gsucID);
+                }
             }
         }
     }
