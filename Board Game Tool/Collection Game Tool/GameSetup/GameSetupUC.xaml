@@ -16,8 +16,9 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="50"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="150"/>
+                <RowDefinition Height="*" MinHeight="200"/>
+                <RowDefinition Name="ErrorRow" Height="150
+							   "/>
             </Grid.RowDefinitions>
             <Grid.Resources>
                 <Services:CreateOpacityConverter x:Key="OpacityConverter"/>
@@ -53,7 +54,7 @@
             <Border Grid.Row="1" BorderBrush="Black" BorderThickness="0,0,0,2">
                 <Label Grid.Row="1" Style="{StaticResource instructionStyle}" Height="50" Content="The basic game settings" VerticalContentAlignment="Center"></Label>
             </Border>
-            <ScrollViewer Grid.Row="2" x:Name="gameSetupScroll" MaxHeight="800" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto">
+            <ScrollViewer Grid.Row="2" x:Name="gameSetupScroll" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto">
                 <!--VerticalScrollBarVisibility="Auto"-->
                 <StackPanel x:Name="GameSetupOptionsPanel" 
                             Margin="10,10,10,0">
@@ -342,8 +343,8 @@
 
                 </StackPanel>
             </ScrollViewer>
-            <Border x:Name="ErrorBoxBorder" Grid.Row="4" BorderThickness="0,2" BorderBrush="Black">
-                <ScrollViewer x:Name="errorPanelScroll" MaxHeight="350">
+			<Border x:Name="ErrorBoxBorder" Grid.Row="4" BorderThickness="0,2" BorderBrush="Black" MaxHeight="350">
+                <ScrollViewer x:Name="errorPanelScroll">
                     <StackPanel Background="White">
                         <Label FontWeight="Bold" FontSize="14" Background="#D60804" Foreground="White">Errors:</Label>
                         <TextBlock x:Name="ErrorTextBlock" HorizontalAlignment="Left"  MaxWidth="400" Foreground="Black" TextWrapping="Wrap" TargetUpdated="ErrorTextBlock_TargetUpdated" Text="{Binding Path=errorText, Mode=TwoWay, NotifyOnTargetUpdated=True}"></TextBlock>
