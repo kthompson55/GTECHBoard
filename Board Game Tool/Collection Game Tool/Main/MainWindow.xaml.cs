@@ -149,6 +149,7 @@ namespace Collection_Game_Tool.Main
                 }
                 pl.checkLoadedPrizeLevels();
 
+                MainWindowModel.gameSetupModel = savedProject.savedGameSetup;
                 gs.loadExistingData();
 
                 MainWindowModel.divisionsModel = savedProject.savedDivisions;

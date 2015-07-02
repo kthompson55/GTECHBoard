@@ -53,6 +53,10 @@ namespace Collection_Game_Tool.GameSetup
         //populates the fields from a saved cggproj file
         public void loadExistingData()
         {
+            MainWindowModel.gameSetupModel.initializeListener();
+            Window parentWindow = Window.GetWindow(this.Parent);
+            MainWindowModel.gameSetupModel.addListener((Window1)parentWindow);
+
             NearWinCheckbox.IsChecked = MainWindowModel.gameSetupModel.isNearWin;
             NumNearWinsSlider.Value = MainWindowModel.gameSetupModel.nearWins;
             NumTurnsSlider.Value = MainWindowModel.gameSetupModel.numTurns;
@@ -64,11 +68,7 @@ namespace Collection_Game_Tool.GameSetup
             MoveForwardLengthSlider.Value = MainWindowModel.gameSetupModel.moveForwardLength;
             NumMoveBackwardTilesTextBox.Text = MainWindowModel.gameSetupModel.numMoveBackwardTiles.ToString();
             MoveBackwardLengthSlider.Value = MainWindowModel.gameSetupModel.moveBackwardLength;
-            MaxPermutationsTextBox.Text = MainWindowModel.gameSetupModel.maxPermutations.ToString();
-            
-            MainWindowModel.gameSetupModel.initializeListener();
-            Window parentWindow = Window.GetWindow(this.Parent);
-            MainWindowModel.gameSetupModel.addListener((Window1)parentWindow);
+            MaxPermutationsTextBox.Text = MainWindowModel.gameSetupModel.maxPermutations.ToString();      
         }
 
         //Initiates save process when Create Button is clicked
