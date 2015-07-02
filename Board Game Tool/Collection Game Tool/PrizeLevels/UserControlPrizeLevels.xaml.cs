@@ -25,23 +25,28 @@ namespace Collection_Game_Tool.PrizeLevels
     public partial class UserControlPrizeLevels : UserControl, Listener, Teller
     {
         List<Listener> listenerList = new List<Listener>();
-        public PrizeLevels plsObject;
         private const double MARGIN = 60;
         private string plsID;
 
         public UserControlPrizeLevels()
         {
             InitializeComponent();
-            plsObject = new PrizeLevels();
 
             plsID = null;
 
+            this.Loaded += new RoutedEventHandler(UserControlPrizeLevels_Loaded);
+            prizeLevelScroll.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+            prizeLevelCounterLabel.Content = Prizes.Children.Count;
+        }
+
+        public void AddDefaultPrizeLevels()
+        {
             //SetsUp the default 2 PrizeLevel
             UserControlPrizeLevel ucpl = new UserControlPrizeLevel();
             ucpl.addListener(this);
             Prizes.Children.Add(ucpl);
-            plsObject.addPrizeLevel(ucpl.plObject);
-            ucpl.plObject.prizeLevel=1;
+            MainWindowModel.prizeLevelsModel.addPrizeLevel(ucpl.plObject);
+            ucpl.plObject.prizeLevel = 1;
             ucpl.CloseButton.IsEnabled = false;
             ucpl.CloseButton.Opacity = 0.0f;
 
@@ -49,14 +54,10 @@ namespace Collection_Game_Tool.PrizeLevels
             ucpl2.OuterGrid.Margin = new Thickness(0, Prizes.Children.Count * MARGIN, 0, 0);
             ucpl2.addListener(this);
             Prizes.Children.Add(ucpl2);
-            plsObject.addPrizeLevel(ucpl2.plObject);
+            MainWindowModel.prizeLevelsModel.addPrizeLevel(ucpl2.plObject);
             ucpl2.plObject.prizeLevel = Prizes.Children.Count;
             ucpl2.CloseButton.IsEnabled = false;
             ucpl2.CloseButton.Opacity = 0.0f;
-
-            this.Loaded += new RoutedEventHandler(UserControlPrizeLevels_Loaded);
-            prizeLevelScroll.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
-            prizeLevelCounterLabel.Content = Prizes.Children.Count;
         }
 
         private void UserControlPrizeLevels_Loaded(object sender, RoutedEventArgs e)
@@ -67,14 +68,14 @@ namespace Collection_Game_Tool.PrizeLevels
 
         public void Add_Prize_Level(object sender, RoutedEventArgs e)
         {
-            if (plsObject.getNumPrizeLevels() < 12)
+            if (MainWindowModel.prizeLevelsModel.getNumPrizeLevels() < 12)
             {
                 UserControlPrizeLevel ucpl = new UserControlPrizeLevel();
                 ucpl.OuterGrid.Margin = new Thickness(0, Prizes.Children.Count * MARGIN, 0, 0);
 
                 ucpl.addListener(this);
                 Prizes.Children.Add(ucpl);
-                plsObject.addPrizeLevel(ucpl.plObject);
+                MainWindowModel.prizeLevelsModel.addPrizeLevel(ucpl.plObject);
                 ucpl.plObject.prizeLevel = Prizes.Children.Count;
 
                 //adds the PrizeLevel to the end
@@ -92,7 +93,7 @@ namespace Collection_Game_Tool.PrizeLevels
                 ucpl.CloseButton.Opacity = 1;
             }
 
-            if (plsObject.getNumPrizeLevels() == 12)
+            if (MainWindowModel.prizeLevelsModel.getNumPrizeLevels() == 12)
             {
                 AddButton.IsEnabled = false;
                 AddButton.Opacity = 0.3;
@@ -101,7 +102,7 @@ namespace Collection_Game_Tool.PrizeLevels
             prizeLevelScroll.ScrollToBottom();
             prizeLevelCounterLabel.Content = Prizes.Children.Count;
             //Shouts the PrizeLevels object so that they can be analyzed in Divisions
-            shout(plsObject);
+            shout(MainWindowModel.prizeLevelsModel);
         }
 
         public void loadExistingPrizeLevel(PrizeLevel loadedPrizeLevel)
@@ -148,14 +149,14 @@ namespace Collection_Game_Tool.PrizeLevels
                 String parse=(String)pass;
                 if (parse.Equals("Update"))
                 {
-                    plsObject.calculateTotalCollections();
+                    MainWindowModel.prizeLevelsModel.calculateTotalCollections();
 
                     List<UserControlPrizeLevel> ucplList = new List<UserControlPrizeLevel>();
                     ucplList = Prizes.Children.Cast<UserControlPrizeLevel>().ToList<UserControlPrizeLevel>();
                     Prizes.Children.Clear();
 
                     ucplList.Sort();
-                    plsObject.sortPrizeLevels();
+                    MainWindowModel.prizeLevelsModel.sortPrizeLevels();
 
                     int collectionToShout = 0;
                     int index=0;
@@ -200,7 +201,7 @@ namespace Collection_Game_Tool.PrizeLevels
             else if(pass is UserControlPrizeLevel)
             {
                 //This removes the PrizeLevel that was just closed
-                if (plsObject.getNumPrizeLevels() > 2)
+                if (MainWindowModel.prizeLevelsModel.getNumPrizeLevels() > 2)
                 {
                     UserControlPrizeLevel rem = (UserControlPrizeLevel)pass;
 
@@ -214,7 +215,7 @@ namespace Collection_Game_Tool.PrizeLevels
 
                     rem.plObject = null;
                     Prizes.Children.Remove(rem);
-                    plsObject.removePrizeLevel(index);
+                    MainWindowModel.prizeLevelsModel.removePrizeLevel(index);
 
                     rem = null;
 
@@ -225,7 +226,7 @@ namespace Collection_Game_Tool.PrizeLevels
                         ucpl.OuterGrid.Margin = new Thickness(0, i * MARGIN, 0, 0);
                         ucpl.plObject.prizeLevel = (i + 1);
 
-                        if (plsObject.getNumPrizeLevels() == 2)
+                        if (MainWindowModel.prizeLevelsModel.getNumPrizeLevels() == 2)
                         {
                             ucpl.CloseButton.IsEnabled = false;
                             ucpl.CloseButton.Opacity = 0.0f;
@@ -244,7 +245,7 @@ namespace Collection_Game_Tool.PrizeLevels
             prizeLevelCounterLabel.Content = Prizes.Children.Count;
 
             //Shouts PrizeLevels object so divisions can analyze it
-            shout(plsObject);
+            shout(MainWindowModel.prizeLevelsModel);
         }
 
         public void shout(object pass)

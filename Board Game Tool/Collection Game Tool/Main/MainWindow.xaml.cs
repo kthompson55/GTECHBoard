@@ -37,17 +37,33 @@ namespace Collection_Game_Tool.Main
 
             //Programmaticaly add UserControls to mainwindow.
             //Did this because couldn't find a way to access the usercontrol from within the xaml.
+
+            // Prize Levels Column
             UserControlPrizeLevels ucpl = new UserControlPrizeLevels();
             pl = ucpl;
             this.UserControls.Children.Add(ucpl);
 
+            // Game Setup Column
             GameSetupUC gsuc = new GameSetupUC();
             gs = gsuc;
             this.UserControls.Children.Add(gsuc);
 
+            // Divisions Column
             divUC = new DivisionPanelUC();
             this.UserControls.Children.Add(divUC);
-            divUC.prizes = pl.plsObject;
+
+            // Prize levels logic
+            MainWindowModel.prizeLevelsModel = new PrizeLevels.PrizeLevels();
+            divUC.prizes = MainWindowModel.prizeLevelsModel;
+            ucpl.AddDefaultPrizeLevels();
+
+            // Game setup logic
+            MainWindowModel.gameSetupModel = new GameSetupModel();
+            MainWindowModel.gameSetupModel.canCreate = true;
+            gsuc.DataBind();
+
+            // Divisions logic
+            MainWindowModel.divisionsModel = new DivisionsModel();
 
             //Listener stuff between divisions and Prize Levels
             pl.addListener(divUC);
@@ -59,10 +75,6 @@ namespace Collection_Game_Tool.Main
             gs.addListener(this);
 
             this.Loaded += new RoutedEventHandler(MainWindow_Loaded);
-
-            MainWindowModel.gameSetupModel = gs.gsObject;
-            MainWindowModel.prizeLevelsModel = pl.plsObject;
-            MainWindowModel.divisionsModel = divUC.divisionsList;
 
             Screen screen = System.Windows.Forms.Screen.FromHandle(new System.Windows.Interop.WindowInteropHelper(this).Handle);
             this.MaxHeight = screen.WorkingArea.Height;
@@ -114,12 +126,12 @@ namespace Collection_Game_Tool.Main
 
         private void SaveItem_Clicked(object sender, RoutedEventArgs e)
         {
-            savedProject.SaveProject(gs.gsObject, pl.plsObject, divUC.divisionsList);
+            savedProject.SaveProject(MainWindowModel.gameSetupModel, MainWindowModel.prizeLevelsModel, MainWindowModel.divisionsModel);
         }
 
         private void SaveAsItem_Clicked(object sender, RoutedEventArgs e)
         {
-            savedProject.SaveProjectAs(gs.gsObject, pl.plsObject, divUC.divisionsList);
+            savedProject.SaveProjectAs(MainWindowModel.gameSetupModel, MainWindowModel.prizeLevelsModel, MainWindowModel.divisionsModel);
         }
 
         private void OpenItem_Clicked(object sender, RoutedEventArgs e)
@@ -128,24 +140,24 @@ namespace Collection_Game_Tool.Main
 
             if (projectLoadingSuccessful)
             {
-                pl.plsObject = savedProject.savedPrizeLevels;
+                MainWindowModel.prizeLevelsModel = savedProject.savedPrizeLevels;
                 PrizeLevels.PrizeLevels.numPrizeLevels = savedProject.savedPrizeLevels.getNumPrizeLevels();
                 pl.Prizes.Children.Clear();
-                for (int i = 0; i < pl.plsObject.getNumPrizeLevels(); i++)
+                for (int i = 0; i < MainWindowModel.prizeLevelsModel.getNumPrizeLevels(); i++)
                 {
-                    pl.loadExistingPrizeLevel(pl.plsObject.prizeLevels[i]);
+                    pl.loadExistingPrizeLevel(MainWindowModel.prizeLevelsModel.prizeLevels[i]);
                 }
                 pl.checkLoadedPrizeLevels();
 
-                gs.loadExistingData(savedProject.savedGameSetup);
+                gs.loadExistingData();
 
-                divUC.divisionsList = savedProject.savedDivisions;
+                MainWindowModel.divisionsModel = savedProject.savedDivisions;
                 divUC.prizes = savedProject.savedPrizeLevels;
                 divUC.divisionsHolderPanel.Children.Clear();
 
-                for (int i = 0; i < divUC.divisionsList.getSize(); i++)
+                for (int i = 0; i < MainWindowModel.divisionsModel.getSize(); i++)
                 {
-                    divUC.loadInDivision(divUC.divisionsList.divisions[i]);
+                    divUC.loadInDivision(MainWindowModel.divisionsModel.divisions[i]);
                 }
             }
         }
@@ -155,7 +167,7 @@ namespace Collection_Game_Tool.Main
             MessageBoxResult result = System.Windows.MessageBox.Show("Would you like to save the project's data before exiting?", "Exiting Application", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                savedProject.SaveProject(gs.gsObject, pl.plsObject, divUC.divisionsList);
+                savedProject.SaveProject(MainWindowModel.gameSetupModel, MainWindowModel.prizeLevelsModel, MainWindowModel.divisionsModel);
             }
             else if (result == MessageBoxResult.Cancel)
             {
