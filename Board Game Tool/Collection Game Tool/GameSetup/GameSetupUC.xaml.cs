@@ -27,7 +27,6 @@ namespace Collection_Game_Tool.GameSetup
         private String gsucID = null;
         private BoardGeneration boardGen;
 
-        public GameSetupModel gsObject;
         List<Listener> listenerList = new List<Listener>();
         private string lastAcceptableMaxPermutationValue = 0 + "";
         private string lastAcceptableBoardSizeValue = 0 + "";
@@ -39,10 +38,9 @@ namespace Collection_Game_Tool.GameSetup
         public GameSetupUC()
         {
             InitializeComponent();
-            gsObject = new GameSetupModel();
-            gsObject.canCreate = true;
-            CreateButton.DataContext = gsObject;
-            DiceRadioButton.DataContext = gsObject;
+            MainWindowModel.gameSetupModel.canCreate = true;
+            CreateButton.DataContext = MainWindowModel.gameSetupModel;
+            DiceRadioButton.DataContext = MainWindowModel.gameSetupModel;
             ErrorTextBlock.DataContext = ErrorService.Instance;
             WarningTextBlock.DataContext = ErrorService.Instance;
             errorPanelScroll.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
@@ -51,24 +49,24 @@ namespace Collection_Game_Tool.GameSetup
         }
 
         //populates the fields from a saved cggproj file
-        public void loadExistingData(GameSetupModel savedSetup)
+        public void loadExistingData()
         {
-            NearWinCheckbox.IsChecked = savedSetup.isNearWin;
-            NumNearWinsSlider.Value = savedSetup.nearWins;
-            NumTurnsSlider.Value = savedSetup.numTurns;
-            DiceRadioButton.IsChecked = savedSetup.diceSelected;
-            NumDiceSlider.Value = savedSetup.numDice;
-            SpinnerValueSlider.Value = savedSetup.spinnerMaxValue;
-            BoardSizeTextBox.Text = savedSetup.boardSize.ToString();
-            NumMoveForwardTilesTextBox.Text = savedSetup.numMoveForwardTiles.ToString();
-            MoveForwardLengthSlider.Value = savedSetup.moveForwardLength;
-            NumMoveBackwardTilesTextBox.Text = savedSetup.numMoveBackwardTiles.ToString();
-            MoveBackwardLengthSlider.Value = savedSetup.moveBackwardLength;
-            MaxPermutationsTextBox.Text = savedSetup.maxPermutations.ToString();
-            gsObject = savedSetup;
-            gsObject.initializeListener();
+            NearWinCheckbox.IsChecked = MainWindowModel.gameSetupModel.isNearWin;
+            NumNearWinsSlider.Value = MainWindowModel.gameSetupModel.nearWins;
+            NumTurnsSlider.Value = MainWindowModel.gameSetupModel.numTurns;
+            DiceRadioButton.IsChecked = MainWindowModel.gameSetupModel.diceSelected;
+            NumDiceSlider.Value = MainWindowModel.gameSetupModel.numDice;
+            SpinnerValueSlider.Value = MainWindowModel.gameSetupModel.spinnerMaxValue;
+            BoardSizeTextBox.Text = MainWindowModel.gameSetupModel.boardSize.ToString();
+            NumMoveForwardTilesTextBox.Text = MainWindowModel.gameSetupModel.numMoveForwardTiles.ToString();
+            MoveForwardLengthSlider.Value = MainWindowModel.gameSetupModel.moveForwardLength;
+            NumMoveBackwardTilesTextBox.Text = MainWindowModel.gameSetupModel.numMoveBackwardTiles.ToString();
+            MoveBackwardLengthSlider.Value = MainWindowModel.gameSetupModel.moveBackwardLength;
+            MaxPermutationsTextBox.Text = MainWindowModel.gameSetupModel.maxPermutations.ToString();
+            
+            MainWindowModel.gameSetupModel.initializeListener();
             Window parentWindow = Window.GetWindow(this.Parent);
-            gsObject.addListener((Window1)parentWindow);
+            MainWindowModel.gameSetupModel.addListener((Window1)parentWindow);
         }
 
         //Initiates save process when Create Button is clicked
@@ -76,29 +74,37 @@ namespace Collection_Game_Tool.GameSetup
         {
             int minMove = 0;
             int maxMove = 0;
-            if(gsObject.diceSelected)
+            if (MainWindowModel.gameSetupModel.diceSelected)
             {
-                minMove = gsObject.numDice;
-                maxMove = gsObject.numDice * 6;
+                minMove = MainWindowModel.gameSetupModel.numDice;
+                maxMove = MainWindowModel.gameSetupModel.numDice * 6;
             }
             else 
             {
                 minMove = 1;
-                maxMove = gsObject.spinnerMaxValue;
+                maxMove = MainWindowModel.gameSetupModel.spinnerMaxValue;
             }
 
             Collection_Game_Tool.Services.Tiles.ITile boardFirstTile = 
                 boardGen.genBoard(
-                    gsObject.boardSize,
-                    gsObject.initialReachableSpaces,
+                    MainWindowModel.gameSetupModel.boardSize,
+                    MainWindowModel.gameSetupModel.initialReachableSpaces,
                     minMove, 
-                    maxMove, 
-                    gsObject.numMoveBackwardTiles, 
-                    gsObject.numMoveForwardTiles,
+                    maxMove,
+                    MainWindowModel.gameSetupModel.numMoveBackwardTiles,
+                    MainWindowModel.gameSetupModel.numMoveForwardTiles,
                     MainWindowModel.prizeLevelsModel,
-                    gsObject.moveForwardLength, 
-                    gsObject.moveBackwardLength
+                    MainWindowModel.gameSetupModel.moveForwardLength,
+                    MainWindowModel.gameSetupModel.moveBackwardLength
                 );
+            List<Collection_Game_Tool.Services.Tiles.ITile> boards = new List<Collection_Game_Tool.Services.Tiles.ITile>();
+            boards.Add(boardFirstTile);
+            GamePlayGeneration generator = new GamePlayGeneration(boards);
+            string formattedPlays = "";
+            foreach(Collection_Game_Tool.Services.Tiles.ITile board in boards) 
+            {
+                formattedPlays = generator.GetFormattedGameplay(boards);
+            }
             //open save dialog
             openSaveWindow();
             MaxPermutationsTextBox.Focus();
@@ -124,7 +130,7 @@ namespace Collection_Game_Tool.GameSetup
                 // Save document
                 string filename = dlg.FileName;
                 showGeneratingAnimation();
-                gsObject.shout("generate/" + filename);
+                MainWindowModel.gameSetupModel.shout("generate/" + filename);
             }
         }
 
@@ -152,16 +158,16 @@ namespace Collection_Game_Tool.GameSetup
 
         private void NumNearWinsSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (gsObject != null)
+            if (MainWindowModel.gameSetupModel != null)
             {
                 Slider slider = sender as Slider;
-                gsObject.nearWins = Convert.ToInt16(slider.Value);
+                MainWindowModel.gameSetupModel.nearWins = Convert.ToInt16(slider.Value);
 
-                if (gsObject.nearWins > PrizeLevels.PrizeLevels.numPrizeLevels)
+                if (MainWindowModel.gameSetupModel.nearWins > PrizeLevels.PrizeLevels.numPrizeLevels)
                 {
                     gsucID = ErrorService.Instance.reportError("007", new List<string>{}, gsucID);
                 }
-                else if(gsObject.nearWins<=PrizeLevels.PrizeLevels.numPrizeLevels)
+                else if (MainWindowModel.gameSetupModel.nearWins <= PrizeLevels.PrizeLevels.numPrizeLevels)
                 {
                     ErrorService.Instance.resolveError("007", new List<string> { }, gsucID);
                 }
@@ -170,13 +176,12 @@ namespace Collection_Game_Tool.GameSetup
 
         private void NearWinCheckbox_Click(object sender, RoutedEventArgs e)
         {
-            gsObject.toggleNearWin();
-           
+            MainWindowModel.gameSetupModel.toggleNearWin();
         }
 
         private void MaxPermutationsTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (gsObject != null)
+            if (MainWindowModel.gameSetupModel != null)
             {
                 TextBox textBox = sender as TextBox;
                 if (textBox.Text == "")
@@ -189,9 +194,9 @@ namespace Collection_Game_Tool.GameSetup
                 }
                 else
                 {
-                    gsObject.maxPermutations = Convert.ToUInt32(textBox.Text);
+                    MainWindowModel.gameSetupModel.maxPermutations = Convert.ToUInt32(textBox.Text);
                 }
-                gsObject.shout("validate");
+                MainWindowModel.gameSetupModel.shout("validate");
             }
         }
 
@@ -218,7 +223,7 @@ namespace Collection_Game_Tool.GameSetup
         private void GameSetupUserControl_Loaded(object sender, RoutedEventArgs e)
         {
             Window parentWindow = Window.GetWindow(this.Parent);
-            gsObject.addListener((Window1)parentWindow);
+            MainWindowModel.gameSetupModel.addListener((Window1)parentWindow);
         }
 
         public void shout(object pass)
@@ -318,10 +323,10 @@ namespace Collection_Game_Tool.GameSetup
 
         private void NumDiceSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (gsObject != null)
+            if (MainWindowModel.gameSetupModel != null)
             {
                 Slider slider = sender as Slider;
-                gsObject.numDice = Convert.ToInt32(slider.Value);
+                MainWindowModel.gameSetupModel.numDice = Convert.ToInt32(slider.Value);
 
                 //Insert error logging here
                 if (int.Parse(BoardSizeTextBox.Text) < minimumBoardSize())
@@ -342,13 +347,13 @@ namespace Collection_Game_Tool.GameSetup
 
         private void SpinnerValueSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (gsObject != null)
+            if (MainWindowModel.gameSetupModel != null)
             {
                 Slider slider = sender as Slider;
-                gsObject.spinnerMaxValue = Convert.ToInt32(slider.Value);
+                MainWindowModel.gameSetupModel.spinnerMaxValue = Convert.ToInt32(slider.Value);
 
                 //Insert error logging here
-                if (gsObject.spinnerMaxValue == 1)
+                if (MainWindowModel.gameSetupModel.spinnerMaxValue == 1)
                 {
                     gsucID = ErrorService.Instance.reportWarning("007", new List<string> { }, gsucID);
 
@@ -369,7 +374,7 @@ namespace Collection_Game_Tool.GameSetup
       
         private void BoardSizeTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (gsObject != null)
+            if (MainWindowModel.gameSetupModel != null)
             {
                 TextBox textBox = sender as TextBox;
                 if (textBox.Text == "")
@@ -378,14 +383,13 @@ namespace Collection_Game_Tool.GameSetup
                 }
                 else if (WithinViableBoardSizeRange(textBox.Text))
                 {
-
-                    gsObject.boardSize = Convert.ToInt32(textBox.Text);
+                    MainWindowModel.gameSetupModel.boardSize = Convert.ToInt32(textBox.Text);
                 }
                 else
                 {
                     textBox.Text = lastAcceptableBoardSizeValue;
                 }
-                gsObject.shout("validate");
+                MainWindowModel.gameSetupModel.shout("validate");
             }
         }
 
@@ -464,7 +468,7 @@ namespace Collection_Game_Tool.GameSetup
 
         private void NumMoveForwardTilesTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (gsObject != null)
+            if (MainWindowModel.gameSetupModel != null)
             {
                 TextBox textBox = sender as TextBox;
                 if (textBox.Text == "")
@@ -474,8 +478,8 @@ namespace Collection_Game_Tool.GameSetup
                 int numMFValue;
                 if (Int32.TryParse(textBox.Text, out numMFValue) && numMFValue >= 0)
                 {
-                    gsObject.numMoveForwardTiles = numMFValue;
-                    int spacesAvailableForMoveForward = gsObject.initialReachableSpaces - (PrizeLevels.PrizeLevels.totalCollections);
+                    MainWindowModel.gameSetupModel.numMoveForwardTiles = numMFValue;
+                    int spacesAvailableForMoveForward = MainWindowModel.gameSetupModel.initialReachableSpaces - (PrizeLevels.PrizeLevels.totalCollections);
                     if (numMFValue > spacesAvailableForMoveForward)
                     {
                         gsucID = ErrorService.Instance.reportError("014", new List<string> { }, gsucID);
@@ -498,21 +502,15 @@ namespace Collection_Game_Tool.GameSetup
             lastAcceptableNumMoveForwardTiles = tb.Text;
         }
 
-
-
-
         private void MoveForwardLengthTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             TextBox tb = sender as TextBox;
             lastAcceptableMoveForwardLength = tb.Text;
         }
 
-        
-
-
         private void NumMoveBackwardTilesTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (gsObject != null)
+            if (MainWindowModel.gameSetupModel != null)
             {
                 TextBox textBox = sender as TextBox;
                 if (textBox.Text == "")
@@ -520,10 +518,10 @@ namespace Collection_Game_Tool.GameSetup
                     textBox.Text = 0 + "";
                 }
                 int numMBValue;
-                int spacesAvailableForMoveBackward = gsObject.initialReachableSpaces - (PrizeLevels.PrizeLevels.totalCollections + gsObject.numMoveForwardTiles);
+                int spacesAvailableForMoveBackward = MainWindowModel.gameSetupModel.initialReachableSpaces - (PrizeLevels.PrizeLevels.totalCollections + MainWindowModel.gameSetupModel.numMoveForwardTiles);
                 if (Int32.TryParse(textBox.Text, out numMBValue) && numMBValue >= 0)
                 {
-                    gsObject.numMoveBackwardTiles = numMBValue;
+                    MainWindowModel.gameSetupModel.numMoveBackwardTiles = numMBValue;
 
                     if (numMBValue > spacesAvailableForMoveBackward)
                     {
@@ -533,7 +531,6 @@ namespace Collection_Game_Tool.GameSetup
                     {
                         ErrorService.Instance.resolveError("014", null, gsucID);
                     }
-                    
                 }
                 else
                 {
@@ -557,28 +554,28 @@ namespace Collection_Game_Tool.GameSetup
 
         private void MoveForwardLengthSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (gsObject != null)
+            if (MainWindowModel.gameSetupModel != null)
             {
                 Slider slider = sender as Slider;
-                gsObject.moveForwardLength = Convert.ToInt32(slider.Value);
+                MainWindowModel.gameSetupModel.moveForwardLength = Convert.ToInt32(slider.Value);
             }
         }
 
         private void MoveBackwardLengthSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (gsObject != null)
+            if (MainWindowModel.gameSetupModel != null)
             {
                 Slider slider = sender as Slider;
-                gsObject.moveBackwardLength = Convert.ToInt32(slider.Value);
+                MainWindowModel.gameSetupModel.moveBackwardLength = Convert.ToInt32(slider.Value);
             }
         }
 
         private void NumTurnsSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (gsObject != null)
+            if (MainWindowModel.gameSetupModel != null)
             {
                 Slider slider = sender as Slider;
-                gsObject.numTurns = Convert.ToInt32(slider.Value);
+                MainWindowModel.gameSetupModel.numTurns = Convert.ToInt32(slider.Value);
             }
         }
     }
