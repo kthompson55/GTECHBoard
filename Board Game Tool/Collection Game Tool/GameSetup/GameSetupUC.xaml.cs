@@ -142,23 +142,33 @@ namespace Collection_Game_Tool.GameSetup
         private void showGeneratingAnimation()
         {
             GeneratingFileAnimation.Visibility = Visibility.Visible;
+			GeneratingFileAnimation.Margin = new Thickness(10);
+			GeneratingFileLabel.FontSize = 20;
+			GeneratingFileViewbox.Width = 50;
+			GeneratingFileViewbox.Height = 50;
             hideGenerationCompleteMessage();
         }
 
         public void hideGeneratingAnimation()
         {
             GeneratingFileAnimation.Visibility = Visibility.Hidden;
+			GeneratingFileAnimation.Margin = new Thickness(0);
+			GeneratingFileLabel.FontSize = 1;
+			GeneratingFileViewbox.Width = 0;
+			GeneratingFileViewbox.Height = 0;
             showGenerationCompleteMessage();
         }
         private void hideGenerationCompleteMessage()
         {
             GeneratingCompleteMessage.Visibility = Visibility.Hidden;
-
+			GeneratingCompleteMessage.FontSize = 1;
+			GeneratingCompleteMessage.Margin = new Thickness(0);
         }
         private void showGenerationCompleteMessage()
         {
             GeneratingCompleteMessage.Visibility = Visibility.Visible;
-
+			GeneratingCompleteMessage.FontSize = 20;
+			GeneratingCompleteMessage.Margin = new Thickness(10);
         }
 
         private void NumNearWinsSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
