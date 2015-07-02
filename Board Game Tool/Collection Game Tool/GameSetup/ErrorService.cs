@@ -118,7 +118,7 @@ namespace Collection_Game_Tool.GameSetup
         /// </summary>
         /// <param name="errorCode">The error code which the error to remove contains</param>
         /// <param name="senderId">The sender Id which the error to remove contains</param>
-        public void resolveError(string errorCode, List<string> illegalObjects, string senderId)
+        public void resolveError(string errorCode, string senderId)
         {
             Error theError = new Error(senderId, errorCode);
             if (unresolvedErrors.ContainsKey(theError))
@@ -193,7 +193,7 @@ namespace Collection_Game_Tool.GameSetup
         /// </summary>
         /// <param name="warningCode">The warning code which the warning to remove contains</param>
         /// <param name="senderId">The sender Id which the warning to remove contains</param>
-        public void resolveWarning(string warningCode, List<string> illegalObjects, string senderId)
+        public void resolveWarning(string warningCode, string senderId)
         {
             Warning theWarning = new Warning(senderId, warningCode);
             //string theWarningMessage = String.Format(warningTemplates[warningCode], illegalObjects);

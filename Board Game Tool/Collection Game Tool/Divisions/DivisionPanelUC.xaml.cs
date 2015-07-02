@@ -121,7 +121,7 @@ namespace Collection_Game_Tool.Divisions
                 div.DivModel.DivisionNumber = (int)div.DivModel.DivisionNumber - 1;
             }
 
-            ErrorService.Instance.resolveWarning("005", new List<string> { ((DivisionUC)divisionsHolderPanel.Children[index]).DivModel.DivisionNumber.ToString() }, ((DivisionUC)divisionsHolderPanel.Children[index]).DivModel.errorID);
+            ErrorService.Instance.resolveWarning("005", ((DivisionUC)divisionsHolderPanel.Children[index]).DivModel.errorID);
             listenerList.Remove((DivisionUC)divisionsHolderPanel.Children[index]);
             MainWindowModel.divisionsModel.removeDivision(index);
             divisionsHolderPanel.Children.RemoveAt(index);
@@ -166,7 +166,7 @@ namespace Collection_Game_Tool.Divisions
 
                 if (!empty)
                 {
-                    ErrorService.Instance.resolveWarning("005", new List<string> { divToCompare.DivisionNumber.ToString() }, divToCompare.errorID);
+                    ErrorService.Instance.resolveWarning("005", divToCompare.errorID);
                     bool valid = true;
                     for (int i = 0; i < divisionsHolderPanel.Children.Count && valid; i++)
                     {
@@ -194,11 +194,11 @@ namespace Collection_Game_Tool.Divisions
                     }
 
                     if (valid)
-                        ErrorService.Instance.resolveError("009", null, divToCompare.errorID);
+                        ErrorService.Instance.resolveError("009", divToCompare.errorID);
                 }
                 else
                 {
-                    ErrorService.Instance.resolveError("009", null, divToCompare.errorID);
+                    ErrorService.Instance.resolveError("009", divToCompare.errorID);
                     divToCompare.errorID = ErrorService.Instance.reportWarning("005", new List<string> { divToCompare.DivisionNumber.ToString() }, divToCompare.errorID);
                 }
             }
@@ -215,7 +215,7 @@ namespace Collection_Game_Tool.Divisions
             }
             else
             {
-                ErrorService.Instance.resolveWarning("006", null, dpucID);
+                ErrorService.Instance.resolveWarning("006", dpucID);
             }
         }
 

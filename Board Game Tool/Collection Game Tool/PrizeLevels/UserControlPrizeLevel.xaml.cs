@@ -179,9 +179,9 @@ namespace Collection_Game_Tool.PrizeLevels
             }
             else
             {
-                ErrorService.Instance.resolveError("005", null, ucplID);
-                ErrorService.Instance.resolveError("006", null, ucplID);
-                ErrorService.Instance.resolveError("008", null, ucplID);
+                ErrorService.Instance.resolveError("005", ucplID);
+                ErrorService.Instance.resolveError("006", ucplID);
+                ErrorService.Instance.resolveError("008", ucplID);
             }
 
             shout("Update");

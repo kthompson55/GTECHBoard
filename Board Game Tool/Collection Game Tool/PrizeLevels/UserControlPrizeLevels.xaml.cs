@@ -194,7 +194,7 @@ namespace Collection_Game_Tool.PrizeLevels
                         }
                     }
                     if (!sameFound)
-                        ErrorService.Instance.resolveWarning("004", null, plsID);
+                        ErrorService.Instance.resolveWarning("004", plsID);
                 }
              
             }

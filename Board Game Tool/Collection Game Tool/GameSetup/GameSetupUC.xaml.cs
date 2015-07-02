@@ -174,7 +174,7 @@ namespace Collection_Game_Tool.GameSetup
                 }
                 else if (MainWindowModel.gameSetupModel.nearWins <= PrizeLevels.PrizeLevels.numPrizeLevels)
                 {
-                    ErrorService.Instance.resolveError("007", new List<string> { }, gsucID);
+                    ErrorService.Instance.resolveError("007", gsucID);
                 }
             }
         }
@@ -346,7 +346,7 @@ namespace Collection_Game_Tool.GameSetup
                 //}
                 else
                 {
-                    ErrorService.Instance.resolveError("014", null, gsucID);
+                    ErrorService.Instance.resolveError("014", gsucID);
                 }
             }
 
@@ -371,8 +371,8 @@ namespace Collection_Game_Tool.GameSetup
                 }
                 else
                 {
-                    ErrorService.Instance.resolveWarning("007", null, gsucID);
-                    ErrorService.Instance.resolveWarning("008", null, gsucID);
+                    ErrorService.Instance.resolveWarning("007", gsucID);
+                    ErrorService.Instance.resolveWarning("008", gsucID);
                 }
             }
         }
@@ -413,7 +413,7 @@ namespace Collection_Game_Tool.GameSetup
                 }
                 else
                 {
-                    ErrorService.Instance.resolveError("014", null, gsucID);
+                    ErrorService.Instance.resolveError("014", gsucID);
                 }
             }
             return successful;
@@ -437,7 +437,7 @@ namespace Collection_Game_Tool.GameSetup
             //}
             else
             {
-                ErrorService.Instance.resolveError("014", null, gsucID);
+                ErrorService.Instance.resolveError("014", gsucID);
             }
         }
 
@@ -453,7 +453,7 @@ namespace Collection_Game_Tool.GameSetup
             //}
             else
             {
-                ErrorService.Instance.resolveError("014", null, gsucID);
+                ErrorService.Instance.resolveError("014", gsucID);
             }
         }
 
@@ -493,7 +493,7 @@ namespace Collection_Game_Tool.GameSetup
                     }
                     else
                     {
-                        ErrorService.Instance.resolveError("014", null, gsucID);
+                        ErrorService.Instance.resolveError("014", gsucID);
                     }
                 }
                 else
@@ -536,7 +536,7 @@ namespace Collection_Game_Tool.GameSetup
                     }
                     else
                     {
-                        ErrorService.Instance.resolveError("014", null, gsucID);
+                        ErrorService.Instance.resolveError("014", gsucID);
                     }
                 }
                 else
