@@ -25,7 +25,6 @@ namespace Collection_Game_Tool.Divisions
     public partial class DivisionPanelUC : UserControl, Listener, Teller
     {
         List<Listener> listenerList = new List<Listener>();
-        public DivisionsModel divisionsList;
         private double marginAmount;
         public PrizeLevels.PrizeLevels prizes { get; set; }
         private const int MAX_DIVISIONS = 30;
@@ -34,7 +33,6 @@ namespace Collection_Game_Tool.Divisions
         public DivisionPanelUC()
         {
             InitializeComponent();
-            divisionsList = new DivisionsModel();
             marginAmount = 10;
             divisionsScroll.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
             this.Loaded += new RoutedEventHandler(DivisionPanelUC_Loaded);
@@ -53,21 +51,21 @@ namespace Collection_Game_Tool.Divisions
         /// </summary>
         public void addDivision()
         {
-            if (divisionsList.getSize() < MAX_DIVISIONS)
+            if (MainWindowModel.divisionsModel.getSize() < MAX_DIVISIONS)
             {
-                DivisionUC divUC = new DivisionUC(prizes, divisionsList.getSize() + 1);
-                divUC.DivModel.DivisionNumber = divisionsList.getSize() + 1;
+                DivisionUC divUC = new DivisionUC(prizes, MainWindowModel.divisionsModel.getSize() + 1);
+                divUC.DivModel.DivisionNumber = MainWindowModel.divisionsModel.getSize() + 1;
                 divUC.updateDivision();
                 divUC.Margin = new Thickness(marginAmount, marginAmount, 0, 0);
                 divUC.SectionContainer = this;
 
                 divisionsHolderPanel.Children.Add(divUC);
-                divisionsList.addDivision(divUC.DivModel);
+                MainWindowModel.divisionsModel.addDivision(divUC.DivModel);
                 this.addListener(divUC);
                 validateDivision();
             }
 
-            if (divisionsList.getSize() >= MAX_DIVISIONS)
+            if (MainWindowModel.divisionsModel.getSize() >= MAX_DIVISIONS)
             {
                 addDivisionButton.IsEnabled = false;
                 addDivisionButton.Opacity = 0.3;
@@ -82,7 +80,7 @@ namespace Collection_Game_Tool.Divisions
         /// <param name="div">The existing division</param>
         public void loadInDivision(DivisionModel div)
         {
-            if (divisionsList.getSize() < MAX_DIVISIONS)
+            if (MainWindowModel.divisionsModel.getSize() < MAX_DIVISIONS)
             {
                 int divNumber = divisionsHolderPanel.Children.Count + 1;
                 DivisionUC division = new DivisionUC(prizes, divNumber);
@@ -101,7 +99,7 @@ namespace Collection_Game_Tool.Divisions
                 validateDivision();
             }
 
-            if (divisionsList.getSize() >= MAX_DIVISIONS)
+            if (MainWindowModel.divisionsModel.getSize() >= MAX_DIVISIONS)
             {
                 addDivisionButton.IsEnabled = false;
                 addDivisionButton.Opacity = 0.3;
@@ -117,7 +115,7 @@ namespace Collection_Game_Tool.Divisions
         /// <param name="index">index to remove at</param>
         public void removeDivision(int index)
         {
-            for (int i = index; i < divisionsList.getSize(); i++)
+            for (int i = index; i < MainWindowModel.divisionsModel.getSize(); i++)
             {
                 DivisionUC div = (DivisionUC)divisionsHolderPanel.Children[i];
                 div.DivModel.DivisionNumber = (int)div.DivModel.DivisionNumber - 1;
@@ -125,10 +123,10 @@ namespace Collection_Game_Tool.Divisions
 
             ErrorService.Instance.resolveWarning("005", new List<string> { ((DivisionUC)divisionsHolderPanel.Children[index]).DivModel.DivisionNumber.ToString() }, ((DivisionUC)divisionsHolderPanel.Children[index]).DivModel.errorID);
             listenerList.Remove((DivisionUC)divisionsHolderPanel.Children[index]);
-            divisionsList.removeDivision(index);
+            MainWindowModel.divisionsModel.removeDivision(index);
             divisionsHolderPanel.Children.RemoveAt(index);
 
-            if (divisionsList.getSize() < MAX_DIVISIONS)
+            if (MainWindowModel.divisionsModel.getSize() < MAX_DIVISIONS)
             {
                 addDivisionButton.IsEnabled = true;
                 addDivisionButton.Opacity = 1.0;
@@ -211,7 +209,7 @@ namespace Collection_Game_Tool.Divisions
         /// </summary>
         private void isSectionEmpty()
         {
-            if (divisionsList.getSize() <= 0)
+            if (MainWindowModel.divisionsModel.getSize() <= 0)
             {
                 dpucID = ErrorService.Instance.reportWarning("006", new List<string>(), dpucID);
             }
