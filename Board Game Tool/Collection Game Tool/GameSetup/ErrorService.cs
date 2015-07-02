@@ -63,8 +63,6 @@ namespace Collection_Game_Tool.GameSetup
             {"006", "-There are no divisions in this project.\n"},
             {"007", "-A spinner size of 1 will offer no variation in movement."},
             {"008", "-A spinner size of 2 will be equivalent to a coin flip."},
-
-
         };
 
         /// <summary>
