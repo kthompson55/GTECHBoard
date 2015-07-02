@@ -319,10 +319,12 @@ namespace Collection_Game_Tool.GameSetup
                 (ErrorService.Instance.warningText == "" || ErrorService.Instance.warningText == null))
             {
                 ErrorBoxBorder.Visibility = Visibility.Hidden;
+				ErrorRow.Height = new GridLength(0);
             }
             else
             {
                 ErrorBoxBorder.Visibility = Visibility.Visible;
+				ErrorRow.Height = GridLength.Auto;
             }
         }
 

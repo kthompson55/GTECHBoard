@@ -8,7 +8,7 @@
         SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen"
         LayoutUpdated="Window_LayoutUpdated_1"
         Closing="Window_Closing"
-		Icon="logo.png">
+		Icon="logo.png" MinHeight="600">
 
     <StackPanel>
 
