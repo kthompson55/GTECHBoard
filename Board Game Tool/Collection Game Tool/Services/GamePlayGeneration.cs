@@ -19,7 +19,7 @@ namespace Collection_Game_Tool.Services
         List<Divisions.DivisionModel> divisions;
         List<PrizeLevels.PrizeLevel> prizeLevels;
 
-        //THis constructs the Game Play Generater that generates the possible games a board can have. It needs the different boards to generate the games.
+        //This constructs the Game Play Generater that generates the possible games a board can have. It needs the different boards to generate the games.
         public GamePlayGeneration(List<ITile> boards)
         {
             this.boards = boards;
@@ -78,12 +78,12 @@ namespace Collection_Game_Tool.Services
                 }
                 else
                 {
-                    if (board.connections[t].type == TileTypes.collection)
+                    if (board.connections[t].type == TileTypes.collection) //If connection is a collection space
                     {
                         String getter = (String)board.connections[t].tileAction();
                         GeneratePlaysFromBoardHelper(board.connections[t], 1, "|" + rollOptions[t][rand.Next(0, rollOptions[t].Count)], new PlayGen());
                     }
-                    else if (board.connections[t].type == TileTypes.moveForward || board.connections[t].type == TileTypes.moveBack)
+                    else if (board.connections[t].type == TileTypes.moveForward || board.connections[t].type == TileTypes.moveBack) // connection is a move forward/backward space
                     {
                         //This just pushes the player to the tile he belongs at after a move forward or move backward tile is hit, it will also check if the same tile has been reached and forget about the path
                         //this way infinite loops cannot be hit.
@@ -111,7 +111,7 @@ namespace Collection_Game_Tool.Services
         //This continues generating the play from a board, this is a recursive function.
         private void GeneratePlaysFromBoardHelper(ITile board, int moves, String curPath, PlayGen pg)
         {
-            if (board.connections.Count == 0 || moves==numMoves)
+            if (board.connections.Count == 0 || moves==numMoves) // last space
             {
                 bool hasPrizes = true;
                 DivisionModel divWon = null;
@@ -207,9 +207,71 @@ namespace Collection_Game_Tool.Services
 
 
         // NOT FINISHED
+        /// <summary>
+        /// Formats all of the viable gameplay permutations into a string for the file output
+        /// </summary>
+        /// <param name="boards">A list of all of the first tiles of all of the boards</param>
+        /// <returns>The string representation of all permutations in "boardDesign|rolls" format</returns>
         public string GetFormattedGameplay(List<ITile> boards)
         {
+            string games = ""; // the string which will contain the boardDesign|rolls output
+
+            foreach (ITile board in boards) //This will need to happen for each board. Assuming one for now? Need to store rolls for extra boards?
+            {
+                string boardDesign = CreateBoardDesignString(board);
+
+            }
             return "";
+        }
+
+        //Untested, but seemingly complete
+        /// <summary>
+        /// Creates a string which indicates the structure of the board. 
+        /// Ex. CS:d,BS,CS:IW:e.etc…
+        /// </summary>
+        /// <param name="board">The first tile of the board</param>
+        /// <returns>The board design in string format.</returns>
+        private string CreateBoardDesignString(ITile board)
+        {
+            string boardDesign = "";
+            ITile currentTile = board;
+            bool boardCompleted = false;
+            while (!boardCompleted)
+            {
+                string toAppend = "";
+                if (currentTile.type == TileTypes.collection) //Collection Space
+                {
+                    toAppend = "CS:" + currentTile.tileInformation; //TODO: Make sure Instant Win is contained in "tileInformation"
+                }
+                else if (currentTile.type == TileTypes.moveForward) //Move Forward Space
+                {
+                    toAppend = "MF:" + currentTile.tileInformation;
+
+                }
+                else if (currentTile.type == TileTypes.moveBack) //Move Backward Space
+                {
+                    toAppend = "MB:" + currentTile.tileInformation;
+
+                }
+                else // Blank Space
+                {
+                    toAppend = "BS";
+                }
+
+                if (currentTile.child == null) // Last tile checked. Exit Loop.
+                {
+                    boardCompleted = true;
+                    boardDesign += toAppend;
+                }
+                else // More tiles to check
+                {
+                    currentTile = currentTile.child;
+                    boardDesign += toAppend + ",";
+                }
+
+            }
+
+            return boardDesign;
         }
 
         //This generates all the plays from each board
