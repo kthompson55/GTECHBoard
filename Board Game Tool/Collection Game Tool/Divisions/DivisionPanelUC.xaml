@@ -28,16 +28,16 @@
 
         <Border Grid.Row="1" BorderBrush="Black" BorderThickness="0,0,0,2">
             <Grid Background="#009ad8">
-                <Label Content="The different combinations to win prize levels (30 max)" 
-                   VerticalAlignment="Top" 
-                   HorizontalAlignment="Center" 
-                   Margin="0" Foreground="White"/>
-                <Label Content="Each division must be a unique combination of prizes. The total" 
-                   VerticalAlignment="Center" 
-                   HorizontalAlignment="Center" Foreground="White"/>
-                <Label Content="value of the division is displayed to the right of each division." 
-                   VerticalAlignment="Bottom" 
-                   HorizontalAlignment="Center" Foreground="White"/>
+				<TextBlock TextWrapping="Wrap"
+						   HorizontalAlignment="Center"
+						   VerticalAlignment="Center"
+						   Foreground="White"
+						   TextAlignment="Center"
+						   Margin="20,5,20,5">
+					The different combinations to win prize levels (30 max) 
+					Each division must be a unique combination of prizes.
+					The total value of the division is displayed to the right of each division.
+				</TextBlock>
             </Grid>
         </Border>
 

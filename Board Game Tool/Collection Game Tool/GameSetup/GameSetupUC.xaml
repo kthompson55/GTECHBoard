@@ -28,7 +28,15 @@
                     <Setter Property="HorizontalAlignment" Value="Stretch" />
                     <Setter Property="HorizontalContentAlignment" Value="Center" />
                 </Style>
-                <Style x:Key="titleStyle" TargetType="Label">
+				<Style x:Key="instructionStyleTextblock" TargetType="TextBlock">
+					<Setter Property="Background" Value="#009ad8" />
+					<Setter Property="Foreground" Value="White" />
+					<Setter Property="HorizontalAlignment" Value="Stretch" />
+					<Setter Property="VerticalAlignment" Value="Center" />
+					<Setter Property="TextWrapping" Value="WrapWithOverflow"/>
+					<Setter Property="TextAlignment" Value="Center"/>
+				</Style>
+				<Style x:Key="titleStyle" TargetType="Label">
                     <Setter Property="Foreground" Value="White" />
                     <Setter Property="Background" Value="#0068ad" />
                     <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -304,8 +312,9 @@
 							<Label Style="{StaticResource titleStyle}" ToolTip="The number of winning combinations to calculate for each division, including an extra losing division">Game Win/Lose Permutations</Label>
                             <Border BorderBrush="Black" BorderThickness="0,0,0,2">
                                 <StackPanel>
-                                    <Label Style="{StaticResource instructionStyle}">The number of winning combinations to calculate for each division,</Label>
-                                    <Label Style="{StaticResource instructionStyle}" Padding="0,0,0,2">including an extra losing division</Label>
+									<TextBlock Style="{StaticResource instructionStyleTextblock}" Padding="40,2,40,2">
+										The number of winning combinations to calculate for each division, including an extra losing division.
+									</TextBlock>
                                 </StackPanel>
                             </Border>
                             <DockPanel>
