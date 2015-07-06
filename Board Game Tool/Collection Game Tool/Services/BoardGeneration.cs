@@ -75,9 +75,10 @@ namespace Collection_Game_Tool.Services
                 index++;
             }
 
-            specialTiles = shuffleTiles(specialTiles);
+            specialTiles = ArrayShuffler<Tiles.TileTypes>.shuffle(specialTiles);
             fillInSpecialTiles(initialReachable, minMove, maxMove, moveForward, moveBack, specialTiles);
             fillInSpecialTiles(initialReachable, minMove, maxMove, moveForward, moveBack, collectionTiles);
+            fillInCollectionTileValues(minMove, numberOfCollectionSpots, prizes);
             connectTiles(boardSize, minMove, maxMove, moveBack, moveForward);
 
 
@@ -97,7 +98,7 @@ namespace Collection_Game_Tool.Services
                 bool tilePlaced = false;
                 int currentSpace = 0;
                 Tiles.TileTypes myTile = tiles[i];
-                
+
                 int moveAmount = SRandom.nextInt(minMove, (initialReachable / maxMove)) * (i + 1);
                 for (int j = 0; j < moveAmount; j++)
                 {
@@ -169,28 +170,55 @@ namespace Collection_Game_Tool.Services
             }
         }
 
-        /// <summary>
-        /// Shuffles an array of tiles
-        /// </summary>
-        /// <param name="originalArray"> The array of tiles to be shuffled</param>
-        private Tiles.TileTypes[] shuffleTiles(Tiles.TileTypes[] originalArray)
+        private void fillInCollectionTileValues(
+            int minMove,
+            int numberOfCollectionSpots,
+            PrizeLevels.PrizeLevels prizes)
         {
-            SortedList matrix = new SortedList();
-            Random r = new Random();
-
-            for (int x = 0; x <= originalArray.GetUpperBound(0); x++)
+            int index = 0;
+            string[] prizeLevel = new string[numberOfCollectionSpots];
+            foreach (PrizeLevels.PrizeLevel p in prizes.prizeLevels)
             {
-                int i = r.Next();
-                while (matrix.ContainsKey(i)) { i = r.Next(); }
-                matrix.Add(i, originalArray[x]);
+                for (int i = 0; i < p.numCollections; i++)
+                {
+                    prizeLevel[index] = p.prizeLevel.ToString();
+                    index++;
+                }
             }
 
-            Tiles.TileTypes[] OutputArray = new Tiles.TileTypes[originalArray.Length];
-            matrix.Values.CopyTo(OutputArray, 0);
+            int collectionValuesFilled = 0;
+            Tiles.ITile current = firstTile;
+            prizeLevel = ArrayShuffler<string>.shuffle(prizeLevel);
+            while (collectionValuesFilled != numberOfCollectionSpots)
+            {
+                if (current == null)
+                {
+                    prizeLevel = ArrayShuffler<string>.shuffle(prizeLevel);
+                    current = firstTile;
+                    collectionValuesFilled = 0;
+                }
 
-            return OutputArray;
+                if (current.type == Tiles.TileTypes.collection)
+                {
+                    Tiles.ITile backtracker = current;
+                    for (int j = 1; j < minMove; j++)
+                    {
+                        if (backtracker.parent != null)
+                            backtracker = backtracker.parent;
+                    }
+
+                    if (backtracker == current || backtracker.type != Tiles.TileTypes.collection || (backtracker.type == Tiles.TileTypes.collection && backtracker.tileInformation != prizeLevel[collectionValuesFilled]))
+                    {
+                        current.tileInformation = prizeLevel[collectionValuesFilled];
+                        collectionValuesFilled++;
+                    }
+                }
+
+                current = current.child;
+            }
         }
-        
+
+
         /// <summary>
         /// Creates the blank board.
         /// </summary>
@@ -247,8 +275,6 @@ namespace Collection_Game_Tool.Services
                     }
                 }
             }
-
-
         }
 
         /// <summary>
@@ -348,7 +374,11 @@ namespace Collection_Game_Tool.Services
             StringBuilder sb = new StringBuilder();
             while (currentTile != null)
             {
-                sb.Append(currentTile.type + " :");
+                //sb.Append(currentTile.type + " :");
+                if (currentTile.type == Tiles.TileTypes.collection)
+                    sb.Append("CS:" + currentTile.tileInformation + ", ");
+                else
+                    sb.Append(" Other, ");
                 currentTile = currentTile.child;
             }
             return sb.ToString();

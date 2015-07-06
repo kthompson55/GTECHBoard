@@ -17,29 +17,33 @@ namespace Collection_Game_Tool_Test.ServicesTests
         {
             BoardGeneration bg = new BoardGeneration();
             int boardSize = 26;
-            int initialReachable = 17;
+            int initialReachable = 20;
             PrizeLevels prizes = new PrizeLevels();
             PrizeLevel A1 = new PrizeLevel();
             A1.numCollections = 3;
+            A1.prizeLevel = 1;
             prizes.addPrizeLevel(A1);
 
             PrizeLevel A2 = new PrizeLevel();
             A2.numCollections = 3;
+            A2.prizeLevel = 2;
             prizes.addPrizeLevel(A2);
 
             PrizeLevel A3 = new PrizeLevel();
             A3.numCollections = 3;
+            A3.prizeLevel = 3;
             prizes.addPrizeLevel(A3);
 
             PrizeLevel A4 = new PrizeLevel();
             A4.numCollections = 3;
+            A4.prizeLevel = 4;
             prizes.addPrizeLevel(A4);
 
             int numberOfExpectedCollection = 12;
             int numberOfExpectedMoveBack = 3;
             int numberOfExpectedMoveForward = 2;
-            ITile firstTile = bg.genBoard(boardSize, initialReachable, 1, 6, numberOfExpectedMoveBack, numberOfExpectedMoveForward, prizes, 1, 2);
-            
+            ITile firstTile = bg.genBoard(boardSize, initialReachable, 2, 6, numberOfExpectedMoveBack, numberOfExpectedMoveForward, prizes, 1, 2);
+
             int numberOfCollection = 0;
             int numberOfMoveBack = 0;
             int numberOfMoveForward = 0;
