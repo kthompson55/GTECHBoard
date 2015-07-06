@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
 using Collection_Game_Tool.PrizeLevels;
+using Collection_Game_Tool.Main;
 
 namespace Collection_Game_Tool.Divisions
 {
@@ -42,9 +43,9 @@ namespace Collection_Game_Tool.Divisions
         /// <param name="e"></param>
         private void levelBox_MouseDown(object sender, MouseButtonEventArgs e)
         {
-
             levelModel.switchIsSelected();
             division.updateInfo();
+            MainWindowModel.verifyDivisions();
         }
 
     }

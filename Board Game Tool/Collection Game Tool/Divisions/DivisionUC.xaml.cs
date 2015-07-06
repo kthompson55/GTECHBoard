@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using Collection_Game_Tool.PrizeLevels;
 using Collection_Game_Tool.Services;
 using Collection_Game_Tool.GameSetup;
+using Collection_Game_Tool.Main;
 
 namespace Collection_Game_Tool.Divisions
 {
@@ -79,6 +80,7 @@ namespace Collection_Game_Tool.Divisions
 
             DivModel.TotalPrizeValue = DivModel.calculateDivisionValue();
             SectionContainer.validateDivision();
+            MainWindowModel.verifyDivisions();
         }
 
         /// <summary>
@@ -97,6 +99,8 @@ namespace Collection_Game_Tool.Divisions
             int index = getIndex();
             SectionContainer.removeDivision(index);
             SectionContainer.validateDivision();
+
+            MainWindowModel.verifyDivisions();
         }
 
         /// <summary>
