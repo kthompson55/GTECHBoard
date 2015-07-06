@@ -101,6 +101,8 @@ namespace Collection_Game_Tool.PrizeLevels
 
             prizeLevelScroll.ScrollToBottom();
             prizeLevelCounterLabel.Content = Prizes.Children.Count;
+            MainWindowModel.verifyNumTiles();
+            MainWindowModel.verifyDivisions();
             //Shouts the PrizeLevels object so that they can be analyzed in Divisions
             shout(MainWindowModel.prizeLevelsModel);
         }

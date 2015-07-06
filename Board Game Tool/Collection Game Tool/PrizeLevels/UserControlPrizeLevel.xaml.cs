@@ -63,6 +63,8 @@ namespace Collection_Game_Tool.PrizeLevels
             //Shouts itself to PrizeLevels so PrizeLevels can close the individual PrizeLevel
             shout(this);
             shout("Update");
+            MainWindowModel.verifyDivisions();
+            MainWindowModel.verifyNumTiles();
         }
 
         private void boxChangedEventHandler(object sender, RoutedEventArgs args)
@@ -183,6 +185,9 @@ namespace Collection_Game_Tool.PrizeLevels
                 ErrorService.Instance.resolveError("006", ucplID);
                 ErrorService.Instance.resolveError("008", ucplID);
             }
+
+            MainWindowModel.verifyDivisions();
+            MainWindowModel.verifyNumTiles();
 
             shout("Update");
         }
