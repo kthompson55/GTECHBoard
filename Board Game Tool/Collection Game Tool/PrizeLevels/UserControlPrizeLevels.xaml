@@ -22,7 +22,7 @@
                HorizontalContentAlignment="Center"
                FontSize="30"
                FontWeight="Bold"
-               Foreground="#FFFFFF">
+               Foreground="#FFFFFF" ToolTip="The different prizes a player can win. (12 max and 2 min) Each prize includes a level, a prize value, the number of collections needed to win, and can be set to be won instantly and/or give the player a bonus game.">
             <Label.Background>
                 <SolidColorBrush Color="#0068ad"/>
             </Label.Background>
@@ -31,24 +31,16 @@
         <Border Grid.Row="1" BorderBrush="Black" BorderThickness="0,0,0,2">
             <Grid
             Background="#009ad8">
-                <Label
-                HorizontalAlignment="Center"
-                VerticalAlignment="Top"
-                 Foreground="White">
-                    The different prizes a player can win. (12 max and 2 min)
-                </Label>
-                <Label
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                 Foreground="White">
-                    Each prize includes a level, a prize value, the number of collections needed to
-                </Label>
-                <Label
-                HorizontalAlignment="Center"
-                VerticalAlignment="Bottom"
-                 Foreground="White">
-                    win, and can be set to be won instantly and/or give the player a bonus game.
-                </Label>
+				<TextBlock HorizontalAlignment="Center"
+						   VerticalAlignment="Center"
+						   Foreground="White"
+						   TextWrapping="WrapWithOverflow"
+						   TextAlignment="Center"
+						   Padding="25,10,25,10">
+					The different prizes a player can win. (12 max and 2 min)
+					Each prize includes a level, a prize value, the number of collections needed to
+					win, and can be set to be won instantly and/or give the player a bonus game.
+				</TextBlock>
             </Grid>
         </Border>
 

@@ -156,7 +156,7 @@
                     VerticalContentAlignment="Center"
                     HorizontalContentAlignment="Center"
                     Click="Close_Prize_Level" Margin="0,4,4,0">
-                    <Label Content="X" FontSize="10" Padding="0" Margin="0" VerticalAlignment="Top" Height="14"/>
+                    <Label Content="X" FontSize="10" Padding="0" Margin="0" VerticalAlignment="Top" Height="14" ToolTip="Delete"/>
                 </Button>
             </Grid>
         </Grid>

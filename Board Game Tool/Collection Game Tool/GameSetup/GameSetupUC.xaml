@@ -28,7 +28,15 @@
                     <Setter Property="HorizontalAlignment" Value="Stretch" />
                     <Setter Property="HorizontalContentAlignment" Value="Center" />
                 </Style>
-                <Style x:Key="titleStyle" TargetType="Label">
+				<Style x:Key="instructionStyleTextblock" TargetType="TextBlock">
+					<Setter Property="Background" Value="#009ad8" />
+					<Setter Property="Foreground" Value="White" />
+					<Setter Property="HorizontalAlignment" Value="Stretch" />
+					<Setter Property="VerticalAlignment" Value="Center" />
+					<Setter Property="TextWrapping" Value="WrapWithOverflow"/>
+					<Setter Property="TextAlignment" Value="Center"/>
+				</Style>
+				<Style x:Key="titleStyle" TargetType="Label">
                     <Setter Property="Foreground" Value="White" />
                     <Setter Property="Background" Value="#0068ad" />
                     <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -50,7 +58,7 @@
                 </Style>
 
             </Grid.Resources>
-            <Label Grid.Row="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Background="#0068ad" Foreground="White" FontSize="30" FontWeight="Bold" >Game Setup</Label>
+			<Label Grid.Row="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Background="#0068ad" Foreground="White" FontSize="30" FontWeight="Bold"  ToolTip="The basic game settings" >Game Setup</Label>
             <Border Grid.Row="1" BorderBrush="Black" BorderThickness="0,0,0,2">
                 <Label Grid.Row="1" Style="{StaticResource instructionStyle}" Height="50" Content="The basic game settings" VerticalContentAlignment="Center"></Label>
             </Border>
@@ -68,7 +76,7 @@
                             <Border BorderBrush="Black" BorderThickness="0,0,0,2">
                                 <StackPanel Orientation="Horizontal">
                                     <Label Style="{StaticResource dataLabelStyle}">Enforce Near Win Experience:</Label>
-                                    <CheckBox x:Name="NearWinCheckbox" Click="NearWinCheckbox_Click" VerticalAlignment="Center"></CheckBox>
+									<CheckBox x:Name="NearWinCheckbox" Click="NearWinCheckbox_Click" VerticalAlignment="Center" ToolTip="If checked, defines how many levels come within one collection of winning a prize"></CheckBox>
                                 </StackPanel>
                             </Border>
                             <StackPanel IsEnabled="{Binding ElementName=NearWinCheckbox, Path=IsChecked}" Orientation="Horizontal" x:Name="GSNearWinOptional" Background="#8a8a8a" >
@@ -101,8 +109,8 @@
 
                     <Border Style="{StaticResource externalBorderStyle}">
 
-                        <StackPanel x:Name="GSDicePanel" Background="#ADADAD">
-                            <Label Style="{StaticResource titleStyle}">Dice/Spinner</Label>
+						<StackPanel x:Name="GSDicePanel" Background="#ADADAD">
+							<Label ToolTip="The tools that determine player movement" Style="{StaticResource titleStyle}">Dice/Spinner</Label>
                             <Border BorderBrush="Black" BorderThickness="0,0,0,2">
                                 <Label Style="{StaticResource instructionStyle}">The tools that determine player movement</Label>
                             </Border>
@@ -196,8 +204,8 @@
 
                     <Border Style="{StaticResource externalBorderStyle}">
 
-                        <StackPanel x:Name="GSBoard" Background="#ADADAD">
-                            <Label Style="{StaticResource titleStyle}">Board Setup</Label>
+						<StackPanel x:Name="GSBoard" Background="#ADADAD">
+							<Label Style="{StaticResource titleStyle}" ToolTip="The board on which the game will take place">Board Setup</Label>
                             <Border BorderBrush="Black" BorderThickness="0,0,0,2">
                                 <Label Style="{StaticResource instructionStyle}">The board on which the game will take place</Label>
                             </Border>
@@ -300,12 +308,13 @@
 
                     <Border Style="{StaticResource externalBorderStyle}">
 
-                        <StackPanel x:Name="GSPermutationsPanel" Background="#ADADAD">
-                            <Label Style="{StaticResource titleStyle}">Game Win/Lose Permutations</Label>
+						<StackPanel x:Name="GSPermutationsPanel" Background="#ADADAD">
+							<Label Style="{StaticResource titleStyle}" ToolTip="The number of winning combinations to calculate for each division, including an extra losing division">Game Win/Lose Permutations</Label>
                             <Border BorderBrush="Black" BorderThickness="0,0,0,2">
                                 <StackPanel>
-                                    <Label Style="{StaticResource instructionStyle}">The number of winning combinations to calculate for each division,</Label>
-                                    <Label Style="{StaticResource instructionStyle}" Padding="0,0,0,2">including an extra losing division</Label>
+									<TextBlock Style="{StaticResource instructionStyleTextblock}" Padding="40,2,40,2">
+										The number of winning combinations to calculate for each division, including an extra losing division.
+									</TextBlock>
                                 </StackPanel>
                             </Border>
                             <DockPanel>
@@ -327,23 +336,24 @@
 
 
                     <Button x:Name="CreateButton" Click="createButton_Click" Width="200" Height="50" FontSize="28" FontWeight="Bold" Background="#007CAA" Foreground="White" Margin="0,30,0,0" IsEnabled="{Binding Path=canCreate}" Opacity="{Binding Path=canCreate, Converter={StaticResource OpacityConverter}}">Create File</Button>
-                    <StackPanel x:Name="GeneratingFileAnimation" Margin="10" Visibility="Hidden">
-                        <Label FontSize="20" HorizontalAlignment="Center">Generating File</Label>
-                        <Viewbox Width="50" Height="50"
+					<StackPanel x:Name="GeneratingFileAnimation" Margin="0" Visibility="Hidden"><!--10-->
+						<Label x:Name="GeneratingFileLabel" FontSize="1" HorizontalAlignment="Center">Generating File</Label><!--20-->
+                        <Viewbox Name="GeneratingFileViewbox" Width="0" Height="0"
                          HorizontalAlignment="Center"
                          VerticalAlignment="Center">
+							<!--w50h50-->
                             <local:CircularProgressBar />
                         </Viewbox>
 
                     </StackPanel>
-                    <Label x:Name="GeneratingCompleteMessage" FontSize="20" Margin="10" HorizontalAlignment="Center" Visibility="Hidden">File Generated!</Label>
+					<Label x:Name="GeneratingCompleteMessage" FontSize="1" Margin="0" HorizontalAlignment="Center" Visibility="Hidden">File Generated!</Label><!--m10f20-->
 
 
-                    
 
-                </StackPanel>
+
+				</StackPanel>
             </ScrollViewer>
-			<Border x:Name="ErrorBoxBorder" Grid.Row="4" BorderThickness="0,2" BorderBrush="Black" MaxHeight="350">
+			<Border x:Name="ErrorBoxBorder" Grid.Row="4" BorderThickness="0,2" BorderBrush="Black" MaxHeight="150">
                 <ScrollViewer x:Name="errorPanelScroll">
                     <StackPanel Background="White">
                         <Label FontWeight="Bold" FontSize="14" Background="#D60804" Foreground="White">Errors:</Label>
