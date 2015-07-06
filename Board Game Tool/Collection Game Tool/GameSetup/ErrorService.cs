@@ -42,11 +42,11 @@ namespace Collection_Game_Tool.GameSetup
             {"007", "-Number of near win prizes is greater than the amount of Prize Levels.\n"},
             {"008", "-Prize Level {0}'s collection text box cannot be empty.\n"},
             {"009", "-Division {0} is not a unique Division.\n"},
-            {"010", "-The collections field in Division {0} needs to be less than or equal to the set player picks in the Game Setup.\n"},
+            {"010", "-The collections field in Division {0} needs to be less than or equal to the set player turns in the Game Setup.\n"},
             {"011", "-The collection in Division {0} is invalid, the possible collection must be higher so that the division cannot win other prizes.\n"},
             {"012", "-With the current setup the player cannot lose. Either decrease the amount of player picks, or increase the amount of collections one of the prize levels has."},
             {"013", "-The Board Size is either too small or too large for the current game setup."},
-            {"014", "-The Board does not have enough space to accomodate the current setup. You must reduce the amount of special tiles, increase the total number of tiles, decrease the number of turns, or decrease the number of dice/spins."},
+            {"014", "-The Board does not have enough space to accomodate the current setup. You must reduce the amount of special tiles, increase the total number of tiles, decrease the number of turns, or decrease the number of dice/spins."}
         };
 
         /// <summary>
@@ -63,8 +63,6 @@ namespace Collection_Game_Tool.GameSetup
             {"006", "-There are no divisions in this project.\n"},
             {"007", "-A spinner size of 1 will offer no variation in movement."},
             {"008", "-A spinner size of 2 will be equivalent to a coin flip."},
-
-
         };
 
         /// <summary>

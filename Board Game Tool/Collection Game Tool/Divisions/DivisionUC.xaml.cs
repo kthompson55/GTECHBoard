@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using Collection_Game_Tool.PrizeLevels;
 using Collection_Game_Tool.Services;
 using Collection_Game_Tool.GameSetup;
+using Collection_Game_Tool.Main;
 
 namespace Collection_Game_Tool.Divisions
 {
@@ -79,6 +80,7 @@ namespace Collection_Game_Tool.Divisions
 
             DivModel.TotalPrizeValue = DivModel.calculateDivisionValue();
             SectionContainer.validateDivision();
+            MainWindowModel.verifyDivisions();
         }
 
         /// <summary>
@@ -88,6 +90,7 @@ namespace Collection_Game_Tool.Divisions
         /// <param name="e"></param>
         private void deleteDivisionButton_Click(object sender, RoutedEventArgs e)
         {
+            // TODO
             ErrorService.Instance.resolveWarning("005", DivModel.errorID);
             ErrorService.Instance.resolveWarning("007", DivModel.errorID);
             ErrorService.Instance.resolveError("009", DivModel.errorID);
@@ -96,6 +99,8 @@ namespace Collection_Game_Tool.Divisions
             int index = getIndex();
             SectionContainer.removeDivision(index);
             SectionContainer.validateDivision();
+
+            MainWindowModel.verifyDivisions();
         }
 
         /// <summary>
@@ -125,6 +130,7 @@ namespace Collection_Game_Tool.Divisions
         /// </summary>
         public void updateDivision()
         {
+            // TODO
             if (Prizes.getNumPrizeLevels() > 0)
             {
                 for (int i = 0; i < DivisionModel.MAX_PRIZE_BOXES; i++)

@@ -43,11 +43,27 @@ namespace Collection_Game_Tool.GameSetup
 
         public void DataBind()
         {
+            MainWindowModel.gameSetupModel.canCreate = true;
             CreateButton.DataContext = MainWindowModel.gameSetupModel;
-            DiceRadioButton.DataContext = MainWindowModel.gameSetupModel;
+            DiceRadioButton.DataContext = MainWindowModel.gameSetupModel.diceSelected;
             ErrorTextBlock.DataContext = ErrorService.Instance;
             WarningTextBlock.DataContext = ErrorService.Instance;
             errorPanelScroll.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+
+            MainWindowModel.gameSetupModel.isNearWin = NearWinCheckbox.IsChecked == true;
+            MainWindowModel.gameSetupModel.nearWins = (short)NumNearWinsSlider.Value;
+            MainWindowModel.gameSetupModel.numTurns = (int)NumTurnsSlider.Value;
+            MainWindowModel.gameSetupModel.diceSelected = DiceRadioButton.IsChecked == true;
+            MainWindowModel.gameSetupModel.numDice = (int)NumDiceSlider.Value;
+            MainWindowModel.gameSetupModel.spinnerMaxValue = (int)SpinnerValueSlider.Value;
+            MainWindowModel.gameSetupModel.boardSize = int.Parse(BoardSizeTextBox.Text);
+            MainWindowModel.gameSetupModel.numMoveForwardTiles = int.Parse(NumMoveForwardTilesTextBox.Text);
+            MainWindowModel.gameSetupModel.moveForwardLength = (int)MoveForwardLengthSlider.Value;
+            MainWindowModel.gameSetupModel.numMoveBackwardTiles = int.Parse(NumMoveBackwardTilesTextBox.Text);
+            MainWindowModel.gameSetupModel.moveBackwardLength = (int)MoveBackwardLengthSlider.Value;
+            MainWindowModel.gameSetupModel.maxPermutations = uint.Parse(MaxPermutationsTextBox.Text);
+            
+            MainWindowModel.verifyNumTiles();
         }
 
         //populates the fields from a saved cggproj file
@@ -350,13 +366,9 @@ namespace Collection_Game_Tool.GameSetup
                 {
                     gsucID = ErrorService.Instance.reportError("014", new List<String> { }, gsucID);
                 }
-                //if (int.Parse(BoardSizeTextBox.Text) > maximumBoardSize() || int.Parse(BoardSizeTextBox.Text) < minimumBoardSize())
-                //{
-                //    gsucID=ErrorService.Instance.reportError("013", new List<String> { }, gsucID);
-                //}
                 else
                 {
-                    ErrorService.Instance.resolveError("014", gsucID);
+                    MainWindowModel.verifyNumTiles();
                 }
             }
 
@@ -373,11 +385,13 @@ namespace Collection_Game_Tool.GameSetup
                 if (MainWindowModel.gameSetupModel.spinnerMaxValue == 1)
                 {
                     gsucID = ErrorService.Instance.reportWarning("007", new List<string> { }, gsucID);
+                    ErrorService.Instance.resolveWarning("008", gsucID);
 
                 }
-                else if (int.Parse(BoardSizeTextBox.Text) > maximumBoardSize() || int.Parse(BoardSizeTextBox.Text) < minimumBoardSize())
+                else if (int.Parse(BoardSizeTextBox.Text) > maximumBoardSize() || int.Parse(BoardSizeTextBox.Text) < minimumBoardSize() || MainWindowModel.gameSetupModel.spinnerMaxValue == 2)
                 {
                     gsucID = ErrorService.Instance.reportWarning("008", new List<String> { }, gsucID);
+                    ErrorService.Instance.resolveWarning("007", gsucID);
                 }
                 else
                 {
@@ -387,8 +401,6 @@ namespace Collection_Game_Tool.GameSetup
             }
         }
 
-       
-      
         private void BoardSizeTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (MainWindowModel.gameSetupModel != null)
@@ -400,7 +412,12 @@ namespace Collection_Game_Tool.GameSetup
                 }
                 else if (WithinViableBoardSizeRange(textBox.Text))
                 {
-                    MainWindowModel.gameSetupModel.boardSize = Convert.ToInt32(textBox.Text);
+                    int boardSize;
+                    if(Int32.TryParse(textBox.Text, out boardSize) && boardSize >= 0)
+                    {
+                        MainWindowModel.gameSetupModel.boardSize = boardSize;
+                    }
+                    MainWindowModel.verifyNumTiles();
                 }
                 else
                 {
@@ -412,7 +429,6 @@ namespace Collection_Game_Tool.GameSetup
 
         private bool WithinViableBoardSizeRange(string s)
         {
-
             int boardSizeValue;
             bool successful = Int32.TryParse(s, out boardSizeValue);
             if (successful)
@@ -441,29 +457,35 @@ namespace Collection_Game_Tool.GameSetup
             {
                 gsucID = ErrorService.Instance.reportError("014", new List<String> { }, gsucID);
             }
-            //if (int.Parse(BoardSizeTextBox.Text) > maximumBoardSize() || int.Parse(BoardSizeTextBox.Text) < minimumBoardSize())
-            //{
-            //    gsucID = ErrorService.Instance.reportError("013", new List<String> { }, gsucID);
-            //}
             else
             {
-                ErrorService.Instance.resolveError("014", gsucID);
+                MainWindowModel.verifyNumTiles();
+                ErrorService.Instance.resolveWarning("007", gsucID);
+                ErrorService.Instance.resolveWarning("008", gsucID);
             }
         }
 
         private void SpinnerRadioButton_Checked(object sender, RoutedEventArgs e)
         {
+            // single-value spinner
+            if (MainWindowModel.gameSetupModel.spinnerMaxValue == 1)
+            {
+                gsucID = ErrorService.Instance.reportWarning("007", new List<string> { }, gsucID);
+                ErrorService.Instance.resolveWarning("008", gsucID);
+            }
+            // "coin-flip" spinner
+            else if (MainWindowModel.gameSetupModel.spinnerMaxValue == 2)
+            {
+                gsucID = ErrorService.Instance.reportWarning("008", new List<string> { }, gsucID);
+                ErrorService.Instance.resolveWarning("007", gsucID);
+            }
             if (int.Parse(BoardSizeTextBox.Text) < minimumBoardSize())
             {
                 gsucID = ErrorService.Instance.reportError("014", new List<String> { }, gsucID);
             }
-            //if (int.Parse(BoardSizeTextBox.Text) > maximumBoardSize() || int.Parse(BoardSizeTextBox.Text) < minimumBoardSize())
-            //{
-            //    gsucID = ErrorService.Instance.reportError("013", new List<String> { }, gsucID);
-            //}
             else
             {
-                ErrorService.Instance.resolveError("014", gsucID);
+                MainWindowModel.verifyNumTiles();
             }
         }
 
@@ -479,10 +501,6 @@ namespace Collection_Game_Tool.GameSetup
             textBox.SelectAll();
         }
 
-
-
-
-
         private void NumMoveForwardTilesTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (MainWindowModel.gameSetupModel != null)
@@ -495,16 +513,9 @@ namespace Collection_Game_Tool.GameSetup
                 int numMFValue;
                 if (Int32.TryParse(textBox.Text, out numMFValue) && numMFValue >= 0)
                 {
-                    MainWindowModel.gameSetupModel.numMoveForwardTiles = numMFValue;
-                    int spacesAvailableForMoveForward = MainWindowModel.gameSetupModel.initialReachableSpaces - (PrizeLevels.PrizeLevels.totalCollections);
-                    if (numMFValue > spacesAvailableForMoveForward)
-                    {
-                        gsucID = ErrorService.Instance.reportError("014", new List<string> { }, gsucID);
-                    }
-                    else
-                    {
-                        ErrorService.Instance.resolveError("014", gsucID);
-                    }
+                    // confirm that there is enough space on board for desired number of move-backward tiles
+                    MainWindowModel.gameSetupModel.numMoveBackwardTiles = numMFValue;
+                    MainWindowModel.verifyNumTiles();
                 }
                 else
                 {
@@ -535,19 +546,11 @@ namespace Collection_Game_Tool.GameSetup
                     textBox.Text = 0 + "";
                 }
                 int numMBValue;
-                int spacesAvailableForMoveBackward = MainWindowModel.gameSetupModel.initialReachableSpaces - (PrizeLevels.PrizeLevels.totalCollections + MainWindowModel.gameSetupModel.numMoveForwardTiles);
                 if (Int32.TryParse(textBox.Text, out numMBValue) && numMBValue >= 0)
                 {
+                    // confirm that there is enough space on board for desired number of move-backward tiles
                     MainWindowModel.gameSetupModel.numMoveBackwardTiles = numMBValue;
-
-                    if (numMBValue > spacesAvailableForMoveBackward)
-                    {
-                        gsucID = ErrorService.Instance.reportError("014", new List<string> { }, gsucID);
-                    }
-                    else
-                    {
-                        ErrorService.Instance.resolveError("014", gsucID);
-                    }
+                    MainWindowModel.verifyNumTiles();
                 }
                 else
                 {
@@ -593,6 +596,17 @@ namespace Collection_Game_Tool.GameSetup
             {
                 Slider slider = sender as Slider;
                 MainWindowModel.gameSetupModel.numTurns = Convert.ToInt32(slider.Value);
+
+                if (int.Parse(BoardSizeTextBox.Text) < minimumBoardSize())
+                {
+                    gsucID = ErrorService.Instance.reportError("014", new List<String> { }, gsucID);
+                }
+                else
+                {
+                    MainWindowModel.verifyNumTiles();
+                    MainWindowModel.verifyDivisions();
+                    ErrorService.Instance.resolveError("014", gsucID);
+                }
             }
         }
     }

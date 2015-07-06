@@ -145,6 +145,7 @@ namespace Collection_Game_Tool.Divisions
         {
             addDivision();
             divisionsScroll.ScrollToBottom();
+            MainWindowModel.verifyDivisions();
         }
 
         /// <summary>
