@@ -208,6 +208,21 @@ namespace Collection_Game_Tool.GameSetup
         private void NearWinCheckbox_Click(object sender, RoutedEventArgs e)
         {
             MainWindowModel.gameSetupModel.toggleNearWin();
+            if (MainWindowModel.gameSetupModel.isNearWin)
+            {
+                if (MainWindowModel.gameSetupModel.nearWins > PrizeLevels.PrizeLevels.numPrizeLevels)
+                {
+                    gsucID = ErrorService.Instance.reportError("007", new List<string> { }, gsucID);
+                }
+                else if (MainWindowModel.gameSetupModel.nearWins <= PrizeLevels.PrizeLevels.numPrizeLevels)
+                {
+                    ErrorService.Instance.resolveError("007", gsucID);
+                }
+            }
+            else
+            {
+                ErrorService.Instance.resolveError("007", gsucID);
+            }
         }
 
         private void MaxPermutationsTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -463,6 +478,7 @@ namespace Collection_Game_Tool.GameSetup
                 MainWindowModel.verifyNumTiles();
                 ErrorService.Instance.resolveWarning("007", gsucID);
                 ErrorService.Instance.resolveWarning("008", gsucID);
+                ErrorService.Instance.resolveError("014", gsucID);
             }
         }
 
@@ -487,6 +503,9 @@ namespace Collection_Game_Tool.GameSetup
             else
             {
                 MainWindowModel.verifyNumTiles();
+                ErrorService.Instance.resolveWarning("007", gsucID);
+                ErrorService.Instance.resolveWarning("008", gsucID);
+                ErrorService.Instance.resolveError("014", gsucID);
             }
         }
 
