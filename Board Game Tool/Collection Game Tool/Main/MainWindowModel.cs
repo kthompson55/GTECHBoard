@@ -24,11 +24,11 @@ namespace Collection_Game_Tool.Main
             int actual = MainWindowModel.gameSetupModel.boardSize;
             if (needed > actual)
             {
-                mainWindowErrorID = ErrorService.Instance.reportError("014", new List<String> { }, mainWindowErrorID);
+                mainWindowErrorID = ErrorService.Instance.reportError("013", new List<String> { }, mainWindowErrorID);
             }
             else
             {
-                ErrorService.Instance.resolveError("014", mainWindowErrorID);
+                ErrorService.Instance.resolveError("013", mainWindowErrorID);
             }
         }
 
