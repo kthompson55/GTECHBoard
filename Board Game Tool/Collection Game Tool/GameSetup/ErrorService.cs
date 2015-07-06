@@ -46,7 +46,7 @@ namespace Collection_Game_Tool.GameSetup
             {"011", "-The collection in Division {0} is invalid, the possible collection must be higher so that the division cannot win other prizes.\n"},
             {"012", "-With the current setup the player cannot lose. Either decrease the amount of player picks, or increase the amount of collections one of the prize levels has."},
             {"013", "-The Board Size is either too small or too large for the current game setup."},
-            {"014", "-The Board does not have enough space to accomodate the current setup. You must reduce the amount of special tiles, increase the total number of tiles, decrease the number of turns, or decrease the number of dice/spins."},
+            {"014", "-The Board does not have enough space to accomodate the current setup. You must reduce the amount of special tiles, increase the total number of tiles, decrease the number of turns, or decrease the number of dice/spins."}
         };
 
         /// <summary>

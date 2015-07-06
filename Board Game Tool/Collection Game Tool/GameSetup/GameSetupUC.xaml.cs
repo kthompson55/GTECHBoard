@@ -63,7 +63,7 @@ namespace Collection_Game_Tool.GameSetup
             MainWindowModel.gameSetupModel.moveBackwardLength = (int)MoveBackwardLengthSlider.Value;
             MainWindowModel.gameSetupModel.maxPermutations = uint.Parse(MaxPermutationsTextBox.Text);
             
-            verifyNumTiles();
+            MainWindowModel.verifyNumTiles();
         }
 
         //populates the fields from a saved cggproj file
@@ -368,7 +368,7 @@ namespace Collection_Game_Tool.GameSetup
                 }
                 else
                 {
-                    verifyNumTiles();
+                    MainWindowModel.verifyNumTiles();
                 }
             }
 
@@ -417,7 +417,7 @@ namespace Collection_Game_Tool.GameSetup
                     {
                         MainWindowModel.gameSetupModel.boardSize = boardSize;
                     }
-                    verifyNumTiles();
+                    MainWindowModel.verifyNumTiles();
                 }
                 else
                 {
@@ -459,7 +459,7 @@ namespace Collection_Game_Tool.GameSetup
             }
             else
             {
-                verifyNumTiles();
+                MainWindowModel.verifyNumTiles();
                 ErrorService.Instance.resolveWarning("007", gsucID);
                 ErrorService.Instance.resolveWarning("008", gsucID);
             }
@@ -485,7 +485,7 @@ namespace Collection_Game_Tool.GameSetup
             }
             else
             {
-                ErrorService.Instance.resolveError("014", gsucID);
+                MainWindowModel.verifyNumTiles();
             }
         }
 
@@ -515,7 +515,7 @@ namespace Collection_Game_Tool.GameSetup
                 {
                     // confirm that there is enough space on board for desired number of move-backward tiles
                     MainWindowModel.gameSetupModel.numMoveBackwardTiles = numMFValue;
-                    verifyNumTiles();
+                    MainWindowModel.verifyNumTiles();
                 }
                 else
                 {
@@ -550,7 +550,7 @@ namespace Collection_Game_Tool.GameSetup
                 {
                     // confirm that there is enough space on board for desired number of move-backward tiles
                     MainWindowModel.gameSetupModel.numMoveBackwardTiles = numMBValue;
-                    verifyNumTiles();
+                    MainWindowModel.verifyNumTiles();
                 }
                 else
                 {
@@ -603,46 +603,10 @@ namespace Collection_Game_Tool.GameSetup
                 }
                 else
                 {
-                    bool verifiedTurnCount = true;
-                    // verify that player has enough turns to get the largest division payout
-                    for (int i = 0; i < MainWindowModel.divisionsModel.getNumberOfDivisions(); i++)
-                    {
-                        int divisionMinimumTurns = 0;
-                        Divisions.DivisionModel currentDivision = MainWindowModel.divisionsModel.getDivision(i);
-                        foreach (PrizeLevels.PrizeLevel currentPrizeLevel in currentDivision.selectedPrizes)
-                        {
-                            divisionMinimumTurns += currentPrizeLevel.numCollections;
-                        }
-                        if (MainWindowModel.gameSetupModel.numTurns < divisionMinimumTurns)
-                        {
-                            // number of turns needed to obtain current prize level is not enough
-                            ErrorService.Instance.reportError("010", new List<string> {currentDivision.DivisionNumber.ToString()}, gsucID);
-                            verifiedTurnCount = false;
-                            break;
-                        }
-                    }
-
-                    if (verifiedTurnCount)
-                    {
-                        ErrorService.Instance.resolveError("010", gsucID);
-                    }
-
+                    MainWindowModel.verifyNumTiles();
+                    MainWindowModel.verifyDivisions();
                     ErrorService.Instance.resolveError("014", gsucID);
                 }
-            }
-        }
-
-        private void verifyNumTiles()
-        {
-            int needed = PrizeLevels.PrizeLevels.totalCollections + MainWindowModel.gameSetupModel.numMoveBackwardTiles + MainWindowModel.gameSetupModel.numMoveForwardTiles;
-            int actual = MainWindowModel.gameSetupModel.boardSize;
-            if (needed > actual)
-            {
-                gsucID = ErrorService.Instance.reportError("014", new List<String> { }, gsucID);
-            }
-            else
-            {
-                ErrorService.Instance.resolveError("014", gsucID);
             }
         }
     }

@@ -42,6 +42,7 @@ namespace Collection_Game_Tool.Divisions
         /// <param name="e"></param>
         private void levelBox_MouseDown(object sender, MouseButtonEventArgs e)
         {
+
             levelModel.switchIsSelected();
             division.updateInfo();
         }
