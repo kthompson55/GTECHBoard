@@ -219,6 +219,16 @@ namespace Collection_Game_Tool.Services
             foreach (ITile board in boards) //This will need to happen for each board. Assuming one for now? Need to store rolls for extra boards?
             {
                 string boardDesign = CreateBoardDesignString(board);
+                foreach (KeyValuePair<String, List<String>> entry in paths) // For every division entry in paths
+                {
+                    //print div                             //Div1
+                    //print boardDesign + each path         //boardDesign|path
+                    games += "Division " + entry.Key + Environment.NewLine;
+                    foreach (String path in entry.Value) // For every path of the current division
+                    {
+                        games += (boardDesign + "|" + path + Environment.NewLine);
+                    }
+                }
 
             }
             return "";
