@@ -191,7 +191,7 @@ namespace Collection_Game_Tool.GameSetup
                 TextBox textBox = sender as TextBox;
                 if (textBox.Text == "")
                 {
-                    textBox.Text = 0 +"";
+                    textBox.Text = 1 + "";
                 }
                 else if (!WithinPermutationRange(textBox.Text))
                 {
@@ -221,7 +221,8 @@ namespace Collection_Game_Tool.GameSetup
         private bool WithinPermutationRange(string s)
         {
             uint philTheOrphan;
-            return (UInt32.TryParse(s, out philTheOrphan) && philTheOrphan < 100000);
+            UInt32.TryParse(s, out philTheOrphan);
+            return philTheOrphan < 100000 && philTheOrphan > 0;
         }
 
        
