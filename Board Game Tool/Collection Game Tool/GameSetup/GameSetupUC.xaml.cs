@@ -319,14 +319,6 @@ namespace Collection_Game_Tool.GameSetup
         /// </summary>
         private void adjustBorderVisibility()
         {
-            //if ((ErrorService.Instance.errorText == "" || ErrorService.Instance.errorText == null) &&
-            //    (ErrorService.Instance.warningText == "" || ErrorService.Instance.warningText == null))
-            //{
-            //    ErrorBoxBorder.Visibility = Visibility.Hidden;
-            //    ErrorRow.Height = new GridLength(0);
-            //}
-            //else
-            //{
             if (ErrorService.Instance.HasErrors() || ErrorService.Instance.HasWarnings())
             {
                 ErrorBoxBorder.Visibility = Visibility.Visible;
@@ -359,7 +351,6 @@ namespace Collection_Game_Tool.GameSetup
                 ErrorBoxBorder.Visibility = Visibility.Hidden;
                 ErrorRow.Height = new GridLength(0);
             }
-            //}
         }
 
         private void NumDiceSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
