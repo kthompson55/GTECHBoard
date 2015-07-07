@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Collection_Game_Tool.Services;
 using System.Runtime.Serialization;
+using Collection_Game_Tool.Main;
 
 namespace Collection_Game_Tool.GameSetup
 {
@@ -24,6 +25,8 @@ namespace Collection_Game_Tool.GameSetup
         {
             audience = new List<Listener>();
         }
+		private string _gsucID = null;
+		public string gsucID { get { return _gsucID; } set { _gsucID = value; } }
         
         private bool inw;
         public bool isNearWin 
@@ -35,6 +38,23 @@ namespace Collection_Game_Tool.GameSetup
             set
             {
                 inw = value;
+				if ( inw )
+				{
+					if ( MainWindowModel.gameSetupModel.nearWins > PrizeLevels.PrizeLevels.numPrizeLevels )
+					{
+						gsucID = ErrorService.Instance.reportError( "007", new List<string> { }, gsucID );
+					}
+					else if ( MainWindowModel.gameSetupModel.nearWins <= PrizeLevels.PrizeLevels.numPrizeLevels )
+					{
+						ErrorService.Instance.resolveError( "007", gsucID );
+					}
+				}
+				else
+				{
+					ErrorService.Instance.resolveError( "007", gsucID );
+				}
+				if ( PropertyChanged != null )
+					PropertyChanged( this, new PropertyChangedEventArgs( "isNearWin" ) );
             }
         }
 
@@ -48,8 +68,19 @@ namespace Collection_Game_Tool.GameSetup
             set
             {
                 nw = value;
+				if ( nw > PrizeLevels.PrizeLevels.numPrizeLevels )
+				{
+					gsucID = ErrorService.Instance.reportError( "007", new List<string> { }, gsucID );
+				}
+				else if ( nw <= PrizeLevels.PrizeLevels.numPrizeLevels )
+				{
+					ErrorService.Instance.resolveError( "007", gsucID );
+				}
+				if ( PropertyChanged != null )
+					PropertyChanged( this, new PropertyChangedEventArgs( "nearWins" ) );
             }
         } //Max 12
+
 
         private uint mp = 1;
         public uint maxPermutations 
@@ -218,11 +249,6 @@ namespace Collection_Game_Tool.GameSetup
             {
                 return initialReachableSpaces + (numMoveForwardTiles * moveForwardLength);
             }
-        }
-
-        public void toggleNearWin()
-        {
-            isNearWin = !isNearWin;
         }
 
         public void shout(object pass)
