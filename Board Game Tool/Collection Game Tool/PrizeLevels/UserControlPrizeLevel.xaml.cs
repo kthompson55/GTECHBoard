@@ -185,11 +185,9 @@ namespace Collection_Game_Tool.PrizeLevels
                 ErrorService.Instance.resolveError("006", ucplID);
                 ErrorService.Instance.resolveError("008", ucplID);
             }
-
+            shout("Update");
             MainWindowModel.verifyDivisions();
             MainWindowModel.verifyNumTiles();
-
-            shout("Update");
         }
     }
 }
