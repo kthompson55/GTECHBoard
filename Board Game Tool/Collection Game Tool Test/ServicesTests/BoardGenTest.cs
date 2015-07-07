@@ -22,6 +22,7 @@ namespace Collection_Game_Tool_Test.ServicesTests
             PrizeLevel A1 = new PrizeLevel();
             A1.numCollections = 3;
             A1.prizeLevel = 1;
+            A1.isBonusGame = true;
             prizes.addPrizeLevel(A1);
 
             PrizeLevel A2 = new PrizeLevel();
@@ -32,6 +33,7 @@ namespace Collection_Game_Tool_Test.ServicesTests
             PrizeLevel A3 = new PrizeLevel();
             A3.numCollections = 3;
             A3.prizeLevel = 3;
+            A3.isInstantWin = true;
             prizes.addPrizeLevel(A3);
 
             PrizeLevel A4 = new PrizeLevel();
