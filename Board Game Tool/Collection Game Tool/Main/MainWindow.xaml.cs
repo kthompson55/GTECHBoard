@@ -136,6 +136,9 @@ namespace Collection_Game_Tool.Main
 
             if (projectLoadingSuccessful)
             {
+                ErrorService.Instance.ClearErrors();
+                ErrorService.Instance.ClearWarnings();
+
                 MainWindowModel.prizeLevelsModel = savedProject.savedPrizeLevels;
                 PrizeLevels.PrizeLevels.numPrizeLevels = savedProject.savedPrizeLevels.getNumPrizeLevels();
                 pl.Prizes.Children.Clear();
@@ -156,6 +159,9 @@ namespace Collection_Game_Tool.Main
                 {
                     divUC.loadInDivision(MainWindowModel.divisionsModel.divisions[i]);
                 }
+
+                MainWindowModel.verifyNumTiles();
+                MainWindowModel.verifyDivisions();
             }
         }
 
