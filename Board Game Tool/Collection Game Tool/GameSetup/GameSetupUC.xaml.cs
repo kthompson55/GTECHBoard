@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using Collection_Game_Tool.Services;
 using Collection_Game_Tool.Main;
 using System.Windows.Threading;
+using System.IO;
 
 namespace Collection_Game_Tool.GameSetup
 {
@@ -122,11 +123,15 @@ namespace Collection_Game_Tool.GameSetup
             string formattedPlays = "";
             foreach (Collection_Game_Tool.Services.Tiles.ITile board in boards)
             {
-                formattedPlays = generator.GetFormattedGameplay(boards);
+                formattedPlays += generator.GetFormattedGameplay(boards);
             }
             //open save dialog
             string filename = openSaveWindow();
             MaxPermutationsTextBox.Focus();
+            // write to file
+            File.WriteAllText(filename, formattedPlays);
+            hideGeneratingAnimation();
+            showGenerationCompleteMessage();
         }
 
         /// <summary>
