@@ -91,15 +91,15 @@
                                        Width="30"
                                        Margin="0,2,30,2"></Label>
                                 <StackPanel Orientation="Horizontal" Margin="10,0">
-                                    <Label FontSize="14">2</Label>
-                                    <Slider x:Name="NumNearWinsSlider" 
+									<Label FontSize="14" Content="2"/>
+									<Slider x:Name="NumNearWinsSlider" 
                                             Value="{Binding Path=nearWins, Mode=TwoWay}"
                                             MinWidth="200" Maximum="12" Minimum="2" 
                                             IsSelectionRangeEnabled="True" 
                                             VerticalAlignment="Center" 
                                             IsSnapToTickEnabled="True" TickPlacement="Both" TickFrequency="1"></Slider>
-                                    <Label FontSize="14">12</Label>
-                                </StackPanel>
+									<Label FontSize="14" Content="12"/>
+								</StackPanel>
                             </StackPanel>
 
                         </StackPanel>
@@ -110,49 +110,49 @@
                     <Border Style="{StaticResource externalBorderStyle}">
 
 						<StackPanel x:Name="GSDicePanel" Background="#ADADAD">
-							<Label ToolTip="The tools that determine player movement" Style="{StaticResource titleStyle}">Dice/Spinner</Label>
-                            <Border BorderBrush="Black" BorderThickness="0,0,0,2">
-                                <Label Style="{StaticResource instructionStyle}">The tools that determine player movement</Label>
-                            </Border>
+							<Label ToolTip="The tools that determine player movement" Style="{StaticResource titleStyle}" Content="Dice/Spinner"/>
+							<Border BorderBrush="Black" BorderThickness="0,0,0,2">
+								<Label Style="{StaticResource instructionStyle}" Content="The tools that determine player movement"/>
+							</Border>
                             <Border Style="{StaticResource internalBorderStyle}">
                                 <StackPanel Orientation="Horizontal">
-                                    <Label Style="{StaticResource dataLabelStyle}" Margin="9,1,0,0">Number of Turns:</Label>
-                                    <Label x:Name="NumTurnsLabel" Content="{Binding ElementName=NumTurnsSlider, Path=Value}"
+									<Label Style="{StaticResource dataLabelStyle}" Margin="9,1,0,0" Content="Number of Turns:"/>
+									<Label x:Name="NumTurnsLabel" Content="{Binding ElementName=NumTurnsSlider, Path=Value}"
                                        FontSize="14" 
                                        FontWeight="Bold"
                                        ContentStringFormat="{}{0:#}" 
                                        HorizontalContentAlignment="Center" 
                                        Background="White" 
                                        Width="30"
-                                       Margin="0,2,30,2"></Label>
-                                    <StackPanel Orientation="Horizontal" Margin="10,0">
-                                        <Label FontSize="14">1</Label>
-                                        <Slider x:Name="NumTurnsSlider" 
-                                            ValueChanged="NumTurnsSlider_ValueChanged"
+                                       Margin="0,2,30,2"/>
+									<StackPanel Orientation="Horizontal" Margin="10,0">
+										<Label FontSize="14" Content="1"/>
+										<Slider x:Name="NumTurnsSlider" 
+                                            Value="{Binding Path=numTurns, Mode=TwoWay}"
                                             MinWidth="200" Maximum="10" Minimum="1" 
                                             IsSelectionRangeEnabled="True" 
                                             VerticalAlignment="Center" 
-                                            IsSnapToTickEnabled="True" TickPlacement="Both" TickFrequency="1"></Slider>
-                                        <Label FontSize="14">10</Label>
-                                    </StackPanel>
+                                            IsSnapToTickEnabled="True" TickPlacement="Both" TickFrequency="1"/>
+										<Label FontSize="14" Content="10"/>
+									</StackPanel>
                                 </StackPanel>
                             </Border>
                             <Border Style="{StaticResource internalBorderStyle}">
                                 <Grid Background="#8a8a8a">
                                     <StackPanel Orientation="Horizontal" Width="127">
-                                        <Label>Dice</Label>
-                                        <RadioButton x:Name="DiceRadioButton" IsChecked="{Binding Path=diceSelected, Mode=TwoWay}" GroupName="DiceSpinnerSelection" VerticalAlignment="Center" Checked="DiceRadioButton_Checked"></RadioButton>
-                                        <Label Margin="15,0,0,0">Spinner</Label>
-                                        <RadioButton x:Name="SpinnerRadioButton" GroupName="DiceSpinnerSelection" VerticalAlignment="Center" Checked="SpinnerRadioButton_Checked"></RadioButton>
-                                    </StackPanel>
+										<Label Content="Dice"/>
+										<RadioButton x:Name="DiceRadioButton" IsChecked="{Binding Path=diceSelected, Mode=TwoWay}" GroupName="DiceSpinnerSelection" VerticalAlignment="Center"/>
+										<Label Margin="15,0,0,0" Content="Spinner"/>
+										<RadioButton x:Name="SpinnerRadioButton" IsChecked="{Binding Path=SpinnerSelected, Mode=TwoWay}" GroupName="DiceSpinnerSelection" VerticalAlignment="Center"/>
+									</StackPanel>
                                 </Grid>
                             </Border>
 
                             <Border Style="{StaticResource internalBorderStyle}">
 
                                 <StackPanel IsEnabled="{Binding ElementName=DiceRadioButton, Path=IsChecked}" Orientation="Horizontal" x:Name="GSDiceOptional" Background="#ADADAD" >
-                                <Label Style="{StaticResource dataLabelStyle}" Margin="17,1,0,0">Number of Dice:</Label>
-                                <Label x:Name="NumDiceLabel" 
+									<Label Style="{StaticResource dataLabelStyle}" Margin="17,1,0,0" Content="Number of Dice:"/>
+									<Label x:Name="NumDiceLabel" 
                                        Content="{Binding ElementName=NumDiceSlider, Path=Value}" 
                                        FontSize="14" 
                                        FontWeight="Bold"
@@ -160,25 +160,25 @@
                                        HorizontalContentAlignment="Center" 
                                        Background="White" 
                                        Width="30"
-                                       Margin="0,2,30,2"></Label>
-                                <StackPanel Orientation="Horizontal" Margin="10,0">
+                                       Margin="0,2,30,2"/>
+									<StackPanel Orientation="Horizontal" Margin="10,0">
                                     <Label FontSize="14">1</Label>
-                                    <Slider x:Name="NumDiceSlider" 
-                                            ValueChanged="NumDiceSlider_ValueChanged" 
+										<Slider x:Name="NumDiceSlider" 
+                                            Value="{Binding Path=numDice, Mode=TwoWay}"
                                             MinWidth="200" Maximum="5" Minimum="1" 
                                             IsSelectionRangeEnabled="True" 
                                             VerticalAlignment="Center" 
-                                            IsSnapToTickEnabled="True" TickPlacement="Both" TickFrequency="1"></Slider>
-                                    <Label FontSize="14">5</Label>
-                                </StackPanel>
+                                            IsSnapToTickEnabled="True" TickPlacement="Both" TickFrequency="1"/>
+										<Label FontSize="14" Content="5"/>
+									</StackPanel>
 
                                 
                                     </StackPanel>
                             </Border>
 
                             <StackPanel IsEnabled="{Binding ElementName=SpinnerRadioButton, Path=IsChecked}" Orientation="Horizontal" x:Name="GSSpinnerOptional" Background="#8a8a8a" >
-                                <Label Style="{StaticResource dataLabelStyle}" Margin="0,1,0,0">Max Spinner Value:</Label>
-                                <Label x:Name="SpinnerValueLabel" 
+								<Label Style="{StaticResource dataLabelStyle}" Margin="0,1,0,0" Content="Max Spinner Value:"/>
+								<Label x:Name="SpinnerValueLabel" 
                                        Content="{Binding ElementName=SpinnerValueSlider, Path=Value}" 
                                        FontSize="14" 
                                        FontWeight="Bold"
@@ -186,17 +186,17 @@
                                        HorizontalContentAlignment="Center" 
                                        Background="White" 
                                        Width="30"
-                                       Margin="0,2,30,2"></Label>
-                                <StackPanel Orientation="Horizontal" Margin="10,0">
-                                    <Label FontSize="14">1</Label>
-                                    <Slider x:Name="SpinnerValueSlider" 
-                                            ValueChanged="SpinnerValueSlider_ValueChanged" 
+                                       Margin="0,2,30,2"/>
+								<StackPanel Orientation="Horizontal" Margin="10,0">
+									<Label FontSize="14" Content="1"/>
+									<Slider x:Name="SpinnerValueSlider" 
+                                            Value="{Binding Path=spinnerMaxValue, Mode=TwoWay}"
                                             MinWidth="200" Maximum="8" Minimum="1" 
                                             IsSelectionRangeEnabled="True" 
                                             VerticalAlignment="Center" 
-                                            IsSnapToTickEnabled="True" TickPlacement="Both" TickFrequency="1"></Slider>
-                                    <Label FontSize="14">8</Label>
-                                </StackPanel>
+                                            IsSnapToTickEnabled="True" TickPlacement="Both" TickFrequency="1"/>
+									<Label FontSize="14" Content="8"/>
+								</StackPanel>
 
                             </StackPanel>
                         </StackPanel>

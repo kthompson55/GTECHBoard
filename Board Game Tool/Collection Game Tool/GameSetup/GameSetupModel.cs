@@ -121,8 +121,65 @@ namespace Collection_Game_Tool.GameSetup
             set
             {
                 ds = value;
+				if(ds)
+				{
+					if ( boardSize < MinimumBoardSize() )
+					{
+						gsucID = ErrorService.Instance.reportError( "014", new List<String> { }, gsucID );
+					}
+					else
+					{
+						MainWindowModel.verifyNumTiles();
+						ErrorService.Instance.resolveWarning( "007", gsucID );
+						ErrorService.Instance.resolveWarning( "008", gsucID );
+						ErrorService.Instance.resolveError( "014", gsucID );
+					}
+				}
+				if ( PropertyChanged != null )
+					PropertyChanged( this, new PropertyChangedEventArgs( "diceSelected" ) );
             }
         }
+
+		public bool SpinnerSelected 
+		{ 
+			get { return !diceSelected; }
+			set
+			{
+				diceSelected = !value;
+				if ( !diceSelected )
+				{
+					// single-value spinner
+					if ( MainWindowModel.gameSetupModel.spinnerMaxValue == 1 )
+					{
+						gsucID = ErrorService.Instance.reportWarning( "007", new List<string> { }, gsucID );
+						ErrorService.Instance.resolveWarning( "008", gsucID );
+					}
+					// "coin-flip" spinner
+					else if ( MainWindowModel.gameSetupModel.spinnerMaxValue == 2 )
+					{
+						gsucID = ErrorService.Instance.reportWarning( "008", new List<string> { }, gsucID );
+						ErrorService.Instance.resolveWarning( "007", gsucID );
+					}
+					else
+					{
+						ErrorService.Instance.resolveWarning( "007", gsucID );
+						ErrorService.Instance.resolveWarning( "008", gsucID );
+					}
+					if ( boardSize < MinimumBoardSize() )
+					{
+						gsucID = ErrorService.Instance.reportError( "014", new List<String> { }, gsucID );
+					}
+					else
+					{
+						MainWindowModel.verifyNumTiles();
+						ErrorService.Instance.resolveError( "014", gsucID );
+					}
+				}
+
+				if ( PropertyChanged != null )
+					PropertyChanged( this, new PropertyChangedEventArgs( "SpinnerSelected" ) );
+			}
+		}
 
         private int nt = 1;
         public int numTurns
@@ -131,10 +188,22 @@ namespace Collection_Game_Tool.GameSetup
             {
                 return nt;
             }
-            set
-            {
-                nt = value;
-            }
+			set
+			{
+				nt = value;
+				if ( boardSize < MinimumBoardSize() )
+				{
+					gsucID = ErrorService.Instance.reportError( "014", new List<String> { }, gsucID );
+				}
+				else
+				{
+					MainWindowModel.verifyNumTiles();
+					MainWindowModel.verifyDivisions();
+					ErrorService.Instance.resolveError( "014", gsucID );
+				}
+				if ( PropertyChanged != null )
+					PropertyChanged( this, new PropertyChangedEventArgs( "numTurns" ) );
+			}
         }
 
         private int nd = 1;
@@ -147,6 +216,18 @@ namespace Collection_Game_Tool.GameSetup
             set
             {
                 nd = value;
+				//Insert error logging here
+				if ( boardSize < MinimumBoardSize() )
+				{
+					gsucID = ErrorService.Instance.reportError( "014", new List<String> { }, gsucID );
+				}
+				else
+				{
+					ErrorService.Instance.resolveError( "014", gsucID );
+					MainWindowModel.verifyNumTiles();
+				}
+				if ( PropertyChanged != null )
+					PropertyChanged( this, new PropertyChangedEventArgs( "numDice" ) );
             }
         }
 
@@ -160,6 +241,25 @@ namespace Collection_Game_Tool.GameSetup
             set
             {
                 smv = value;
+
+				// Warnings only, referring to a single value spinner or a coin-flip spinner
+				if ( smv == 1 )
+				{
+					gsucID = ErrorService.Instance.reportWarning( "007", new List<string> { }, gsucID );
+					ErrorService.Instance.resolveWarning( "008", gsucID );
+				}
+				else if ( smv == 2 )
+				{
+					gsucID = ErrorService.Instance.reportWarning( "008", new List<String> { }, gsucID );
+					ErrorService.Instance.resolveWarning( "007", gsucID );
+				}
+				else
+				{
+					ErrorService.Instance.resolveWarning( "007", gsucID );
+					ErrorService.Instance.resolveWarning( "008", gsucID );
+				}
+				if ( PropertyChanged != null )
+					PropertyChanged( this, new PropertyChangedEventArgs( "spinnerMaxValue" ) );
             }
         }
 
@@ -263,5 +363,17 @@ namespace Collection_Game_Tool.GameSetup
         {
             audience.Add(list);
         }
+
+		public int MinimumBoardSize()
+		{
+			if ( diceSelected )
+			{
+				return ( numDice ) * numTurns;
+			}
+			else
+			{
+				return 1 * numTurns;
+			}
+		}
     }
 }

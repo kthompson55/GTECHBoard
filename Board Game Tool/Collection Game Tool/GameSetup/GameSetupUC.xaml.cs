@@ -44,18 +44,18 @@ namespace Collection_Game_Tool.GameSetup
         public void DataBind()
         {
             MainWindowModel.gameSetupModel.canCreate = true;
+			NumTurnsSlider.DataContext = MainWindowModel.gameSetupModel;
 			NearWinCheckbox.DataContext = MainWindowModel.gameSetupModel;
             CreateButton.DataContext = MainWindowModel.gameSetupModel;
             DiceRadioButton.DataContext = MainWindowModel.gameSetupModel;
 			NumNearWinsSlider.DataContext = MainWindowModel.gameSetupModel;
+			SpinnerRadioButton.DataContext = MainWindowModel.gameSetupModel;
+			NumDiceSlider.DataContext = MainWindowModel.gameSetupModel;
+			SpinnerValueSlider.DataContext = MainWindowModel.gameSetupModel;
             ErrorTextBlock.DataContext = ErrorService.Instance;
             WarningTextBlock.DataContext = ErrorService.Instance;
             errorPanelScroll.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
 
-            MainWindowModel.gameSetupModel.numTurns = (int)NumTurnsSlider.Value;
-            MainWindowModel.gameSetupModel.diceSelected = true;
-            MainWindowModel.gameSetupModel.numDice = (int)NumDiceSlider.Value;
-            MainWindowModel.gameSetupModel.spinnerMaxValue = (int)SpinnerValueSlider.Value;
             MainWindowModel.gameSetupModel.boardSize = int.Parse(BoardSizeTextBox.Text);
             MainWindowModel.gameSetupModel.numMoveForwardTiles = int.Parse(NumMoveForwardTilesTextBox.Text);
             MainWindowModel.gameSetupModel.moveForwardLength = (int)MoveForwardLengthSlider.Value;
@@ -277,15 +277,7 @@ namespace Collection_Game_Tool.GameSetup
         //Calculates the smallest possible board size for the current settings
         private int minimumBoardSize()
         {
-            if ((bool)DiceRadioButton.IsChecked)
-            {
-                return ((int)NumDiceSlider.Value) * (int)NumTurnsSlider.Value;
-            }
-            else if ((bool)SpinnerRadioButton.IsChecked)
-            {
-                return 1 * (int)NumTurnsSlider.Value;
-            }
-            return 0;
+			return MainWindowModel.gameSetupModel.MinimumBoardSize();
         }
 
         /// <summary>
@@ -353,52 +345,6 @@ namespace Collection_Game_Tool.GameSetup
             }
         }
 
-        private void NumDiceSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (MainWindowModel.gameSetupModel != null)
-            {
-                Slider slider = sender as Slider;
-                MainWindowModel.gameSetupModel.numDice = Convert.ToInt32(slider.Value);
-
-                //Insert error logging here
-                if (int.Parse(BoardSizeTextBox.Text) < minimumBoardSize())
-                {
-                    gsucID = ErrorService.Instance.reportError("014", new List<String> { }, gsucID);
-                }
-                else
-                {
-                    MainWindowModel.verifyNumTiles();
-                }
-            }
-
-        }
-
-        private void SpinnerValueSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (MainWindowModel.gameSetupModel != null)
-            {
-                Slider slider = sender as Slider;
-                MainWindowModel.gameSetupModel.spinnerMaxValue = Convert.ToInt32(slider.Value);
-
-                // Warnings only, referring to a single value spinner or a coin-flip spinner
-                if (MainWindowModel.gameSetupModel.spinnerMaxValue == 1)
-                {
-                    gsucID = ErrorService.Instance.reportWarning("007", new List<string> { }, gsucID);
-                    ErrorService.Instance.resolveWarning("008", gsucID);
-                }
-                else if (MainWindowModel.gameSetupModel.spinnerMaxValue == 2)
-                {
-                    gsucID = ErrorService.Instance.reportWarning("008", new List<String> { }, gsucID);
-                    ErrorService.Instance.resolveWarning("007", gsucID);
-                }
-                else
-                {
-                    ErrorService.Instance.resolveWarning("007", gsucID);
-                    ErrorService.Instance.resolveWarning("008", gsucID);
-                }
-            }
-        }
-
         private void BoardSizeTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (MainWindowModel.gameSetupModel != null)
@@ -447,51 +393,6 @@ namespace Collection_Game_Tool.GameSetup
         {
             TextBox tb = sender as TextBox;
             lastAcceptableBoardSizeValue = tb.Text;
-        }
-
-        private void DiceRadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-            if (int.Parse(BoardSizeTextBox.Text) < minimumBoardSize())
-            {
-                gsucID = ErrorService.Instance.reportError("014", new List<String> { }, gsucID);
-            }
-            else
-            {
-                MainWindowModel.verifyNumTiles();
-                ErrorService.Instance.resolveWarning("007", gsucID);
-                ErrorService.Instance.resolveWarning("008", gsucID);
-                ErrorService.Instance.resolveError("014", gsucID);
-            }
-        }
-
-        private void SpinnerRadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-            // single-value spinner
-            if (MainWindowModel.gameSetupModel.spinnerMaxValue == 1)
-            {
-                gsucID = ErrorService.Instance.reportWarning("007", new List<string> { }, gsucID);
-                ErrorService.Instance.resolveWarning("008", gsucID);
-            }
-            // "coin-flip" spinner
-            else if (MainWindowModel.gameSetupModel.spinnerMaxValue == 2)
-            {
-                gsucID = ErrorService.Instance.reportWarning("008", new List<string> { }, gsucID);
-                ErrorService.Instance.resolveWarning("007", gsucID);
-            }
-            else
-            {
-                ErrorService.Instance.resolveWarning("007", gsucID);
-                ErrorService.Instance.resolveWarning("008", gsucID);
-            }
-            if (int.Parse(BoardSizeTextBox.Text) < minimumBoardSize())
-            {
-                gsucID = ErrorService.Instance.reportError("014", new List<String> { }, gsucID);
-            }
-            else
-            {
-                MainWindowModel.verifyNumTiles();
-                ErrorService.Instance.resolveError("014", gsucID);
-            }
         }
 
         private void TextBox_GotFocus(object sender, RoutedEventArgs e)
@@ -592,26 +493,6 @@ namespace Collection_Game_Tool.GameSetup
             {
                 Slider slider = sender as Slider;
                 MainWindowModel.gameSetupModel.moveBackwardLength = Convert.ToInt32(slider.Value);
-            }
-        }
-
-        private void NumTurnsSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (MainWindowModel.gameSetupModel != null)
-            {
-                Slider slider = sender as Slider;
-                MainWindowModel.gameSetupModel.numTurns = Convert.ToInt32(slider.Value);
-
-                if (int.Parse(BoardSizeTextBox.Text) < minimumBoardSize())
-                {
-                    gsucID = ErrorService.Instance.reportError("014", new List<String> { }, gsucID);
-                }
-                else
-                {
-                    MainWindowModel.verifyNumTiles();
-                    MainWindowModel.verifyDivisions();
-                    ErrorService.Instance.resolveError("014", gsucID);
-                }
             }
         }
     }
