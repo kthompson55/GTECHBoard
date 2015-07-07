@@ -45,7 +45,7 @@ namespace Collection_Game_Tool.GameSetup
         {
             MainWindowModel.gameSetupModel.canCreate = true;
             CreateButton.DataContext = MainWindowModel.gameSetupModel;
-            DiceRadioButton.DataContext = MainWindowModel.gameSetupModel.diceSelected;
+            DiceRadioButton.DataContext = MainWindowModel.gameSetupModel;
             ErrorTextBlock.DataContext = ErrorService.Instance;
             WarningTextBlock.DataContext = ErrorService.Instance;
             errorPanelScroll.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
@@ -53,7 +53,7 @@ namespace Collection_Game_Tool.GameSetup
             MainWindowModel.gameSetupModel.isNearWin = NearWinCheckbox.IsChecked == true;
             MainWindowModel.gameSetupModel.nearWins = (short)NumNearWinsSlider.Value;
             MainWindowModel.gameSetupModel.numTurns = (int)NumTurnsSlider.Value;
-            MainWindowModel.gameSetupModel.diceSelected = DiceRadioButton.IsChecked == true;
+            MainWindowModel.gameSetupModel.diceSelected = true;
             MainWindowModel.gameSetupModel.numDice = (int)NumDiceSlider.Value;
             MainWindowModel.gameSetupModel.spinnerMaxValue = (int)SpinnerValueSlider.Value;
             MainWindowModel.gameSetupModel.boardSize = int.Parse(BoardSizeTextBox.Text);
