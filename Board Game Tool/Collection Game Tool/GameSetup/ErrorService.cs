@@ -229,5 +229,15 @@ namespace Collection_Game_Tool.GameSetup
         {
             return unresolvedWarnings.Count > 0;
         }
+
+        public void ClearErrors()
+        {
+            unresolvedErrors.Clear();
+        }
+
+        public void ClearWarnings()
+        {
+            unresolvedWarnings.Clear();
+        }
     }
 }

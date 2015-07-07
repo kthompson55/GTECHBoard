@@ -421,7 +421,7 @@ namespace Collection_Game_Tool.GameSetup
                 {
                     textBox.Text = lastAcceptableBoardSizeValue;
                 }
-                MainWindowModel.gameSetupModel.shout("validate");
+                //MainWindowModel.gameSetupModel.shout("validate");
             }
         }
 
