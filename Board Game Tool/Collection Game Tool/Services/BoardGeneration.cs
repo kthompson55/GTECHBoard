@@ -181,7 +181,14 @@ namespace Collection_Game_Tool.Services
             {
                 for (int i = 0; i < p.numCollections; i++)
                 {
-                    prizeLevel[index] = p.prizeLevel.ToString();
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append(p.prizeLevel.ToString());
+                    if (p.isInstantWin)
+                        sb.Append(":IW");
+                    if (p.isBonusGame)
+                        sb.Append(":BG");
+
+                    prizeLevel[index] = sb.ToString();
                     index++;
                 }
             }
@@ -236,45 +243,6 @@ namespace Collection_Game_Tool.Services
                 tempTile = newTile;
             }
             lastTile = tempTile;
-        }
-
-        ///NOT FINISHED
-        /// <summary>
-        /// Fills in collection tiles in the board
-        /// </summary>
-        /// <param name="minMove">The min movment a player can me</param>
-        /// <param name="maxMove">The max movment a player can make</param>
-        /// <param name="numMoves">The total amount of moves a player has</param>
-        /// <param name="divisions">The divisions a player can win</param>
-        /// <param name="prizes">The prizes</param>
-        private void fillInCollectionTileValues(
-            int minMove,
-            int maxMove,
-            int numMoves,
-            Divisions.DivisionsModel divisions,
-            PrizeLevels.PrizeLevels prizes)
-        {
-            int[] prizeLevels = new int[prizes.getNumPrizeLevels()];
-            for (int i = 0; i < prizeLevels.Length; i++)
-            {
-                prizeLevels[i] = prizes.getPrizeLevel(i).numCollections;
-            }
-            Tiles.ITile current = firstTile;
-
-            for (int i = numMoves; i > 0; i--)
-            {
-                int allowedEmptySpaces = numMoves - i;
-                Divisions.DivisionsModel divs = getDivisionsWitNumCollection(i, divisions);
-                for (int j = 0; j < divisions.divisions.Count; j++)
-                {
-                    int[] prizesAtThisDivisions = new int[divisions.divisions[j].getPrizeLevelsAtDivision().Count];
-                    int placedCollectionSpots = 0;
-                    while (placedCollectionSpots < i)
-                    {
-
-                    }
-                }
-            }
         }
 
         /// <summary>
@@ -375,10 +343,10 @@ namespace Collection_Game_Tool.Services
             while (currentTile != null)
             {
                 //sb.Append(currentTile.type + " :");
-                if (currentTile.type == Tiles.TileTypes.collection)
+                if (currentTile.type == Tiles.TileTypes.collection) 
                     sb.Append("CS:" + currentTile.tileInformation + ", ");
                 else
-                    sb.Append(" Other, ");
+                    sb.Append(currentTile.type + ", ");
                 currentTile = currentTile.child;
             }
             return sb.ToString();
