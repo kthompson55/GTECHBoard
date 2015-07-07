@@ -24,7 +24,7 @@ namespace Collection_Game_Tool.GameSetup
     public partial class GameSetupUC : UserControl, Teller, Listener
     {
         public static int pickCheck;
-        private String gsucID = null;
+		public string gsucID { get { return MainWindowModel.gameSetupModel.gsucID; } set { MainWindowModel.gameSetupModel.gsucID = value; } }
         private BoardGeneration boardGen;
 
         List<Listener> listenerList = new List<Listener>();
@@ -44,14 +44,14 @@ namespace Collection_Game_Tool.GameSetup
         public void DataBind()
         {
             MainWindowModel.gameSetupModel.canCreate = true;
+			NearWinCheckbox.DataContext = MainWindowModel.gameSetupModel;
             CreateButton.DataContext = MainWindowModel.gameSetupModel;
             DiceRadioButton.DataContext = MainWindowModel.gameSetupModel;
+			NumNearWinsSlider.DataContext = MainWindowModel.gameSetupModel;
             ErrorTextBlock.DataContext = ErrorService.Instance;
             WarningTextBlock.DataContext = ErrorService.Instance;
             errorPanelScroll.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
 
-            MainWindowModel.gameSetupModel.isNearWin = NearWinCheckbox.IsChecked == true;
-            MainWindowModel.gameSetupModel.nearWins = (short)NumNearWinsSlider.Value;
             MainWindowModel.gameSetupModel.numTurns = (int)NumTurnsSlider.Value;
             MainWindowModel.gameSetupModel.diceSelected = true;
             MainWindowModel.gameSetupModel.numDice = (int)NumDiceSlider.Value;
@@ -185,44 +185,6 @@ namespace Collection_Game_Tool.GameSetup
             GeneratingCompleteMessage.Visibility = Visibility.Visible;
             GeneratingCompleteMessage.FontSize = 20;
             GeneratingCompleteMessage.Margin = new Thickness(10);
-        }
-
-        private void NumNearWinsSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (MainWindowModel.gameSetupModel != null)
-            {
-                Slider slider = sender as Slider;
-                MainWindowModel.gameSetupModel.nearWins = Convert.ToInt16(slider.Value);
-
-                if (MainWindowModel.gameSetupModel.nearWins > PrizeLevels.PrizeLevels.numPrizeLevels)
-                {
-                    gsucID = ErrorService.Instance.reportError("007", new List<string> { }, gsucID);
-                }
-                else if (MainWindowModel.gameSetupModel.nearWins <= PrizeLevels.PrizeLevels.numPrizeLevels)
-                {
-                    ErrorService.Instance.resolveError("007", gsucID);
-                }
-            }
-        }
-
-        private void NearWinCheckbox_Click(object sender, RoutedEventArgs e)
-        {
-            MainWindowModel.gameSetupModel.toggleNearWin();
-            if (MainWindowModel.gameSetupModel.isNearWin)
-            {
-                if (MainWindowModel.gameSetupModel.nearWins > PrizeLevels.PrizeLevels.numPrizeLevels)
-                {
-                    gsucID = ErrorService.Instance.reportError("007", new List<string> { }, gsucID);
-                }
-                else if (MainWindowModel.gameSetupModel.nearWins <= PrizeLevels.PrizeLevels.numPrizeLevels)
-                {
-                    ErrorService.Instance.resolveError("007", gsucID);
-                }
-            }
-            else
-            {
-                ErrorService.Instance.resolveError("007", gsucID);
-            }
         }
 
         private void MaxPermutationsTextBox_TextChanged(object sender, TextChangedEventArgs e)

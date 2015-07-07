@@ -69,19 +69,19 @@
                  
                     <Border Style="{StaticResource externalBorderStyle}">
                         <StackPanel x:Name="GSNearWinPanel" Background="#ADADAD">
-                            <Label Style="{StaticResource titleStyle}">Near Win Experience</Label>
-                            <Border BorderBrush="Black" BorderThickness="0,0,0,2">
-                                <Label Style="{StaticResource instructionStyle}">If checked, defines how many levels come within one collection of winning a prize</Label>
-                            </Border>
+							<Label Style="{StaticResource titleStyle}" Content="Near Win Experience"/>
+							<Border BorderBrush="Black" BorderThickness="0,0,0,2">
+								<Label Style="{StaticResource instructionStyle}" Content="If checked, defines how many levels come within one collection of winning a prize"/>
+							</Border>
                             <Border BorderBrush="Black" BorderThickness="0,0,0,2">
                                 <StackPanel Orientation="Horizontal">
-                                    <Label Style="{StaticResource dataLabelStyle}">Enforce Near Win Experience:</Label>
-									<CheckBox x:Name="NearWinCheckbox" Click="NearWinCheckbox_Click" VerticalAlignment="Center" ToolTip="If checked, defines how many levels come within one collection of winning a prize"></CheckBox>
+									<Label Style="{StaticResource dataLabelStyle}" Content="Enforce Near Win Experience:"/>
+									<CheckBox x:Name="NearWinCheckbox" IsChecked="{Binding Mode=TwoWay, Path=isNearWin}" VerticalAlignment="Center" ToolTip="If checked, defines how many levels come within one collection of winning a prize"/>
                                 </StackPanel>
                             </Border>
                             <StackPanel IsEnabled="{Binding ElementName=NearWinCheckbox, Path=IsChecked}" Orientation="Horizontal" x:Name="GSNearWinOptional" Background="#8a8a8a" >
-                                <Label Style="{StaticResource dataLabelStyle}" Margin="0,1,0,0">Total Near Wins:</Label>
-                                <Label x:Name="NumNearWinsLabel" 
+								<Label Style="{StaticResource dataLabelStyle}" Margin="0,1,0,0" Content="Total Near Wins:"/>
+								<Label x:Name="NumNearWinsLabel" 
                                        Content="{Binding ElementName=NumNearWinsSlider, Path=Value}" 
                                        FontSize="14" 
                                        FontWeight="Bold"
@@ -93,7 +93,7 @@
                                 <StackPanel Orientation="Horizontal" Margin="10,0">
                                     <Label FontSize="14">2</Label>
                                     <Slider x:Name="NumNearWinsSlider" 
-                                            ValueChanged="NumNearWinsSlider_ValueChanged" 
+                                            Value="{Binding Path=nearWins, Mode=TwoWay}"
                                             MinWidth="200" Maximum="12" Minimum="2" 
                                             IsSelectionRangeEnabled="True" 
                                             VerticalAlignment="Center" 
