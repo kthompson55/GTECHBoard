@@ -62,7 +62,7 @@ namespace Collection_Game_Tool.GameSetup
             MainWindowModel.gameSetupModel.numMoveBackwardTiles = int.Parse(NumMoveBackwardTilesTextBox.Text);
             MainWindowModel.gameSetupModel.moveBackwardLength = (int)MoveBackwardLengthSlider.Value;
             MainWindowModel.gameSetupModel.maxPermutations = uint.Parse(MaxPermutationsTextBox.Text);
-            
+
             MainWindowModel.verifyNumTiles();
         }
 
@@ -84,13 +84,13 @@ namespace Collection_Game_Tool.GameSetup
             MoveForwardLengthSlider.Value = MainWindowModel.gameSetupModel.moveForwardLength;
             NumMoveBackwardTilesTextBox.Text = MainWindowModel.gameSetupModel.numMoveBackwardTiles.ToString();
             MoveBackwardLengthSlider.Value = MainWindowModel.gameSetupModel.moveBackwardLength;
-            MaxPermutationsTextBox.Text = MainWindowModel.gameSetupModel.maxPermutations.ToString();      
+            MaxPermutationsTextBox.Text = MainWindowModel.gameSetupModel.maxPermutations.ToString();
         }
 
         //Initiates save process when Create Button is clicked
         public void createButton_Click(object sender, RoutedEventArgs e)
         {
-			showGeneratingAnimation();
+            showGeneratingAnimation();
             int minMove = 0;
             int maxMove = 0;
             if (MainWindowModel.gameSetupModel.diceSelected)
@@ -98,17 +98,17 @@ namespace Collection_Game_Tool.GameSetup
                 minMove = MainWindowModel.gameSetupModel.numDice;
                 maxMove = MainWindowModel.gameSetupModel.numDice * 6;
             }
-            else 
+            else
             {
                 minMove = 1;
                 maxMove = MainWindowModel.gameSetupModel.spinnerMaxValue;
             }
 
-            Collection_Game_Tool.Services.Tiles.ITile boardFirstTile = 
+            Collection_Game_Tool.Services.Tiles.ITile boardFirstTile =
                 boardGen.genBoard(
                     MainWindowModel.gameSetupModel.boardSize,
                     MainWindowModel.gameSetupModel.initialReachableSpaces,
-                    minMove, 
+                    minMove,
                     maxMove,
                     MainWindowModel.gameSetupModel.numMoveBackwardTiles,
                     MainWindowModel.gameSetupModel.numMoveForwardTiles,
@@ -120,7 +120,7 @@ namespace Collection_Game_Tool.GameSetup
             boards.Add(boardFirstTile);
             GamePlayGeneration generator = new GamePlayGeneration(boards);
             string formattedPlays = "";
-            foreach(Collection_Game_Tool.Services.Tiles.ITile board in boards) 
+            foreach (Collection_Game_Tool.Services.Tiles.ITile board in boards)
             {
                 formattedPlays = generator.GetFormattedGameplay(boards);
             }
@@ -158,33 +158,33 @@ namespace Collection_Game_Tool.GameSetup
         private void showGeneratingAnimation()
         {
             GeneratingFileAnimation.Visibility = Visibility.Visible;
-			GeneratingFileAnimation.Margin = new Thickness(10);
-			GeneratingFileLabel.FontSize = 20;
-			GeneratingFileViewbox.Width = 50;
-			GeneratingFileViewbox.Height = 50;
+            GeneratingFileAnimation.Margin = new Thickness(10);
+            GeneratingFileLabel.FontSize = 20;
+            GeneratingFileViewbox.Width = 50;
+            GeneratingFileViewbox.Height = 50;
             hideGenerationCompleteMessage();
         }
 
         public void hideGeneratingAnimation()
         {
             GeneratingFileAnimation.Visibility = Visibility.Hidden;
-			GeneratingFileAnimation.Margin = new Thickness(0);
-			GeneratingFileLabel.FontSize = 1;
-			GeneratingFileViewbox.Width = 0;
-			GeneratingFileViewbox.Height = 0;
+            GeneratingFileAnimation.Margin = new Thickness(0);
+            GeneratingFileLabel.FontSize = 1;
+            GeneratingFileViewbox.Width = 0;
+            GeneratingFileViewbox.Height = 0;
             showGenerationCompleteMessage();
         }
         private void hideGenerationCompleteMessage()
         {
             GeneratingCompleteMessage.Visibility = Visibility.Hidden;
-			GeneratingCompleteMessage.FontSize = 1;
-			GeneratingCompleteMessage.Margin = new Thickness(0);
+            GeneratingCompleteMessage.FontSize = 1;
+            GeneratingCompleteMessage.Margin = new Thickness(0);
         }
         private void showGenerationCompleteMessage()
         {
             GeneratingCompleteMessage.Visibility = Visibility.Visible;
-			GeneratingCompleteMessage.FontSize = 20;
-			GeneratingCompleteMessage.Margin = new Thickness(10);
+            GeneratingCompleteMessage.FontSize = 20;
+            GeneratingCompleteMessage.Margin = new Thickness(10);
         }
 
         private void NumNearWinsSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -196,7 +196,7 @@ namespace Collection_Game_Tool.GameSetup
 
                 if (MainWindowModel.gameSetupModel.nearWins > PrizeLevels.PrizeLevels.numPrizeLevels)
                 {
-                    gsucID = ErrorService.Instance.reportError("007", new List<string>{}, gsucID);
+                    gsucID = ErrorService.Instance.reportError("007", new List<string> { }, gsucID);
                 }
                 else if (MainWindowModel.gameSetupModel.nearWins <= PrizeLevels.PrizeLevels.numPrizeLevels)
                 {
@@ -251,7 +251,7 @@ namespace Collection_Game_Tool.GameSetup
         {
             TextBox tb = sender as TextBox;
             lastAcceptableMaxPermutationValue = tb.Text;
-           
+
         }
 
         /// <summary>
@@ -266,7 +266,7 @@ namespace Collection_Game_Tool.GameSetup
             return philTheOrphan < 100000 && philTheOrphan > 0;
         }
 
-       
+
         private void GameSetupUserControl_Loaded(object sender, RoutedEventArgs e)
         {
             Window parentWindow = Window.GetWindow(this.Parent);
@@ -361,12 +361,12 @@ namespace Collection_Game_Tool.GameSetup
                 (ErrorService.Instance.warningText == "" || ErrorService.Instance.warningText == null))
             {
                 ErrorBoxBorder.Visibility = Visibility.Hidden;
-				ErrorRow.Height = new GridLength(0);
+                ErrorRow.Height = new GridLength(0);
             }
             else
             {
                 ErrorBoxBorder.Visibility = Visibility.Visible;
-				ErrorRow.Height = GridLength.Auto;
+                ErrorRow.Height = GridLength.Auto;
             }
         }
 
@@ -397,14 +397,13 @@ namespace Collection_Game_Tool.GameSetup
                 Slider slider = sender as Slider;
                 MainWindowModel.gameSetupModel.spinnerMaxValue = Convert.ToInt32(slider.Value);
 
-                //Insert error logging here
+                // Warnings only, referring to a single value spinner or a coin-flip spinner
                 if (MainWindowModel.gameSetupModel.spinnerMaxValue == 1)
                 {
                     gsucID = ErrorService.Instance.reportWarning("007", new List<string> { }, gsucID);
                     ErrorService.Instance.resolveWarning("008", gsucID);
-
                 }
-                else if (int.Parse(BoardSizeTextBox.Text) > maximumBoardSize() || int.Parse(BoardSizeTextBox.Text) < minimumBoardSize() || MainWindowModel.gameSetupModel.spinnerMaxValue == 2)
+                else if (MainWindowModel.gameSetupModel.spinnerMaxValue == 2)
                 {
                     gsucID = ErrorService.Instance.reportWarning("008", new List<String> { }, gsucID);
                     ErrorService.Instance.resolveWarning("007", gsucID);
@@ -429,7 +428,7 @@ namespace Collection_Game_Tool.GameSetup
                 else if (WithinViableBoardSizeRange(textBox.Text))
                 {
                     int boardSize;
-                    if(Int32.TryParse(textBox.Text, out boardSize) && boardSize >= 0)
+                    if (Int32.TryParse(textBox.Text, out boardSize) && boardSize >= 0)
                     {
                         MainWindowModel.gameSetupModel.boardSize = boardSize;
                     }
@@ -496,6 +495,11 @@ namespace Collection_Game_Tool.GameSetup
                 gsucID = ErrorService.Instance.reportWarning("008", new List<string> { }, gsucID);
                 ErrorService.Instance.resolveWarning("007", gsucID);
             }
+            else
+            {
+                ErrorService.Instance.resolveWarning("007", gsucID);
+                ErrorService.Instance.resolveWarning("008", gsucID);
+            }
             if (int.Parse(BoardSizeTextBox.Text) < minimumBoardSize())
             {
                 gsucID = ErrorService.Instance.reportError("014", new List<String> { }, gsucID);
@@ -503,8 +507,6 @@ namespace Collection_Game_Tool.GameSetup
             else
             {
                 MainWindowModel.verifyNumTiles();
-                ErrorService.Instance.resolveWarning("007", gsucID);
-                ErrorService.Instance.resolveWarning("008", gsucID);
                 ErrorService.Instance.resolveError("014", gsucID);
             }
         }
