@@ -53,16 +53,15 @@ namespace Collection_Game_Tool.GameSetup
 			SpinnerRadioButton.DataContext = MainWindowModel.gameSetupModel;
 			NumDiceSlider.DataContext = MainWindowModel.gameSetupModel;
 			SpinnerValueSlider.DataContext = MainWindowModel.gameSetupModel;
+			BoardSizeTextBox.DataContext = MainWindowModel.gameSetupModel;
+			NumMoveForwardTilesTextBox.DataContext = MainWindowModel.gameSetupModel;
+			MoveForwardLengthSlider.DataContext = MainWindowModel.gameSetupModel;
+			NumMoveBackwardTilesTextBox.DataContext = MainWindowModel.gameSetupModel;
+			MoveBackwardLengthSlider.DataContext = MainWindowModel.gameSetupModel;
+			MaxPermutationsTextBox.DataContext = MainWindowModel.gameSetupModel;
             ErrorTextBlock.DataContext = ErrorService.Instance;
             WarningTextBlock.DataContext = ErrorService.Instance;
             errorPanelScroll.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
-
-            MainWindowModel.gameSetupModel.boardSize = int.Parse(BoardSizeTextBox.Text);
-            MainWindowModel.gameSetupModel.numMoveForwardTiles = int.Parse(NumMoveForwardTilesTextBox.Text);
-            MainWindowModel.gameSetupModel.moveForwardLength = (int)MoveForwardLengthSlider.Value;
-            MainWindowModel.gameSetupModel.numMoveBackwardTiles = int.Parse(NumMoveBackwardTilesTextBox.Text);
-            MainWindowModel.gameSetupModel.moveBackwardLength = (int)MoveBackwardLengthSlider.Value;
-            MainWindowModel.gameSetupModel.maxPermutations = uint.Parse(MaxPermutationsTextBox.Text);
 
             MainWindowModel.verifyNumTiles();
         }
@@ -73,6 +72,21 @@ namespace Collection_Game_Tool.GameSetup
             MainWindowModel.gameSetupModel.initializeListener();
             Window parentWindow = Window.GetWindow(this.Parent);
             MainWindowModel.gameSetupModel.addListener((Window1)parentWindow);
+
+			NumTurnsSlider.DataContext = MainWindowModel.gameSetupModel;
+			NearWinCheckbox.DataContext = MainWindowModel.gameSetupModel;
+			CreateButton.DataContext = MainWindowModel.gameSetupModel;
+			DiceRadioButton.DataContext = MainWindowModel.gameSetupModel;
+			NumNearWinsSlider.DataContext = MainWindowModel.gameSetupModel;
+			SpinnerRadioButton.DataContext = MainWindowModel.gameSetupModel;
+			NumDiceSlider.DataContext = MainWindowModel.gameSetupModel;
+			SpinnerValueSlider.DataContext = MainWindowModel.gameSetupModel;
+			BoardSizeTextBox.DataContext = MainWindowModel.gameSetupModel;
+			NumMoveForwardTilesTextBox.DataContext = MainWindowModel.gameSetupModel;
+			MoveForwardLengthSlider.DataContext = MainWindowModel.gameSetupModel;
+			NumMoveBackwardTilesTextBox.DataContext = MainWindowModel.gameSetupModel;
+			MoveBackwardLengthSlider.DataContext = MainWindowModel.gameSetupModel;
+			MaxPermutationsTextBox.DataContext = MainWindowModel.gameSetupModel;
 
             NearWinCheckbox.IsChecked = MainWindowModel.gameSetupModel.isNearWin;
             NumNearWinsSlider.Value = MainWindowModel.gameSetupModel.nearWins;
@@ -192,35 +206,6 @@ namespace Collection_Game_Tool.GameSetup
             GeneratingCompleteMessage.Margin = new Thickness(10);
         }
 
-        private void MaxPermutationsTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (MainWindowModel.gameSetupModel != null)
-            {
-                TextBox textBox = sender as TextBox;
-                if (textBox.Text == "")
-                {
-                    textBox.Text = 1 + "";
-                }
-                else if (!WithinPermutationRange(textBox.Text))
-                {
-                    textBox.Text = lastAcceptableMaxPermutationValue;
-                }
-                else
-                {
-                    MainWindowModel.gameSetupModel.maxPermutations = Convert.ToUInt32(textBox.Text);
-                }
-                MainWindowModel.gameSetupModel.shout("validate");
-            }
-        }
-
-
-        private void MaxPermutationsTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            TextBox tb = sender as TextBox;
-            lastAcceptableMaxPermutationValue = tb.Text;
-
-        }
-
         /// <summary>
         /// Checks that the value entered in Max Permutations is acceptable
         /// </summary>
@@ -263,26 +248,6 @@ namespace Collection_Game_Tool.GameSetup
             {
                 hideGeneratingAnimation();
             }
-        }
-
-        //Do we even need this? Maybe for warnings. Don't use for errors.
-        private int maximumBoardSize()
-        {
-            if ((bool)DiceRadioButton.IsChecked)
-            {
-                return ((int)NumDiceSlider.Value * 6) * (int)NumTurnsSlider.Value;
-            }
-            else if ((bool)SpinnerRadioButton.IsChecked)
-            {
-                return ((int)SpinnerValueSlider.Value) * (int)NumTurnsSlider.Value;
-            }
-            return 0;
-        }
-
-        //Calculates the smallest possible board size for the current settings
-        private int minimumBoardSize()
-        {
-			return MainWindowModel.gameSetupModel.MinimumBoardSize();
         }
 
         /// <summary>
@@ -350,56 +315,6 @@ namespace Collection_Game_Tool.GameSetup
             }
         }
 
-        private void BoardSizeTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (MainWindowModel.gameSetupModel != null)
-            {
-                TextBox textBox = sender as TextBox;
-                if (textBox.Text == "")
-                {
-                    textBox.Text = 0 + "";
-                }
-                else if (WithinViableBoardSizeRange(textBox.Text))
-                {
-                    int boardSize;
-                    if (Int32.TryParse(textBox.Text, out boardSize) && boardSize >= 0)
-                    {
-                        MainWindowModel.gameSetupModel.boardSize = boardSize;
-                    }
-                    MainWindowModel.verifyNumTiles();
-                }
-                else
-                {
-                    textBox.Text = lastAcceptableBoardSizeValue;
-                }
-                //MainWindowModel.gameSetupModel.shout("validate");
-            }
-        }
-
-        private bool WithinViableBoardSizeRange(string s)
-        {
-            int boardSizeValue;
-            bool successful = Int32.TryParse(s, out boardSizeValue);
-            if (successful)
-            {
-                if (boardSizeValue < minimumBoardSize())
-                {
-                    gsucID = ErrorService.Instance.reportError("014", new List<String> { }, gsucID);
-                }
-                else
-                {
-                    ErrorService.Instance.resolveError("014", gsucID);
-                }
-            }
-            return successful;
-        }
-
-        private void BoardSizeTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            TextBox tb = sender as TextBox;
-            lastAcceptableBoardSizeValue = tb.Text;
-        }
-
         private void TextBox_GotFocus(object sender, RoutedEventArgs e)
         {
             TextBox textBox = sender as TextBox;
@@ -410,95 +325,6 @@ namespace Collection_Game_Tool.GameSetup
         {
             TextBox textBox = sender as TextBox;
             textBox.SelectAll();
-        }
-
-        private void NumMoveForwardTilesTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (MainWindowModel.gameSetupModel != null)
-            {
-                TextBox textBox = sender as TextBox;
-                if (textBox.Text == "")
-                {
-                    textBox.Text = 0 + "";
-                }
-                int numMFValue;
-                if (Int32.TryParse(textBox.Text, out numMFValue) && numMFValue >= 0)
-                {
-                    // confirm that there is enough space on board for desired number of move-backward tiles
-                    MainWindowModel.gameSetupModel.numMoveBackwardTiles = numMFValue;
-                    MainWindowModel.verifyNumTiles();
-                }
-                else
-                {
-                    textBox.Text = lastAcceptableNumMoveForwardTiles;
-                }
-            }
-        }
-
-        private void NumMoveForwardTilesTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            TextBox tb = sender as TextBox;
-            lastAcceptableNumMoveForwardTiles = tb.Text;
-        }
-
-        private void MoveForwardLengthTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            TextBox tb = sender as TextBox;
-            lastAcceptableMoveForwardLength = tb.Text;
-        }
-
-        private void NumMoveBackwardTilesTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (MainWindowModel.gameSetupModel != null)
-            {
-                TextBox textBox = sender as TextBox;
-                if (textBox.Text == "")
-                {
-                    textBox.Text = 0 + "";
-                }
-                int numMBValue;
-                if (Int32.TryParse(textBox.Text, out numMBValue) && numMBValue >= 0)
-                {
-                    // confirm that there is enough space on board for desired number of move-backward tiles
-                    MainWindowModel.gameSetupModel.numMoveBackwardTiles = numMBValue;
-                    MainWindowModel.verifyNumTiles();
-                }
-                else
-                {
-                    textBox.Text = lastAcceptableNumMoveBackwardTiles;
-                }
-            }
-        }
-
-        private void NumMoveBackwardTilesTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            TextBox tb = sender as TextBox;
-            lastAcceptableNumMoveBackwardTiles = tb.Text;
-        }
-
-
-        private void MoveBackwardLengthTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            TextBox tb = sender as TextBox;
-            lastAcceptableMoveBackwardLength = tb.Text;
-        }
-
-        private void MoveForwardLengthSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (MainWindowModel.gameSetupModel != null)
-            {
-                Slider slider = sender as Slider;
-                MainWindowModel.gameSetupModel.moveForwardLength = Convert.ToInt32(slider.Value);
-            }
-        }
-
-        private void MoveBackwardLengthSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (MainWindowModel.gameSetupModel != null)
-            {
-                Slider slider = sender as Slider;
-                MainWindowModel.gameSetupModel.moveBackwardLength = Convert.ToInt32(slider.Value);
-            }
         }
     }
 }

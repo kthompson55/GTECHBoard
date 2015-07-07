@@ -205,102 +205,99 @@
                     <Border Style="{StaticResource externalBorderStyle}">
 
 						<StackPanel x:Name="GSBoard" Background="#ADADAD">
-							<Label Style="{StaticResource titleStyle}" ToolTip="The board on which the game will take place">Board Setup</Label>
-                            <Border BorderBrush="Black" BorderThickness="0,0,0,2">
-                                <Label Style="{StaticResource instructionStyle}">The board on which the game will take place</Label>
-                            </Border>
+							<Label Style="{StaticResource titleStyle}" ToolTip="The board on which the game will take place" Content="Board Setup"/>
+							<Border BorderBrush="Black" BorderThickness="0,0,0,2">
+								<Label Style="{StaticResource instructionStyle}" Content="The board on which the game will take place"/>
+							</Border>
                             <Border Style="{StaticResource internalBorderStyle}">
                                 <DockPanel>
-                                    <Label Style="{StaticResource dataLabelStyle}" Margin="118,0,0,0">Number of Tiles:</Label>
-                                    <TextBox x:Name="BoardSizeTextBox" 
+									<Label Style="{StaticResource dataLabelStyle}" Margin="118,0,0,0" Content="Number of Tiles:"/>
+									<TextBox x:Name="BoardSizeTextBox" 
                                      GotFocus="TextBox_GotFocus" 
                                      GotMouseCapture="TextBox_GotMouseCapture" 
-                                     TextChanged="BoardSizeTextBox_TextChanged"
-                                     PreviewTextInput="BoardSizeTextBox_PreviewTextInput"
                                      FontSize="14"
                                      VerticalAlignment="Center"
                                      HorizontalAlignment="Left"
                                      Width="100"
-                                         >1</TextBox>
+											 Text="{Binding Path=BoardSizeTextBox, Mode=TwoWay}"
+                                         />
 
-                                </DockPanel>
+								</DockPanel>
                             </Border>
                             <Border Style="{StaticResource internalBorderStyle}">
                                 <DockPanel Background="#8a8a8a">
-                                    <Label Style="{StaticResource dataLabelStyle}" Margin="26,0,0,0">Number of Move Forward Tiles:</Label>
-                                    <TextBox x:Name="NumMoveForwardTilesTextBox" 
+									<Label Style="{StaticResource dataLabelStyle}" Margin="26,0,0,0" Content="Number of Move Forward Tiles:"/>
+									<TextBox x:Name="NumMoveForwardTilesTextBox" 
                                      GotFocus="TextBox_GotFocus" 
                                      GotMouseCapture="TextBox_GotMouseCapture" 
-                                     TextChanged="NumMoveForwardTilesTextBox_TextChanged"
-                                     PreviewTextInput="NumMoveForwardTilesTextBox_PreviewTextInput"
                                      FontSize="14"
                                      VerticalAlignment="Center"
                                      HorizontalAlignment="Left"
                                      Width="100"
-                                         >1</TextBox>
+											 Text="{Binding Path=NumMoveForwardTilesTextbox, Mode=TwoWay}"
+                                         />
 
-                                </DockPanel>
+								</DockPanel>
                             </Border>
                             <Border Style="{StaticResource internalBorderStyle}">
                                 <StackPanel Orientation="Horizontal">
-                                    <Label Style="{StaticResource dataLabelStyle}" Margin="81,1,0,0">Move Forward Length:</Label>
-                                    <Label x:Name="MoveForwardLengthLabel" Content="{Binding ElementName=MoveForwardLengthSlider, Path=Value}"
+									<Label Style="{StaticResource dataLabelStyle}" Margin="81,1,0,0" Content="Move Forward Length:"/>
+									<Label x:Name="MoveForwardLengthLabel" Content="{Binding ElementName=MoveForwardLengthSlider, Path=Value}"
                                        FontSize="14" 
                                        FontWeight="Bold"
                                        ContentStringFormat="{}{0:#}" 
                                        HorizontalContentAlignment="Center" 
                                        Background="White" 
                                        Width="30"
-                                       Margin="0,2,15,2"></Label>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Label FontSize="14">1</Label>
-                                        <Slider x:Name="MoveForwardLengthSlider" 
-                                            ValueChanged="MoveForwardLengthSlider_ValueChanged" 
+                                       Margin="0,2,15,2"/>
+									<StackPanel Orientation="Horizontal">
+										<Label FontSize="14" Content="1"/>
+										<Slider x:Name="MoveForwardLengthSlider" 
+                                            Value="{Binding Path=moveForwardLength, Mode=TwoWay}"
                                             MinWidth="120" Maximum="5" Minimum="1" 
                                             IsSelectionRangeEnabled="True" 
                                             VerticalAlignment="Center" 
-                                            IsSnapToTickEnabled="True" TickPlacement="Both" TickFrequency="1"></Slider>
-                                        <Label FontSize="14">5</Label>
-                                    </StackPanel>
+                                            IsSnapToTickEnabled="True" TickPlacement="Both" TickFrequency="1"/>
+										<Label FontSize="14" Content="5"/>
+									</StackPanel>
                                 </StackPanel>
                             </Border>
                             <Border Style="{StaticResource internalBorderStyle}">
                                 <DockPanel Background="#8a8a8a">
-                                    <Label Style="{StaticResource dataLabelStyle}" Margin="17,0,0,0">Number of Move Backward Tiles:</Label>
-                                    <TextBox x:Name="NumMoveBackwardTilesTextBox" 
+									<Label Style="{StaticResource dataLabelStyle}" Margin="17,0,0,0" Content="Number of Move Backward Tiles:"/>
+									<TextBox x:Name="NumMoveBackwardTilesTextBox" 
                                      GotFocus="TextBox_GotFocus" 
                                      GotMouseCapture="TextBox_GotMouseCapture" 
-                                     TextChanged="NumMoveBackwardTilesTextBox_TextChanged"
-                                     PreviewTextInput="NumMoveBackwardTilesTextBox_PreviewTextInput"
+                                     Text="{Binding Path=NumMoveBackwardTilesTextbox, Mode=TwoWay}"
                                      FontSize="14"
                                      VerticalAlignment="Center"
                                      HorizontalAlignment="Left"
                                      Width="100"
-                                         >1</TextBox>
+                                         />
 
-                                </DockPanel>
+								</DockPanel>
                             </Border>
                             <Border>
                                 <StackPanel Orientation="Horizontal">
-                                    <Label Style="{StaticResource dataLabelStyle}" Margin="73,1,0,0">Move Backward Length:</Label>
-                                    <Label x:Name="MoveBackwardLengthLabel" Content="{Binding ElementName=MoveBackwardLengthSlider, Path=Value}"
+									<Label Style="{StaticResource dataLabelStyle}" Margin="73,1,0,0" Content="Move Backward Length:"/>
+									<Label x:Name="MoveBackwardLengthLabel" Content="{Binding ElementName=MoveBackwardLengthSlider, Path=Value}"
                                        FontSize="14" 
                                        FontWeight="Bold"
                                        ContentStringFormat="{}{0:#}" 
                                        HorizontalContentAlignment="Center" 
                                        Background="White" 
                                        Width="30"
-                                       Margin="0,2,15,2"></Label>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Label FontSize="14">1</Label>
-                                        <Slider x:Name="MoveBackwardLengthSlider" 
-                                            ValueChanged="MoveBackwardLengthSlider_ValueChanged"
+                                       Margin="0,2,15,2"/>
+									<StackPanel Orientation="Horizontal">
+										<Label FontSize="14" Content="1"/>
+										<Slider x:Name="MoveBackwardLengthSlider" 
+												Value="{Binding Path=moveBackwardLength, Mode=TwoWay}"
                                             MinWidth="120" Maximum="5" Minimum="1" 
                                             IsSelectionRangeEnabled="True" 
                                             VerticalAlignment="Center" 
-                                            IsSnapToTickEnabled="True" TickPlacement="Both" TickFrequency="1"></Slider>
-                                        <Label FontSize="14">5</Label>
-                                    </StackPanel>
+                                            IsSnapToTickEnabled="True" TickPlacement="Both" TickFrequency="1"/>
+										<Label FontSize="14" Content="5"/>
+									</StackPanel>
                                 </StackPanel>
                             </Border>
                         </StackPanel>
@@ -309,28 +306,25 @@
                     <Border Style="{StaticResource externalBorderStyle}">
 
 						<StackPanel x:Name="GSPermutationsPanel" Background="#ADADAD">
-							<Label Style="{StaticResource titleStyle}" ToolTip="The number of winning combinations to calculate for each division, including an extra losing division">Game Win/Lose Permutations</Label>
-                            <Border BorderBrush="Black" BorderThickness="0,0,0,2">
+							<Label Style="{StaticResource titleStyle}" ToolTip="The number of winning combinations to calculate for each division, including an extra losing division" Content="Game Win/Lose Permutations"/>
+							<Border BorderBrush="Black" BorderThickness="0,0,0,2">
 								<StackPanel Background="#009ad8">
-									<TextBlock Style="{StaticResource instructionStyleTextblock}" Margin="40,2,40,2">
-										The number of winning combinations to calculate for each division, including an extra losing division.
-									</TextBlock>
-                                </StackPanel>
+									<TextBlock Style="{StaticResource instructionStyleTextblock}" Margin="40,2,40,2" Text="The number of winning combinations to calculate for each division, including an extra losing division."/>
+								</StackPanel>
                             </Border>
                             <DockPanel>
-                                <Label Style="{StaticResource dataLabelStyle}">Maximum Permutations:</Label>
-                                <TextBox x:Name="MaxPermutationsTextBox" 
+								<Label Style="{StaticResource dataLabelStyle}" Content="Maximum Permutations:"/>
+								<TextBox x:Name="MaxPermutationsTextBox" 
                                      GotFocus="TextBox_GotFocus" 
                                      GotMouseCapture="TextBox_GotMouseCapture" 
-                                     TextChanged="MaxPermutationsTextBox_TextChanged"
-                                     PreviewTextInput="MaxPermutationsTextBox_PreviewTextInput"
+										 Text="{Binding Path=MaxPermutationsTextbox, Mode=TwoWay}"
                                      FontSize="14"
                                      VerticalAlignment="Center"
                                      HorizontalAlignment="Left"
                                      Width="100"
-                                         >1</TextBox>
+                                         />
 
-                            </DockPanel>
+							</DockPanel>
                         </StackPanel>
                     </Border>
 
