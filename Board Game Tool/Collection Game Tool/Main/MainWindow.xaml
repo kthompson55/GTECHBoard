@@ -14,6 +14,7 @@
 
         <Menu x:Name="toolMenu" HorizontalAlignment="Right">
             <MenuItem Header="File" Margin="10 0 0 0">
+                <MenuItem Header="New Project" Click="New_Clicked"/>
                 <MenuItem Header="Save Project" Click="SaveItem_Clicked"/>
                 <MenuItem Header="Save Project As" Click="SaveAsItem_Clicked"/>
                 <MenuItem Header="Open Project" Click="OpenItem_Clicked"/>

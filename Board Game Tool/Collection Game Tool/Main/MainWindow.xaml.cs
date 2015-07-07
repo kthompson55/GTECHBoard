@@ -17,6 +17,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Forms;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization;
+using System.IO;
 
 namespace Collection_Game_Tool.Main
 {
@@ -120,6 +123,20 @@ namespace Collection_Game_Tool.Main
             divUC.validateDivision();
         }
 
+        private void New_Clicked(object sender, RoutedEventArgs e)
+        {
+            string projectFileName = "../../NEW_PROJECT.bggproj";
+            string temp = System.AppDomain.CurrentDomain.BaseDirectory;
+            IFormatter format = new BinaryFormatter();
+            Stream stream = new FileStream(projectFileName, FileMode.Open, FileAccess.Read, FileShare.Read);
+            ProjectData loadedProject = (ProjectData)format.Deserialize(stream);
+            savedProject.savedPrizeLevels = loadedProject.savedPrizeLevels;
+            savedProject.savedGameSetup = loadedProject.savedGameSetup;
+            savedProject.savedDivisions = loadedProject.savedDivisions;
+
+            loadProject();
+        }
+
         private void SaveItem_Clicked(object sender, RoutedEventArgs e)
         {
             savedProject.SaveProject(MainWindowModel.gameSetupModel, MainWindowModel.prizeLevelsModel, MainWindowModel.divisionsModel);
@@ -135,35 +152,38 @@ namespace Collection_Game_Tool.Main
             bool projectLoadingSuccessful = savedProject.OpenProject();
 
             if (projectLoadingSuccessful)
+                loadProject();
+        }
+
+        private void loadProject()
+        {
+            MainWindowModel.prizeLevelsModel = savedProject.savedPrizeLevels;
+            PrizeLevels.PrizeLevels.numPrizeLevels = savedProject.savedPrizeLevels.getNumPrizeLevels();
+            pl.Prizes.Children.Clear();
+            for (int i = 0; i < MainWindowModel.prizeLevelsModel.getNumPrizeLevels(); i++)
             {
-                MainWindowModel.prizeLevelsModel = savedProject.savedPrizeLevels;
-                PrizeLevels.PrizeLevels.numPrizeLevels = savedProject.savedPrizeLevels.getNumPrizeLevels();
-                pl.Prizes.Children.Clear();
-                for (int i = 0; i < MainWindowModel.prizeLevelsModel.getNumPrizeLevels(); i++)
-                {
-                    pl.loadExistingPrizeLevel(MainWindowModel.prizeLevelsModel.prizeLevels[i]);
-                }
-                pl.checkLoadedPrizeLevels();
-
-                MainWindowModel.gameSetupModel = savedProject.savedGameSetup;
-                gs.loadExistingData();
-
-                MainWindowModel.divisionsModel = savedProject.savedDivisions;
-                divUC.prizes = savedProject.savedPrizeLevels;
-                divUC.divisionsHolderPanel.Children.Clear();
-
-                for (int i = 0; i < MainWindowModel.divisionsModel.getSize(); i++)
-                {
-                    divUC.loadInDivision(MainWindowModel.divisionsModel.divisions[i]);
-                }
-
-                ErrorService.Instance.ClearErrors();
-                ErrorService.Instance.ClearWarnings();
-
-                MainWindowModel.verifyNumTiles();
-                MainWindowModel.verifyDivisions();
-                MainWindowModel.gameSetupModel.shout("validate");
+                pl.loadExistingPrizeLevel(MainWindowModel.prizeLevelsModel.prizeLevels[i]);
             }
+            pl.checkLoadedPrizeLevels();
+
+            MainWindowModel.gameSetupModel = savedProject.savedGameSetup;
+            gs.loadExistingData();
+
+            MainWindowModel.divisionsModel = savedProject.savedDivisions;
+            divUC.prizes = savedProject.savedPrizeLevels;
+            divUC.divisionsHolderPanel.Children.Clear();
+
+            for (int i = 0; i < MainWindowModel.divisionsModel.getSize(); i++)
+            {
+                divUC.loadInDivision(MainWindowModel.divisionsModel.divisions[i]);
+            }
+
+            ErrorService.Instance.ClearErrors();
+            ErrorService.Instance.ClearWarnings();
+
+            MainWindowModel.verifyNumTiles();
+            MainWindowModel.verifyDivisions();
+            MainWindowModel.gameSetupModel.shout("validate");
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
