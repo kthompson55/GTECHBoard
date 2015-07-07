@@ -218,5 +218,15 @@ namespace Collection_Game_Tool.GameSetup
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public bool HasErrors()
+        {
+            return unresolvedErrors.Count > 0;
+        }
+
+        public bool HasWarnings()
+        {
+            return unresolvedWarnings.Count > 0;
+        }
     }
 }

@@ -27,16 +27,17 @@ namespace Collection_Game_Tool.Services
         }
 
         //This will add the full path a game play generation will take on a board and also add what the game play generation won
-        private void addPath(String winFor, String path)
+        private void addPath(String winFor, String boardDesign, String path)
         {
+            string gamePermutation = boardDesign + path;
             if (paths[winFor] != null)
             {
-                paths[winFor].Add(path);
+                paths[winFor].Add(gamePermutation);
             }
             else
             {
                 paths.Add(winFor, new List<String>());
-                paths[winFor].Add(path);
+                paths[winFor].Add(gamePermutation);
             }
         }
 
@@ -45,6 +46,7 @@ namespace Collection_Game_Tool.Services
         //This generates the path a player can take through a board, this will generate every possible path that can exist and will allow for good play through.
         private void GeneratePlaysFromBoard(ITile board)
         {
+            string boardDesign = CreateBoardDesignString(board);
             foreach (int t in board.connections.Keys)
             {
                 if(numDice==0)
@@ -52,7 +54,7 @@ namespace Collection_Game_Tool.Services
                     if (board.connections[t].type == TileTypes.collection)
                     {
                         String getter = (String)board.connections[t].tileAction();
-                        GeneratePlaysFromBoardHelper(board.connections[t], 1, "|" + t, new PlayGen(getter));
+                        GeneratePlaysFromBoardHelper(board.connections[t], 1, boardDesign, "|" + t, new PlayGen(getter));
                     }
                     else if (board.connections[t].type == TileTypes.moveForward || board.connections[t].type == TileTypes.moveBack)
                     {
@@ -69,11 +71,11 @@ namespace Collection_Game_Tool.Services
                             }
                         }
                         if(beginTile!=nextTile)
-                            GeneratePlaysFromBoardHelper(nextTile, 1, "|" + t, new PlayGen());
+                            GeneratePlaysFromBoardHelper(nextTile, 1, boardDesign, "|" + t, new PlayGen());
                     }
                     else
                     {
-                        GeneratePlaysFromBoardHelper(board.connections[t], 1, "|" + t, new PlayGen());
+                        GeneratePlaysFromBoardHelper(board.connections[t], 1, boardDesign, "|" + t, new PlayGen());
                     }
                 }
                 else
@@ -81,7 +83,7 @@ namespace Collection_Game_Tool.Services
                     if (board.connections[t].type == TileTypes.collection) //If connection is a collection space
                     {
                         String getter = (String)board.connections[t].tileAction();
-                        GeneratePlaysFromBoardHelper(board.connections[t], 1, "|" + rollOptions[t][rand.Next(0, rollOptions[t].Count)], new PlayGen());
+                        GeneratePlaysFromBoardHelper(board.connections[t], 1, boardDesign, "|" + rollOptions[t][rand.Next(0, rollOptions[t].Count)], new PlayGen());
                     }
                     else if (board.connections[t].type == TileTypes.moveForward || board.connections[t].type == TileTypes.moveBack) // connection is a move forward/backward space
                     {
@@ -98,18 +100,18 @@ namespace Collection_Game_Tool.Services
                             }
                         }
                         if(beginTile!=nextTile)
-                            GeneratePlaysFromBoardHelper(nextTile, 1, "|" + rollOptions[t][rand.Next(0, rollOptions[t].Count)], new PlayGen());
+                            GeneratePlaysFromBoardHelper(nextTile, 1, boardDesign, "|" + rollOptions[t][rand.Next(0, rollOptions[t].Count)], new PlayGen());
                     }
                     else
                     {
-                        GeneratePlaysFromBoardHelper(board.connections[t], 1, "|" + rollOptions[t][rand.Next(0, rollOptions[t].Count)], new PlayGen());
+                        GeneratePlaysFromBoardHelper(board.connections[t], 1, boardDesign, "|" + rollOptions[t][rand.Next(0, rollOptions[t].Count)], new PlayGen());
                     }
                 }
             }
         }
 
         //This continues generating the play from a board, this is a recursive function.
-        private void GeneratePlaysFromBoardHelper(ITile board, int moves, String curPath, PlayGen pg)
+        private void GeneratePlaysFromBoardHelper(ITile board, int moves, String boardDesign, String curPath, PlayGen pg)
         {
             if (board.connections.Count == 0 || moves==numMoves) // last space
             {
@@ -142,9 +144,9 @@ namespace Collection_Game_Tool.Services
                 }
 
                 if (hasPrizes && !hasOtherPrizes)
-                    addPath(divWon.DivisionNumber.ToString(), curPath);
+                    addPath(divWon.DivisionNumber.ToString(), boardDesign, curPath);
                 else if (!hasOtherPrizes)
-                    addPath("none", curPath);
+                    addPath("none", boardDesign, curPath);
             }
             foreach (int t in board.connections.Keys)
             {
@@ -153,7 +155,7 @@ namespace Collection_Game_Tool.Services
                     if (board.connections[t].type == TileTypes.collection)
                     {
                         String getter = (String)board.connections[t].tileAction();
-                        GeneratePlaysFromBoardHelper(board.connections[t], moves + 1, curPath + "," + t, new PlayGen(pg, getter));
+                        GeneratePlaysFromBoardHelper(board.connections[t], moves + 1, boardDesign, curPath + "," + t, new PlayGen(pg, getter));
                     }
                     else if (board.connections[t].type == TileTypes.moveForward || board.connections[t].type == TileTypes.moveBack)
                     {
@@ -168,11 +170,11 @@ namespace Collection_Game_Tool.Services
                                 break;
                         }
                         if(beginTile!=nextTile)
-                            GeneratePlaysFromBoardHelper(nextTile, moves + 1, curPath + "," + t, new PlayGen(pg));
+                            GeneratePlaysFromBoardHelper(nextTile, moves + 1, boardDesign, curPath + "," + t, new PlayGen(pg));
                     }
                     else
                     {
-                        GeneratePlaysFromBoardHelper(board.connections[t], moves + 1, curPath + "," + t, new PlayGen(pg));
+                        GeneratePlaysFromBoardHelper(board.connections[t], moves + 1, boardDesign, curPath + "," + t, new PlayGen(pg));
                     }
                 }
                 else
@@ -180,7 +182,7 @@ namespace Collection_Game_Tool.Services
                     if (board.connections[t].type == TileTypes.collection)
                     {
                         String getter = (String)board.connections[t].tileAction();
-                        GeneratePlaysFromBoardHelper(board.connections[t], moves + 1, curPath + "," + rollOptions[t][rand.Next(0, rollOptions[t].Count)], new PlayGen(pg, getter));
+                        GeneratePlaysFromBoardHelper(board.connections[t], moves + 1, boardDesign, curPath + "," + rollOptions[t][rand.Next(0, rollOptions[t].Count)], new PlayGen(pg, getter));
                     }
                     else if (board.connections[t].type == TileTypes.moveForward || board.connections[t].type == TileTypes.moveBack)
                     {
@@ -195,18 +197,18 @@ namespace Collection_Game_Tool.Services
                                 break;
                         }
                         if(beginTile!=nextTile)
-                            GeneratePlaysFromBoardHelper(nextTile, moves + 1, curPath + "," + rollOptions[t][rand.Next(0, rollOptions[t].Count)], new PlayGen(pg));
+                            GeneratePlaysFromBoardHelper(nextTile, moves + 1, boardDesign, curPath + "," + rollOptions[t][rand.Next(0, rollOptions[t].Count)], new PlayGen(pg));
                     }
                     else
                     {
-                        GeneratePlaysFromBoardHelper(board.connections[t], moves + 1, curPath + "," + rollOptions[t][rand.Next(0, rollOptions[t].Count)], new PlayGen(pg));
+                        GeneratePlaysFromBoardHelper(board.connections[t], moves + 1, boardDesign, curPath + "," + rollOptions[t][rand.Next(0, rollOptions[t].Count)], new PlayGen(pg));
                     }
                 }
             }
         }
 
 
-        // NOT FINISHED
+        // FINISHED, but untested 
         /// <summary>
         /// Formats all of the viable gameplay permutations into a string for the file output
         /// </summary>
@@ -214,14 +216,21 @@ namespace Collection_Game_Tool.Services
         /// <returns>The string representation of all permutations in "boardDesign|rolls" format</returns>
         public string GetFormattedGameplay(List<ITile> boards)
         {
-            string games = ""; // the string which will contain the boardDesign|rolls output
+            string output = ""; // the string which will contain the  "div boardDesign|rolls" output
 
-            foreach (ITile board in boards) //This will need to happen for each board. Assuming one for now? Need to store rolls for extra boards?
+            foreach (ITile board in boards) //
             {
-                string boardDesign = CreateBoardDesignString(board);
+                foreach (KeyValuePair<String, List<String>> entry in paths) // For every division entry in paths
+                {
+                    string division = entry.Key;
+                    foreach (String permutation in entry.Value) // For every permutation of the current division
+                    {
+                        output += (division + " " + permutation + Environment.NewLine);
+                    }
+                }
 
             }
-            return "";
+            return output;
         }
 
         //Untested, but seemingly complete
