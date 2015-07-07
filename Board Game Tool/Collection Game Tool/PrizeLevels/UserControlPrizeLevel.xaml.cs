@@ -168,7 +168,7 @@ namespace Collection_Game_Tool.PrizeLevels
                     ucplID = ErrorService.Instance.reportError("006", new List<string>{
                         (string)plc.Convert(plObject.prizeLevel,typeof(string), null, new System.Globalization.CultureInfo("en-us")),
                         "0",
-                        "20"
+                        "10"
                     }, ucplID);
                 }
                 else if(vr.Equals(new ValidationResult(false, "Cannot be nothing")))

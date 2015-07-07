@@ -90,7 +90,7 @@
                     Margin="0,8,8,8"
                     Height="25"
                     Width="40"
-                    ToolTip="Enter a value between 0 and 20">
+                    ToolTip="Enter a value between 0 and 10">
                     <Binding Path="numCollections" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
                             <Services:RangeRule Max="10" Min="0" ValidatesOnTargetUpdated="True"/>
