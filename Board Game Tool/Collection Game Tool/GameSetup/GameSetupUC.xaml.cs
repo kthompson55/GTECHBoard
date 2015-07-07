@@ -357,17 +357,47 @@ namespace Collection_Game_Tool.GameSetup
         /// </summary>
         private void adjustBorderVisibility()
         {
-            if ((ErrorService.Instance.errorText == "" || ErrorService.Instance.errorText == null) &&
-                (ErrorService.Instance.warningText == "" || ErrorService.Instance.warningText == null))
+            //if ((ErrorService.Instance.errorText == "" || ErrorService.Instance.errorText == null) &&
+            //    (ErrorService.Instance.warningText == "" || ErrorService.Instance.warningText == null))
+            //{
+            //    ErrorBoxBorder.Visibility = Visibility.Hidden;
+            //    ErrorRow.Height = new GridLength(0);
+            //}
+            //else
+            //{
+            if (ErrorService.Instance.HasErrors() || ErrorService.Instance.HasWarnings())
+            {
+                ErrorBoxBorder.Visibility = Visibility.Visible;
+                // hides error box if no errors
+                if (!ErrorService.Instance.HasErrors())
+                {
+                    ErrorHeader.Visibility = Visibility.Collapsed;
+                    ErrorTextBlock.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    ErrorHeader.Visibility = Visibility.Visible;
+                    ErrorTextBlock.Visibility = Visibility.Visible;
+                }
+                // hides warning box if no warnings
+                if (!ErrorService.Instance.HasWarnings())
+                {
+                    WarningHeader.Visibility = Visibility.Collapsed;
+                    WarningTextBlock.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    WarningHeader.Visibility = Visibility.Visible;
+                    WarningTextBlock.Visibility = Visibility.Visible;
+                }
+                ErrorRow.Height = GridLength.Auto;
+            }
+            else
             {
                 ErrorBoxBorder.Visibility = Visibility.Hidden;
                 ErrorRow.Height = new GridLength(0);
             }
-            else
-            {
-                ErrorBoxBorder.Visibility = Visibility.Visible;
-                ErrorRow.Height = GridLength.Auto;
-            }
+            //}
         }
 
         private void NumDiceSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
