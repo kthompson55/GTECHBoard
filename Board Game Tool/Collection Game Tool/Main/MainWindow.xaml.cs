@@ -125,16 +125,26 @@ namespace Collection_Game_Tool.Main
 
         private void New_Clicked(object sender, RoutedEventArgs e)
         {
-            string projectFileName = "../../NEW_PROJECT.bggproj";
-            string temp = System.AppDomain.CurrentDomain.BaseDirectory;
-            IFormatter format = new BinaryFormatter();
-            Stream stream = new FileStream(projectFileName, FileMode.Open, FileAccess.Read, FileShare.Read);
-            ProjectData loadedProject = (ProjectData)format.Deserialize(stream);
-            savedProject.savedPrizeLevels = loadedProject.savedPrizeLevels;
-            savedProject.savedGameSetup = loadedProject.savedGameSetup;
-            savedProject.savedDivisions = loadedProject.savedDivisions;
+            MessageBoxResult result = System.Windows.MessageBox.Show("Would you like to save the current project's data?", "Exiting Application", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
 
-            loadProject();
+            if (result == MessageBoxResult.Yes)
+            {
+                savedProject.SaveProject(MainWindowModel.gameSetupModel, MainWindowModel.prizeLevelsModel, MainWindowModel.divisionsModel);
+            }
+
+            if (result != MessageBoxResult.Cancel)
+            {
+                string projectFileName = "../../NEW_PROJECT.bggproj";
+                string temp = System.AppDomain.CurrentDomain.BaseDirectory;
+                IFormatter format = new BinaryFormatter();
+                Stream stream = new FileStream(projectFileName, FileMode.Open, FileAccess.Read, FileShare.Read);
+                ProjectData loadedProject = (ProjectData)format.Deserialize(stream);
+                savedProject.savedPrizeLevels = loadedProject.savedPrizeLevels;
+                savedProject.savedGameSetup = loadedProject.savedGameSetup;
+                savedProject.savedDivisions = loadedProject.savedDivisions;
+
+                loadProject();                
+            }
         }
 
         private void SaveItem_Clicked(object sender, RoutedEventArgs e)
