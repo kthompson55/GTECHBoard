@@ -30,6 +30,15 @@ namespace Collection_Game_Tool.Main
             {
                 ErrorService.Instance.resolveError("013", mainWindowErrorID);
             }
+            int maxDiceMovement = (MainWindowModel.gameSetupModel.diceSelected ? MainWindowModel.gameSetupModel.numDice * 6 : MainWindowModel.gameSetupModel.spinnerMaxValue) * MainWindowModel.gameSetupModel.numTurns;
+            if (maxDiceMovement > actual)
+            {
+                mainWindowErrorID = ErrorService.Instance.reportWarning("009", new List<string> { }, mainWindowErrorID);
+            }
+            else
+            {
+                ErrorService.Instance.resolveWarning("009", mainWindowErrorID);
+            }
         }
 
         public static void verifyDivisions()
