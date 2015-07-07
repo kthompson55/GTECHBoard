@@ -95,6 +95,38 @@ namespace Collection_Game_Tool.GameSetup
             }
         }
 
+		public string MaxPermutationsTextbox
+		{
+			get
+			{
+				return maxPermutations.ToString();
+			}
+			set
+			{
+				if ( value == "" )
+				{
+					maxPermutations = 1;
+				}
+				else if ( WithinPermutationRange( value ) )
+				{
+					MainWindowModel.gameSetupModel.maxPermutations = Convert.ToUInt32( value );
+				}
+				MainWindowModel.gameSetupModel.shout( "validate" );
+			}
+		}
+
+		/// <summary>
+		/// Checks that the value entered in Max Permutations is acceptable
+		/// </summary>
+		/// <param name="s">The input from the Max Permutations Textbox</param>
+		/// <returns>whether the value is in the acceptable range</returns>
+		private bool WithinPermutationRange( string s )
+		{
+			uint philTheOrphan;
+			UInt32.TryParse( s, out philTheOrphan );
+			return philTheOrphan < 100000 && philTheOrphan > 0;
+		}
+
         private bool _canCreate;
         public bool canCreate
         {
@@ -263,7 +295,7 @@ namespace Collection_Game_Tool.GameSetup
             }
         }
 
-        private int bs = 0;
+        private int bs = 1;
         public int boardSize
         {
             get
@@ -276,7 +308,51 @@ namespace Collection_Game_Tool.GameSetup
             }
         }
 
-        private int nmft = 0;
+		public string BoardSizeTextBox
+		{
+			get
+			{
+				return bs.ToString();
+			}
+			set
+			{
+				if ( value == "" )
+				{
+					boardSize = 0;
+				}
+				else if ( WithinViableBoardSizeRange( value ) )
+				{
+					int boardSizeTest;
+					if ( Int32.TryParse( value, out boardSizeTest ) && boardSizeTest >= 0 )
+					{
+						boardSize = boardSizeTest;
+					}
+					MainWindowModel.verifyNumTiles();
+				}
+				if ( PropertyChanged != null )
+					PropertyChanged( this, new PropertyChangedEventArgs( "BoardSizeTextBox" ) );
+			}
+		}
+
+		private bool WithinViableBoardSizeRange( string s )
+		{
+			int boardSizeValue;
+			bool successful = Int32.TryParse( s, out boardSizeValue );
+			if ( successful )
+			{
+				if ( boardSizeValue < MinimumBoardSize() )
+				{
+					gsucID = ErrorService.Instance.reportError( "014", new List<String> { }, gsucID );
+				}
+				else
+				{
+					ErrorService.Instance.resolveError( "014", gsucID );
+				}
+			}
+			return successful;
+		}
+
+        private int nmft = 1;
         public int numMoveForwardTiles
         {
             get
@@ -289,7 +365,7 @@ namespace Collection_Game_Tool.GameSetup
             }
         }
 
-        private int nmbt = 0;
+        private int nmbt = 1;
         public int numMoveBackwardTiles
         {
             get
@@ -302,6 +378,55 @@ namespace Collection_Game_Tool.GameSetup
             }
         }
 
+		public string NumMoveBackwardTilesTextbox
+		{
+			get
+			{
+				return numMoveBackwardTiles + "";
+			}
+			set
+			{
+				int numMBValue;
+				if ( value == "" )
+				{
+					numMoveBackwardTiles = 0;
+				}
+				else if ( Int32.TryParse( value, out numMBValue ) && numMBValue >= 0 )
+				{
+					// confirm that there is enough space on board for desired number of move-backward tiles
+					numMoveBackwardTiles = numMBValue;
+					MainWindowModel.verifyNumTiles();
+				}
+				if ( PropertyChanged != null )
+					PropertyChanged( this, new PropertyChangedEventArgs( "NumMoveBackwardTilesTextbox" ) );
+			}
+		}
+
+		public string NumMoveForwardTilesTextbox
+		{
+			get
+			{
+				return numMoveForwardTiles + "";
+			}
+			set
+			{
+				int numMFValue;
+				if ( value == "" )
+				{
+					numMoveForwardTiles = 0;
+				}
+				else if ( Int32.TryParse( value, out numMFValue ) && numMFValue >= 0 )
+				{
+					// confirm that there is enough space on board for desired number of move-backward tiles
+					numMoveForwardTiles = numMFValue;
+					MainWindowModel.verifyNumTiles();
+				}
+
+				if ( PropertyChanged != null )
+					PropertyChanged( this, new PropertyChangedEventArgs( "NumMoveForwardTilesTextbox" ) );
+			}
+		}
+
         private int mfl = 0;
         public int moveForwardLength
         {
@@ -312,6 +437,8 @@ namespace Collection_Game_Tool.GameSetup
             set
             {
                 mfl = value;
+				if ( PropertyChanged != null )
+					PropertyChanged( this, new PropertyChangedEventArgs( "moveForwardLength" ) );
             }
         }
 
