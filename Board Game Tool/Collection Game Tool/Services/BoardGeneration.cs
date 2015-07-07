@@ -182,12 +182,12 @@ namespace Collection_Game_Tool.Services
                 for (int i = 0; i < p.numCollections; i++)
                 {
                     StringBuilder sb = new StringBuilder();
-                    sb.Append(p.prizeLevel.ToString());
+                    sb.Append("CS");
                     if (p.isInstantWin)
                         sb.Append(":IW");
                     if (p.isBonusGame)
                         sb.Append(":BG");
-
+                    sb.Append((":" + (char)(p.prizeLevel + 97)));
                     prizeLevel[index] = sb.ToString();
                     index++;
                 }
@@ -300,7 +300,7 @@ namespace Collection_Game_Tool.Services
                     if (targetGameFromTile != null)
                     {
                         currentTile.addTile(BackMove, targetGameFromTile);
-                        currentTile.tileInformation = BackMove.ToString();
+                        currentTile.tileInformation = "MB:" + BackMove;
                     }
                 }
                 else if (currentTile.type == Tiles.TileTypes.moveForward)
@@ -313,7 +313,7 @@ namespace Collection_Game_Tool.Services
                     if (targetGameFromTile != null)
                     {
                         currentTile.addTile(ForwardMove, targetGameFromTile);
-                        currentTile.tileInformation = ForwardMove.ToString();
+                        currentTile.tileInformation = "MF:" + ForwardMove;
                     }
                 }
                 else
@@ -342,11 +342,10 @@ namespace Collection_Game_Tool.Services
             StringBuilder sb = new StringBuilder();
             while (currentTile != null)
             {
-                //sb.Append(currentTile.type + " :");
-                if (currentTile.type == Tiles.TileTypes.collection) 
-                    sb.Append("CS:" + currentTile.tileInformation + ", ");
+                if (currentTile.tileInformation != null)
+                    sb.Append(currentTile.tileInformation + ", ");
                 else
-                    sb.Append(currentTile.type + ", ");
+                    sb.Append("BS, ");
                 currentTile = currentTile.child;
             }
             return sb.ToString();

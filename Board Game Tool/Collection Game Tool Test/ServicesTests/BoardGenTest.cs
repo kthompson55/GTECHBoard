@@ -21,24 +21,24 @@ namespace Collection_Game_Tool_Test.ServicesTests
             PrizeLevels prizes = new PrizeLevels();
             PrizeLevel A1 = new PrizeLevel();
             A1.numCollections = 3;
-            A1.prizeLevel = 1;
+            A1.prizeLevel = 0;
             A1.isBonusGame = true;
             prizes.addPrizeLevel(A1);
 
             PrizeLevel A2 = new PrizeLevel();
             A2.numCollections = 3;
-            A2.prizeLevel = 2;
+            A2.prizeLevel = 1;
             prizes.addPrizeLevel(A2);
 
             PrizeLevel A3 = new PrizeLevel();
             A3.numCollections = 3;
-            A3.prizeLevel = 3;
+            A3.prizeLevel = 2;
             A3.isInstantWin = true;
             prizes.addPrizeLevel(A3);
 
             PrizeLevel A4 = new PrizeLevel();
             A4.numCollections = 3;
-            A4.prizeLevel = 4;
+            A4.prizeLevel = 3;
             prizes.addPrizeLevel(A4);
 
             int numberOfExpectedCollection = 12;
