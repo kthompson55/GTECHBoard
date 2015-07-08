@@ -33,22 +33,22 @@ namespace Collection_Game_Tool_Test.ServicesTests
             divisions.Add(div2);
 
 
-            DivisionModel div3 = new DivisionModel();
-            div3.DivisionNumber = 3;
-            div3.addPrizeLevel(prizeLevels.getPrizeLevel(3));
-            divisions.Add(div3);
+            //DivisionModel div3 = new DivisionModel();
+            //div3.DivisionNumber = 3;
+            //div3.addPrizeLevel(prizeLevels.getPrizeLevel(3));
+            //divisions.Add(div3);
 
-            DivisionModel div4 = new DivisionModel();
-            div4.DivisionNumber = 4;
-            div4.addPrizeLevel(prizeLevels.getPrizeLevel(4));
-            divisions.Add(div4);
+            //DivisionModel div4 = new DivisionModel();
+            //div4.DivisionNumber = 4;
+            //div4.addPrizeLevel(prizeLevels.getPrizeLevel(4));
+            //divisions.Add(div4);
 
 
             ITile board = createBoard(prizeLevels);
             List<ITile> boards = new List<ITile>();
             boards.Add(board);
             GamePlayGeneration gp = new GamePlayGeneration(boards);
-            gp.Generate(2, divisions, prizeLevels.prizeLevels, 1);
+            gp.Generate(3, divisions, prizeLevels.prizeLevels, 1);
             string output = gp.GetFormattedGameplay(boards);
 
 
@@ -68,16 +68,16 @@ namespace Collection_Game_Tool_Test.ServicesTests
             A2.prizeLevel = 2;
             prizes.addPrizeLevel(A2);
 
-            PrizeLevel A3 = new PrizeLevel();
-            A3.numCollections = 3;
-            A3.prizeLevel = 3;
-            A3.isInstantWin = true;
-            prizes.addPrizeLevel(A3);
+            //PrizeLevel A3 = new PrizeLevel();
+            //A3.numCollections = 3;
+            //A3.prizeLevel = 3;
+            //A3.isInstantWin = true;
+            //prizes.addPrizeLevel(A3);
 
-            PrizeLevel A4 = new PrizeLevel();
-            A4.numCollections = 3;
-            A4.prizeLevel = 4;
-            prizes.addPrizeLevel(A4);
+            //PrizeLevel A4 = new PrizeLevel();
+            //A4.numCollections = 3;
+            //A4.prizeLevel = 4;
+            //prizes.addPrizeLevel(A4);
 
             return prizes;
 
@@ -87,11 +87,11 @@ namespace Collection_Game_Tool_Test.ServicesTests
         {
             BoardGeneration bg = new BoardGeneration();
             int boardSize = 26;
-            int initialReachable = 20;
+            int initialReachable = 18;
             
 
             
-            return bg.genBoard(boardSize, initialReachable, 2, 6, 3, 2, prizes, 1, 2);
+            return bg.genBoard(boardSize, initialReachable, 1, 6, 3, 2, prizes, 1, 2);
 
         }
     }

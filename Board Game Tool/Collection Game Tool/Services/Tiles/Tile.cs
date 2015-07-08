@@ -87,7 +87,7 @@ namespace Collection_Game_Tool.Services.Tiles
             connections.Add(diceRoll, tile);
         }
 
-        public Object tileAction()
+        public ITile tileAction()
         {
             if (type == TileTypes.moveForward)
             {
@@ -95,7 +95,7 @@ namespace Collection_Game_Tool.Services.Tiles
                 ITile ret = this;
                 for (int i = 0; i < moveAmount; i++)
                 {
-                    //Replace this with the actual implementation
+                    //Moves down the board (forward) moveAmount times
                     ret = ret.child;
                 }
                 return ret;
@@ -104,7 +104,7 @@ namespace Collection_Game_Tool.Services.Tiles
             {
                 int moveAmount = int.Parse(tileInformation);
 
-                //Replace this with the actual implementation
+                //Moves up the board (backward) moveAmount times
                 ITile ret = this;
                 for (int i = 0; i < moveAmount; i++)
                 {
@@ -112,13 +112,9 @@ namespace Collection_Game_Tool.Services.Tiles
                 }
                 return ret;
             }
-            else if (type == TileTypes.collection)
-            {
-                return tileInformation;
-            }
             else
             {
-                return null;
+                return this;
             }
         }
 

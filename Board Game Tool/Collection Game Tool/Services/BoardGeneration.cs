@@ -182,7 +182,7 @@ namespace Collection_Game_Tool.Services
                 for (int i = 0; i < p.numCollections; i++)
                 {
                     StringBuilder sb = new StringBuilder();
-                    sb.Append("CS");
+                    //sb.Append("CS");
                     if (p.isInstantWin)
                         sb.Append(":IW");
                     if (p.isBonusGame)
@@ -274,7 +274,7 @@ namespace Collection_Game_Tool.Services
         }
 
         /// <summary>
-        /// Fils the tiels with a list of links to other tiles that can be reached from dice rolls. 
+        /// Fills the tiles with a list of links to other tiles that can be reached from dice rolls. 
         /// </summary>
         /// <param name="boardSize"></param>
         /// <param name="minMove"></param>
@@ -300,7 +300,7 @@ namespace Collection_Game_Tool.Services
                     if (targetGameFromTile != null)
                     {
                         currentTile.addTile(BackMove, targetGameFromTile);
-                        currentTile.tileInformation = "MB:" + BackMove;
+                        currentTile.tileInformation = BackMove.ToString();
                     }
                 }
                 else if (currentTile.type == Tiles.TileTypes.moveForward)
@@ -313,7 +313,7 @@ namespace Collection_Game_Tool.Services
                     if (targetGameFromTile != null)
                     {
                         currentTile.addTile(ForwardMove, targetGameFromTile);
-                        currentTile.tileInformation = "MF:" + ForwardMove;
+                        currentTile.tileInformation = ForwardMove.ToString();
                     }
                 }
                 else

@@ -53,7 +53,7 @@ namespace Collection_Game_Tool.Services
                 {
                     if (board.connections[t].type == TileTypes.collection)
                     {
-                        String getter = (String)board.connections[t].tileAction();
+                        String getter = board.connections[t].tileAction().tileInformation;
                         GeneratePlaysFromBoardHelper(board.connections[t], 1, boardDesign, "|" + t, new PlayGen(getter));
                     }
                     else if (board.connections[t].type == TileTypes.moveForward || board.connections[t].type == TileTypes.moveBack)
@@ -82,7 +82,7 @@ namespace Collection_Game_Tool.Services
                 {
                     if (board.connections[t].type == TileTypes.collection) //If connection is a collection space
                     {
-                        String getter = (String)board.connections[t].tileAction();
+                        String getter = board.connections[t].tileAction().tileInformation;
                         GeneratePlaysFromBoardHelper(board.connections[t], 1, boardDesign, "|" + rollOptions[t][rand.Next(0, rollOptions[t].Count)], new PlayGen());
                     }
                     else if (board.connections[t].type == TileTypes.moveForward || board.connections[t].type == TileTypes.moveBack) // connection is a move forward/backward space
@@ -90,7 +90,7 @@ namespace Collection_Game_Tool.Services
                         //This just pushes the player to the tile he belongs at after a move forward or move backward tile is hit, it will also check if the same tile has been reached and forget about the path
                         //this way infinite loops cannot be hit.
                         ITile beginTile = board.connections[t];
-                        ITile nextTile = (ITile)board.connections[t].tileAction();
+                        ITile nextTile = board.connections[t].tileAction();
                         while (nextTile.type == TileTypes.moveForward || nextTile.type == TileTypes.moveBack)
                         {
                             nextTile = (ITile)nextTile.tileAction();
@@ -154,7 +154,7 @@ namespace Collection_Game_Tool.Services
                 {
                     if (board.connections[t].type == TileTypes.collection)
                     {
-                        String getter = (String)board.connections[t].tileAction();
+                        String getter = board.connections[t].tileAction().tileInformation;
                         GeneratePlaysFromBoardHelper(board.connections[t], moves + 1, boardDesign, curPath + "," + t, new PlayGen(pg, getter));
                     }
                     else if (board.connections[t].type == TileTypes.moveForward || board.connections[t].type == TileTypes.moveBack)
@@ -181,7 +181,7 @@ namespace Collection_Game_Tool.Services
                 {
                     if (board.connections[t].type == TileTypes.collection)
                     {
-                        String getter = (String)board.connections[t].tileAction();
+                        String getter = board.connections[t].tileAction().tileInformation;
                         GeneratePlaysFromBoardHelper(board.connections[t], moves + 1, boardDesign, curPath + "," + rollOptions[t][rand.Next(0, rollOptions[t].Count)], new PlayGen(pg, getter));
                     }
                     else if (board.connections[t].type == TileTypes.moveForward || board.connections[t].type == TileTypes.moveBack)
