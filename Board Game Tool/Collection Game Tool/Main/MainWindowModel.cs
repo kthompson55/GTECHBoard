@@ -18,6 +18,9 @@ namespace Collection_Game_Tool.Main
 
         private static string mainWindowErrorID;
 
+        /// <summary>
+        /// Sends error report if board size is too small for the required number of special spaces
+        /// </summary>
         public static void verifyNumTiles()
         {
             int needed = PrizeLevels.PrizeLevels.totalCollections + MainWindowModel.gameSetupModel.numMoveBackwardTiles + MainWindowModel.gameSetupModel.numMoveForwardTiles;
@@ -41,6 +44,9 @@ namespace Collection_Game_Tool.Main
             }
         }
 
+        /// <summary>
+        /// Sends error report if a division is impossible to obtain
+        /// </summary>
         public static void verifyDivisions()
         {
             bool verifiedTurnCount = true;

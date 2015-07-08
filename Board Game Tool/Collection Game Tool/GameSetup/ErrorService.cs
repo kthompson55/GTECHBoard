@@ -219,22 +219,38 @@ namespace Collection_Game_Tool.GameSetup
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
+        
+        /// <summary>
+        /// Determines if there are any errors with the current board setup
+        /// </summary>
+        /// <returns>Returns true if there are one or more errors</returns>
         public bool HasErrors()
         {
             return unresolvedErrors.Count > 0;
         }
 
+        /// <summary>
+        /// Determines if there are any warnings with the current board setup
+        /// </summary>
+        /// <returns>Returns true if there are one or more warnings</returns>
         public bool HasWarnings()
         {
             return unresolvedWarnings.Count > 0;
         }
 
+        /// <summary>
+        /// Removes all errors from the current board setup
+        /// -Should only be used when opening a separate project-
+        /// </summary>
         public void ClearErrors()
         {
             unresolvedErrors.Clear();
         }
 
+        /// <summary>
+        /// Removes all warnings from the current board setup
+        /// -Should only be used when opening a separate project-
+        /// </summary>
         public void ClearWarnings()
         {
             unresolvedWarnings.Clear();
