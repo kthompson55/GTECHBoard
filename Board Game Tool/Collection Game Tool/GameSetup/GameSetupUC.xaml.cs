@@ -326,5 +326,29 @@ namespace Collection_Game_Tool.GameSetup
             TextBox textBox = sender as TextBox;
             textBox.SelectAll();
         }
+
+		private void BoardSizeTextBox_TextChanged( object sender, TextChangedEventArgs e )
+		{
+			var textboxSender = sender as TextBox;
+			if ( textboxSender != null ) MainWindowModel.gameSetupModel.BoardSizeTextBox = textboxSender.Text;
+		}
+
+		private void NumMoveForwardTilesTextBox_TextChanged( object sender, TextChangedEventArgs e )
+		{
+			var textboxSender = sender as TextBox;
+			if ( textboxSender != null ) MainWindowModel.gameSetupModel.NumMoveForwardTilesTextbox = textboxSender.Text;
+		}
+
+		private void NumMoveBackwardTilesTextBox_TextChanged( object sender, TextChangedEventArgs e )
+		{
+			var textboxSender = sender as TextBox;
+			if ( textboxSender != null ) MainWindowModel.gameSetupModel.NumMoveBackwardTilesTextbox = textboxSender.Text;
+		}
+
+		private void MaxPermutationsTextBox_TextChanged( object sender, TextChangedEventArgs e )
+		{
+			var textboxSender = sender as TextBox;
+			if ( textboxSender != null ) MainWindowModel.gameSetupModel.MaxPermutationsTextbox = textboxSender.Text;
+		}
     }
 }

@@ -112,6 +112,8 @@ namespace Collection_Game_Tool.GameSetup
 					MainWindowModel.gameSetupModel.maxPermutations = Convert.ToUInt32( value );
 				}
 				MainWindowModel.gameSetupModel.shout( "validate" );
+				if ( PropertyChanged != null )
+					PropertyChanged( this, new PropertyChangedEventArgs( "MaxPermutationsTextbox" ) );
 			}
 		}
 
