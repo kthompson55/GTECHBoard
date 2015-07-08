@@ -58,7 +58,7 @@ namespace Collection_Game_Tool.GameSetup
             }
         }
 
-        private short nw = 2;
+        private short nw = 1;
         public short nearWins 
         {
             get
