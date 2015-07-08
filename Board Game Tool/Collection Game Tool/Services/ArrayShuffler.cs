@@ -10,6 +10,11 @@ namespace Collection_Game_Tool.Services
     static class ArrayShuffler<T>
     {
         private static Random rand = new Random();
+        /// <summary>
+        /// Shuffles an array of T
+        /// </summary>
+        /// <param name="original">The original array</param>
+        /// <returns>The original array shuffled</returns>
         public static T[] shuffle(T[] original)
         {
             SortedList matrix = new SortedList();

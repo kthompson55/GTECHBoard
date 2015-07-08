@@ -134,7 +134,7 @@ namespace Collection_Game_Tool.Main
 
             if (result != MessageBoxResult.Cancel)
             {
-                string projectFileName = "../../NEW_PROJECT.bggproj";
+                string projectFileName = "../../DEFAULT.bggproj";
                 string temp = System.AppDomain.CurrentDomain.BaseDirectory;
                 IFormatter format = new BinaryFormatter();
                 Stream stream = new FileStream(projectFileName, FileMode.Open, FileAccess.Read, FileShare.Read);
