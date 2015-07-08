@@ -61,6 +61,7 @@
     <Compile Include="ServicesTests\CreateOpacityConverterTest.cs" />
     <Compile Include="ServicesTests\PrizeLevelConverterTest.cs" />
     <Compile Include="ServicesTests\RangeRuleTests.cs" />
+    <Compile Include="ServicesTests\GamePlayGenTest.cs" />
     <Compile Include="ServicesTests\ValueConverterTest.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -41,7 +41,14 @@ namespace Collection_Game_Tool.Services
 
         public int hasCollection(String key)
         {
-            return collections[key];
+            if (collections.ContainsKey(key))
+            {
+                return collections[key];
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
 }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Collection_Game_Tool.Services
 {
-    class GamePlayGeneration
+    public class GamePlayGeneration
     {
         private List<ITile> boards;
         private Dictionary<String, List<String>> paths;
@@ -30,7 +30,7 @@ namespace Collection_Game_Tool.Services
         private void addPath(String winFor, String boardDesign, String path)
         {
             string gamePermutation = boardDesign + path;
-            if (paths[winFor] != null)
+            if (paths.ContainsKey(winFor))
             {
                 paths[winFor].Add(gamePermutation);
             }
@@ -321,7 +321,7 @@ namespace Collection_Game_Tool.Services
             {
                 for (int i = 1; i <= 6; i++)
                 {
-                    if (!rollOptions.ContainsKey(currentRoll+i) && rollOptions[currentRoll + i] == null)
+                    if (!rollOptions.ContainsKey(currentRoll+i) || rollOptions[currentRoll + i] == null)
                     {
                         rollOptions.Add(currentRoll + i, new List<String>());
                         
