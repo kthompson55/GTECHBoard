@@ -27,14 +27,14 @@ namespace Collection_Game_Tool.Services
         /// Board generation creates the board for play. The board uses a doubly linked list for its design.
         /// </summary>
         /// <param name="boardSize">Board size is the total size of the board</param>
+        /// <param name="initialReachable">The number of spaces that are reachable without accounting for special tiles</param>
         /// <param name="minMove">The min movement a player can make in a turn</param>
         /// <param name="maxMove">The max movement a player can make in a turn</param>
-        /// <param name="moveBackInclude">Includ move back tiles</param>
-        /// <param name="moveForwardInclude">Include move forward tiles</param>
-        /// <param name="extraGameInclude">Include extra game tiles</param>
+        /// <param name="moveBackCount">The number of move back spaces</param>
+        /// <param name="moveForwardCount">The number of move forward spaces</param>
         /// <param name="prizes">All the game prizes</param>
         /// <param name="moveForward">How far move forward tiles will move you</param>
-        /// <param name="moveBack"><How far move back tiles will move you/param>
+        /// <param name="moveBack">How far move back tiles will move you</param>
         /// <returns>Returns the first tile of the board.</returns>
         public Tiles.ITile genBoard(int boardSize,
             int initialReachable,
@@ -85,6 +85,15 @@ namespace Collection_Game_Tool.Services
             return firstTile;
         }
 
+        /// <summary>
+        /// Populates the board with special tiles
+        /// </summary>
+        /// <param name="initialReachable"></param>
+        /// <param name="minMove"></param>
+        /// <param name="maxMove"></param>
+        /// <param name="moveForward"></param>
+        /// <param name="moveBack"></param>
+        /// <param name="tiles"></param>
         private void fillInSpecialTiles(int initialReachable,
                 int minMove,
                 int maxMove,
@@ -170,6 +179,12 @@ namespace Collection_Game_Tool.Services
             }
         }
 
+        /// <summary>
+        /// Fills in the collection spaces prize level values
+        /// </summary>
+        /// <param name="minMove"></param>
+        /// <param name="numberOfCollectionSpots"></param>
+        /// <param name="prizes"></param>
         private void fillInCollectionTileValues(
             int minMove,
             int numberOfCollectionSpots,
@@ -246,34 +261,6 @@ namespace Collection_Game_Tool.Services
         }
 
         /// <summary>
-        /// Gets the number of collections a division needs to be won.
-        /// </summary>
-        /// <param name="numberOfDesiredCollection"></param>
-        /// <param name="divisions"></param>
-        /// <returns></returns>
-        private Divisions.DivisionsModel getDivisionsWitNumCollection(
-            int numberOfDesiredCollection,
-            Divisions.DivisionsModel divisions)
-        {
-            Divisions.DivisionsModel divs = new Divisions.DivisionsModel();
-            foreach (Divisions.DivisionModel dm in divisions.divisions)
-            {
-                List<PrizeLevels.PrizeLevel> prizesAtDivision = new List<PrizeLevels.PrizeLevel>();
-                prizesAtDivision = dm.getPrizeLevelsAtDivision();
-                int numToCollectPrizes = 0;
-                foreach (PrizeLevels.PrizeLevel p in prizesAtDivision)
-                {
-                    numToCollectPrizes += p.numCollections;
-                }
-                if (numToCollectPrizes == numberOfDesiredCollection)
-                {
-                    divs.addDivision(dm);
-                }
-            }
-            return divs;
-        }
-
-        /// <summary>
         /// Fills the tiles with a list of links to other tiles that can be reached from dice rolls. 
         /// </summary>
         /// <param name="boardSize"></param>
@@ -334,7 +321,6 @@ namespace Collection_Game_Tool.Services
                 currentTile = currentTile.child;
             }
         }
-
 
         public override string ToString()
         {
