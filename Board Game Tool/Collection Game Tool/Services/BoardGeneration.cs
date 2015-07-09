@@ -125,7 +125,7 @@ namespace Collection_Game_Tool.Services
 
                 while (!tilePlaced)
                 {
-                    if (currentTile.type == Tiles.TileTypes.blank)
+                    if (currentTile.type == Tiles.TileTypes.blank && (currentSpace + 1) < initialReachable)
                     {
                         if (myTile.ToString().Equals("moveForward"))
                         {
@@ -141,6 +141,19 @@ namespace Collection_Game_Tool.Services
                             {
                                 currentTile.type = myTile;
                                 tilePlaced = true;
+                            }
+                            else
+                            {
+                                if (currentTile.child != null)
+                                {
+                                    currentTile = currentTile.child;
+                                    currentSpace++;
+                                }
+                                else
+                                {
+                                    currentTile = firstTile;
+                                    currentSpace = 0;
+                                }
                             }
                         }
                         else if (myTile.ToString().Equals("moveBack"))
@@ -158,10 +171,24 @@ namespace Collection_Game_Tool.Services
                                 currentTile.type = myTile;
                                 tilePlaced = true;
                             }
+                            else
+                            {
+                                if (currentTile.child != null)
+                                {
+                                    currentTile = currentTile.child;
+                                    currentSpace++;
+                                }
+                                else
+                                {
+                                    currentTile = firstTile;
+                                    currentSpace = 0;
+                                }
+                            }
                         }
                         else
                         {
                             currentTile.type = myTile;
+                            string leType = "" + currentTile.type;
                             tilePlaced = true;
                         }
                     }
@@ -177,6 +204,11 @@ namespace Collection_Game_Tool.Services
                     }
                 }
             }
+        }
+
+        private void calulateNextSpaceToTest()
+        {
+
         }
 
         /// <summary>
@@ -199,9 +231,9 @@ namespace Collection_Game_Tool.Services
                     StringBuilder sb = new StringBuilder();
                     //sb.Append("CS");
                     if (p.isInstantWin)
-                        sb.Append(":IW");
+                        sb.Append(":I");
                     if (p.isBonusGame)
-                        sb.Append(":BG");
+                        sb.Append(":B");
                     sb.Append((":" + (char)(p.prizeLevel + 97)));
                     prizeLevel[index] = sb.ToString();
                     index++;
@@ -328,10 +360,15 @@ namespace Collection_Game_Tool.Services
             StringBuilder sb = new StringBuilder();
             while (currentTile != null)
             {
-                if (currentTile.tileInformation != null)
-                    sb.Append(currentTile.tileInformation + ", ");
+                if (currentTile.type != Tiles.TileTypes.blank)
+                {
+                    if (currentTile.tileInformation != null)
+                        sb.Append(currentTile.tileInformation + ", ");
+                    else
+                        sb.Append(currentTile.type + ", ");
+                }
                 else
-                    sb.Append("BS, ");
+                    sb.Append("S, ");
                 currentTile = currentTile.child;
             }
             return sb.ToString();
