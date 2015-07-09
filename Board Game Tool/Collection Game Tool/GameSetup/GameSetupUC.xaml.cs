@@ -17,6 +17,7 @@ using Collection_Game_Tool.Main;
 using System.Windows.Threading;
 using System.IO;
 using System.Threading;
+using System.ComponentModel;
 
 namespace Collection_Game_Tool.GameSetup
 {
@@ -27,7 +28,6 @@ namespace Collection_Game_Tool.GameSetup
     {
 		private BoardGeneration boardGen;
         private List<Listener> listenerList = new List<Listener>();
-		private Thread processingThread;
         public GameSetupUC()
         {
             InitializeComponent();
@@ -95,6 +95,26 @@ namespace Collection_Game_Tool.GameSetup
         public void createButton_Click(object sender, RoutedEventArgs e)
         {
             showGeneratingAnimation();
+			if ( Parent != null && Parent is Window1 ) ( Parent as Window1 ).IsEnabled = false;
+			BackgroundWorker bgWorker = new BackgroundWorker()
+			{
+				WorkerReportsProgress = true
+			};
+			bgWorker.DoWork += ( s, e1 ) =>
+				{
+					processThread();
+				};
+			bgWorker.RunWorkerCompleted += ( s, e1 ) =>
+				{
+					if ( Parent != null && Parent is Window1 ) ( Parent as Window1 ).IsEnabled = false;
+					hideGeneratingAnimation();
+					showGenerationCompleteMessage();
+				};
+			bgWorker.RunWorkerAsync();
+        }
+
+		private void processThread()
+		{
 			int minMove = 0;
 			int maxMove = 0;
 			if ( MainWindowModel.Instance.GameSetupModel.diceSelected )
@@ -130,17 +150,8 @@ namespace Collection_Game_Tool.GameSetup
 			}
 			//open save dialog
 			string filename = openSaveWindow();
-			BoardSizeTextBox.Focus();
 			// write to file
 			File.WriteAllText( filename, formattedPlays );
-			hideGeneratingAnimation();
-			showGenerationCompleteMessage();
-			processingThread = new Thread( new ThreadStart(processThread) );
-			processingThread.Start();
-        }
-
-		private void processThread()
-		{
 		}
 
         /// <summary>
