@@ -67,11 +67,42 @@
         </Grid>
         </Border>
 
+        <!-- LOSE DIVISION START -->
+        <StackPanel Orientation="Horizontal" Margin="10,0,-10,57" Grid.Row="3">
+            <Border BorderBrush="Black"
+                BorderThickness="2,2,2,2"
+                VerticalAlignment="Top">
+
+                <StackPanel x:Name="divisionPanel"
+                    Orientation="Horizontal"
+                    Background="#ADADAD"
+                    MaxWidth="500"
+                    MaxHeight="40">
+
+                    <Label Margin="30 0 30 0"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20">Lose Division</Label>
+
+                    <Line Stroke="Black" StrokeThickness="2" X1="1" Y1="0" X2="1" Y2="110"/>
+
+                    <StackPanel x:Name="divsionExtrasPanel"
+            	        HorizontalAlignment="Stretch"
+            	        MinWidth="200">
+
+                        <StackPanel Orientation="Horizontal" Background="#009ad8" Height="40">
+                            <Label Margin="15 0 15 0" FontSize="20" Content="Permutations:"/>
+                            <TextBox Margin="0 0 20 0" x:Name="divisionMaxPermutation" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="18" Width="120" Height="30"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                </StackPanel>
+
+            </Border>
+        </StackPanel>
+        <!-- LOSE DIVISION END -->
+
         <ScrollViewer x:Name="divisionsScroll" 
                       Grid.Row="3"
                       MaxHeight="790"
-                      Margin="0,0,14,0"
-                      Padding="0,0,0,5">
+                      Padding="0,0,0,5" Margin="0,47,0,0">
             <StackPanel x:Name="divisionsHolderPanel"
                         VerticalAlignment="Top"
                         Orientation="Vertical">

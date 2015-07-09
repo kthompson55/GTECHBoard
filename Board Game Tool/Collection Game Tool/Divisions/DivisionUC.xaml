@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="95" d:DesignWidth="494">
+             d:DesignHeight="105" d:DesignWidth="494">
     <StackPanel Orientation="Horizontal">
 
         <Border BorderBrush="Black"
@@ -24,13 +24,13 @@
         <Border BorderBrush="Black"
                 BorderThickness="2,2,2,2"
                 VerticalAlignment="Top">
-            
+
             <StackPanel x:Name="divisionPanel"
                         Orientation="Horizontal"
                         Background="#ADADAD"
                         MaxWidth="540"
-                        MaxHeight="90">
-                
+                        MaxHeight="105">
+
                 <UniformGrid x:Name="prizeLevelsGrid"
                              Columns="6" 
                              Rows="2"
@@ -43,45 +43,57 @@
             		MinWidth="200">
 
                     <Border BorderBrush="Black" BorderThickness="0,0,0,2">
-                        <Grid x:Name="infoPanel" Height="50" Background="#0068ad" MaxWidth="201">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="45*"/>
-                                <ColumnDefinition Width="55*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.Resources>
+                        <UniformGrid x:Name="infoPanel" Height="43" Background="#0068ad" MaxWidth="201">
+                            <!--007baa-->
+                            <UniformGrid.Resources>
                                 <Style x:Key="divisionInfoStyle" TargetType="{x:Type Label}">
                                     <Setter Property="Foreground" Value="White"/>
                                     <Setter Property="FontSize" Value="15"/>
                                     <Setter Property="Padding" Value="4" />
-                                    <Setter Property="VerticalContentAlignment" Value="Center"/>
                                 </Style>
-                            </Grid.Resources>
-                            <Label Grid.Column="0" Style="{StaticResource divisionInfoStyle}" HorizontalAlignment="Right" Content="Total Value:"/>
-                            <Label Grid.Column="1" x:Name="totalValueLabel" Style="{StaticResource divisionInfoStyle}" Content="{Binding Path=TotalPrizeValue, Mode=TwoWay, FallbackValue=0}"/>
-                        </Grid>
+                            </UniformGrid.Resources>
+                            <Label Style="{StaticResource divisionInfoStyle}" HorizontalAlignment="Right" TextBlock.FontSize="10pt" Height="25" Content="Collections:" Margin="0,-2,0,5"/>
+                            <Label x:Name="totalPicksLabel" Style="{StaticResource divisionInfoStyle}" TextBlock.FontSize="10pt" Height="25" Content="{Binding Path=TotalPlayerPicks, Mode=TwoWay, FallbackValue=0}" Margin="0,-2,0,5"/>
+                            <Label Style="{StaticResource divisionInfoStyle}" HorizontalAlignment="Right" TextBlock.FontSize="10pt" Height="25" Content="Total Value:" Margin="0,-6,0,9"/>
+                            <Label x:Name="totalValueLabel" Style="{StaticResource divisionInfoStyle}" TextBlock.FontSize="10pt" Height="25" Content="{Binding Path=TotalPrizeValue, Mode=TwoWay, FallbackValue=0}" Margin="0,-6,0,9"/>
+                        </UniformGrid>
                     </Border>
 
-                    <StackPanel x:Name="divisionButtons" Orientation="Horizontal" Height="41" Background="#009ad8" Width="201" >
-                        <StackPanel.Resources>
-                            <Style x:Key="divisionButton" TargetType="{x:Type Button}">
-                                <Setter Property="Height" Value="20"/>
-                                <Setter Property="Width" Value="70"/>
-                                <Setter Property="Margin" Value="20,5,0,4"/>
-                            </Style>
-                        </StackPanel.Resources>
-                        <Button x:Name="clearButton" 
+                    <StackPanel Orientation="Vertical" Background="#009ad8" Width="201" Height="100">
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel.Resources>
+                                <Style x:Key="divisionInfoStyle" TargetType="{x:Type Label}">
+                                    <Setter Property="Foreground" Value="White"/>
+                                    <Setter Property="FontSize" Value="15"/>
+                                    <Setter Property="Padding" Value="4" />
+                                </Style>
+                            </StackPanel.Resources>
+                            <Label Style="{StaticResource divisionInfoStyle}" HorizontalAlignment="Right" TextBlock.FontSize="10pt" Height="25" Content="Permutations:" Margin="0,-2,0,5"/>
+                            <TextBox x:Name="divisionMaxPermutation" Width="100" Height="20"></TextBox>
+                        </StackPanel>
+                        <StackPanel x:Name="divisionButtons" Orientation="Horizontal">
+                            <!--#e87e02-->
+                            <StackPanel.Resources>
+                                <Style x:Key="divisionButton" TargetType="{x:Type Button}">
+                                    <Setter Property="Height" Value="20"/>
+                                    <Setter Property="Width" Value="70"/>
+                                    <Setter Property="Margin" Value="20,5,0,4"/>
+                                </Style>
+                            </StackPanel.Resources>
+                            <Button x:Name="clearButton" 
                                 Style="{StaticResource divisionButton}" 
                                 Content="Clear"
                                 Click="clearDivisionButton_Click"/>
-                        <Button x:Name="deleteButton" 
+                            <Button x:Name="deleteButton" 
                                 Style="{StaticResource divisionButton}" 
                                 Content="Delete"
                                 Click="deleteDivisionButton_Click"/>
+                        </StackPanel>
                     </StackPanel>
                 </StackPanel>
-                    
+
             </StackPanel>
-            
+
         </Border>
     </StackPanel>
 </UserControl>
