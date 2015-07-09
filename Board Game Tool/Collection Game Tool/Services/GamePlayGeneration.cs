@@ -56,23 +56,23 @@ namespace Collection_Game_Tool.Services
                         String getter = board.connections[t].tileAction().tileInformation;
                         GeneratePlaysFromBoardHelper(board.connections[t], 1, boardDesign, "|" + t, new PlayGen(getter));
                     }
-                    else if (board.connections[t].type == TileTypes.moveForward || board.connections[t].type == TileTypes.moveBack)
-                    {
-                        //This just pushes the player to the tile he belongs at after a move forward or move backward tile is hit, it will also check if the same tile has been reached and forget about the path
-                        //this way infinite loops cannot be hit.
-                        ITile beginTile = board.connections[t];
-                        ITile nextTile = (ITile)board.connections[t].tileAction();
-                        while (nextTile.type == TileTypes.moveForward || nextTile.type == TileTypes.moveBack)
-                        {
-                            nextTile = (ITile)nextTile.tileAction();
-                            if (beginTile==nextTile)
-                            {
-                                break;
-                            }
-                        }
-                        if(beginTile!=nextTile)
-                            GeneratePlaysFromBoardHelper(nextTile, 1, boardDesign, "|" + t, new PlayGen());
-                    }
+                    //else if (board.connections[t].type == TileTypes.moveForward || board.connections[t].type == TileTypes.moveBack)
+                    //{
+                    //    //This just pushes the player to the tile he belongs at after a move forward or move backward tile is hit, it will also check if the same tile has been reached and forget about the path
+                    //    //this way infinite loops cannot be hit.
+                    //    ITile beginTile = board.connections[t];
+                    //    ITile nextTile = (ITile)board.connections[t].tileAction();
+                    //    while (nextTile.type == TileTypes.moveForward || nextTile.type == TileTypes.moveBack)
+                    //    {
+                    //        nextTile = (ITile)nextTile.tileAction();
+                    //        if (beginTile==nextTile)
+                    //        {
+                    //            break;
+                    //        }
+                    //    }
+                    //    if(beginTile!=nextTile)
+                    //        GeneratePlaysFromBoardHelper(nextTile, 1, boardDesign, "|" + t, new PlayGen());
+                    //}
                     else
                     {
                         GeneratePlaysFromBoardHelper(board.connections[t], 1, boardDesign, "|" + t, new PlayGen());
@@ -85,23 +85,23 @@ namespace Collection_Game_Tool.Services
                         String getter = board.connections[t].tileAction().tileInformation;
                         GeneratePlaysFromBoardHelper(board.connections[t], 1, boardDesign, "|" + rollOptions[t][rand.Next(0, rollOptions[t].Count)], new PlayGen());
                     }
-                    else if (board.connections[t].type == TileTypes.moveForward || board.connections[t].type == TileTypes.moveBack) // connection is a move forward/backward space
-                    {
-                        //This just pushes the player to the tile he belongs at after a move forward or move backward tile is hit, it will also check if the same tile has been reached and forget about the path
-                        //this way infinite loops cannot be hit.
-                        ITile beginTile = board.connections[t];
-                        ITile nextTile = board.connections[t].tileAction();
-                        while (nextTile.type == TileTypes.moveForward || nextTile.type == TileTypes.moveBack)
-                        {
-                            nextTile = (ITile)nextTile.tileAction();
-                            if (beginTile == nextTile)
-                            {
-                                break;
-                            }
-                        }
-                        if(beginTile!=nextTile)
-                            GeneratePlaysFromBoardHelper(nextTile, 1, boardDesign, "|" + rollOptions[t][rand.Next(0, rollOptions[t].Count)], new PlayGen());
-                    }
+                    //else if (board.connections[t].type == TileTypes.moveForward || board.connections[t].type == TileTypes.moveBack) // connection is a move forward/backward space
+                    //{
+                    //    //This just pushes the player to the tile he belongs at after a move forward or move backward tile is hit, it will also check if the same tile has been reached and forget about the path
+                    //    //this way infinite loops cannot be hit.
+                    //    ITile beginTile = board.connections[t];
+                    //    ITile nextTile = board.connections[t].tileAction();
+                    //    while (nextTile.type == TileTypes.moveForward || nextTile.type == TileTypes.moveBack)
+                    //    {
+                    //        nextTile = (ITile)nextTile.tileAction();
+                    //        if (beginTile == nextTile)
+                    //        {
+                    //            break;
+                    //        }
+                    //    }
+                    //    if(beginTile!=nextTile)
+                    //        GeneratePlaysFromBoardHelper(nextTile, 1, boardDesign, "|" + rollOptions[t][rand.Next(0, rollOptions[t].Count)], new PlayGen());
+                    //}
                     else
                     {
                         GeneratePlaysFromBoardHelper(board.connections[t], 1, boardDesign, "|" + rollOptions[t][rand.Next(0, rollOptions[t].Count)], new PlayGen());
@@ -144,9 +144,9 @@ namespace Collection_Game_Tool.Services
                 }
 
                 if (hasPrizes && !hasOtherPrizes)
-                    addPath(divWon.DivisionNumber.ToString(), boardDesign, curPath);
+                    addPath(divWon.DivisionNumber.ToString(), boardDesign, curPath);            ////EXIT
                 else if (!hasOtherPrizes)
-                    addPath("none", boardDesign, curPath);
+                    addPath("none", boardDesign, curPath);                                      ////EXIT
             }
             foreach (int t in board.connections.Keys)
             {
@@ -157,21 +157,21 @@ namespace Collection_Game_Tool.Services
                         String getter = board.connections[t].tileAction().tileInformation;
                         GeneratePlaysFromBoardHelper(board.connections[t], moves + 1, boardDesign, curPath + "," + t, new PlayGen(pg, getter));
                     }
-                    else if (board.connections[t].type == TileTypes.moveForward || board.connections[t].type == TileTypes.moveBack)
-                    {
-                        //This just pushes the player to the tile he belongs at after a move forward or move backward tile is hit, it will also check if the same tile has been reached and forget about the path
-                        //this way infinite loops cannot be hit.
-                        ITile beginTile = board.connections[t];
-                        ITile nextTile = (ITile)board.connections[t].tileAction();
-                        while (nextTile.type == TileTypes.moveBack || nextTile.type == TileTypes.moveForward)
-                        {
-                            nextTile = (ITile)nextTile.tileAction();
-                            if (beginTile == nextTile)
-                                break;
-                        }
-                        if(beginTile!=nextTile)
-                            GeneratePlaysFromBoardHelper(nextTile, moves + 1, boardDesign, curPath + "," + t, new PlayGen(pg));
-                    }
+                    //else if (board.connections[t].type == TileTypes.moveForward || board.connections[t].type == TileTypes.moveBack)
+                    //{
+                    //    //This just pushes the player to the tile he belongs at after a move forward or move backward tile is hit, it will also check if the same tile has been reached and forget about the path
+                    //    //this way infinite loops cannot be hit.
+                    //    ITile beginTile = board.connections[t];
+                    //    ITile nextTile = (ITile)board.connections[t].tileAction();
+                    //    while (nextTile.type == TileTypes.moveBack || nextTile.type == TileTypes.moveForward)
+                    //    {
+                    //        nextTile = (ITile)nextTile.tileAction();
+                    //        if (beginTile == nextTile)
+                    //            break;
+                    //    }
+                    //    if(beginTile!=nextTile)
+                    //        GeneratePlaysFromBoardHelper(nextTile, moves + 1, boardDesign, curPath + "," + t, new PlayGen(pg));
+                    //}
                     else
                     {
                         GeneratePlaysFromBoardHelper(board.connections[t], moves + 1, boardDesign, curPath + "," + t, new PlayGen(pg));
@@ -184,21 +184,21 @@ namespace Collection_Game_Tool.Services
                         String getter = board.connections[t].tileAction().tileInformation;
                         GeneratePlaysFromBoardHelper(board.connections[t], moves + 1, boardDesign, curPath + "," + rollOptions[t][rand.Next(0, rollOptions[t].Count)], new PlayGen(pg, getter));
                     }
-                    else if (board.connections[t].type == TileTypes.moveForward || board.connections[t].type == TileTypes.moveBack)
-                    {
-                        //This just pushes the player to the tile he belongs at after a move forward or move backward tile is hit, it will also check if the same tile has been reached and forget about the path
-                        //this way infinite loops cannot be hit.
-                        ITile beginTile = board.connections[t];
-                        ITile nextTile = (ITile)board.connections[t].tileAction();
-                        while (nextTile.type == TileTypes.moveBack || nextTile.type == TileTypes.moveForward)
-                        {
-                            nextTile = (ITile)nextTile.tileAction();
-                            if (beginTile == nextTile)
-                                break;
-                        }
-                        if(beginTile!=nextTile)
-                            GeneratePlaysFromBoardHelper(nextTile, moves + 1, boardDesign, curPath + "," + rollOptions[t][rand.Next(0, rollOptions[t].Count)], new PlayGen(pg));
-                    }
+                    //else if (board.connections[t].type == TileTypes.moveForward || board.connections[t].type == TileTypes.moveBack)
+                    //{
+                    //    //This just pushes the player to the tile he belongs at after a move forward or move backward tile is hit, it will also check if the same tile has been reached and forget about the path
+                    //    //this way infinite loops cannot be hit.
+                    //    ITile beginTile = board.connections[t];
+                    //    ITile nextTile = (ITile)board.connections[t].tileAction();
+                    //    while (nextTile.type == TileTypes.moveBack || nextTile.type == TileTypes.moveForward)
+                    //    {
+                    //        nextTile = (ITile)nextTile.tileAction();
+                    //        if (beginTile == nextTile)
+                    //            break;
+                    //    }
+                    //    if(beginTile!=nextTile)
+                    //        GeneratePlaysFromBoardHelper(nextTile, moves + 1, boardDesign, curPath + "," + rollOptions[t][rand.Next(0, rollOptions[t].Count)], new PlayGen(pg));
+                    //}
                     else
                     {
                         GeneratePlaysFromBoardHelper(board.connections[t], moves + 1, boardDesign, curPath + "," + rollOptions[t][rand.Next(0, rollOptions[t].Count)], new PlayGen(pg));
