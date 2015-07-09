@@ -306,34 +306,7 @@
                         </StackPanel>
                     </Border>
 
-                    <Border Style="{StaticResource externalBorderStyle}">
-
-						<StackPanel x:Name="GSPermutationsPanel" Background="#ADADAD">
-							<Label Style="{StaticResource titleStyle}" ToolTip="The number of winning combinations to calculate for each division, including an extra losing division" Content="Game Win/Lose Permutations"/>
-							<Border BorderBrush="Black" BorderThickness="0,0,0,2">
-								<StackPanel Background="#009ad8">
-									<TextBlock Style="{StaticResource instructionStyleTextblock}" Margin="40,2,40,2" Text="The number of winning combinations to calculate for each division, including an extra losing division."/>
-								</StackPanel>
-                            </Border>
-                            <DockPanel>
-								<Label Style="{StaticResource dataLabelStyle}" Content="Maximum Permutations:"/>
-								<TextBox x:Name="MaxPermutationsTextBox" 
-                                     GotFocus="TextBox_GotFocus" 
-                                     GotMouseCapture="TextBox_GotMouseCapture" 
-										 TextChanged="MaxPermutationsTextBox_TextChanged"
-										 Text="{Binding Path=MaxPermutationsTextbox, Mode=TwoWay}"
-                                     FontSize="14"
-                                     VerticalAlignment="Center"
-                                     HorizontalAlignment="Left"
-                                     Width="100"
-                                         />
-
-							</DockPanel>
-                        </StackPanel>
-                    </Border>
-
-
-                    <Button x:Name="CreateButton" Click="createButton_Click" Width="200" Height="50" FontSize="28" FontWeight="Bold" Background="#007CAA" Foreground="White" Margin="0,30,0,0" IsEnabled="{Binding Path=canCreate}" Opacity="{Binding Path=canCreate, Converter={StaticResource OpacityConverter}}">Create File</Button>
+                    <Button x:Name="CreateButton" Click="createButton_Click" Width="200" Height="50" FontSize="28" FontWeight="Bold" Background="#007CAA" Foreground="White" Margin="0,5,0,0" IsEnabled="{Binding Path=canCreate}" Opacity="{Binding Path=canCreate, Converter={StaticResource OpacityConverter}}">Create File</Button>
 					<StackPanel x:Name="GeneratingFileAnimation" Margin="0" Visibility="Hidden"><!--10-->
 						<Label x:Name="GeneratingFileLabel" FontSize="1" HorizontalAlignment="Center">Generating File</Label><!--20-->
                         <Viewbox Name="GeneratingFileViewbox" Width="0" Height="0"

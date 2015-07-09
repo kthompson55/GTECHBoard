@@ -58,7 +58,6 @@ namespace Collection_Game_Tool.GameSetup
 			MoveForwardLengthSlider.DataContext = MainWindowModel.gameSetupModel;
 			NumMoveBackwardTilesTextBox.DataContext = MainWindowModel.gameSetupModel;
 			MoveBackwardLengthSlider.DataContext = MainWindowModel.gameSetupModel;
-			MaxPermutationsTextBox.DataContext = MainWindowModel.gameSetupModel;
             ErrorTextBlock.DataContext = ErrorService.Instance;
             WarningTextBlock.DataContext = ErrorService.Instance;
             errorPanelScroll.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
@@ -86,7 +85,6 @@ namespace Collection_Game_Tool.GameSetup
 			MoveForwardLengthSlider.DataContext = MainWindowModel.gameSetupModel;
 			NumMoveBackwardTilesTextBox.DataContext = MainWindowModel.gameSetupModel;
 			MoveBackwardLengthSlider.DataContext = MainWindowModel.gameSetupModel;
-			MaxPermutationsTextBox.DataContext = MainWindowModel.gameSetupModel;
 
             NearWinCheckbox.IsChecked = MainWindowModel.gameSetupModel.isNearWin;
             NumNearWinsSlider.Value = MainWindowModel.gameSetupModel.nearWins;
@@ -99,7 +97,6 @@ namespace Collection_Game_Tool.GameSetup
             MoveForwardLengthSlider.Value = MainWindowModel.gameSetupModel.moveForwardLength;
             NumMoveBackwardTilesTextBox.Text = MainWindowModel.gameSetupModel.numMoveBackwardTiles.ToString();
             MoveBackwardLengthSlider.Value = MainWindowModel.gameSetupModel.moveBackwardLength;
-            MaxPermutationsTextBox.Text = MainWindowModel.gameSetupModel.maxPermutations.ToString();
         }
 
         //Initiates save process when Create Button is clicked
@@ -141,7 +138,7 @@ namespace Collection_Game_Tool.GameSetup
             }
             //open save dialog
             string filename = openSaveWindow();
-            MaxPermutationsTextBox.Focus();
+            BoardSizeTextBox.Focus();
             // write to file
             File.WriteAllText(filename, formattedPlays);
             hideGeneratingAnimation();
