@@ -45,7 +45,7 @@ namespace Collection_Game_Tool.Divisions
         {
             levelModel.switchIsSelected();
             division.updateInfo();
-            MainWindowModel.verifyDivisions();
+            MainWindowModel.Instance.verifyDivisions();
         }
 
     }

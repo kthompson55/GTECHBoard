@@ -45,7 +45,7 @@ namespace Collection_Game_Tool.PrizeLevels
             UserControlPrizeLevel ucpl = new UserControlPrizeLevel();
             ucpl.addListener(this);
             Prizes.Children.Add(ucpl);
-            MainWindowModel.prizeLevelsModel.addPrizeLevel(ucpl.plObject);
+            MainWindowModel.Instance.PrizeLevelsModel.addPrizeLevel(ucpl.plObject);
             ucpl.plObject.prizeLevel = 1;
             ucpl.CloseButton.IsEnabled = false;
             ucpl.CloseButton.Opacity = 0.0f;
@@ -54,7 +54,7 @@ namespace Collection_Game_Tool.PrizeLevels
             ucpl2.OuterGrid.Margin = new Thickness(0, Prizes.Children.Count * MARGIN, 0, 0);
             ucpl2.addListener(this);
             Prizes.Children.Add(ucpl2);
-            MainWindowModel.prizeLevelsModel.addPrizeLevel(ucpl2.plObject);
+            MainWindowModel.Instance.PrizeLevelsModel.addPrizeLevel(ucpl2.plObject);
             ucpl2.plObject.prizeLevel = Prizes.Children.Count;
             ucpl2.CloseButton.IsEnabled = false;
             ucpl2.CloseButton.Opacity = 0.0f;
@@ -68,14 +68,14 @@ namespace Collection_Game_Tool.PrizeLevels
 
         public void Add_Prize_Level(object sender, RoutedEventArgs e)
         {
-            if (MainWindowModel.prizeLevelsModel.getNumPrizeLevels() < 12)
+            if (MainWindowModel.Instance.PrizeLevelsModel.getNumPrizeLevels() < 12)
             {
                 UserControlPrizeLevel ucpl = new UserControlPrizeLevel();
                 ucpl.OuterGrid.Margin = new Thickness(0, Prizes.Children.Count * MARGIN, 0, 0);
 
                 ucpl.addListener(this);
                 Prizes.Children.Add(ucpl);
-                MainWindowModel.prizeLevelsModel.addPrizeLevel(ucpl.plObject);
+                MainWindowModel.Instance.PrizeLevelsModel.addPrizeLevel(ucpl.plObject);
                 ucpl.plObject.prizeLevel = Prizes.Children.Count;
 
                 //adds the PrizeLevel to the end
@@ -93,7 +93,7 @@ namespace Collection_Game_Tool.PrizeLevels
                 ucpl.CloseButton.Opacity = 1;
             }
 
-            if (MainWindowModel.prizeLevelsModel.getNumPrizeLevels() == 12)
+            if (MainWindowModel.Instance.PrizeLevelsModel.getNumPrizeLevels() == 12)
             {
                 AddButton.IsEnabled = false;
                 AddButton.Opacity = 0.3;
@@ -101,10 +101,10 @@ namespace Collection_Game_Tool.PrizeLevels
 
             prizeLevelScroll.ScrollToBottom();
             prizeLevelCounterLabel.Content = Prizes.Children.Count;
-            MainWindowModel.verifyNumTiles();
-            MainWindowModel.verifyDivisions();
+            MainWindowModel.Instance.verifyNumTiles();
+            MainWindowModel.Instance.verifyDivisions();
             //Shouts the PrizeLevels object so that they can be analyzed in Divisions
-            shout(MainWindowModel.prizeLevelsModel);
+            shout(MainWindowModel.Instance.PrizeLevelsModel);
         }
 
         public void loadExistingPrizeLevel(PrizeLevel loadedPrizeLevel)
@@ -151,14 +151,14 @@ namespace Collection_Game_Tool.PrizeLevels
                 String parse=(String)pass;
                 if (parse.Equals("Update"))
                 {
-                    MainWindowModel.prizeLevelsModel.calculateTotalCollections();
+                    MainWindowModel.Instance.PrizeLevelsModel.calculateTotalCollections();
 
                     List<UserControlPrizeLevel> ucplList = new List<UserControlPrizeLevel>();
                     ucplList = Prizes.Children.Cast<UserControlPrizeLevel>().ToList<UserControlPrizeLevel>();
                     Prizes.Children.Clear();
 
                     ucplList.Sort();
-                    MainWindowModel.prizeLevelsModel.sortPrizeLevels();
+                    MainWindowModel.Instance.PrizeLevelsModel.sortPrizeLevels();
 
                     int collectionToShout = 0;
                     int index=0;
@@ -203,7 +203,7 @@ namespace Collection_Game_Tool.PrizeLevels
             else if(pass is UserControlPrizeLevel)
             {
                 //This removes the PrizeLevel that was just closed
-                if (MainWindowModel.prizeLevelsModel.getNumPrizeLevels() > 2)
+                if (MainWindowModel.Instance.PrizeLevelsModel.getNumPrizeLevels() > 2)
                 {
                     UserControlPrizeLevel rem = (UserControlPrizeLevel)pass;
 
@@ -217,7 +217,7 @@ namespace Collection_Game_Tool.PrizeLevels
 
                     rem.plObject = null;
                     Prizes.Children.Remove(rem);
-                    MainWindowModel.prizeLevelsModel.removePrizeLevel(index);
+                    MainWindowModel.Instance.PrizeLevelsModel.removePrizeLevel(index);
 
                     rem = null;
 
@@ -228,7 +228,7 @@ namespace Collection_Game_Tool.PrizeLevels
                         ucpl.OuterGrid.Margin = new Thickness(0, i * MARGIN, 0, 0);
                         ucpl.plObject.prizeLevel = (i + 1);
 
-                        if (MainWindowModel.prizeLevelsModel.getNumPrizeLevels() == 2)
+                        if (MainWindowModel.Instance.PrizeLevelsModel.getNumPrizeLevels() == 2)
                         {
                             ucpl.CloseButton.IsEnabled = false;
                             ucpl.CloseButton.Opacity = 0.0f;
@@ -247,7 +247,7 @@ namespace Collection_Game_Tool.PrizeLevels
             prizeLevelCounterLabel.Content = Prizes.Children.Count;
 
             //Shouts PrizeLevels object so divisions can analyze it
-            shout(MainWindowModel.prizeLevelsModel);
+            shout(MainWindowModel.Instance.PrizeLevelsModel);
         }
 
         public void shout(object pass)
