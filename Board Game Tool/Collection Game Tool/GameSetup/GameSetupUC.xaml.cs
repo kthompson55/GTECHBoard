@@ -16,6 +16,7 @@ using Collection_Game_Tool.Services;
 using Collection_Game_Tool.Main;
 using System.Windows.Threading;
 using System.IO;
+using System.Threading;
 
 namespace Collection_Game_Tool.GameSetup
 {
@@ -24,18 +25,9 @@ namespace Collection_Game_Tool.GameSetup
     /// </summary>
     public partial class GameSetupUC : UserControl, Teller, Listener
     {
-        public static int pickCheck;
-		public string gsucID { get { return MainWindowModel.gameSetupModel.gsucID; } set { MainWindowModel.gameSetupModel.gsucID = value; } }
-        private BoardGeneration boardGen;
-
-        List<Listener> listenerList = new List<Listener>();
-        private string lastAcceptableMaxPermutationValue = 0 + "";
-        private string lastAcceptableBoardSizeValue = 0 + "";
-        private string lastAcceptableNumMoveForwardTiles = 0 + "";
-        private string lastAcceptableNumMoveBackwardTiles = 0 + "";
-        private string lastAcceptableMoveForwardLength = 0 + "";
-        private string lastAcceptableMoveBackwardLength = 0 + "";
-
+		private BoardGeneration boardGen;
+        private List<Listener> listenerList = new List<Listener>();
+		private Thread processingThread;
         public GameSetupUC()
         {
             InitializeComponent();
@@ -44,106 +36,112 @@ namespace Collection_Game_Tool.GameSetup
 
         public void DataBind()
         {
-            MainWindowModel.gameSetupModel.canCreate = true;
-			NumTurnsSlider.DataContext = MainWindowModel.gameSetupModel;
-			NearWinCheckbox.DataContext = MainWindowModel.gameSetupModel;
-            CreateButton.DataContext = MainWindowModel.gameSetupModel;
-            DiceRadioButton.DataContext = MainWindowModel.gameSetupModel;
-			NumNearWinsSlider.DataContext = MainWindowModel.gameSetupModel;
-			SpinnerRadioButton.DataContext = MainWindowModel.gameSetupModel;
-			NumDiceSlider.DataContext = MainWindowModel.gameSetupModel;
-			SpinnerValueSlider.DataContext = MainWindowModel.gameSetupModel;
-			BoardSizeTextBox.DataContext = MainWindowModel.gameSetupModel;
-			NumMoveForwardTilesTextBox.DataContext = MainWindowModel.gameSetupModel;
-			MoveForwardLengthSlider.DataContext = MainWindowModel.gameSetupModel;
-			NumMoveBackwardTilesTextBox.DataContext = MainWindowModel.gameSetupModel;
-			MoveBackwardLengthSlider.DataContext = MainWindowModel.gameSetupModel;
+            MainWindowModel.Instance.GameSetupModel.canCreate = true;
+			NumTurnsSlider.DataContext = MainWindowModel.Instance.GameSetupModel;
+			NearWinCheckbox.DataContext = MainWindowModel.Instance.GameSetupModel;
+            CreateButton.DataContext = MainWindowModel.Instance.GameSetupModel;
+			DiceRadioButton.DataContext = MainWindowModel.Instance.GameSetupModel;
+			NumNearWinsSlider.DataContext = MainWindowModel.Instance.GameSetupModel;
+			SpinnerRadioButton.DataContext = MainWindowModel.Instance.GameSetupModel;
+			NumDiceSlider.DataContext = MainWindowModel.Instance.GameSetupModel;
+			SpinnerValueSlider.DataContext = MainWindowModel.Instance.GameSetupModel;
+			BoardSizeTextBox.DataContext = MainWindowModel.Instance.GameSetupModel;
+			NumMoveForwardTilesTextBox.DataContext = MainWindowModel.Instance.GameSetupModel;
+			MoveForwardLengthSlider.DataContext = MainWindowModel.Instance.GameSetupModel;
+			NumMoveBackwardTilesTextBox.DataContext = MainWindowModel.Instance.GameSetupModel;
+			MoveBackwardLengthSlider.DataContext = MainWindowModel.Instance.GameSetupModel;
             ErrorTextBlock.DataContext = ErrorService.Instance;
             WarningTextBlock.DataContext = ErrorService.Instance;
             errorPanelScroll.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
 
-            MainWindowModel.verifyNumTiles();
+            MainWindowModel.Instance.verifyNumTiles();
         }
 
         //populates the fields from a saved cggproj file
         public void loadExistingData()
         {
-            MainWindowModel.gameSetupModel.initializeListener();
+			MainWindowModel.Instance.GameSetupModel.initializeListener();
             Window parentWindow = Window.GetWindow(this.Parent);
-            MainWindowModel.gameSetupModel.addListener((Window1)parentWindow);
+			MainWindowModel.Instance.GameSetupModel.addListener( ( Window1 )parentWindow );
 
-			NumTurnsSlider.DataContext = MainWindowModel.gameSetupModel;
-			NearWinCheckbox.DataContext = MainWindowModel.gameSetupModel;
-			CreateButton.DataContext = MainWindowModel.gameSetupModel;
-			DiceRadioButton.DataContext = MainWindowModel.gameSetupModel;
-			NumNearWinsSlider.DataContext = MainWindowModel.gameSetupModel;
-			SpinnerRadioButton.DataContext = MainWindowModel.gameSetupModel;
-			NumDiceSlider.DataContext = MainWindowModel.gameSetupModel;
-			SpinnerValueSlider.DataContext = MainWindowModel.gameSetupModel;
-			BoardSizeTextBox.DataContext = MainWindowModel.gameSetupModel;
-			NumMoveForwardTilesTextBox.DataContext = MainWindowModel.gameSetupModel;
-			MoveForwardLengthSlider.DataContext = MainWindowModel.gameSetupModel;
-			NumMoveBackwardTilesTextBox.DataContext = MainWindowModel.gameSetupModel;
-			MoveBackwardLengthSlider.DataContext = MainWindowModel.gameSetupModel;
+			NumTurnsSlider.DataContext = MainWindowModel.Instance.GameSetupModel;
+			NearWinCheckbox.DataContext = MainWindowModel.Instance.GameSetupModel;
+			CreateButton.DataContext = MainWindowModel.Instance.GameSetupModel;
+			DiceRadioButton.DataContext = MainWindowModel.Instance.GameSetupModel;
+			NumNearWinsSlider.DataContext = MainWindowModel.Instance.GameSetupModel;
+			SpinnerRadioButton.DataContext = MainWindowModel.Instance.GameSetupModel;
+			NumDiceSlider.DataContext = MainWindowModel.Instance.GameSetupModel;
+			SpinnerValueSlider.DataContext = MainWindowModel.Instance.GameSetupModel;
+			BoardSizeTextBox.DataContext = MainWindowModel.Instance.GameSetupModel;
+			NumMoveForwardTilesTextBox.DataContext = MainWindowModel.Instance.GameSetupModel;
+			MoveForwardLengthSlider.DataContext = MainWindowModel.Instance.GameSetupModel;
+			NumMoveBackwardTilesTextBox.DataContext = MainWindowModel.Instance.GameSetupModel;
+			MoveBackwardLengthSlider.DataContext = MainWindowModel.Instance.GameSetupModel;
 
-            NearWinCheckbox.IsChecked = MainWindowModel.gameSetupModel.isNearWin;
-            NumNearWinsSlider.Value = MainWindowModel.gameSetupModel.nearWins;
-            NumTurnsSlider.Value = MainWindowModel.gameSetupModel.numTurns;
-            DiceRadioButton.IsChecked = MainWindowModel.gameSetupModel.diceSelected;
-            NumDiceSlider.Value = MainWindowModel.gameSetupModel.numDice;
-            SpinnerValueSlider.Value = MainWindowModel.gameSetupModel.spinnerMaxValue;
-            BoardSizeTextBox.Text = MainWindowModel.gameSetupModel.boardSize.ToString();
-            NumMoveForwardTilesTextBox.Text = MainWindowModel.gameSetupModel.numMoveForwardTiles.ToString();
-            MoveForwardLengthSlider.Value = MainWindowModel.gameSetupModel.moveForwardLength;
-            NumMoveBackwardTilesTextBox.Text = MainWindowModel.gameSetupModel.numMoveBackwardTiles.ToString();
-            MoveBackwardLengthSlider.Value = MainWindowModel.gameSetupModel.moveBackwardLength;
+			NearWinCheckbox.IsChecked = MainWindowModel.Instance.GameSetupModel.isNearWin;
+			NumNearWinsSlider.Value = MainWindowModel.Instance.GameSetupModel.nearWins;
+			NumTurnsSlider.Value = MainWindowModel.Instance.GameSetupModel.numTurns;
+			DiceRadioButton.IsChecked = MainWindowModel.Instance.GameSetupModel.diceSelected;
+			NumDiceSlider.Value = MainWindowModel.Instance.GameSetupModel.numDice;
+			SpinnerValueSlider.Value = MainWindowModel.Instance.GameSetupModel.spinnerMaxValue;
+			BoardSizeTextBox.Text = MainWindowModel.Instance.GameSetupModel.boardSize.ToString();
+			NumMoveForwardTilesTextBox.Text = MainWindowModel.Instance.GameSetupModel.numMoveForwardTiles.ToString();
+			MoveForwardLengthSlider.Value = MainWindowModel.Instance.GameSetupModel.moveForwardLength;
+			NumMoveBackwardTilesTextBox.Text = MainWindowModel.Instance.GameSetupModel.numMoveBackwardTiles.ToString();
+			MoveBackwardLengthSlider.Value = MainWindowModel.Instance.GameSetupModel.moveBackwardLength;
         }
 
         //Initiates save process when Create Button is clicked
         public void createButton_Click(object sender, RoutedEventArgs e)
         {
             showGeneratingAnimation();
-            int minMove = 0;
-            int maxMove = 0;
-            if (MainWindowModel.gameSetupModel.diceSelected)
-            {
-                minMove = MainWindowModel.gameSetupModel.numDice;
-                maxMove = MainWindowModel.gameSetupModel.numDice * 6;
-            }
-            else
-            {
-                minMove = 1;
-                maxMove = MainWindowModel.gameSetupModel.spinnerMaxValue;
-            }
+			int minMove = 0;
+			int maxMove = 0;
+			if ( MainWindowModel.Instance.GameSetupModel.diceSelected )
+			{
+				minMove = MainWindowModel.Instance.GameSetupModel.numDice;
+				maxMove = MainWindowModel.Instance.GameSetupModel.numDice * 6;
+			}
+			else
+			{
+				minMove = 1;
+				maxMove = MainWindowModel.Instance.GameSetupModel.spinnerMaxValue;
+			}
 
-            Collection_Game_Tool.Services.Tiles.ITile boardFirstTile =
-                boardGen.genBoard(
-                    MainWindowModel.gameSetupModel.boardSize,
-                    MainWindowModel.gameSetupModel.initialReachableSpaces,
-                    minMove,
-                    maxMove,
-                    MainWindowModel.gameSetupModel.numMoveBackwardTiles,
-                    MainWindowModel.gameSetupModel.numMoveForwardTiles,
-                    MainWindowModel.prizeLevelsModel,
-                    MainWindowModel.gameSetupModel.moveForwardLength,
-                    MainWindowModel.gameSetupModel.moveBackwardLength
-                );
-            List<Collection_Game_Tool.Services.Tiles.ITile> boards = new List<Collection_Game_Tool.Services.Tiles.ITile>();
-            boards.Add(boardFirstTile);
-            GamePlayGeneration generator = new GamePlayGeneration(boards);
-            string formattedPlays = "";
-            foreach (Collection_Game_Tool.Services.Tiles.ITile board in boards)
-            {
-                formattedPlays += generator.GetFormattedGameplay(boards);
-            }
-            //open save dialog
-            string filename = openSaveWindow();
-            BoardSizeTextBox.Focus();
-            // write to file
-            File.WriteAllText(filename, formattedPlays);
-            hideGeneratingAnimation();
-            showGenerationCompleteMessage();
+			Collection_Game_Tool.Services.Tiles.ITile boardFirstTile =
+				boardGen.genBoard(
+					MainWindowModel.Instance.GameSetupModel.boardSize,
+					MainWindowModel.Instance.GameSetupModel.initialReachableSpaces,
+					minMove,
+					maxMove,
+					MainWindowModel.Instance.GameSetupModel.numMoveBackwardTiles,
+					MainWindowModel.Instance.GameSetupModel.numMoveForwardTiles,
+					MainWindowModel.Instance.PrizeLevelsModel,
+					MainWindowModel.Instance.GameSetupModel.moveForwardLength,
+					MainWindowModel.Instance.GameSetupModel.moveBackwardLength
+				);
+			List<Collection_Game_Tool.Services.Tiles.ITile> boards = new List<Collection_Game_Tool.Services.Tiles.ITile>();
+			boards.Add( boardFirstTile );
+			GamePlayGeneration generator = new GamePlayGeneration( boards );
+			string formattedPlays = "";
+			foreach ( Collection_Game_Tool.Services.Tiles.ITile board in boards )
+			{
+				formattedPlays += generator.GetFormattedGameplay( boards );
+			}
+			//open save dialog
+			string filename = openSaveWindow();
+			BoardSizeTextBox.Focus();
+			// write to file
+			File.WriteAllText( filename, formattedPlays );
+			hideGeneratingAnimation();
+			showGenerationCompleteMessage();
+			processingThread = new Thread( new ThreadStart(processThread) );
+			processingThread.Start();
         }
+
+		private void processThread()
+		{
+		}
 
         /// <summary>
         /// Opens the standard save menu for the user to specify the save location
@@ -165,7 +163,7 @@ namespace Collection_Game_Tool.GameSetup
             {
                 // Save document
                 filename = dlg.FileName;
-                MainWindowModel.gameSetupModel.shout("generate/" + filename);
+				MainWindowModel.Instance.GameSetupModel.shout( "generate/" + filename );
             }
 
             return filename;
@@ -219,7 +217,7 @@ namespace Collection_Game_Tool.GameSetup
         private void GameSetupUserControl_Loaded(object sender, RoutedEventArgs e)
         {
             Window parentWindow = Window.GetWindow(this.Parent);
-            MainWindowModel.gameSetupModel.addListener((Window1)parentWindow);
+			MainWindowModel.Instance.GameSetupModel.addListener( ( Window1 )parentWindow );
         }
 
         public void shout(object pass)
@@ -327,25 +325,25 @@ namespace Collection_Game_Tool.GameSetup
 		private void BoardSizeTextBox_TextChanged( object sender, TextChangedEventArgs e )
 		{
 			var textboxSender = sender as TextBox;
-			if ( textboxSender != null ) MainWindowModel.gameSetupModel.BoardSizeTextBox = textboxSender.Text;
+			if ( textboxSender != null ) MainWindowModel.Instance.GameSetupModel.BoardSizeTextBox = textboxSender.Text;
 		}
 
 		private void NumMoveForwardTilesTextBox_TextChanged( object sender, TextChangedEventArgs e )
 		{
 			var textboxSender = sender as TextBox;
-			if ( textboxSender != null ) MainWindowModel.gameSetupModel.NumMoveForwardTilesTextbox = textboxSender.Text;
+			if ( textboxSender != null ) MainWindowModel.Instance.GameSetupModel.NumMoveForwardTilesTextbox = textboxSender.Text;
 		}
 
 		private void NumMoveBackwardTilesTextBox_TextChanged( object sender, TextChangedEventArgs e )
 		{
 			var textboxSender = sender as TextBox;
-			if ( textboxSender != null ) MainWindowModel.gameSetupModel.NumMoveBackwardTilesTextbox = textboxSender.Text;
+			if ( textboxSender != null ) MainWindowModel.Instance.GameSetupModel.NumMoveBackwardTilesTextbox = textboxSender.Text;
 		}
 
 		private void MaxPermutationsTextBox_TextChanged( object sender, TextChangedEventArgs e )
 		{
 			var textboxSender = sender as TextBox;
-			if ( textboxSender != null ) MainWindowModel.gameSetupModel.MaxPermutationsTextbox = textboxSender.Text;
+			if ( textboxSender != null ) MainWindowModel.Instance.GameSetupModel.MaxPermutationsTextbox = textboxSender.Text;
 		}
     }
 }

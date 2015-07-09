@@ -12,57 +12,59 @@ namespace Collection_Game_Tool.Main
 {
     public class MainWindowModel
     {
-        public static GameSetupModel gameSetupModel;
-        public static PrizeLevels.PrizeLevels prizeLevelsModel;
-        public static DivisionsModel divisionsModel;
+		private static MainWindowModel _instance;
+		public static MainWindowModel Instance { get { return _instance ?? ( _instance = new MainWindowModel() ); } set { _instance = value; } }
+		public GameSetupModel GameSetupModel { get; set; }
+		public PrizeLevels.PrizeLevels PrizeLevelsModel { get; set; }
+		public DivisionsModel DivisionsModel { get; set; }
 
-        private static string mainWindowErrorID;
+		private string MainWindowErrorID { get; set; }
 
         /// <summary>
         /// Sends error report if board size is too small for the required number of special spaces
         /// </summary>
-        public static void verifyNumTiles()
+        public void verifyNumTiles()
         {
-            int needed = PrizeLevels.PrizeLevels.totalCollections + MainWindowModel.gameSetupModel.numMoveBackwardTiles + MainWindowModel.gameSetupModel.numMoveForwardTiles;
-            int actual = MainWindowModel.gameSetupModel.boardSize;
+            int needed = PrizeLevels.PrizeLevels.totalCollections + GameSetupModel.numMoveBackwardTiles + GameSetupModel.numMoveForwardTiles;
+            int actual = GameSetupModel.boardSize;
             if (needed > actual)
             {
-                mainWindowErrorID = ErrorService.Instance.reportError("013", new List<String> { }, mainWindowErrorID);
+				MainWindowErrorID = ErrorService.Instance.reportError( "013", new List<String> { }, MainWindowErrorID );
             }
             else
             {
-                ErrorService.Instance.resolveError("013", mainWindowErrorID);
+				ErrorService.Instance.resolveError( "013", MainWindowErrorID );
             }
-            int maxDiceMovement = (MainWindowModel.gameSetupModel.diceSelected ? MainWindowModel.gameSetupModel.numDice * 6 : MainWindowModel.gameSetupModel.spinnerMaxValue) * MainWindowModel.gameSetupModel.numTurns;
+            int maxDiceMovement = (GameSetupModel.diceSelected ? GameSetupModel.numDice * 6 : GameSetupModel.spinnerMaxValue) * GameSetupModel.numTurns;
             if (maxDiceMovement > actual)
             {
-                mainWindowErrorID = ErrorService.Instance.reportWarning("009", new List<string> { }, mainWindowErrorID);
+				MainWindowErrorID = ErrorService.Instance.reportWarning( "009", new List<string> { }, MainWindowErrorID );
             }
             else
             {
-                ErrorService.Instance.resolveWarning("009", mainWindowErrorID);
+				ErrorService.Instance.resolveWarning( "009", MainWindowErrorID );
             }
         }
 
         /// <summary>
         /// Sends error report if a division is impossible to obtain
         /// </summary>
-        public static void verifyDivisions()
+        public void verifyDivisions()
         {
             bool verifiedTurnCount = true;
             // verify that player has enough turns to get the largest division payout
-            for (int i = 0; i < MainWindowModel.divisionsModel.getNumberOfDivisions(); i++)
+            for (int i = 0; i < DivisionsModel.getNumberOfDivisions(); i++)
             {
                 int divisionMinimumTurns = 0;
-                Divisions.DivisionModel currentDivision = MainWindowModel.divisionsModel.getDivision(i);
+                Divisions.DivisionModel currentDivision = DivisionsModel.getDivision(i);
                 foreach (PrizeLevels.PrizeLevel currentPrizeLevel in currentDivision.selectedPrizes)
                 {
                     divisionMinimumTurns += currentPrizeLevel.numCollections;
                 }
-                if(MainWindowModel.gameSetupModel.numTurns < divisionMinimumTurns)
+                if(GameSetupModel.numTurns < divisionMinimumTurns)
                 {
                     // number of turns needed to obtain current prize level is not enough
-                    mainWindowErrorID = ErrorService.Instance.reportError("010", new List<string> { currentDivision.DivisionNumber.ToString() }, mainWindowErrorID);
+					MainWindowErrorID = ErrorService.Instance.reportError( "010", new List<string> { currentDivision.DivisionNumber.ToString() }, MainWindowErrorID );
                     verifiedTurnCount = false;
                     break;
                 }
@@ -70,7 +72,7 @@ namespace Collection_Game_Tool.Main
 
             if (verifiedTurnCount)
             {
-                ErrorService.Instance.resolveError("010", mainWindowErrorID);
+				ErrorService.Instance.resolveError( "010", MainWindowErrorID );
             }
         }
     }

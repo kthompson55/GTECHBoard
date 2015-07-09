@@ -80,7 +80,7 @@ namespace Collection_Game_Tool.Divisions
 
             DivModel.TotalPrizeValue = DivModel.calculateDivisionValue();
             SectionContainer.validateDivision();
-            MainWindowModel.verifyDivisions();
+            MainWindowModel.Instance.verifyDivisions();
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace Collection_Game_Tool.Divisions
             SectionContainer.removeDivision(index);
             SectionContainer.validateDivision();
 
-            MainWindowModel.verifyDivisions();
+            MainWindowModel.Instance.verifyDivisions();
         }
 
         /// <summary>

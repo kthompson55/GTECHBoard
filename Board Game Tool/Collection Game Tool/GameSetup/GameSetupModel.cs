@@ -11,7 +11,7 @@ using Collection_Game_Tool.Main;
 namespace Collection_Game_Tool.GameSetup
 {
     [Serializable]
-    public class GameSetupModel : INotifyPropertyChanged, Teller//, ISerializable
+    public class GameSetupModel : INotifyPropertyChanged, Teller
     {
         [field: NonSerializedAttribute()]
         public event PropertyChangedEventHandler PropertyChanged;
@@ -40,11 +40,11 @@ namespace Collection_Game_Tool.GameSetup
                 inw = value;
 				if ( inw )
 				{
-					if ( MainWindowModel.gameSetupModel.nearWins > PrizeLevels.PrizeLevels.numPrizeLevels )
+					if ( nearWins > PrizeLevels.PrizeLevels.numPrizeLevels )
 					{
 						gsucID = ErrorService.Instance.reportError( "007", new List<string> { }, gsucID );
 					}
-					else if ( MainWindowModel.gameSetupModel.nearWins <= PrizeLevels.PrizeLevels.numPrizeLevels )
+					else if ( nearWins <= PrizeLevels.PrizeLevels.numPrizeLevels )
 					{
 						ErrorService.Instance.resolveError( "007", gsucID );
 					}
@@ -109,9 +109,9 @@ namespace Collection_Game_Tool.GameSetup
 				}
 				else if ( WithinPermutationRange( value ) )
 				{
-					MainWindowModel.gameSetupModel.maxPermutations = Convert.ToUInt32( value );
+					maxPermutations = Convert.ToUInt32( value );
 				}
-				MainWindowModel.gameSetupModel.shout( "validate" );
+				shout( "validate" );
 				if ( PropertyChanged != null )
 					PropertyChanged( this, new PropertyChangedEventArgs( "MaxPermutationsTextbox" ) );
 			}
@@ -163,7 +163,7 @@ namespace Collection_Game_Tool.GameSetup
 					}
 					else
 					{
-						MainWindowModel.verifyNumTiles();
+						MainWindowModel.Instance.verifyNumTiles();
 						ErrorService.Instance.resolveWarning( "007", gsucID );
 						ErrorService.Instance.resolveWarning( "008", gsucID );
 						ErrorService.Instance.resolveError( "014", gsucID );
@@ -183,13 +183,13 @@ namespace Collection_Game_Tool.GameSetup
 				if ( !diceSelected )
 				{
 					// single-value spinner
-					if ( MainWindowModel.gameSetupModel.spinnerMaxValue == 1 )
+					if ( spinnerMaxValue == 1 )
 					{
 						gsucID = ErrorService.Instance.reportWarning( "007", new List<string> { }, gsucID );
 						ErrorService.Instance.resolveWarning( "008", gsucID );
 					}
 					// "coin-flip" spinner
-					else if ( MainWindowModel.gameSetupModel.spinnerMaxValue == 2 )
+					else if ( spinnerMaxValue == 2 )
 					{
 						gsucID = ErrorService.Instance.reportWarning( "008", new List<string> { }, gsucID );
 						ErrorService.Instance.resolveWarning( "007", gsucID );
@@ -205,7 +205,7 @@ namespace Collection_Game_Tool.GameSetup
 					}
 					else
 					{
-						MainWindowModel.verifyNumTiles();
+						MainWindowModel.Instance.verifyNumTiles();
 						ErrorService.Instance.resolveError( "014", gsucID );
 					}
 				}
@@ -231,8 +231,8 @@ namespace Collection_Game_Tool.GameSetup
 				}
 				else
 				{
-					MainWindowModel.verifyNumTiles();
-					MainWindowModel.verifyDivisions();
+					MainWindowModel.Instance.verifyNumTiles();
+					MainWindowModel.Instance.verifyDivisions();
 					ErrorService.Instance.resolveError( "014", gsucID );
 				}
 				if ( PropertyChanged != null )
@@ -258,7 +258,7 @@ namespace Collection_Game_Tool.GameSetup
 				else
 				{
 					ErrorService.Instance.resolveError( "014", gsucID );
-					MainWindowModel.verifyNumTiles();
+					MainWindowModel.Instance.verifyNumTiles();
 				}
 				if ( PropertyChanged != null )
 					PropertyChanged( this, new PropertyChangedEventArgs( "numDice" ) );
@@ -329,7 +329,7 @@ namespace Collection_Game_Tool.GameSetup
 					{
 						boardSize = boardSizeTest;
 					}
-					MainWindowModel.verifyNumTiles();
+					MainWindowModel.Instance.verifyNumTiles();
 				}
 				if ( PropertyChanged != null )
 					PropertyChanged( this, new PropertyChangedEventArgs( "BoardSizeTextBox" ) );
@@ -397,7 +397,7 @@ namespace Collection_Game_Tool.GameSetup
 				{
 					// confirm that there is enough space on board for desired number of move-backward tiles
 					numMoveBackwardTiles = numMBValue;
-					MainWindowModel.verifyNumTiles();
+					MainWindowModel.Instance.verifyNumTiles();
 				}
 				if ( PropertyChanged != null )
 					PropertyChanged( this, new PropertyChangedEventArgs( "NumMoveBackwardTilesTextbox" ) );
@@ -421,7 +421,7 @@ namespace Collection_Game_Tool.GameSetup
 				{
 					// confirm that there is enough space on board for desired number of move-backward tiles
 					numMoveForwardTiles = numMFValue;
-					MainWindowModel.verifyNumTiles();
+					MainWindowModel.Instance.verifyNumTiles();
 				}
 
 				if ( PropertyChanged != null )
