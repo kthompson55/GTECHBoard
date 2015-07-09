@@ -101,25 +101,7 @@ namespace Collection_Game_Tool.Main
 
         public void onListen(object pass)
         {
-            if (pass is String)
-            {
-                //if (((String)pass).Contains("generate/") && gs != null)
-                //{
-                //    String file = ((String)pass).Replace("generate/", "");
-                //    FileGenerationService fgs = new FileGenerationService();
-                //    BackgroundWorker bgWorker = new BackgroundWorker() { WorkerReportsProgress=true};
-                //    bgWorker.DoWork += (s, e) =>
-                //    {
-                //        fgs.buildGameData(divUC.divisionsList, pl.plsObject, gs.gsObject, file, gs);
-                //    };
-                //    bgWorker.RunWorkerCompleted += (s, e) =>
-                //    {
-                //        gs.hideGeneratingAnimation();
-                //    };
-                //    bgWorker.RunWorkerAsync();  
-                //}
-            }
-
+			if(pass is string && (pass as string) == "validate")
             divUC.validateDivision();
         }
 
