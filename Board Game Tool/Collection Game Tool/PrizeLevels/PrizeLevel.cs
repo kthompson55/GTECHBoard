@@ -99,12 +99,18 @@ namespace Collection_Game_Tool.PrizeLevels
             }
         }
 
+        /// <summary>
+        /// Returns negative when first object is greater than second object.
+        /// Returns positive when first object is less than second object.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public int CompareTo(object obj)
         {
             if (obj == null)
                 return 1;
             PrizeLevel pl = (PrizeLevel)obj;
-            return (int)Math.Ceiling(this.prizeValue - pl.prizeValue);
+            return (int)Math.Ceiling(pl.prizeValue - this.prizeValue);
         }
 
         public void shout(object pass)
