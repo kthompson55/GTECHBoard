@@ -83,6 +83,9 @@
     </Compile>
     <Compile Include="GameSetup\ErrorService.cs" />
     <Compile Include="Main\MainWindowModel.cs" />
+    <Compile Include="Main\ProcessingWindow.xaml.cs">
+      <DependentUpon>ProcessingWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Main\ProjectData.cs" />
     <Compile Include="PrizeLevels\PrizeLevel.cs" />
     <Compile Include="Services\ArrayShuffler.cs" />
@@ -163,6 +166,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Main\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Main\ProcessingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +23,11 @@ namespace Collection_Game_Tool.Services
         /// last tile is the last tile of the board.
         /// </summary>
         private Tiles.ITile lastTile;
-
+		private DoWorkEventArgs threadCancel;
+		public BoardGeneration(DoWorkEventArgs threadCancel = null)
+		{
+			this.threadCancel = threadCancel;
+		}
         /// <summary>
         /// Board generation creates the board for play. The board uses a doubly linked list for its design.
         /// </summary>
@@ -49,20 +54,22 @@ namespace Collection_Game_Tool.Services
             int numberOfCollectionSpots = 0;
             foreach (PrizeLevels.PrizeLevel p in prizes.prizeLevels)
             {
+				if ( threadCancel != null && threadCancel.Cancel ) return null;
                 numberOfCollectionSpots += p.numCollections;
             }
-            fillInBlankBoardTiles(boardSize);
 
+            fillInBlankBoardTiles(boardSize);
+			if ( threadCancel != null && threadCancel.Cancel ) return null;
             Tiles.TileTypes[] specialTiles = new Tiles.TileTypes[moveBackCount + moveForwardCount];
             Tiles.TileTypes[] collectionTiles = new Tiles.TileTypes[numberOfCollectionSpots];
 
-            for (int i = 0; i < collectionTiles.Length; i++)
+			for ( int i = 0; i < collectionTiles.Length && !( threadCancel != null && threadCancel.Cancel ); ++i )
             {
                 collectionTiles[i] = Tiles.TileTypes.collection;
             }
-
+			if ( threadCancel != null && threadCancel.Cancel ) return null;
             int index = 0;
-            while (index < specialTiles.Length)
+			while ( index < specialTiles.Length && !( threadCancel != null && threadCancel.Cancel ) )
             {
                 if (index < moveForwardCount)
                 {
@@ -72,14 +79,19 @@ namespace Collection_Game_Tool.Services
                 {
                     specialTiles[index] = Tiles.TileTypes.moveBack;
                 }
-                index++;
+                ++index;
             }
+			if ( threadCancel != null && threadCancel.Cancel ) return null;
 
             specialTiles = ArrayShuffler<Tiles.TileTypes>.shuffle(specialTiles);
+			if ( threadCancel != null && threadCancel.Cancel ) return null;
             fillInSpecialTiles(initialReachable, minMove, maxMove, moveForward, moveBack, specialTiles);
+			if ( threadCancel != null && threadCancel.Cancel ) return null;
             fillInSpecialTiles(initialReachable, minMove, maxMove, moveForward, moveBack, collectionTiles);
-            fillInCollectionTileValues(minMove, numberOfCollectionSpots, prizes);
-            connectTiles(boardSize, minMove, maxMove, moveBack, moveForward);
+			if ( threadCancel != null && threadCancel.Cancel ) return null;
+			fillInCollectionTileValues(minMove, numberOfCollectionSpots, prizes);
+			if ( threadCancel != null && threadCancel.Cancel ) return null;
+			connectTiles(boardSize, minMove, maxMove, moveBack, moveForward);
 
 
             return firstTile;
@@ -102,14 +114,14 @@ namespace Collection_Game_Tool.Services
                 Tiles.TileTypes[] tiles)
         {
             Tiles.ITile currentTile = firstTile;
-            for (int i = 0; i < tiles.Length; i++)
+			for ( int i = 0; i < tiles.Length && !( threadCancel != null && threadCancel.Cancel ); ++i )
             {
                 bool tilePlaced = false;
                 int currentSpace = 0;
                 Tiles.TileTypes myTile = tiles[i];
 
                 int moveAmount = SRandom.nextInt(minMove, (initialReachable / maxMove)) * (i + 1);
-                for (int j = 0; j < moveAmount; j++)
+				for ( int j = 0; j < moveAmount && !( threadCancel != null && threadCancel.Cancel ); j++ )
                 {
                     if (currentTile.child != null && (currentSpace + 1) < initialReachable)
                     {
@@ -122,21 +134,24 @@ namespace Collection_Game_Tool.Services
                         currentSpace = 0;
                     }
                 }
+				if ( threadCancel != null && threadCancel.Cancel ) return;
 
-                while (!tilePlaced)
+				while ( !tilePlaced && !( threadCancel != null && threadCancel.Cancel ) )
                 {
                     if (currentTile.type == Tiles.TileTypes.blank && (currentSpace + 1) < initialReachable)
                     {
                         if (myTile.ToString().Equals("moveForward"))
                         {
                             Tiles.ITile tempTile = currentTile;
-                            for (int k = 0; k < moveForward; k++)
+							for ( int k = 0; k < moveForward && !( threadCancel != null && threadCancel.Cancel ); k++ )
                             {
                                 if (tempTile.child != null)
                                 {
                                     tempTile = tempTile.child;
                                 }
                             }
+							if ( threadCancel != null && threadCancel.Cancel ) return;
+
                             if (tempTile.type != Tiles.TileTypes.moveBack)
                             {
                                 currentTile.type = myTile;
@@ -159,13 +174,14 @@ namespace Collection_Game_Tool.Services
                         else if (myTile.ToString().Equals("moveBack"))
                         {
                             Tiles.ITile tempTile = currentTile;
-                            for (int k = 0; k < moveBack; k++)
+							for ( int k = 0; k < moveBack && !( threadCancel != null && threadCancel.Cancel ); k++ )
                             {
                                 if (tempTile.parent != null)
                                 {
                                     tempTile = tempTile.parent;
                                 }
                             }
+							if ( threadCancel != null && threadCancel.Cancel ) return;
                             if (tempTile.type != Tiles.TileTypes.moveForward)
                             {
                                 currentTile.type = myTile;
@@ -226,7 +242,8 @@ namespace Collection_Game_Tool.Services
             string[] prizeLevel = new string[numberOfCollectionSpots];
             foreach (PrizeLevels.PrizeLevel p in prizes.prizeLevels)
             {
-                for (int i = 0; i < p.numCollections; i++)
+				if ( threadCancel != null && threadCancel.Cancel ) return;
+				for ( int i = 0; i < p.numCollections && !( threadCancel != null && threadCancel.Cancel ); ++i )
                 {
                     StringBuilder sb = new StringBuilder();
                     //sb.Append("CS");
@@ -236,18 +253,22 @@ namespace Collection_Game_Tool.Services
                         sb.Append(":B");
                     sb.Append((":" + (char)(p.prizeLevel + 97)));
                     prizeLevel[index] = sb.ToString();
-                    index++;
+                    ++index;
                 }
             }
+			if ( threadCancel != null && threadCancel.Cancel ) return;
 
             int collectionValuesFilled = 0;
             Tiles.ITile current = firstTile;
             prizeLevel = ArrayShuffler<string>.shuffle(prizeLevel);
-            while (collectionValuesFilled != numberOfCollectionSpots)
+			if ( threadCancel != null && threadCancel.Cancel ) return;
+
+			while ( collectionValuesFilled != numberOfCollectionSpots && !( threadCancel != null && threadCancel.Cancel ) )
             {
                 if (current == null)
                 {
                     prizeLevel = ArrayShuffler<string>.shuffle(prizeLevel);
+					if ( threadCancel != null && threadCancel.Cancel ) return;
                     current = firstTile;
                     collectionValuesFilled = 0;
                 }
@@ -255,16 +276,15 @@ namespace Collection_Game_Tool.Services
                 if (current.type == Tiles.TileTypes.collection)
                 {
                     Tiles.ITile backtracker = current;
-                    for (int j = 1; j < minMove; j++)
+					for ( int j = 1; j < minMove && !( threadCancel != null && threadCancel.Cancel ); ++j )
                     {
                         if (backtracker.parent != null)
                             backtracker = backtracker.parent;
                     }
-
+					if ( threadCancel != null && threadCancel.Cancel ) return;
                     if (backtracker == current || backtracker.type != Tiles.TileTypes.collection || (backtracker.type == Tiles.TileTypes.collection && backtracker.tileInformation != prizeLevel[collectionValuesFilled]))
                     {
-                        current.tileInformation = prizeLevel[collectionValuesFilled];
-                        collectionValuesFilled++;
+                        current.tileInformation = prizeLevel[collectionValuesFilled++];
                     }
                 }
 
@@ -282,7 +302,7 @@ namespace Collection_Game_Tool.Services
             firstTile = new Tiles.Tile();
             firstTile.type = Tiles.TileTypes.blank;
             Tiles.ITile tempTile = firstTile;
-            for (int i = 1; i < boardSize; i++)
+			for ( int i = 1; i < boardSize && !( threadCancel != null && threadCancel.Cancel ); ++i )
             {
                 Tiles.ITile newTile = new Tiles.Tile();
                 newTile.type = Tiles.TileTypes.blank;
@@ -307,15 +327,17 @@ namespace Collection_Game_Tool.Services
             int ForwardMove)
         {
             Tiles.ITile currentTile = firstTile;
-            while (currentTile.child != null)
+			while ( currentTile.child != null && !( threadCancel != null && threadCancel.Cancel ) )
             {
                 if (currentTile.type == Tiles.TileTypes.moveBack)
                 {
                     Tiles.ITile targetGameFromTile = currentTile;
-                    for (int j = 0; j < BackMove && targetGameFromTile != null; j++)
+					for ( int j = 0; j < BackMove && targetGameFromTile != null && !( threadCancel != null && threadCancel.Cancel ); ++j )
                     {
                         targetGameFromTile = targetGameFromTile.child;
                     }
+					if ( threadCancel != null && threadCancel.Cancel ) return;
+
                     if (targetGameFromTile != null)
                     {
                         currentTile.addTile(BackMove, targetGameFromTile);
@@ -325,10 +347,12 @@ namespace Collection_Game_Tool.Services
                 else if (currentTile.type == Tiles.TileTypes.moveForward)
                 {
                     Tiles.ITile targetGameFromTile = currentTile;
-                    for (int j = 0; j < ForwardMove && targetGameFromTile != null; j++)
+					for ( int j = 0; j < ForwardMove && targetGameFromTile != null && !( threadCancel != null && threadCancel.Cancel ); j++ )
                     {
                         targetGameFromTile = targetGameFromTile.child;
                     }
+					if ( threadCancel != null && threadCancel.Cancel ) return;
+
                     if (targetGameFromTile != null)
                     {
                         currentTile.addTile(ForwardMove, targetGameFromTile);
@@ -337,13 +361,15 @@ namespace Collection_Game_Tool.Services
                 }
                 else
                 {
-                    for (int i = minMove; i < maxMove + 1; i++)
+					for ( int i = minMove; i < maxMove + 1 && !( threadCancel != null && threadCancel.Cancel ); ++i )
                     {
                         Tiles.ITile targetGameFromTile = currentTile;
                         for (int j = 0; j < i && targetGameFromTile != null; j++)
                         {
                             targetGameFromTile = targetGameFromTile.child;
                         }
+						if ( threadCancel != null && threadCancel.Cancel ) return;
+
                         if (targetGameFromTile != null)
                         {
                             currentTile.addTile(i, targetGameFromTile);

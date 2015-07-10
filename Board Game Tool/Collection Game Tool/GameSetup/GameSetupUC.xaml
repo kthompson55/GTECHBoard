@@ -306,18 +306,7 @@
                         </StackPanel>
                     </Border>
 
-                    <Button x:Name="CreateButton" Click="createButton_Click" Width="200" Height="50" FontSize="28" FontWeight="Bold" Background="#007CAA" Foreground="White" Margin="0,5,0,0" IsEnabled="{Binding Path=canCreate}" Opacity="{Binding Path=canCreate, Converter={StaticResource OpacityConverter}}">Create File</Button>
-					<StackPanel x:Name="GeneratingFileAnimation" Margin="0" Visibility="Hidden"><!--10-->
-						<Label x:Name="GeneratingFileLabel" FontSize="1" HorizontalAlignment="Center">Generating File</Label><!--20-->
-                        <Viewbox Name="GeneratingFileViewbox" Width="0" Height="0"
-                         HorizontalAlignment="Center"
-                         VerticalAlignment="Center">
-							<!--w50h50-->
-                            <local:CircularProgressBar />
-                        </Viewbox>
-
-                    </StackPanel>
-					<Label x:Name="GeneratingCompleteMessage" FontSize="1" Margin="0" HorizontalAlignment="Center" Visibility="Hidden">File Generated!</Label><!--m10f20-->
+					<Button x:Name="CreateButton" Click="createButton_Click" Width="200" Height="50" FontSize="28" FontWeight="Bold" Background="#007CAA" Foreground="White" Margin="0,5,0,0" IsEnabled="{Binding Path=canCreate}" Opacity="{Binding Path=canCreate, Converter={StaticResource OpacityConverter}}">Create File</Button>
 
 
 
