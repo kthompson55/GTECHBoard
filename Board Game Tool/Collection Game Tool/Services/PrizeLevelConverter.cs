@@ -7,15 +7,22 @@ using System.Windows.Data;
 
 namespace Collection_Game_Tool.Services
 {
-    public class PrizeLevelConverter
+    public class PrizeLevelConverter: IValueConverter
     {
         List<String> levels = new List<String>()
             {
                 "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T"
             };
 
-        //Converts integer to letter reference
-        public object Convert(object value)
+		/// <summary>
+		/// Converts integer to letter reference
+		/// </summary>
+		/// <param name="value"></param>
+		/// <param name="targetType"></param>
+		/// <param name="parameter"></param>
+		/// <param name="culture"></param>
+		/// <returns></returns>
+		public object Convert( object value, Type targetType = null, object parameter = null, System.Globalization.CultureInfo culture = null )
         {
             int ret = 0;
             if (value is int)
@@ -27,8 +34,15 @@ namespace Collection_Game_Tool.Services
             return "";
         }
 
-        //Converts letter reference back to integer
-        public object ConvertBack(object value)
+		/// <summary>
+		/// Converts letter reference back to integer
+		/// </summary>
+		/// <param name="value"></param>
+		/// <param name="targetType"></param>
+		/// <param name="parameter"></param>
+		/// <param name="culture"></param>
+		/// <returns></returns>
+		public object ConvertBack( object value, Type targetType = null, object parameter = null, System.Globalization.CultureInfo culture  = null)
         {
             String text;
             if (value is string)
@@ -42,5 +56,5 @@ namespace Collection_Game_Tool.Services
 
             return -1;
         }
-    }
+	}
 }
