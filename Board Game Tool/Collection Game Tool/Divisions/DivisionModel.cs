@@ -22,7 +22,7 @@ namespace Collection_Game_Tool.Divisions
 
         private int _divisionNumber;
         private double _totalPrizeValue;
-        private int _maxPermutations;
+        private int _maxPermutations = 1;
 
         public DivisionModel()
         {
