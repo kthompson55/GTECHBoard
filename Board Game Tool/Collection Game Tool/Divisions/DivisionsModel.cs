@@ -16,7 +16,7 @@ namespace Collection_Game_Tool.Divisions
         public event PropertyChangedEventHandler PropertyChanged;
 
         public List<DivisionModel> divisions = new List<DivisionModel>();
-        private int _maxLossPermutations;
+        private int _maxLossPermutations = 1;
 
         public int MaxLossPermutations
         {
@@ -27,9 +27,12 @@ namespace Collection_Game_Tool.Divisions
 
             set
             {
-                _maxLossPermutations = value;
-                if (PropertyChanged != null)
-                    PropertyChanged(this, new PropertyChangedEventArgs("MaxLossPermutations"));
+                if (value > 0)
+                {
+                    _maxLossPermutations = value;
+                    if (PropertyChanged != null)
+                        PropertyChanged(this, new PropertyChangedEventArgs("MaxLossPermutations"));
+                }
             }
         }
 
