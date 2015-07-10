@@ -104,7 +104,7 @@ namespace Collection_Game_Tool.PrizeLevels
             if (obj == null)
                 return 1;
             PrizeLevel pl = (PrizeLevel)obj;
-            return (int)Math.Ceiling(pl.prizeValue - this.prizeValue);
+            return (int)Math.Ceiling(this.prizeValue - pl.prizeValue);
         }
 
         public void shout(object pass)
