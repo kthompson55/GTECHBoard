@@ -111,9 +111,12 @@ namespace Collection_Game_Tool.Divisions
 
             set
             {
-                _maxPermutations = value;
-                if (PropertyChanged != null)
-                    PropertyChanged(this, new PropertyChangedEventArgs("MaxPermutations"));
+                if (value > 0)
+                {
+                    _maxPermutations = value;
+                    if (PropertyChanged != null)
+                        PropertyChanged(this, new PropertyChangedEventArgs("MaxPermutations"));
+                }
             }
         }
 
