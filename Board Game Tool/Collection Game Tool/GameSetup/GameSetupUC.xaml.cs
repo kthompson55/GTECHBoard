@@ -26,12 +26,11 @@ namespace Collection_Game_Tool.GameSetup
     /// </summary>
     public partial class GameSetupUC : UserControl, Teller, Listener
     {
-		private BoardGeneration boardGen;
         private List<Listener> listenerList = new List<Listener>();
+		private ProcessingWindow processingWindow;
         public GameSetupUC()
         {
             InitializeComponent();
-            boardGen = new BoardGeneration();
         }
 
         public void DataBind()
@@ -94,122 +93,9 @@ namespace Collection_Game_Tool.GameSetup
         //Initiates save process when Create Button is clicked
         public void createButton_Click(object sender, RoutedEventArgs e)
         {
-            showGeneratingAnimation();
-			if ( Parent != null && Parent is Window1 ) ( Parent as Window1 ).IsEnabled = false;
-			BackgroundWorker bgWorker = new BackgroundWorker()
-			{
-				WorkerReportsProgress = true
-			};
-			bgWorker.DoWork += ( s, e1 ) =>
-				{
-					processThread();
-				};
-			bgWorker.RunWorkerCompleted += ( s, e1 ) =>
-				{
-					if ( Parent != null && Parent is Window1 ) ( Parent as Window1 ).IsEnabled = false;
-					hideGeneratingAnimation();
-					showGenerationCompleteMessage();
-				};
-			bgWorker.RunWorkerAsync();
-        }
 
-		private void processThread()
-		{
-			int minMove = 0;
-			int maxMove = 0;
-			if ( MainWindowModel.Instance.GameSetupModel.diceSelected )
-			{
-				minMove = MainWindowModel.Instance.GameSetupModel.numDice;
-				maxMove = MainWindowModel.Instance.GameSetupModel.numDice * 6;
-			}
-			else
-			{
-				minMove = 1;
-				maxMove = MainWindowModel.Instance.GameSetupModel.spinnerMaxValue;
-			}
-
-			Collection_Game_Tool.Services.Tiles.ITile boardFirstTile =
-				boardGen.genBoard(
-					MainWindowModel.Instance.GameSetupModel.boardSize,
-					MainWindowModel.Instance.GameSetupModel.initialReachableSpaces,
-					minMove,
-					maxMove,
-					MainWindowModel.Instance.GameSetupModel.numMoveBackwardTiles,
-					MainWindowModel.Instance.GameSetupModel.numMoveForwardTiles,
-					MainWindowModel.Instance.PrizeLevelsModel,
-					MainWindowModel.Instance.GameSetupModel.moveForwardLength,
-					MainWindowModel.Instance.GameSetupModel.moveBackwardLength
-				);
-			List<Collection_Game_Tool.Services.Tiles.ITile> boards = new List<Collection_Game_Tool.Services.Tiles.ITile>();
-			boards.Add( boardFirstTile );
-			GamePlayGeneration generator = new GamePlayGeneration( boards );
-			string formattedPlays = "";
-			foreach ( Collection_Game_Tool.Services.Tiles.ITile board in boards )
-			{
-				formattedPlays += generator.GetFormattedGameplay( boards );
-			}
-			//open save dialog
-			string filename = openSaveWindow();
-			// write to file
-			File.WriteAllText( filename, formattedPlays );
-		}
-
-        /// <summary>
-        /// Opens the standard save menu for the user to specify the save location
-        /// Initiates generation of the file once the user is finished
-        /// </summary>
-        private string openSaveWindow()
-        {
-            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
-            dlg.FileName = "CollectionGameFile"; // Default file name
-            dlg.DefaultExt = ".txt"; // Default file extension
-            dlg.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension
-
-            // Show save file dialog box
-            Nullable<bool> result = dlg.ShowDialog();
-
-            string filename = "";
-            // Process save file dialog box results
-            if (result == true)
-            {
-                // Save document
-                filename = dlg.FileName;
-				MainWindowModel.Instance.GameSetupModel.shout( "generate/" + filename );
-            }
-
-            return filename;
-        }
-
-        private void showGeneratingAnimation()
-        {
-            GeneratingFileAnimation.Visibility = Visibility.Visible;
-            GeneratingFileAnimation.Margin = new Thickness(10);
-            GeneratingFileLabel.FontSize = 20;
-            GeneratingFileViewbox.Width = 50;
-            GeneratingFileViewbox.Height = 50;
-            hideGenerationCompleteMessage();
-        }
-
-        public void hideGeneratingAnimation()
-        {
-            GeneratingFileAnimation.Visibility = Visibility.Hidden;
-            GeneratingFileAnimation.Margin = new Thickness(0);
-            GeneratingFileLabel.FontSize = 1;
-            GeneratingFileViewbox.Width = 0;
-            GeneratingFileViewbox.Height = 0;
-            showGenerationCompleteMessage();
-        }
-        private void hideGenerationCompleteMessage()
-        {
-            GeneratingCompleteMessage.Visibility = Visibility.Hidden;
-            GeneratingCompleteMessage.FontSize = 1;
-            GeneratingCompleteMessage.Margin = new Thickness(0);
-        }
-        private void showGenerationCompleteMessage()
-        {
-            GeneratingCompleteMessage.Visibility = Visibility.Visible;
-            GeneratingCompleteMessage.FontSize = 20;
-            GeneratingCompleteMessage.Margin = new Thickness(10);
+			processingWindow = new ProcessingWindow();
+			processingWindow.ShowDialog();
         }
 
         /// <summary>
@@ -249,10 +135,6 @@ namespace Collection_Game_Tool.GameSetup
             if (pass is int)
             {
                 int pick = (int)pass;
-            }
-            else if (pass is string && ((String)pass).Equals("FileFinished"))
-            {
-                hideGeneratingAnimation();
             }
         }
 
