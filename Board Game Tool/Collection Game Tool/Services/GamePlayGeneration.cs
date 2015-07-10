@@ -47,73 +47,20 @@ namespace Collection_Game_Tool.Services
         private void GeneratePlaysFromBoard(ITile board)
         {
             string boardDesign = CreateBoardDesignString(board);
+            int count = board.connections.Keys.Count;
             foreach (int t in board.connections.Keys)
             {
-                if(numDice==0)
-                {
-                    if (board.connections[t].type == TileTypes.collection)
-                    {
-                        String getter = board.connections[t].tileAction().tileInformation;
-                        GeneratePlaysFromBoardHelper(board.connections[t], 1, boardDesign, "|" + t, new PlayGen(getter));
-                    }
-                    //else if (board.connections[t].type == TileTypes.moveForward || board.connections[t].type == TileTypes.moveBack)
-                    //{
-                    //    //This just pushes the player to the tile he belongs at after a move forward or move backward tile is hit, it will also check if the same tile has been reached and forget about the path
-                    //    //this way infinite loops cannot be hit.
-                    //    ITile beginTile = board.connections[t];
-                    //    ITile nextTile = (ITile)board.connections[t].tileAction();
-                    //    while (nextTile.type == TileTypes.moveForward || nextTile.type == TileTypes.moveBack)
-                    //    {
-                    //        nextTile = (ITile)nextTile.tileAction();
-                    //        if (beginTile==nextTile)
-                    //        {
-                    //            break;
-                    //        }
-                    //    }
-                    //    if(beginTile!=nextTile)
-                    //        GeneratePlaysFromBoardHelper(nextTile, 1, boardDesign, "|" + t, new PlayGen());
-                    //}
-                    else
-                    {
-                        GeneratePlaysFromBoardHelper(board.connections[t], 1, boardDesign, "|" + t, new PlayGen());
-                    }
-                }
+                if (numDice == 0)
+                    GeneratePlaysFromBoardHelper(board.connections[t], 1, boardDesign, "|" + t, new PlayGen());
                 else
-                {
-                    if (board.connections[t].type == TileTypes.collection) //If connection is a collection space
-                    {
-                        String getter = board.connections[t].tileAction().tileInformation;
-                        GeneratePlaysFromBoardHelper(board.connections[t], 1, boardDesign, "|" + rollOptions[t][rand.Next(0, rollOptions[t].Count)], new PlayGen());
-                    }
-                    //else if (board.connections[t].type == TileTypes.moveForward || board.connections[t].type == TileTypes.moveBack) // connection is a move forward/backward space
-                    //{
-                    //    //This just pushes the player to the tile he belongs at after a move forward or move backward tile is hit, it will also check if the same tile has been reached and forget about the path
-                    //    //this way infinite loops cannot be hit.
-                    //    ITile beginTile = board.connections[t];
-                    //    ITile nextTile = board.connections[t].tileAction();
-                    //    while (nextTile.type == TileTypes.moveForward || nextTile.type == TileTypes.moveBack)
-                    //    {
-                    //        nextTile = (ITile)nextTile.tileAction();
-                    //        if (beginTile == nextTile)
-                    //        {
-                    //            break;
-                    //        }
-                    //    }
-                    //    if(beginTile!=nextTile)
-                    //        GeneratePlaysFromBoardHelper(nextTile, 1, boardDesign, "|" + rollOptions[t][rand.Next(0, rollOptions[t].Count)], new PlayGen());
-                    //}
-                    else
-                    {
-                        GeneratePlaysFromBoardHelper(board.connections[t], 1, boardDesign, "|" + rollOptions[t][rand.Next(0, rollOptions[t].Count)], new PlayGen());
-                    }
-                }
+                    GeneratePlaysFromBoardHelper(board.connections[t], 1, boardDesign, "|" + rollOptions[t][rand.Next(0, rollOptions[t].Count)], new PlayGen());
             }
         }
 
         //This continues generating the play from a board, this is a recursive function.
         private void GeneratePlaysFromBoardHelper(ITile board, int moves, String boardDesign, String curPath, PlayGen pg)
         {
-            if (board.connections.Count == 0 || moves==numMoves) // last space
+            if (moves == numMoves) // last space
             {
                 bool hasPrizes = true;
                 DivisionModel divWon = null;
@@ -121,7 +68,7 @@ namespace Collection_Game_Tool.Services
                 {
                     foreach (PrizeLevel pl in d.selectedPrizes)
                     {
-                        if (hasPrizes && pl.numCollections != pg.hasCollection((String)plc.Convert(pl.prizeLevel, null, null, new System.Globalization.CultureInfo("en-us"))))
+                        if (hasPrizes && pl.numCollections != pg.hasCollection((String)plc.Convert(pl.prizeLevel)))
                         {
                             hasPrizes = false;
                         }
@@ -133,11 +80,11 @@ namespace Collection_Game_Tool.Services
                 bool hasOtherPrizes = false;
                 foreach (PrizeLevel pl in prizeLevels)
                 {
-                    if (!hasOtherPrizes && divWon!=null && !divWon.selectedPrizes.Contains(pl) && pl.numCollections == pg.hasCollection((String)plc.Convert(pl.prizeLevel, null, null, new System.Globalization.CultureInfo("en-us"))))
+                    if (!hasOtherPrizes && divWon != null && !divWon.selectedPrizes.Contains(pl) && pl.numCollections == pg.hasCollection((String)plc.Convert(pl.prizeLevel)))
                     {
                         hasOtherPrizes = true;
                     }
-                    else if (!hasOtherPrizes && divWon == null && pl.numCollections == pg.hasCollection((String)plc.Convert(pl.prizeLevel, null, null, new System.Globalization.CultureInfo("en-us"))))
+                    else if (!hasOtherPrizes && divWon == null && pl.numCollections == pg.hasCollection((String)plc.Convert(pl.prizeLevel)))
                     {
                         hasOtherPrizes = true;
                     }
@@ -148,30 +95,17 @@ namespace Collection_Game_Tool.Services
                 else if (!hasOtherPrizes)
                     addPath("none", boardDesign, curPath);                                      ////EXIT
             }
+
+
             foreach (int t in board.connections.Keys)
             {
-                if (numDice==0)
+                if (numDice == 0)
                 {
                     if (board.connections[t].type == TileTypes.collection)
                     {
                         String getter = board.connections[t].tileAction().tileInformation;
                         GeneratePlaysFromBoardHelper(board.connections[t], moves + 1, boardDesign, curPath + "," + t, new PlayGen(pg, getter));
                     }
-                    //else if (board.connections[t].type == TileTypes.moveForward || board.connections[t].type == TileTypes.moveBack)
-                    //{
-                    //    //This just pushes the player to the tile he belongs at after a move forward or move backward tile is hit, it will also check if the same tile has been reached and forget about the path
-                    //    //this way infinite loops cannot be hit.
-                    //    ITile beginTile = board.connections[t];
-                    //    ITile nextTile = (ITile)board.connections[t].tileAction();
-                    //    while (nextTile.type == TileTypes.moveBack || nextTile.type == TileTypes.moveForward)
-                    //    {
-                    //        nextTile = (ITile)nextTile.tileAction();
-                    //        if (beginTile == nextTile)
-                    //            break;
-                    //    }
-                    //    if(beginTile!=nextTile)
-                    //        GeneratePlaysFromBoardHelper(nextTile, moves + 1, boardDesign, curPath + "," + t, new PlayGen(pg));
-                    //}
                     else
                     {
                         GeneratePlaysFromBoardHelper(board.connections[t], moves + 1, boardDesign, curPath + "," + t, new PlayGen(pg));
@@ -184,21 +118,6 @@ namespace Collection_Game_Tool.Services
                         String getter = board.connections[t].tileAction().tileInformation;
                         GeneratePlaysFromBoardHelper(board.connections[t], moves + 1, boardDesign, curPath + "," + rollOptions[t][rand.Next(0, rollOptions[t].Count)], new PlayGen(pg, getter));
                     }
-                    //else if (board.connections[t].type == TileTypes.moveForward || board.connections[t].type == TileTypes.moveBack)
-                    //{
-                    //    //This just pushes the player to the tile he belongs at after a move forward or move backward tile is hit, it will also check if the same tile has been reached and forget about the path
-                    //    //this way infinite loops cannot be hit.
-                    //    ITile beginTile = board.connections[t];
-                    //    ITile nextTile = (ITile)board.connections[t].tileAction();
-                    //    while (nextTile.type == TileTypes.moveBack || nextTile.type == TileTypes.moveForward)
-                    //    {
-                    //        nextTile = (ITile)nextTile.tileAction();
-                    //        if (beginTile == nextTile)
-                    //            break;
-                    //    }
-                    //    if(beginTile!=nextTile)
-                    //        GeneratePlaysFromBoardHelper(nextTile, moves + 1, boardDesign, curPath + "," + rollOptions[t][rand.Next(0, rollOptions[t].Count)], new PlayGen(pg));
-                    //}
                     else
                     {
                         GeneratePlaysFromBoardHelper(board.connections[t], moves + 1, boardDesign, curPath + "," + rollOptions[t][rand.Next(0, rollOptions[t].Count)], new PlayGen(pg));
@@ -223,6 +142,7 @@ namespace Collection_Game_Tool.Services
                 foreach (KeyValuePair<String, List<String>> entry in paths) // For every division entry in paths
                 {
                     string division = entry.Key;
+                    int count = entry.Value.Count;
                     foreach (String permutation in entry.Value) // For every permutation of the current division
                     {
                         output += (division + " " + permutation + Environment.NewLine);
@@ -284,7 +204,7 @@ namespace Collection_Game_Tool.Services
         }
 
         //This generates all the plays from each board
-        public void Generate(int moves, List<Divisions.DivisionModel> divs, List<PrizeLevels.PrizeLevel> pls, int numDice=0)
+        public void Generate(int moves, List<Divisions.DivisionModel> divs, List<PrizeLevels.PrizeLevel> pls, int numDice = 0)
         {
             this.numMoves = moves;
             this.numDice = numDice;
@@ -311,7 +231,7 @@ namespace Collection_Game_Tool.Services
             {
                 for (int i = 1; i <= 6; i++)
                 {
-                    if(diceOn==1)
+                    if (diceOn == 1)
                         generateRollOptions(diceOn + 1, currentRoll + i, building += i);
                     else
                         generateRollOptions(diceOn + 1, currentRoll + i, building += ":" + i);
@@ -321,10 +241,10 @@ namespace Collection_Game_Tool.Services
             {
                 for (int i = 1; i <= 6; i++)
                 {
-                    if (!rollOptions.ContainsKey(currentRoll+i) || rollOptions[currentRoll + i] == null)
+                    if (!rollOptions.ContainsKey(currentRoll + i) || rollOptions[currentRoll + i] == null)
                     {
                         rollOptions.Add(currentRoll + i, new List<String>());
-                        
+
                     }
                     building += ":" + i;
                     rollOptions[currentRoll + i].Add(building);

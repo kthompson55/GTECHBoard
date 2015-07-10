@@ -7,7 +7,7 @@ using System.Windows.Data;
 
 namespace Collection_Game_Tool.Services
 {
-    public class PrizeLevelConverter : IValueConverter
+    public class PrizeLevelConverter
     {
         List<String> levels = new List<String>()
             {
@@ -15,9 +15,9 @@ namespace Collection_Game_Tool.Services
             };
 
         //Converts integer to letter reference
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object Convert(object value)
         {
-            int ret=0;
+            int ret = 0;
             if (value is int)
             {
                 ret = (int)value;
@@ -28,7 +28,7 @@ namespace Collection_Game_Tool.Services
         }
 
         //Converts letter reference back to integer
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value)
         {
             String text;
             if (value is string)
