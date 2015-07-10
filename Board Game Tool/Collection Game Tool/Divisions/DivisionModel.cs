@@ -22,6 +22,7 @@ namespace Collection_Game_Tool.Divisions
 
         private int _divisionNumber;
         private double _totalPrizeValue;
+        private int _totalPlayerPicks;
         private int _maxPermutations = 1;
 
         public DivisionModel()
@@ -29,6 +30,7 @@ namespace Collection_Game_Tool.Divisions
             errorID = null;
             DivisionNumber = 0;
             TotalPrizeValue = 0.00;
+            TotalPlayerPicks = 0;
             MaxPermutations = 1;
         }
 
@@ -72,6 +74,19 @@ namespace Collection_Game_Tool.Divisions
             return divisionValue;
         }
 
+        public int calculateTotalCollections()
+        {
+            int collections = 0;
+            foreach (PrizeLevel p in selectedPrizes)
+            {
+                if (p.isInstantWin)
+                    collections += 1;
+                else
+                    collections += p.numCollections;
+            }
+            return collections;
+        }
+
         public int DivisionNumber
         {
             get
@@ -99,6 +114,21 @@ namespace Collection_Game_Tool.Divisions
                 _totalPrizeValue = value;
                 if (PropertyChanged != null)
                     PropertyChanged(this, new PropertyChangedEventArgs("TotalPrizeValue"));
+            }
+        }
+
+        public int TotalPlayerPicks
+        {
+            get
+            {
+                return _totalPlayerPicks;
+            }
+
+            set
+            {
+                _totalPlayerPicks = value;
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs("TotalPlayerPicks"));
             }
         }
 

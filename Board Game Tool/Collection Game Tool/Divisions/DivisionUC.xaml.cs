@@ -48,6 +48,7 @@ namespace Collection_Game_Tool.Divisions
 
         public void setDataContextToModel()
         {
+            totalPicksLabel.DataContext = DivModel;
             totalValueLabel.DataContext = DivModel;
             divisionNumberLabel.DataContext = DivModel;
             divisionMaxPermutation.DataContext = DivModel;
@@ -121,6 +122,7 @@ namespace Collection_Game_Tool.Divisions
                 }
 
                 DivModel.TotalPrizeValue = DivModel.calculateDivisionValue();
+                DivModel.TotalPlayerPicks = DivModel.calculateTotalCollections();
             }
 
             SectionContainer.validateDivision();
@@ -147,6 +149,7 @@ namespace Collection_Game_Tool.Divisions
                 }
 
                 DivModel.TotalPrizeValue = DivModel.calculateDivisionValue();
+                DivModel.TotalPlayerPicks = DivModel.calculateTotalCollections();
             }
         }
 
