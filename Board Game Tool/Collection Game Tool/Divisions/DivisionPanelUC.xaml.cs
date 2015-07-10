@@ -44,6 +44,7 @@ namespace Collection_Game_Tool.Divisions
             Window parentWindow = Window.GetWindow(this.Parent);
             addListener((Window1)parentWindow);
             addDivision();
+            divisionMaxPermutation.DataContext = MainWindowModel.Instance.DivisionsModel;
         }
 
         /// <summary>

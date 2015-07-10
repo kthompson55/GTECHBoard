@@ -22,12 +22,14 @@ namespace Collection_Game_Tool.Divisions
 
         private int _divisionNumber;
         private double _totalPrizeValue;
+        private int _maxPermutations;
 
         public DivisionModel()
         {
             errorID = null;
             DivisionNumber = 0;
             TotalPrizeValue = 0.00;
+            MaxPermutations = 1;
         }
 
         public void addPrizeLevel(PrizeLevel prizeLevelToAdd)
@@ -97,6 +99,43 @@ namespace Collection_Game_Tool.Divisions
                 _totalPrizeValue = value;
                 if (PropertyChanged != null)
                     PropertyChanged(this, new PropertyChangedEventArgs("TotalPrizeValue"));
+            }
+        }
+
+        public int MaxPermutations
+        {
+            get
+            {
+                return _maxPermutations;
+            }
+
+            set
+            {
+                _maxPermutations = value;
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs("MaxPermutations"));
+            }
+        }
+
+        public string MaxPermutationsTextbox
+        {
+            get
+            {
+                return MaxPermutations + "";
+            }
+            set
+            {
+                int maxPermValue;
+                if (value == "")
+                {
+                    MaxPermutations = 1;
+                }
+                else if (Int32.TryParse(value, out maxPermValue))
+                {
+                    MaxPermutations = maxPermValue;
+                }
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs("MaxPermutationsTextbox"));
             }
         }
 

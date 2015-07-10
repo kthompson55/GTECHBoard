@@ -50,6 +50,7 @@ namespace Collection_Game_Tool.Divisions
         {
             totalValueLabel.DataContext = DivModel;
             divisionNumberLabel.DataContext = DivModel;
+            divisionMaxPermutation.DataContext = DivModel;
         }
 
         /// <summary>

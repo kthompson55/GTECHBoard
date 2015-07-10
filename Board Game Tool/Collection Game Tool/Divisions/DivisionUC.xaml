@@ -69,7 +69,7 @@
                                 </Style>
                             </StackPanel.Resources>
                             <Label Style="{StaticResource divisionInfoStyle}" HorizontalAlignment="Right" TextBlock.FontSize="10pt" Height="25" Content="Permutations:" Margin="0,-2,0,5"/>
-                            <TextBox x:Name="divisionMaxPermutation" Width="100" Height="20"></TextBox>
+                            <TextBox x:Name="divisionMaxPermutation" Width="100" Height="20" Text="{Binding Path=MaxPermutationsTextbox, Mode=TwoWay}"></TextBox>
                         </StackPanel>
                         <StackPanel x:Name="divisionButtons" Orientation="Horizontal">
                             <!--#e87e02-->
