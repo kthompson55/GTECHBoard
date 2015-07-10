@@ -160,13 +160,13 @@ namespace Collection_Game_Tool.PrizeLevels
                 if (vr.Equals(new ValidationResult(false, "Illegal characters")))
                 {
                     ucplID = ErrorService.Instance.reportError("005", new List<string>{
-                        (string)plc.Convert(plObject.prizeLevel,typeof(string), null, new System.Globalization.CultureInfo("en-us"))
+                        (string)plc.Convert(plObject.prizeLevel)
                     }, ucplID);
                 }
                 else if (vr.Equals(new ValidationResult(false, "Please enter a number in the given range.")))
                 {
                     ucplID = ErrorService.Instance.reportError("006", new List<string>{
-                        (string)plc.Convert(plObject.prizeLevel,typeof(string), null, new System.Globalization.CultureInfo("en-us")),
+                        (string)plc.Convert(plObject.prizeLevel),
                         "0",
                         "10"
                     }, ucplID);
@@ -174,7 +174,7 @@ namespace Collection_Game_Tool.PrizeLevels
                 else if(vr.Equals(new ValidationResult(false, "Cannot be nothing")))
                 {
                     ucplID = ErrorService.Instance.reportError("008", new List<string>{
-                        (string)plc.Convert(plObject.prizeLevel, typeof(string),null, new System.Globalization.CultureInfo("en-us"))
+                        (string)plc.Convert(plObject.prizeLevel)
                     },
                     ucplID);
                 }

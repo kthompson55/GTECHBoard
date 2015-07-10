@@ -12,7 +12,7 @@ namespace Collection_Game_Tool_Test.ServicesTests
         {
             PrizeLevelConverter plc = new PrizeLevelConverter();
 
-            Assert.IsTrue(((string)plc.Convert(1, typeof(string), null, new System.Globalization.CultureInfo("en-us"))).Equals("A"));
+            Assert.IsTrue(((string)plc.Convert(1)).Equals("A"));
         }
 
         [TestMethod]
@@ -20,7 +20,7 @@ namespace Collection_Game_Tool_Test.ServicesTests
         {
             PrizeLevelConverter plc = new PrizeLevelConverter();
 
-            Assert.IsTrue((int)plc.ConvertBack("A", typeof(int), null, new System.Globalization.CultureInfo("en-us")) == 1);
+            Assert.IsTrue((int)plc.ConvertBack("A") == 1);
         }
 
         [TestMethod]
@@ -28,7 +28,7 @@ namespace Collection_Game_Tool_Test.ServicesTests
         {
             PrizeLevelConverter plc = new PrizeLevelConverter();
 
-            Assert.IsTrue(((string)plc.Convert(null, typeof(string), null, new System.Globalization.CultureInfo("en-us"))).Equals(""));
+            Assert.IsTrue(((string)plc.Convert(null)).Equals(""));
         }
 
         [TestMethod]
@@ -36,7 +36,7 @@ namespace Collection_Game_Tool_Test.ServicesTests
         {
             PrizeLevelConverter plc = new PrizeLevelConverter();
 
-            Assert.IsTrue((int)plc.ConvertBack(null, typeof(int), null, new System.Globalization.CultureInfo("en-us")) == -1);
+            Assert.IsTrue((int)plc.ConvertBack(null) == -1);
         }
     }
 }

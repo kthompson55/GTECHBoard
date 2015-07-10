@@ -187,8 +187,8 @@ namespace Collection_Game_Tool.PrizeLevels
                                     (ucplList[i].plObject.prizeValue == ucplList[j].plObject.prizeValue))
                                 {
                                     plsID = ErrorService.Instance.reportWarning("004", new List<string>{
-                                        (string)plc.Convert(ucplList[i].plObject.prizeLevel, typeof(string), null, new System.Globalization.CultureInfo("en-us")),
-                                        (string)plc.Convert(ucplList[j].plObject.prizeLevel, typeof(string), null, new System.Globalization.CultureInfo("en-us"))
+                                        (string)plc.Convert(ucplList[i].plObject.prizeLevel),
+                                        (string)plc.Convert(ucplList[j].plObject.prizeLevel)
                                     }, plsID);
                                     sameFound = true;
                                 }
