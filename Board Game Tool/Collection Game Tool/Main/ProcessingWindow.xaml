@@ -2,20 +2,19 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:gamesetup="clr-namespace:Collection_Game_Tool.GameSetup"
-        Title="ProcessingWindow" Height="300" Width="300"
+        Title="ProcessingWindow" Height="275" Width="200" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
 		Closing="Window_Closing"
 		Initialized="Window_Initialized">
     <Grid>
-		<StackPanel x:Name="GeneratingFileAnimation" Margin="10">
-			<Label x:Name="GeneratingFileLabel" FontSize="20" HorizontalAlignment="Center" Content="Generating File"/>
-			<!--20-->
-		<Viewbox Name="GeneratingFileViewbox" Width="50" Height="50"
-                         HorizontalAlignment="Center"
-                         VerticalAlignment="Center">
-			<!--w50h50-->
-			<gamesetup:CircularProgressBar/>
-		</Viewbox>
-
+		<Grid.RowDefinitions>
+			<RowDefinition MinHeight="50" MaxHeight="50"/>
+			<RowDefinition MaxHeight="200" MinHeight="200"/>
+		</Grid.RowDefinitions>
+		<StackPanel Background="#0068ad">
+			<Label Foreground="White" FontWeight="Bold" x:Name="GeneratingFileLabel" FontSize="20" HorizontalAlignment="Center" Content="Generating File"/>
 		</StackPanel>
+		<Grid Grid.Row="1" Background="#009ad8">
+				<gamesetup:CircularProgressBar Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+		</Grid>
 	</Grid>
 </Window>
