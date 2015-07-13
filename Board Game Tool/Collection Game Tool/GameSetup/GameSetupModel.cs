@@ -292,6 +292,7 @@ namespace Collection_Game_Tool.GameSetup
 					ErrorService.Instance.resolveWarning( "007", gsucID );
 					ErrorService.Instance.resolveWarning( "008", gsucID );
 				}
+                MainWindowModel.Instance.verifyNumTiles();
 				if ( PropertyChanged != null )
 					PropertyChanged( this, new PropertyChangedEventArgs( "spinnerMaxValue" ) );
             }
