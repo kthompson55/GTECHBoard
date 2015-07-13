@@ -246,7 +246,8 @@ namespace Collection_Game_Tool.Services
                         rollOptions.Add(currentRoll + i, new List<String>());
 
                     }
-                    building += ":" + i;
+                    //building += ":" + i;
+                    building = "" + i;
                     rollOptions[currentRoll + i].Add(building);
                 }
             }
