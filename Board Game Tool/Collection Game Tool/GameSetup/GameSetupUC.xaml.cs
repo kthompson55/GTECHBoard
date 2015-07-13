@@ -93,7 +93,6 @@ namespace Collection_Game_Tool.GameSetup
         //Initiates save process when Create Button is clicked
         public void createButton_Click(object sender, RoutedEventArgs e)
         {
-
 			processingWindow = new ProcessingWindow();
 			processingWindow.ShowDialog();
         }
