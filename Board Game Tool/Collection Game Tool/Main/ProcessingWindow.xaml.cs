@@ -52,50 +52,55 @@ namespace Collection_Game_Tool.Main
 		/// </summary>
 		private void processThread( DoWorkEventArgs e)
 		{
-			int minMove = 0;
-			int maxMove = 0;
-			if ( MainWindowModel.Instance.GameSetupModel.diceSelected )
-			{
-				minMove = MainWindowModel.Instance.GameSetupModel.numDice;
-				maxMove = MainWindowModel.Instance.GameSetupModel.numDice * 6;
-			}
-			else
-			{
-				minMove = 1;
-				maxMove = MainWindowModel.Instance.GameSetupModel.spinnerMaxValue;
-			}
+            //open save dialog
+            string filename = openSaveWindow();
 
-			Collection_Game_Tool.Services.Tiles.ITile boardFirstTile =
-				new BoardGeneration(e).genBoard(
-					MainWindowModel.Instance.GameSetupModel.boardSize,
-					MainWindowModel.Instance.GameSetupModel.initialReachableSpaces,
-					minMove,
-					maxMove,
-					MainWindowModel.Instance.GameSetupModel.numMoveBackwardTiles,
-					MainWindowModel.Instance.GameSetupModel.numMoveForwardTiles,
-					MainWindowModel.Instance.PrizeLevelsModel,
-					MainWindowModel.Instance.GameSetupModel.moveForwardLength,
-					MainWindowModel.Instance.GameSetupModel.moveBackwardLength
-				);
-			if ( e != null && e.Cancel ) return;
+            if (filename != null)
+            {
+                int minMove = 0;
+                int maxMove = 0;
+                if (MainWindowModel.Instance.GameSetupModel.diceSelected)
+                {
+                    minMove = MainWindowModel.Instance.GameSetupModel.numDice;
+                    maxMove = MainWindowModel.Instance.GameSetupModel.numDice * 6;
+                }
+                else
+                {
+                    minMove = 1;
+                    maxMove = MainWindowModel.Instance.GameSetupModel.spinnerMaxValue;
+                }
 
-			List<Collection_Game_Tool.Services.Tiles.ITile> boards = new List<Collection_Game_Tool.Services.Tiles.ITile>();
-			boards.Add( boardFirstTile );
-			if ( e != null && e.Cancel ) return;
+                Collection_Game_Tool.Services.Tiles.ITile boardFirstTile =
+                    new BoardGeneration(e).genBoard(
+                        MainWindowModel.Instance.GameSetupModel.boardSize,
+                        MainWindowModel.Instance.GameSetupModel.initialReachableSpaces,
+                        minMove,
+                        maxMove,
+                        MainWindowModel.Instance.GameSetupModel.numMoveBackwardTiles,
+                        MainWindowModel.Instance.GameSetupModel.numMoveForwardTiles,
+                        MainWindowModel.Instance.PrizeLevelsModel,
+                        MainWindowModel.Instance.GameSetupModel.moveForwardLength,
+                        MainWindowModel.Instance.GameSetupModel.moveBackwardLength
+                    );
+                if (e != null && e.Cancel) return;
 
-			GamePlayGeneration generator = new GamePlayGeneration( boards );
-			string formattedPlays = "";
-			foreach ( Collection_Game_Tool.Services.Tiles.ITile board in boards )
-			{
-				if ( e != null && e.Cancel ) return;
-				formattedPlays += generator.GetFormattedGameplay( boards );
-			}
-			//open save dialog
-			string filename = openSaveWindow();
+                List<Collection_Game_Tool.Services.Tiles.ITile> boards = new List<Collection_Game_Tool.Services.Tiles.ITile>();
+                boards.Add(boardFirstTile);
+                if (e != null && e.Cancel) return;
 
-			if ( e != null && e.Cancel ) return;
-			// write to file
-			File.WriteAllText( filename, formattedPlays );
+                GamePlayGeneration generator = new GamePlayGeneration(boards);
+                string formattedPlays = "";
+                foreach (Collection_Game_Tool.Services.Tiles.ITile board in boards)
+                {
+                    if (e != null && e.Cancel) return;
+                    formattedPlays += generator.GetFormattedGameplay(boards);
+                }
+
+
+                if (e != null && e.Cancel) return;
+                // write to file
+                File.WriteAllText(filename, formattedPlays);
+            }
 		}
 
 		/// <summary>
