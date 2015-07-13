@@ -17,46 +17,52 @@ using System.Windows.Shapes;
 
 namespace Collection_Game_Tool.Main
 {
-	/// <summary>
-	/// Interaction logic for ProcessingWindow.xaml
-	/// </summary>
-	public partial class ProcessingWindow : Window
-	{
-		private BackgroundWorker bgWorker;
-		public ProcessingWindow()
-		{
-			InitializeComponent();
-		}
+    /// <summary>
+    /// Interaction logic for ProcessingWindow.xaml
+    /// </summary>
+    public partial class ProcessingWindow : Window
+    {
+        private bool processCanceled = false;
+        private BackgroundWorker bgWorker;
+        public ProcessingWindow()
+        {
+            InitializeComponent();
+        }
 
-		private void Window_Initialized( object sender, EventArgs e )
-		{
-			if ( Parent != null && Parent is Window1 ) ( Parent as Window1 ).IsEnabled = false;
-			bgWorker = new BackgroundWorker()
-			{
-				WorkerReportsProgress = true
-			};
-			bgWorker.DoWork += ( s, e1 ) =>
-			{
-				processThread(e1);
-			};
-			bgWorker.RunWorkerCompleted += ( s, e1 ) =>
-			{
-				MessageBox.Show( "File Generated!" );
-				Close();
-			};
-			bgWorker.RunWorkerAsync();
-		}
+        private void Window_Initialized(object sender, EventArgs e)
+        {
+            if (Parent != null && Parent is Window1) (Parent as Window1).IsEnabled = false;
+            bgWorker = new BackgroundWorker()
+            {
+                WorkerReportsProgress = true
+            };
+            bgWorker.DoWork += (s, e1) =>
+            {
+                processThread(e1);
+            };
+            bgWorker.RunWorkerCompleted += (s, e1) =>
+            {
+                if (!processCanceled)
+                {
+                    MessageBox.Show("File Generated!");
+                }
+                Close();
+            };
+            bgWorker.RunWorkerAsync();
+        }
 
-		/// <summary>
-		/// The thread to run to create the board file.
-		/// </summary>
-		private void processThread( DoWorkEventArgs e)
-		{
+        /// <summary>
+        /// The thread to run to create the board file.
+        /// </summary>
+        private void processThread(DoWorkEventArgs e)
+        {
             //open save dialog
             string filename = openSaveWindow();
 
-            if (filename != null)
+            if (filename != null && filename != "")
             {
+                processCanceled = false;
+
                 int minMove = 0;
                 int maxMove = 0;
                 if (MainWindowModel.Instance.GameSetupModel.diceSelected)
@@ -101,49 +107,53 @@ namespace Collection_Game_Tool.Main
                 // write to file
                 File.WriteAllText(filename, formattedPlays);
             }
-		}
+            else
+            {
+                processCanceled = true;
+            }
+        }
 
-		/// <summary>
-		/// Opens the standard save menu for the user to specify the save location
-		/// Initiates generation of the file once the user is finished
-		/// </summary>
-		private string openSaveWindow()
-		{
-			Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
-			dlg.FileName = "CollectionGameFile"; // Default file name
-			dlg.DefaultExt = ".txt"; // Default file extension
-			dlg.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension
+        /// <summary>
+        /// Opens the standard save menu for the user to specify the save location
+        /// Initiates generation of the file once the user is finished
+        /// </summary>
+        private string openSaveWindow()
+        {
+            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+            dlg.FileName = "CollectionGameFile"; // Default file name
+            dlg.DefaultExt = ".txt"; // Default file extension
+            dlg.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension
 
-			// Show save file dialog box
-			Nullable<bool> result = dlg.ShowDialog();
+            // Show save file dialog box
+            Nullable<bool> result = dlg.ShowDialog();
 
-			string filename = "";
-			// Process save file dialog box results
-			if ( result == true )
-			{
-				// Save document
-				filename = dlg.FileName;
-				MainWindowModel.Instance.GameSetupModel.shout( "generate/" + filename );
-			}
+            string filename = "";
+            // Process save file dialog box results
+            if (result == true)
+            {
+                // Save document
+                filename = dlg.FileName;
+                MainWindowModel.Instance.GameSetupModel.shout("generate/" + filename);
+            }
 
-			return filename;
-		}
+            return filename;
+        }
 
-		private void Window_Closing( object sender, CancelEventArgs e )
-		{
-			if(bgWorker != null && bgWorker.IsBusy)
-			{
-				var result = MessageBox.Show( "Not finished, cancel?", "Cancel", MessageBoxButton.YesNo, MessageBoxImage.Warning );
-				if ( result.Equals( MessageBoxResult.Yes ) && bgWorker != null && bgWorker.IsBusy )
-				{
-					bgWorker.CancelAsync();
-					while ( bgWorker.IsBusy ) ;
-				}
-				else
-				{
-					e.Cancel = true;
-				}
-			}
-		}
-	}
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            if (bgWorker != null && bgWorker.IsBusy)
+            {
+                var result = MessageBox.Show("Not finished, cancel?", "Cancel", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (result.Equals(MessageBoxResult.Yes) && bgWorker != null && bgWorker.IsBusy)
+                {
+                    bgWorker.CancelAsync();
+                    while (bgWorker.IsBusy) ;
+                }
+                else
+                {
+                    e.Cancel = true;
+                }
+            }
+        }
+    }
 }
