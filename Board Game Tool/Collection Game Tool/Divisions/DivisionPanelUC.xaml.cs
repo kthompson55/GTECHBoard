@@ -81,7 +81,7 @@ namespace Collection_Game_Tool.Divisions
         /// <param name="div">The existing division</param>
         public void loadInDivision(DivisionModel div)
         {
-            if (MainWindowModel.Instance.DivisionsModel.getSize() < MAX_DIVISIONS)
+            if (MainWindowModel.Instance.DivisionsModel.getSize() <= MAX_DIVISIONS)
             {
                 int divNumber = divisionsHolderPanel.Children.Count + 1;
                 DivisionUC division = new DivisionUC(prizes, divNumber);
