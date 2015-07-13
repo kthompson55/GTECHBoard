@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using Collection_Game_Tool.PrizeLevels;
 using System.Runtime.Serialization;
+using Collection_Game_Tool.Main;
 
 namespace Collection_Game_Tool.Divisions
 {
@@ -127,6 +128,7 @@ namespace Collection_Game_Tool.Divisions
             set
             {
                 _totalPlayerPicks = value;
+                MainWindowModel.Instance.verifyDivisions();
                 if (PropertyChanged != null)
                     PropertyChanged(this, new PropertyChangedEventArgs("TotalPlayerPicks"));
             }
