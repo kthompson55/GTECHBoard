@@ -91,7 +91,7 @@ namespace Collection_Game_Tool_Test.ServicesTests
             
 
             
-            return bg.genBoard(boardSize, initialReachable, 1, 6, 3, 2, prizes, 1, 2);
+            return bg.GenerateBoard(boardSize, initialReachable, 1, 6, 3, 2, prizes, 1, 2);
 
         }
     }

@@ -71,7 +71,7 @@ namespace Collection_Game_Tool.Main
                 }
 
                 Collection_Game_Tool.Services.Tiles.ITile boardFirstTile =
-                    new BoardGeneration(e).genBoard(
+                    new BoardGeneration(e).GenerateBoard(
                         MainWindowModel.Instance.GameSetupModel.boardSize,
                         MainWindowModel.Instance.GameSetupModel.initialReachableSpaces,
                         minMove,
@@ -123,7 +123,7 @@ namespace Collection_Game_Tool.Main
 			{
 				// Save document
 				filename = dlg.FileName;
-				MainWindowModel.Instance.GameSetupModel.shout( "generate/" + filename );
+				MainWindowModel.Instance.GameSetupModel.Shout( "generate/" + filename );
 			}
 
 			return filename;

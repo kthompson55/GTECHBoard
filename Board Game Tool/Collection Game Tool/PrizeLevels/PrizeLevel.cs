@@ -113,15 +113,15 @@ namespace Collection_Game_Tool.PrizeLevels
             return (int)Math.Ceiling(pl.prizeValue - this.prizeValue);
         }
 
-        public void shout(object pass)
+        public void Shout(object pass)
         {
             foreach (Listener fans in audience)
             {
-                fans.onListen(pass);
+                fans.OnListen(pass);
             }
         }
 
-        public void addListener(Listener list)
+        public void AddListener(Listener list)
         {
             audience.Add(list);
         }

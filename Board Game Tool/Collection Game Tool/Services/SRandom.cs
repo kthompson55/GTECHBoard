@@ -1,16 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Collection_Game_Tool.Services
 {
-    static class SRandom
+	/// <summary>
+	/// A static random instance
+	/// </summary>
+    internal static class SRandom
     {
-        private static Random rand = new Random();
-        public static int nextInt(int min, int max){
-            return rand.Next(min, max);
+		/// <summary>
+		/// The random instance
+		/// </summary>
+        private static Random _rand = new Random();
+		/// <summary>
+		/// Generate a random int.
+		/// </summary>
+		/// <param name="min">Minimum value</param>
+		/// <param name="max">Maxumum value</param>
+		/// <returns>A random int</returns>
+        public static int NextInt(int min, int max){
+            return _rand.Next(min, max);
         }
+		/// <summary>
+		/// Generate a random int
+		/// </summary>
+		/// <returns>A random int</returns>
+		public static int NextInt()
+		{
+			return _rand.Next();
+		}
     }
 }

@@ -1,15 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Collection_Game_Tool.Services
+﻿namespace Collection_Game_Tool.Services
 {
-    interface Teller
+	/// <summary>
+	/// The teller/shouter
+	/// </summary>
+    public interface Teller
     {
-        void shout(Object pass);
-
-        void addListener(Listener list);
+		/// <summary>
+		/// Shouts to the listeners/audience.
+		/// </summary>
+		/// <param name="pass">The object to pass</param>
+        void Shout(object pass);
+		/// <summary>
+		/// Adds a listener
+		/// </summary>
+		/// <param name="listener">The listener to add</param>
+        void AddListener(Listener listener);
     }
 }

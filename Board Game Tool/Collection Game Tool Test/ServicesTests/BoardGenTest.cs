@@ -44,7 +44,7 @@ namespace Collection_Game_Tool_Test.ServicesTests
             int numberOfExpectedCollection = 12;
             int numberOfExpectedMoveBack = 3;
             int numberOfExpectedMoveForward = 2;
-            ITile firstTile = bg.genBoard(boardSize, initialReachable, 2, 6, numberOfExpectedMoveBack, numberOfExpectedMoveForward, prizes, 1, 2);
+            ITile firstTile = bg.GenerateBoard(boardSize, initialReachable, 2, 6, numberOfExpectedMoveBack, numberOfExpectedMoveForward, prizes, 1, 2);
 
             int numberOfCollection = 0;
             int numberOfMoveBack = 0;
@@ -54,24 +54,24 @@ namespace Collection_Game_Tool_Test.ServicesTests
             ITile currentTile = firstTile;
             while (currentTile != null)
             {
-                if (currentTile.type == TileTypes.collection)
+                if (currentTile.Type == TileTypes.collection)
                 {
                     numberOfCollection++;
                 }
-                else if (currentTile.type == TileTypes.moveForward)
+                else if (currentTile.Type == TileTypes.moveForward)
                 {
                     numberOfMoveForward++;
                 }
-                else if (currentTile.type == TileTypes.moveBack)
+                else if (currentTile.Type == TileTypes.moveBack)
                 {
                     numberOfMoveBack++;
                 }
-                else if (currentTile.type == TileTypes.extraGame)
+                else if (currentTile.Type == TileTypes.extraGame)
                 {
                     numberOfextraGames++;
                 }
                 numberOfTiles++;
-                currentTile = currentTile.child;
+                currentTile = currentTile.Child;
             }
             string board = bg.ToString();
             Assert.IsTrue(numberOfCollection == numberOfExpectedCollection, "Number Of Collection Tiles not correct");

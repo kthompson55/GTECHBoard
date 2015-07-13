@@ -163,7 +163,7 @@ namespace Collection_Game_Tool.Divisions
             return divisionsPanel.Children.IndexOf(this);
         }
 
-        public void onListen(object pass)
+        public void OnListen(object pass)
         {
             if (pass is PrizeLevels.PrizeLevels)
             {

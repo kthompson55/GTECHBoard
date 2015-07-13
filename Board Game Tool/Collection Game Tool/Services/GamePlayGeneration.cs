@@ -3,72 +3,110 @@ using Collection_Game_Tool.PrizeLevels;
 using Collection_Game_Tool.Services.Tiles;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Collection_Game_Tool.Services
 {
+	/// <summary>
+	/// Generates game play
+	/// </summary>
     public class GamePlayGeneration
     {
-        private List<ITile> boards;
-        private Dictionary<String, List<String>> paths;
-        int numMoves;
-        int numDice;
-        Dictionary<int, List<String>> rollOptions;
-        List<Divisions.DivisionModel> divisions;
-        List<PrizeLevels.PrizeLevel> prizeLevels;
-
-        //This constructs the Game Play Generater that generates the possible games a board can have. It needs the different boards to generate the games.
+		/// <summary>
+		/// The list of boards.
+		/// </summary>
+        private List<ITile> _boards;
+		/// <summary>
+		/// The list of paths.
+		/// </summary>
+        private Dictionary<string, List<string>> _paths;
+		/// <summary>
+		/// The number of moves
+		/// </summary>
+        private int _numMoves;
+		/// <summary>
+		/// The number of dice
+		/// </summary>
+        private int _numDice;
+		/// <summary>
+		/// The roll options
+		/// </summary>
+        private Dictionary<int, List<string>> _rollOptions;
+		/// <summary>
+		/// The list of divisions.
+		/// </summary>
+        private List<Divisions.DivisionModel> _divisions;
+		/// <summary>
+		/// The list of prize levels
+		/// </summary>
+        private List<PrizeLevels.PrizeLevel> _prizeLevels;
+       
+		/// <summary>
+		/// This constructs the Game Play Generater that generates the possible games a board can have. It needs the different boards to generate the games.
+		/// </summary>
+		/// <param name="boards">The list of starting tiles for each board</param>
         public GamePlayGeneration(List<ITile> boards)
         {
-            this.boards = boards;
-            paths = new Dictionary<String, List<String>>();
+            this._boards = boards;
+            _paths = new Dictionary<string, List<string>>();
         }
 
-        //This will add the full path a game play generation will take on a board and also add what the game play generation won
-        private void addPath(String winFor, String boardDesign, String path)
+		/// <summary>
+		/// This will add the full path a game play generation will take on a board and also add what the game play generation won
+		/// </summary>
+		/// <param name="winFor">The win for</param>
+		/// <param name="boardDesign">The board design</param>
+		/// <param name="path">The path</param>
+        private void AddPath(string winFor, string boardDesign, string path)
         {
             string gamePermutation = boardDesign + path;
-            if (paths.ContainsKey(winFor))
+            if (_paths.ContainsKey(winFor))
             {
-                paths[winFor].Add(gamePermutation);
+                _paths[winFor].Add(gamePermutation);
             }
             else
             {
-                paths.Add(winFor, new List<String>());
-                paths[winFor].Add(gamePermutation);
+                _paths.Add(winFor, new List<string>());
+                _paths[winFor].Add(gamePermutation);
             }
         }
 
-        Random rand = new Random();
-        PrizeLevelConverter plc = new PrizeLevelConverter();
-        //This generates the path a player can take through a board, this will generate every possible path that can exist and will allow for good play through.
+        private PrizeLevelConverter _prizeLevelConverter = new PrizeLevelConverter();
+		/// <summary>
+		/// This generates the path a player can take through a board, this will generate every possible path that can exist and will allow for good play through.
+		/// </summary>
+		/// <param name="board">The start tile of the board</param>
         private void GeneratePlaysFromBoard(ITile board)
         {
             string boardDesign = CreateBoardDesignString(board);
-            int count = board.connections.Keys.Count;
-            foreach (int t in board.connections.Keys)
+            int count = board.Connections.Keys.Count;
+            foreach (int t in board.Connections.Keys)
             {
-                if (numDice == 0)
-                    GeneratePlaysFromBoardHelper(board.connections[t], 1, boardDesign, "|" + t, new PlayGen());
+                if (_numDice == 0)
+                    GeneratePlaysFromBoardHelper(board.Connections[t], 1, boardDesign, "|" + t, new PlayGen());
                 else
-                    GeneratePlaysFromBoardHelper(board.connections[t], 1, boardDesign, "|" + rollOptions[t][rand.Next(0, rollOptions[t].Count)], new PlayGen());
+                    GeneratePlaysFromBoardHelper(board.Connections[t], 1, boardDesign, "|" + _rollOptions[t][SRandom.NextInt(0, _rollOptions[t].Count)], new PlayGen());
             }
         }
 
-        //This continues generating the play from a board, this is a recursive function.
-        private void GeneratePlaysFromBoardHelper(ITile board, int moves, String boardDesign, String curPath, PlayGen pg)
+		/// <summary>
+		/// This continues generating the play from a board, this is a recursive function.
+		/// </summary>
+		/// <param name="board">The start tile of the board</param>
+		/// <param name="moves">The moves</param>
+		/// <param name="boardDesign">The board design</param>
+		/// <param name="currentPath">The current path</param>
+		/// <param name="playGen">The play gen</param>
+        private void GeneratePlaysFromBoardHelper(ITile board, int moves, string boardDesign, string currentPath, PlayGen playGen)
         {
-            if (moves == numMoves) // last space
+            if (moves == _numMoves) // last space
             {
                 bool hasPrizes = true;
                 DivisionModel divWon = null;
-                foreach (DivisionModel d in divisions)
+                foreach (DivisionModel d in _divisions)
                 {
                     foreach (PrizeLevel pl in d.selectedPrizes)
                     {
-                        if (hasPrizes && pl.numCollections != pg.hasCollection((String)plc.Convert(pl.prizeLevel)))
+                        if (hasPrizes && pl.numCollections != playGen.HasCollection((string)_prizeLevelConverter.Convert(pl.prizeLevel)))
                         {
                             hasPrizes = false;
                         }
@@ -78,59 +116,59 @@ namespace Collection_Game_Tool.Services
                 }
 
                 bool hasOtherPrizes = false;
-                foreach (PrizeLevel pl in prizeLevels)
+                foreach (PrizeLevel pl in _prizeLevels)
                 {
-                    if (!hasOtherPrizes && divWon != null && !divWon.selectedPrizes.Contains(pl) && pl.numCollections == pg.hasCollection((String)plc.Convert(pl.prizeLevel)))
+                    if (!hasOtherPrizes && divWon != null && !divWon.selectedPrizes.Contains(pl) && pl.numCollections == playGen.HasCollection((string)_prizeLevelConverter.Convert(pl.prizeLevel)))
                     {
                         hasOtherPrizes = true;
                     }
-                    else if (!hasOtherPrizes && divWon == null && pl.numCollections == pg.hasCollection((String)plc.Convert(pl.prizeLevel)))
+                    else if (!hasOtherPrizes && divWon == null && pl.numCollections == playGen.HasCollection((string)_prizeLevelConverter.Convert(pl.prizeLevel)))
                     {
                         hasOtherPrizes = true;
                     }
                 }
 
                 if (hasPrizes && !hasOtherPrizes)
-                    addPath(divWon.DivisionNumber.ToString(), boardDesign, curPath);            ////EXIT
+                    AddPath(divWon.DivisionNumber.ToString(), boardDesign, currentPath);            ////EXIT
                 else if (!hasOtherPrizes)
-                    addPath("none", boardDesign, curPath);                                      ////EXIT
+                    AddPath("none", boardDesign, currentPath);                                      ////EXIT
             }
 
 
-            foreach (int t in board.connections.Keys)
+            foreach (int t in board.Connections.Keys)
             {
-                if (numDice == 0)
+                if (_numDice == 0)
                 {
-                    if (board.connections[t].type == TileTypes.collection)
+                    if (board.Connections[t].Type == TileTypes.collection)
                     {
-                        String getter = board.connections[t].tileAction().tileInformation;
-                        GeneratePlaysFromBoardHelper(board.connections[t], moves + 1, boardDesign, curPath + "," + t, new PlayGen(pg, getter));
+                        string getter = board.Connections[t].TileAction().TileInformation;
+                        GeneratePlaysFromBoardHelper(board.Connections[t], moves + 1, boardDesign, currentPath + "," + t, new PlayGen(playGen, getter));
                     }
                     else
                     {
-                        GeneratePlaysFromBoardHelper(board.connections[t], moves + 1, boardDesign, curPath + "," + t, new PlayGen(pg));
+                        GeneratePlaysFromBoardHelper(board.Connections[t], moves + 1, boardDesign, currentPath + "," + t, new PlayGen(playGen));
                     }
                 }
                 else
                 {
-                    if (board.connections[t].type == TileTypes.collection)
+                    if (board.Connections[t].Type == TileTypes.collection)
                     {
-                        String getter = board.connections[t].tileAction().tileInformation;
-                        GeneratePlaysFromBoardHelper(board.connections[t], moves + 1, boardDesign, curPath + "," + rollOptions[t][rand.Next(0, rollOptions[t].Count)], new PlayGen(pg, getter));
+                        string getter = board.Connections[t].TileAction().TileInformation;
+                        GeneratePlaysFromBoardHelper(board.Connections[t], moves + 1, boardDesign, currentPath + "," + _rollOptions[t][SRandom.NextInt(0, _rollOptions[t].Count)], new PlayGen(playGen, getter));
                     }
                     else
                     {
-                        GeneratePlaysFromBoardHelper(board.connections[t], moves + 1, boardDesign, curPath + "," + rollOptions[t][rand.Next(0, rollOptions[t].Count)], new PlayGen(pg));
+                        GeneratePlaysFromBoardHelper(board.Connections[t], moves + 1, boardDesign, currentPath + "," + _rollOptions[t][SRandom.NextInt(0, _rollOptions[t].Count)], new PlayGen(playGen));
                     }
                 }
             }
         }
 
 
-        // FINISHED, but untested 
         /// <summary>
         /// Formats all of the viable gameplay permutations into a string for the file output
         /// </summary>
+		/// <remarks>FINISHED, but untested</remarks>
         /// <param name="boards">A list of all of the first tiles of all of the boards</param>
         /// <returns>The string representation of all permutations in "boardDesign|rolls" format</returns>
         public string GetFormattedGameplay(List<ITile> boards)
@@ -139,11 +177,11 @@ namespace Collection_Game_Tool.Services
 
             foreach (ITile board in boards) //
             {
-                foreach (KeyValuePair<String, List<String>> entry in paths) // For every division entry in paths
+                foreach (KeyValuePair<string, List<string>> entry in _paths) // For every division entry in paths
                 {
                     string division = entry.Key;
                     int count = entry.Value.Count;
-                    foreach (String permutation in entry.Value) // For every permutation of the current division
+                    foreach (string permutation in entry.Value) // For every permutation of the current division
                     {
                         output += (division + " " + permutation + Environment.NewLine);
                     }
@@ -153,11 +191,11 @@ namespace Collection_Game_Tool.Services
             return output;
         }
 
-        //Untested, but seemingly complete
         /// <summary>
         /// Creates a string which indicates the structure of the board. 
         /// Ex. CS:d,BS,CS:IW:e.etc…
         /// </summary>
+		/// <remarks>Untested, but seemingly complete</remarks>
         /// <param name="board">The first tile of the board</param>
         /// <returns>The board design in string format.</returns>
         private string CreateBoardDesignString(ITile board)
@@ -168,18 +206,18 @@ namespace Collection_Game_Tool.Services
             while (!boardCompleted)
             {
                 string toAppend = "";
-                if (currentTile.type == TileTypes.collection) //Collection Space
+                if (currentTile.Type == TileTypes.collection) //Collection Space
                 {
-                    toAppend = "CS:" + currentTile.tileInformation; //TODO: Make sure Instant Win is contained in "tileInformation"
+                    toAppend = "CS:" + currentTile.TileInformation; //TODO: Make sure Instant Win is contained in "tileInformation"
                 }
-                else if (currentTile.type == TileTypes.moveForward) //Move Forward Space
+                else if (currentTile.Type == TileTypes.moveForward) //Move Forward Space
                 {
-                    toAppend = "MF:" + currentTile.tileInformation;
+                    toAppend = "MF:" + currentTile.TileInformation;
 
                 }
-                else if (currentTile.type == TileTypes.moveBack) //Move Backward Space
+                else if (currentTile.Type == TileTypes.moveBack) //Move Backward Space
                 {
-                    toAppend = "MB:" + currentTile.tileInformation;
+                    toAppend = "MB:" + currentTile.TileInformation;
 
                 }
                 else // Blank Space
@@ -187,14 +225,14 @@ namespace Collection_Game_Tool.Services
                     toAppend = "BS";
                 }
 
-                if (currentTile.child == null) // Last tile checked. Exit Loop.
+                if (currentTile.Child == null) // Last tile checked. Exit Loop.
                 {
                     boardCompleted = true;
                     boardDesign += toAppend;
                 }
                 else // More tiles to check
                 {
-                    currentTile = currentTile.child;
+                    currentTile = currentTile.Child;
                     boardDesign += toAppend + ",";
                 }
 
@@ -203,52 +241,63 @@ namespace Collection_Game_Tool.Services
             return boardDesign;
         }
 
-        //This generates all the plays from each board
-        public void Generate(int moves, List<Divisions.DivisionModel> divs, List<PrizeLevels.PrizeLevel> pls, int numDice = 0)
+		/// <summary>
+		/// This generates all the plays from each board
+		/// </summary>
+		/// <param name="moves">the moves</param>
+		/// <param name="divisions">The divisions</param>
+		/// <param name="prizeLevels">The prize levels</param>
+		/// <param name="numDice">The number of dice</param>
+        public void Generate(int moves, List<DivisionModel> divisions, List<PrizeLevel> prizeLevels, int numDice = 0)
         {
-            this.numMoves = moves;
-            this.numDice = numDice;
-            prizeLevels = pls;
-            divisions = divs;
+            this._numMoves = moves;
+            this._numDice = numDice;
+            _prizeLevels = prizeLevels;
+            _divisions = divisions;
 
             if (numDice > 0)
             {
-                rollOptions = new Dictionary<int, List<string>>();
-                generateRollOptions(1, 0, "");
+                _rollOptions = new Dictionary<int, List<string>>();
+                GenerateRollOptions(1, 0, "");
             }
 
-            foreach (ITile b in boards)
+            foreach (ITile b in _boards)
             {
                 GeneratePlaysFromBoard(b);
             }
         }
 
-        //This generates all the possible rolls a player can have and assigns them to a roll value. This way whenever we are generating and we need a specific roll we can choose one of the random rolls
-        //we generated from the roll value.
-        private void generateRollOptions(int diceOn, int currentRoll, String building)
+		/// <summary>
+		/// This generates all the possible rolls a player can have and assigns them to a roll value.
+		/// This way whenever we are generating and we need a specific roll we can choose one of the random rolls we generated from the roll value.
+		/// </summary>
+		/// <param name="diceOn">The dice on</param>
+		/// <param name="currentRoll">The current roll</param>
+		/// <param name="building">The building</param>
+        private void GenerateRollOptions(int diceOn, int currentRoll, string building)
         {
-            if (diceOn != numDice)
+            if (diceOn != _numDice)
             {
                 for (int i = 1; i <= 6; i++)
                 {
                     if (diceOn == 1)
-                        generateRollOptions(diceOn + 1, currentRoll + i, building += i);
+                        GenerateRollOptions(diceOn + 1, currentRoll + i, building += i);
                     else
-                        generateRollOptions(diceOn + 1, currentRoll + i, building += ":" + i);
+                        GenerateRollOptions(diceOn + 1, currentRoll + i, building += ":" + i);
                 }
             }
             else
             {
                 for (int i = 1; i <= 6; i++)
                 {
-                    if (!rollOptions.ContainsKey(currentRoll + i) || rollOptions[currentRoll + i] == null)
+                    if (!_rollOptions.ContainsKey(currentRoll + i) || _rollOptions[currentRoll + i] == null)
                     {
-                        rollOptions.Add(currentRoll + i, new List<String>());
+                        _rollOptions.Add(currentRoll + i, new List<string>());
 
                     }
                     //building += ":" + i;
                     building = "" + i;
-                    rollOptions[currentRoll + i].Add(building);
+                    _rollOptions[currentRoll + i].Add(building);
                 }
             }
         }

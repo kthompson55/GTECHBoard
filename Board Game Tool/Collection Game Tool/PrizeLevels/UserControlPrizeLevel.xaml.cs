@@ -55,14 +55,14 @@ namespace Collection_Game_Tool.PrizeLevels
         {
             Window parentWindow = Window.GetWindow(this.Parent);
             //Listens to the PrizeLevels window
-            plObject.addListener((Window1)parentWindow);
+            plObject.AddListener((Window1)parentWindow);
         }
 
         public void Close_Prize_Level(object sender, RoutedEventArgs e)
         {
             //Shouts itself to PrizeLevels so PrizeLevels can close the individual PrizeLevel
-            shout(this);
-            shout("Update");
+            Shout(this);
+            Shout("Update");
             MainWindowModel.Instance.verifyDivisions();
             MainWindowModel.Instance.verifyNumTiles();
         }
@@ -86,11 +86,11 @@ namespace Collection_Game_Tool.PrizeLevels
             textBox.SelectAll();
         }
 
-        public void shout(object pass)
+        public void Shout(object pass)
         {
             foreach (Listener ucpls in listenerList)
             {
-                ucpls.onListen(pass);
+                ucpls.OnListen(pass);
             }
         }
 
@@ -101,11 +101,11 @@ namespace Collection_Game_Tool.PrizeLevels
             double set = 0.0;
             if(double.TryParse(TextBoxValue.Text, out set))
                 this.plObject.prizeValue = set;
-            shout("Update");
+            Shout("Update");
             LevelGrid.Background = Brushes.Yellow;
         }
 
-        public void addListener(Listener list)
+        public void AddListener(Listener list)
         {
             listenerList.Add(list);
         }
@@ -113,24 +113,24 @@ namespace Collection_Game_Tool.PrizeLevels
         private void textBoxValue_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             e.Handled = !TextBoxTextAllowed(e.Text);
-            shout("Update");
+            Shout("Update");
         }
 
         private void textBoxCollection_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             e.Handled = !CollectionBoxTextAllowed(e.Text);
-            shout("Update");
+            Shout("Update");
         }
 
         private bool TextBoxTextAllowed(string p)
         {
-            shout("Update");
+            Shout("Update");
             return Array.TrueForAll<Char>(p.ToCharArray(), delegate(Char c) { return Char.IsDigit(c) || Char.IsControl(c) || c.Equals('.'); });
         }
 
         private bool CollectionBoxTextAllowed(string p)
         {
-            shout("Update");
+            Shout("Update");
             return Array.TrueForAll<Char>(p.ToCharArray(), delegate(Char c) { return Char.IsDigit(c) || Char.IsControl(c); });
         }
 
@@ -185,7 +185,7 @@ namespace Collection_Game_Tool.PrizeLevels
                 ErrorService.Instance.ResolveError("006", ucplID);
                 ErrorService.Instance.ResolveError("008", ucplID);
             }
-            shout("Update");
+            Shout("Update");
             MainWindowModel.Instance.verifyDivisions();
             MainWindowModel.Instance.verifyNumTiles();
         }

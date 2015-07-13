@@ -1,42 +1,36 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace Collection_Game_Tool.Services
 {
+	/// <summary>
+	/// Validation rule for ranged controls
+	/// </summary>
     public class RangeRule : ValidationRule
     {
-        private int _min;
-        private int _max;
-
-        public int Min
-        {
-            get
-            {
-                return _min;
-            }
-            set
-            {
-                _min = value;
-            }
-        }
-
-        public int Max
-        {
-            get
-            {
-                return _max;
-            }
-            set
-            {
-                _max = value;
-            }
-        }
-
+		/// <summary>
+		/// The minimum value.
+		/// </summary>
+		public int Min
+		{
+			get;
+			set;
+		}
+		/// <summary>
+		/// The maximum value.
+		/// </summary>
+		public int Max
+		{
+			get;
+			set;
+		}
+		/// <summary>
+		/// Validates a range control
+		/// </summary>
+		/// <param name="value">The value from the binding target to check.</param>
+		/// <param name="cultureInfo">The culture to use in this rule.</param>
+		/// <returns>A System.Windows.Controls.ValidationResult object.</returns>
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
             int num = 0;

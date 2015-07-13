@@ -43,7 +43,7 @@ namespace Collection_Game_Tool.PrizeLevels
         {
             //SetsUp the default 2 PrizeLevel
             UserControlPrizeLevel ucpl = new UserControlPrizeLevel();
-            ucpl.addListener(this);
+            ucpl.AddListener(this);
             Prizes.Children.Add(ucpl);
             MainWindowModel.Instance.PrizeLevelsModel.addPrizeLevel(ucpl.plObject);
             ucpl.plObject.prizeLevel = 1;
@@ -52,7 +52,7 @@ namespace Collection_Game_Tool.PrizeLevels
 
             UserControlPrizeLevel ucpl2 = new UserControlPrizeLevel();
             ucpl2.OuterGrid.Margin = new Thickness(0, Prizes.Children.Count * MARGIN, 0, 0);
-            ucpl2.addListener(this);
+            ucpl2.AddListener(this);
             Prizes.Children.Add(ucpl2);
             MainWindowModel.Instance.PrizeLevelsModel.addPrizeLevel(ucpl2.plObject);
             ucpl2.plObject.prizeLevel = Prizes.Children.Count;
@@ -63,7 +63,7 @@ namespace Collection_Game_Tool.PrizeLevels
         private void UserControlPrizeLevels_Loaded(object sender, RoutedEventArgs e)
         {
             Window parentWindow = Window.GetWindow(this.Parent);
-            addListener((Window1)parentWindow);
+            AddListener((Window1)parentWindow);
         }
 
         public void Add_Prize_Level(object sender, RoutedEventArgs e)
@@ -73,7 +73,7 @@ namespace Collection_Game_Tool.PrizeLevels
                 UserControlPrizeLevel ucpl = new UserControlPrizeLevel();
                 ucpl.OuterGrid.Margin = new Thickness(0, Prizes.Children.Count * MARGIN, 0, 0);
 
-                ucpl.addListener(this);
+                ucpl.AddListener(this);
                 Prizes.Children.Add(ucpl);
                 MainWindowModel.Instance.PrizeLevelsModel.addPrizeLevel(ucpl.plObject);
                 ucpl.plObject.prizeLevel = Prizes.Children.Count;
@@ -104,7 +104,7 @@ namespace Collection_Game_Tool.PrizeLevels
             MainWindowModel.Instance.verifyNumTiles();
             MainWindowModel.Instance.verifyDivisions();
             //Shouts the PrizeLevels object so that they can be analyzed in Divisions
-            shout(MainWindowModel.Instance.PrizeLevelsModel);
+            Shout(MainWindowModel.Instance.PrizeLevelsModel);
         }
 
         public void loadExistingPrizeLevel(PrizeLevel loadedPrizeLevel)
@@ -112,7 +112,7 @@ namespace Collection_Game_Tool.PrizeLevels
             UserControlPrizeLevel ucpl = new UserControlPrizeLevel();
             ucpl.OuterGrid.Margin = new Thickness(0, Prizes.Children.Count * MARGIN, 0, 0);
 
-            ucpl.addListener(this);
+            ucpl.AddListener(this);
             Prizes.Children.Add(ucpl);
             ucpl.plObject = loadedPrizeLevel;
             ucpl.plObject.initializeListener();
@@ -144,7 +144,7 @@ namespace Collection_Game_Tool.PrizeLevels
             }
         }
 
-        public void onListen(object pass)
+        public void OnListen(object pass)
         {
             if (pass is string)
             {
@@ -247,18 +247,18 @@ namespace Collection_Game_Tool.PrizeLevels
             prizeLevelCounterLabel.Content = Prizes.Children.Count;
 
             //Shouts PrizeLevels object so divisions can analyze it
-            shout(MainWindowModel.Instance.PrizeLevelsModel);
+            Shout(MainWindowModel.Instance.PrizeLevelsModel);
         }
 
-        public void shout(object pass)
+        public void Shout(object pass)
         {
             foreach (Listener l in listenerList)
             {
-                l.onListen(pass);
+                l.OnListen(pass);
             }
         }
 
-        public void addListener(Listener list)
+        public void AddListener(Listener list)
         {
             listenerList.Add(list);
         }

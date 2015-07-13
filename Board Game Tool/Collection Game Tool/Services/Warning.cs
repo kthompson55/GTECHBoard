@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Collection_Game_Tool.Services
+﻿namespace Collection_Game_Tool.Services
 {
 	/// <summary>
 	/// A warning class

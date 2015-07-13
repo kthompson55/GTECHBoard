@@ -66,12 +66,12 @@ namespace Collection_Game_Tool.Main
             MainWindowModel.Instance.DivisionsModel = new DivisionsModel();
 
             //Listener stuff between divisions and Prize Levels
-            pl.addListener(divUC);
+            pl.AddListener(divUC);
 
             //Listeners for GameSetup so they can see player picks for validation
-            gs.addListener(pl);
-            gs.addListener(divUC);
-            gs.addListener(this);            
+            gs.AddListener(pl);
+            gs.AddListener(divUC);
+            gs.AddListener(this);            
 
             this.Loaded += new RoutedEventHandler(MainWindow_Loaded);
 
@@ -99,7 +99,7 @@ namespace Collection_Game_Tool.Main
             toolMenu.Width = this.ActualWidth - 10;
         }
 
-        public void onListen(object pass)
+        public void OnListen(object pass)
         {
 			if(pass is string && (pass as string) == "validate")
             divUC.validateDivision();
@@ -175,7 +175,7 @@ namespace Collection_Game_Tool.Main
 
             MainWindowModel.Instance.verifyNumTiles();
             MainWindowModel.Instance.verifyDivisions();
-			MainWindowModel.Instance.GameSetupModel.shout( "validate" );
+			MainWindowModel.Instance.GameSetupModel.Shout( "validate" );
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
