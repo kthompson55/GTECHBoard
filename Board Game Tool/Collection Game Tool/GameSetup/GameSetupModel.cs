@@ -42,16 +42,16 @@ namespace Collection_Game_Tool.GameSetup
 				{
 					if ( nearWins > PrizeLevels.PrizeLevels.numPrizeLevels )
 					{
-						gsucID = ErrorService.Instance.reportError( "007", new List<string> { }, gsucID );
+						gsucID = ErrorService.Instance.ReportError( "007", new List<string> { }, gsucID );
 					}
 					else if ( nearWins <= PrizeLevels.PrizeLevels.numPrizeLevels )
 					{
-						ErrorService.Instance.resolveError( "007", gsucID );
+						ErrorService.Instance.ResolveError( "007", gsucID );
 					}
 				}
 				else
 				{
-					ErrorService.Instance.resolveError( "007", gsucID );
+					ErrorService.Instance.ResolveError( "007", gsucID );
 				}
 				if ( PropertyChanged != null )
 					PropertyChanged( this, new PropertyChangedEventArgs( "isNearWin" ) );
@@ -70,11 +70,11 @@ namespace Collection_Game_Tool.GameSetup
                 nw = value;
 				if ( nw > PrizeLevels.PrizeLevels.numPrizeLevels )
 				{
-					gsucID = ErrorService.Instance.reportError( "007", new List<string> { }, gsucID );
+					gsucID = ErrorService.Instance.ReportError( "007", new List<string> { }, gsucID );
 				}
 				else if ( nw <= PrizeLevels.PrizeLevels.numPrizeLevels )
 				{
-					ErrorService.Instance.resolveError( "007", gsucID );
+					ErrorService.Instance.ResolveError( "007", gsucID );
 				}
 				if ( PropertyChanged != null )
 					PropertyChanged( this, new PropertyChangedEventArgs( "nearWins" ) );
@@ -159,14 +159,14 @@ namespace Collection_Game_Tool.GameSetup
 				{
 					if ( boardSize < MinimumBoardSize() )
 					{
-						gsucID = ErrorService.Instance.reportError( "014", new List<String> { }, gsucID );
+						gsucID = ErrorService.Instance.ReportError( "014", new List<String> { }, gsucID );
 					}
 					else
 					{
 						MainWindowModel.Instance.verifyNumTiles();
-						ErrorService.Instance.resolveWarning( "007", gsucID );
-						ErrorService.Instance.resolveWarning( "008", gsucID );
-						ErrorService.Instance.resolveError( "014", gsucID );
+						ErrorService.Instance.ResolveWarning( "007", gsucID );
+						ErrorService.Instance.ResolveWarning( "008", gsucID );
+						ErrorService.Instance.ResolveError( "014", gsucID );
 					}
 				}
 				if ( PropertyChanged != null )
@@ -185,28 +185,28 @@ namespace Collection_Game_Tool.GameSetup
 					// single-value spinner
 					if ( spinnerMaxValue == 1 )
 					{
-						gsucID = ErrorService.Instance.reportWarning( "007", new List<string> { }, gsucID );
-						ErrorService.Instance.resolveWarning( "008", gsucID );
+						gsucID = ErrorService.Instance.ReportWarning( "007", new List<string> { }, gsucID );
+						ErrorService.Instance.ResolveWarning( "008", gsucID );
 					}
 					// "coin-flip" spinner
 					else if ( spinnerMaxValue == 2 )
 					{
-						gsucID = ErrorService.Instance.reportWarning( "008", new List<string> { }, gsucID );
-						ErrorService.Instance.resolveWarning( "007", gsucID );
+						gsucID = ErrorService.Instance.ReportWarning( "008", new List<string> { }, gsucID );
+						ErrorService.Instance.ResolveWarning( "007", gsucID );
 					}
 					else
 					{
-						ErrorService.Instance.resolveWarning( "007", gsucID );
-						ErrorService.Instance.resolveWarning( "008", gsucID );
+						ErrorService.Instance.ResolveWarning( "007", gsucID );
+						ErrorService.Instance.ResolveWarning( "008", gsucID );
 					}
 					if ( boardSize < MinimumBoardSize() )
 					{
-						gsucID = ErrorService.Instance.reportError( "014", new List<String> { }, gsucID );
+						gsucID = ErrorService.Instance.ReportError( "014", new List<String> { }, gsucID );
 					}
 					else
 					{
 						MainWindowModel.Instance.verifyNumTiles();
-						ErrorService.Instance.resolveError( "014", gsucID );
+						ErrorService.Instance.ResolveError( "014", gsucID );
 					}
 				}
 
@@ -227,13 +227,13 @@ namespace Collection_Game_Tool.GameSetup
 				nt = value;
 				if ( boardSize < MinimumBoardSize() )
 				{
-					gsucID = ErrorService.Instance.reportError( "014", new List<String> { }, gsucID );
+					gsucID = ErrorService.Instance.ReportError( "014", new List<String> { }, gsucID );
 				}
 				else
 				{
 					MainWindowModel.Instance.verifyNumTiles();
 					MainWindowModel.Instance.verifyDivisions();
-					ErrorService.Instance.resolveError( "014", gsucID );
+					ErrorService.Instance.ResolveError( "014", gsucID );
 				}
 				if ( PropertyChanged != null )
 					PropertyChanged( this, new PropertyChangedEventArgs( "numTurns" ) );
@@ -253,11 +253,11 @@ namespace Collection_Game_Tool.GameSetup
 				//Insert error logging here
 				if ( boardSize < MinimumBoardSize() )
 				{
-					gsucID = ErrorService.Instance.reportError( "014", new List<String> { }, gsucID );
+					gsucID = ErrorService.Instance.ReportError( "014", new List<String> { }, gsucID );
 				}
 				else
 				{
-					ErrorService.Instance.resolveError( "014", gsucID );
+					ErrorService.Instance.ResolveError( "014", gsucID );
 					MainWindowModel.Instance.verifyNumTiles();
 				}
 				if ( PropertyChanged != null )
@@ -279,18 +279,18 @@ namespace Collection_Game_Tool.GameSetup
 				// Warnings only, referring to a single value spinner or a coin-flip spinner
 				if ( smv == 1 )
 				{
-					gsucID = ErrorService.Instance.reportWarning( "007", new List<string> { }, gsucID );
-					ErrorService.Instance.resolveWarning( "008", gsucID );
+					gsucID = ErrorService.Instance.ReportWarning( "007", new List<string> { }, gsucID );
+					ErrorService.Instance.ResolveWarning( "008", gsucID );
 				}
 				else if ( smv == 2 )
 				{
-					gsucID = ErrorService.Instance.reportWarning( "008", new List<String> { }, gsucID );
-					ErrorService.Instance.resolveWarning( "007", gsucID );
+					gsucID = ErrorService.Instance.ReportWarning( "008", new List<String> { }, gsucID );
+					ErrorService.Instance.ResolveWarning( "007", gsucID );
 				}
 				else
 				{
-					ErrorService.Instance.resolveWarning( "007", gsucID );
-					ErrorService.Instance.resolveWarning( "008", gsucID );
+					ErrorService.Instance.ResolveWarning( "007", gsucID );
+					ErrorService.Instance.ResolveWarning( "008", gsucID );
 				}
                 MainWindowModel.Instance.verifyNumTiles();
 				if ( PropertyChanged != null )
@@ -345,11 +345,11 @@ namespace Collection_Game_Tool.GameSetup
 			{
 				if ( boardSizeValue < MinimumBoardSize() )
 				{
-					gsucID = ErrorService.Instance.reportError( "014", new List<String> { }, gsucID );
+					gsucID = ErrorService.Instance.ReportError( "014", new List<String> { }, gsucID );
 				}
 				else
 				{
-					ErrorService.Instance.resolveError( "014", gsucID );
+					ErrorService.Instance.ResolveError( "014", gsucID );
 				}
 			}
 			return successful;

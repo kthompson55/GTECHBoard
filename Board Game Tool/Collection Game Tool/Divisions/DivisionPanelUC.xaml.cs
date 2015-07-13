@@ -122,7 +122,7 @@ namespace Collection_Game_Tool.Divisions
                 div.DivModel.DivisionNumber = (int)div.DivModel.DivisionNumber - 1;
             }
 
-            ErrorService.Instance.resolveWarning("005", ((DivisionUC)divisionsHolderPanel.Children[index]).DivModel.errorID);
+            ErrorService.Instance.ResolveWarning("005", ((DivisionUC)divisionsHolderPanel.Children[index]).DivModel.errorID);
             listenerList.Remove((DivisionUC)divisionsHolderPanel.Children[index]);
             MainWindowModel.Instance.DivisionsModel.removeDivision(index);
             divisionsHolderPanel.Children.RemoveAt(index);
@@ -168,7 +168,7 @@ namespace Collection_Game_Tool.Divisions
 
                 if (!empty)
                 {
-                    ErrorService.Instance.resolveWarning("005", divToCompare.errorID);
+                    ErrorService.Instance.ResolveWarning("005", divToCompare.errorID);
                     bool valid = true;
                     for (int i = 0; i < divisionsHolderPanel.Children.Count && valid; i++)
                     {
@@ -186,7 +186,7 @@ namespace Collection_Game_Tool.Divisions
 
                             if (!isUnique)
                             {
-                                divToCompare.errorID = ErrorService.Instance.reportError("009", new List<string>{
+                                divToCompare.errorID = ErrorService.Instance.ReportError("009", new List<string>{
                                 divToCompare.DivisionNumber.ToString()
                             }, divToCompare.errorID);
 
@@ -196,12 +196,12 @@ namespace Collection_Game_Tool.Divisions
                     }
 
                     if (valid)
-                        ErrorService.Instance.resolveError("009", divToCompare.errorID);
+                        ErrorService.Instance.ResolveError("009", divToCompare.errorID);
                 }
                 else
                 {
-                    ErrorService.Instance.resolveError("009", divToCompare.errorID);
-                    divToCompare.errorID = ErrorService.Instance.reportWarning("005", new List<string> { divToCompare.DivisionNumber.ToString() }, divToCompare.errorID);
+                    ErrorService.Instance.ResolveError("009", divToCompare.errorID);
+                    divToCompare.errorID = ErrorService.Instance.ReportWarning("005", new List<string> { divToCompare.DivisionNumber.ToString() }, divToCompare.errorID);
                 }
             }
         }
@@ -213,11 +213,11 @@ namespace Collection_Game_Tool.Divisions
         {
             if (MainWindowModel.Instance.DivisionsModel.getSize() <= 0)
             {
-                dpucID = ErrorService.Instance.reportWarning("006", new List<string>(), dpucID);
+                dpucID = ErrorService.Instance.ReportWarning("006", new List<string>(), dpucID);
             }
             else
             {
-                ErrorService.Instance.resolveWarning("006", dpucID);
+                ErrorService.Instance.ResolveWarning("006", dpucID);
             }
         }
 

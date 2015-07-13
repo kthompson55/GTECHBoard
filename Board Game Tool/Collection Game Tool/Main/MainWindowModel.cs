@@ -29,20 +29,20 @@ namespace Collection_Game_Tool.Main
             int actual = GameSetupModel.boardSize;
             if (needed > actual)
             {
-				MainWindowErrorID = ErrorService.Instance.reportError( "013", new List<String> { }, MainWindowErrorID );
+				MainWindowErrorID = ErrorService.Instance.ReportError( "013", new List<String> { }, MainWindowErrorID );
             }
             else
             {
-				ErrorService.Instance.resolveError( "013", MainWindowErrorID );
+				ErrorService.Instance.ResolveError( "013", MainWindowErrorID );
             }
             int maxDiceMovement = (GameSetupModel.diceSelected ? GameSetupModel.numDice * 6 : GameSetupModel.spinnerMaxValue) * GameSetupModel.numTurns;
             if (maxDiceMovement > actual)
             {
-				MainWindowErrorID = ErrorService.Instance.reportWarning( "009", new List<string> { }, MainWindowErrorID );
+				MainWindowErrorID = ErrorService.Instance.ReportWarning( "009", new List<string> { }, MainWindowErrorID );
             }
             else
             {
-				ErrorService.Instance.resolveWarning( "009", MainWindowErrorID );
+				ErrorService.Instance.ResolveWarning( "009", MainWindowErrorID );
             }
         }
 
@@ -64,7 +64,7 @@ namespace Collection_Game_Tool.Main
                 if(GameSetupModel.numTurns < divisionMinimumTurns)
                 {
                     // number of turns needed to obtain current prize level is not enough
-					MainWindowErrorID = ErrorService.Instance.reportError( "010", new List<string> { currentDivision.DivisionNumber.ToString() }, MainWindowErrorID );
+					MainWindowErrorID = ErrorService.Instance.ReportError( "010", new List<string> { currentDivision.DivisionNumber.ToString() }, MainWindowErrorID );
                     verifiedTurnCount = false;
                     break;
                 }
@@ -72,7 +72,7 @@ namespace Collection_Game_Tool.Main
 
             if (verifiedTurnCount)
             {
-				ErrorService.Instance.resolveError( "010", MainWindowErrorID );
+				ErrorService.Instance.ResolveError( "010", MainWindowErrorID );
             }
         }
     }

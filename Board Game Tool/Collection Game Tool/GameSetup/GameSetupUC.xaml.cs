@@ -142,7 +142,7 @@ namespace Collection_Game_Tool.GameSetup
         /// </summary>
         public void adjustCreateButtonEnabled()
         {
-            if (ErrorService.Instance.errorText == "" || ErrorService.Instance.errorText == null)
+            if (ErrorService.Instance.ErrorText == "" || ErrorService.Instance.ErrorText == null)
             {
                 CreateButton.IsEnabled = true;
             }

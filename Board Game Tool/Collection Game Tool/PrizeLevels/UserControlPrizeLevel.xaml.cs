@@ -159,13 +159,13 @@ namespace Collection_Game_Tool.PrizeLevels
                 PrizeLevelConverter plc = new PrizeLevelConverter();
                 if (vr.Equals(new ValidationResult(false, "Illegal characters")))
                 {
-                    ucplID = ErrorService.Instance.reportError("005", new List<string>{
+                    ucplID = ErrorService.Instance.ReportError("005", new List<string>{
                         (string)plc.Convert(plObject.prizeLevel)
                     }, ucplID);
                 }
                 else if (vr.Equals(new ValidationResult(false, "Please enter a number in the given range.")))
                 {
-                    ucplID = ErrorService.Instance.reportError("006", new List<string>{
+                    ucplID = ErrorService.Instance.ReportError("006", new List<string>{
                         (string)plc.Convert(plObject.prizeLevel),
                         "0",
                         "10"
@@ -173,7 +173,7 @@ namespace Collection_Game_Tool.PrizeLevels
                 }
                 else if(vr.Equals(new ValidationResult(false, "Cannot be nothing")))
                 {
-                    ucplID = ErrorService.Instance.reportError("008", new List<string>{
+                    ucplID = ErrorService.Instance.ReportError("008", new List<string>{
                         (string)plc.Convert(plObject.prizeLevel)
                     },
                     ucplID);
@@ -181,9 +181,9 @@ namespace Collection_Game_Tool.PrizeLevels
             }
             else
             {
-                ErrorService.Instance.resolveError("005", ucplID);
-                ErrorService.Instance.resolveError("006", ucplID);
-                ErrorService.Instance.resolveError("008", ucplID);
+                ErrorService.Instance.ResolveError("005", ucplID);
+                ErrorService.Instance.ResolveError("006", ucplID);
+                ErrorService.Instance.ResolveError("008", ucplID);
             }
             shout("Update");
             MainWindowModel.Instance.verifyDivisions();

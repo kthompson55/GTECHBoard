@@ -8,31 +8,40 @@ using Collection_Game_Tool.Services;
 
 namespace Collection_Game_Tool.GameSetup
 {
-    public class ErrorService: INotifyPropertyChanged
+	/// <summary>
+	/// The error service
+	/// </summary>
+    internal class ErrorService: INotifyPropertyChanged
     {
-        private static ErrorService instance;
-        
-        private ErrorService() { }
+		/// <summary>
+		/// The private instance.
+		/// </summary>
+		private static ErrorService _instance;
+		/// <summary>
+		/// The public instance.
+		/// </summary>
+		public static ErrorService Instance
+		{
+			get
+			{
+				if ( _instance == null )
+				{
+					_instance = new ErrorService();
+				}
+				return _instance;
+			}
+		}
 
-        private static int currentId = 0;
-
-        public static ErrorService Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new ErrorService();
-                }
-                return instance;
-            }
-        }
+		/// <summary>
+		/// The current ID
+		/// </summary>
+        private static int _currentId = 0;
 
         /// <summary>
         /// This dictionary contains all of the possible error messages in template form. 
         /// If you need additional error templates, add them here.
         /// </summary>
-        private Dictionary<string, string> errorTemplates = new Dictionary<string, string>
+        private Dictionary<string, string> _errorTemplates = new Dictionary<string, string>
         {
             {"001","-{0} dun goofed. Fix it.\n"},
             {"002","-{0} and {1} dun goofed. Fix it.\n"},
@@ -53,7 +62,7 @@ namespace Collection_Game_Tool.GameSetup
         /// This dictionary contains all of the possible warning messages in template form. 
         /// If you need additional warning templates, add them here.
         /// </summary>
-        private Dictionary<string, string> warningTemplates = new Dictionary<string, string>
+        private Dictionary<string, string> _warningTemplates = new Dictionary<string, string>
         {
             {"001","-{0} has no prize levels.\n"},
             {"002","-{0} is empty.\n"},
@@ -71,9 +80,15 @@ namespace Collection_Game_Tool.GameSetup
         /// Key is an Error object. 
         /// Value is the error message which will be displayed to the user.
         /// </summary>
-        private Dictionary<Error,string> unresolvedErrors = new Dictionary<Error, string>();
+        private Dictionary<Error,string> _unresolvedErrors = new Dictionary<Error, string>();
+		/// <summary>
+		/// The private error text.
+		/// </summary>
         private string _errorText;
-        public string errorText
+		/// <summary>
+		/// The public error text.
+		/// </summary>
+        public string ErrorText
         {
             get
             {
@@ -84,7 +99,7 @@ namespace Collection_Game_Tool.GameSetup
                 _errorText = value;
                 if (PropertyChanged != null)
                 {
-                    PropertyChanged(this, new PropertyChangedEventArgs("errorText"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("ErrorText"));
                 }
             }
         }
@@ -97,17 +112,17 @@ namespace Collection_Game_Tool.GameSetup
         /// <param name="illegalObjects">The names of all of the objects to be plugged into the error template</param>
         /// <param name="senderId">The Id of the object reporting the error</param>
         /// <returns>The id of the object reporting the error. Creates a new id if one is not provided.</returns>
-        public string reportError(string errorCode, List<string> illegalObjects, string senderId)
+        public string ReportError(string errorCode, List<string> illegalObjects, string senderId)
         {
-            if(senderId == null) senderId = currentId++ + "";
-            string theErrorMessage = String.Format(errorTemplates[errorCode], illegalObjects.ToArray());
+            if(senderId == null) senderId = _currentId++ + "";
+            string theErrorMessage = String.Format(_errorTemplates[errorCode], illegalObjects.ToArray());
             Error theError = new Error(senderId, errorCode);
-            if (unresolvedErrors.ContainsKey(theError))
+            if (_unresolvedErrors.ContainsKey(theError))
             {
-                unresolvedErrors.Remove(theError);
+                _unresolvedErrors.Remove(theError);
             }
-            unresolvedErrors.Add(theError, theErrorMessage);
-            updateErrorText();
+            _unresolvedErrors.Add(theError, theErrorMessage);
+            UpdateErrorText();
             
             return senderId;
         }
@@ -117,29 +132,29 @@ namespace Collection_Game_Tool.GameSetup
         /// </summary>
         /// <param name="errorCode">The error code which the error to remove contains</param>
         /// <param name="senderId">The sender Id which the error to remove contains</param>
-        public void resolveError(string errorCode, string senderId)
+        public void ResolveError(string errorCode, string senderId)
         {
             Error theError = new Error(senderId, errorCode);
-            if (unresolvedErrors.ContainsKey(theError))
+            if (_unresolvedErrors.ContainsKey(theError))
             {
-                unresolvedErrors.Remove(theError);
-                updateErrorText();
+                _unresolvedErrors.Remove(theError);
+                UpdateErrorText();
             }
 
         }
 
         /// <summary>
-        /// Uses the errors contained in unresolvedErrors to update the text in the error box.
+        /// Uses the errors contained in _unresolvedErrors to update the text in the error box.
         /// </summary>
-        private void updateErrorText()
+        private void UpdateErrorText()
         {
             string updatedErrorText = "";
-            foreach(KeyValuePair<Error,string> entry in unresolvedErrors)
+            foreach(KeyValuePair<Error,string> entry in _unresolvedErrors)
             {
                 updatedErrorText += entry.Value;
                 updatedErrorText += System.Environment.NewLine;
             }
-            errorText = updatedErrorText;
+            ErrorText = updatedErrorText;
         }
 
         /// <summary>
@@ -147,9 +162,15 @@ namespace Collection_Game_Tool.GameSetup
         /// Key is a warning object. 
         /// Value is the warning message which will be displayed to the user.
         /// </summary>
-        private Dictionary<Warning, string> unresolvedWarnings = new Dictionary<Warning, string>();
+        private Dictionary<Warning, string> _unresolvedWarnings = new Dictionary<Warning, string>();
+		/// <summary>
+		/// The private warning text
+		/// </summary>
         private string _warningText;
-        public string warningText
+		/// <summary>
+		/// The public warning text
+		/// </summary>
+        public string WarningText
         {
             get
             {
@@ -160,7 +181,7 @@ namespace Collection_Game_Tool.GameSetup
                 _warningText = value;
                 if (PropertyChanged != null)
                 {
-                    PropertyChanged(this, new PropertyChangedEventArgs("warningText"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("WarningText"));
                 }
             }
         }
@@ -173,16 +194,16 @@ namespace Collection_Game_Tool.GameSetup
         /// <param name="illegalObjects">The names of all of the objects to be plugged into the warning template</param>
         /// <param name="senderId">The Id of the object reporting the warning</param>
         /// <returns>The id of the object reporting the warning. Creates a new id if one is not provided.</returns>
-        public string reportWarning(string warningCode, List<string> illegalObjects, string senderId)
+        public string ReportWarning(string warningCode, List<string> illegalObjects, string senderId)
         {
-            if (senderId == null) senderId = currentId++ + "";
-            string theWarningMessage = String.Format(warningTemplates[warningCode], illegalObjects.ToArray());
+            if (senderId == null) senderId = _currentId++ + "";
+            string theWarningMessage = String.Format(_warningTemplates[warningCode], illegalObjects.ToArray());
             Warning theWarning = new Warning(senderId, warningCode);
-            if (unresolvedWarnings.ContainsKey(theWarning))
+            if (_unresolvedWarnings.ContainsKey(theWarning))
             {
-                unresolvedWarnings.Remove(theWarning);
+                _unresolvedWarnings.Remove(theWarning);
             }
-            unresolvedWarnings.Add(theWarning, theWarningMessage);
+            _unresolvedWarnings.Add(theWarning, theWarningMessage);
             updateWarningText();
             return senderId;
         }
@@ -192,32 +213,34 @@ namespace Collection_Game_Tool.GameSetup
         /// </summary>
         /// <param name="warningCode">The warning code which the warning to remove contains</param>
         /// <param name="senderId">The sender Id which the warning to remove contains</param>
-        public void resolveWarning(string warningCode, string senderId)
+        public void ResolveWarning(string warningCode, string senderId)
         {
             Warning theWarning = new Warning(senderId, warningCode);
-            //string theWarningMessage = String.Format(warningTemplates[warningCode], illegalObjects);
-            if (unresolvedWarnings.ContainsKey(theWarning))
+            //string theWarningMessage = String.Format(_warningTemplates[warningCode], illegalObjects);
+            if (_unresolvedWarnings.ContainsKey(theWarning))
             {
-                unresolvedWarnings.Remove(theWarning);
+                _unresolvedWarnings.Remove(theWarning);
                 updateWarningText();
             }
 
         }
 
         /// <summary>
-        /// Uses the warnings contained in unresolvedWarnings to update the text in the error box.
+        /// Uses the warnings contained in _unresolvedWarnings to update the text in the error box.
         /// </summary>
         private void updateWarningText()
         {
             string updatedWarningText = "";
-            foreach (KeyValuePair<Warning, string> entry in unresolvedWarnings)
+            foreach (KeyValuePair<Warning, string> entry in _unresolvedWarnings)
             {
                 updatedWarningText += entry.Value;
                 updatedWarningText += System.Environment.NewLine;
             }
-            warningText = updatedWarningText;
+            WarningText = updatedWarningText;
         }
-
+		/// <summary>
+		/// Notifies listeners that a property has changed
+		/// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
         
         /// <summary>
@@ -226,7 +249,7 @@ namespace Collection_Game_Tool.GameSetup
         /// <returns>Returns true if there are one or more errors</returns>
         public bool HasErrors()
         {
-            return unresolvedErrors.Count > 0;
+            return _unresolvedErrors.Count > 0;
         }
 
         /// <summary>
@@ -235,7 +258,7 @@ namespace Collection_Game_Tool.GameSetup
         /// <returns>Returns true if there are one or more warnings</returns>
         public bool HasWarnings()
         {
-            return unresolvedWarnings.Count > 0;
+            return _unresolvedWarnings.Count > 0;
         }
 
         /// <summary>
@@ -244,7 +267,7 @@ namespace Collection_Game_Tool.GameSetup
         /// </summary>
         public void ClearErrors()
         {
-            unresolvedErrors.Clear();
+            _unresolvedErrors.Clear();
         }
 
         /// <summary>
@@ -253,7 +276,7 @@ namespace Collection_Game_Tool.GameSetup
         /// </summary>
         public void ClearWarnings()
         {
-            unresolvedWarnings.Clear();
+            _unresolvedWarnings.Clear();
         }
     }
 }
