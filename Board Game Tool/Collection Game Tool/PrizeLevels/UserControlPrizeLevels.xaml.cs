@@ -186,7 +186,7 @@ namespace Collection_Game_Tool.PrizeLevels
                                     (ucplList[i].plObject.numCollections == ucplList[j].plObject.numCollections) &&
                                     (ucplList[i].plObject.prizeValue == ucplList[j].plObject.prizeValue))
                                 {
-                                    plsID = ErrorService.Instance.reportWarning("004", new List<string>{
+                                    plsID = ErrorService.Instance.ReportWarning("004", new List<string>{
                                         (string)plc.Convert(ucplList[i].plObject.prizeLevel),
                                         (string)plc.Convert(ucplList[j].plObject.prizeLevel)
                                     }, plsID);
@@ -196,7 +196,7 @@ namespace Collection_Game_Tool.PrizeLevels
                         }
                     }
                     if (!sameFound)
-                        ErrorService.Instance.resolveWarning("004", plsID);
+                        ErrorService.Instance.ResolveWarning("004", plsID);
                 }
              
             }

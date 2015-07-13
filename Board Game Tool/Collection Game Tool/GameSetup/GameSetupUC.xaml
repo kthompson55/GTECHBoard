@@ -316,11 +316,11 @@
 			<Border x:Name="ErrorBoxBorder" Grid.Row="4" BorderThickness="0,2" BorderBrush="Black" MaxHeight="150">
                 <ScrollViewer x:Name="errorPanelScroll">
                     <StackPanel Background="White">
-                        <Label x:Name="ErrorHeader" FontWeight="Bold" FontSize="14" Background="#D60804" Foreground="White">Errors:</Label>
-                        <TextBlock x:Name="ErrorTextBlock" HorizontalAlignment="Left"  MaxWidth="400" Foreground="Black" TextWrapping="Wrap" TargetUpdated="ErrorTextBlock_TargetUpdated" Text="{Binding Path=errorText, Mode=TwoWay, NotifyOnTargetUpdated=True}"></TextBlock>
-                        <Label x:Name="WarningHeader" FontWeight="Bold" FontSize="14" Background="#FFEE00" Foreground="Black">Warnings:</Label>
-                        <TextBlock x:Name="WarningTextBlock" HorizontalAlignment="Left" Padding="10,0,0,0" MaxWidth="400" Foreground="Black" TextWrapping="Wrap" TargetUpdated="WarningTextBlock_TargetUpdated" Text="{Binding Path=warningText, Mode=TwoWay, NotifyOnTargetUpdated=True}"></TextBlock>
-                    </StackPanel>
+						<Label x:Name="ErrorHeader" FontWeight="Bold" FontSize="14" Background="#D60804" Foreground="White" Content="Errors:"/>
+						<TextBlock x:Name="ErrorTextBlock" HorizontalAlignment="Left"  MaxWidth="400" Foreground="Black" TextWrapping="Wrap" TargetUpdated="ErrorTextBlock_TargetUpdated" Text="{Binding Path=ErrorText, Mode=TwoWay, NotifyOnTargetUpdated=True}"/>
+						<Label x:Name="WarningHeader" FontWeight="Bold" FontSize="14" Background="#FFEE00" Foreground="Black" Content="Warnings:"/>
+						<TextBlock x:Name="WarningTextBlock" HorizontalAlignment="Left" Padding="10,0,0,0" MaxWidth="400" Foreground="Black" TextWrapping="Wrap" TargetUpdated="WarningTextBlock_TargetUpdated" Text="{Binding Path=WarningText, Mode=TwoWay, NotifyOnTargetUpdated=True}"/>
+					</StackPanel>
                 </ScrollViewer>
 
             </Border>
