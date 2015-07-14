@@ -19,11 +19,7 @@ namespace Collection_Game_Tool.Services
 		/// <returns>A converted value. If the method returns null, the valid null value is used.</returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            double ret = 0;
-            if (value is double)
-            {
-                ret = (double)value;
-            }
+			double ret = value is double ? ( double )value : 0;
 
             return ret.ToString();
         }

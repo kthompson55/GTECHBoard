@@ -19,16 +19,7 @@ namespace Collection_Game_Tool.Services
 		/// <returns>A converted value. If the method returns null, the valid null value is used.</returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            bool ret = false;
-            if (value is bool)
-            {
-                ret = (bool)value;
-
-                if (ret)
-                    return 1.0;
-            }
-
-            return 0.3;
+			return value is bool && (bool)value ? 1.0 : 0.3;
         }
 
 		/// <summary>
@@ -41,16 +32,7 @@ namespace Collection_Game_Tool.Services
 		/// <returns>A converted value. If the method returns null, the valid null value is used.</returns>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            double ret = 0;
-            if (value is double)
-            {
-                ret = (double)value;
-
-                if (ret > 0.3)
-                    return true;
-            }
-
-            return false;
+			return value is double && (double)value > 0.3;
         }
     }
 }
