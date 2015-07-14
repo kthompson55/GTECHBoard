@@ -47,6 +47,13 @@ namespace Collection_Game_Tool.Divisions
             divisionMaxPermutation.DataContext = MainWindowModel.Instance.DivisionsModel;
         }
 
+        public void SetLossPermutations(int maxLossPermutations)
+        {
+            MainWindowModel.Instance.DivisionsModel.MaxLossPermutations = maxLossPermutations;
+            MainWindowModel.Instance.DivisionsModel.MaxLossPermutationsTextbox = maxLossPermutations.ToString();
+            divisionMaxPermutation.DataContext = MainWindowModel.Instance.DivisionsModel;
+        }
+
         /// <summary>
         /// Adds a new division to the division's section. If the max of 30 is met, nothing is added and the add buttom is disabled
         /// </summary>
