@@ -116,11 +116,11 @@ namespace Collection_Game_Tool.Main
                 IFormatter format = new BinaryFormatter();
                 Stream stream = new FileStream(projectFileName, FileMode.Open, FileAccess.Read, FileShare.Read);
                 ProjectData loadedProject = (ProjectData)format.Deserialize(stream);
-                _savedProjectData.savedPrizeLevels = loadedProject.savedPrizeLevels;
-                _savedProjectData.savedGameSetup = loadedProject.savedGameSetup;
-                _savedProjectData.savedDivisions = loadedProject.savedDivisions;
+                _savedProjectData.SavedPrizeLevels = loadedProject.SavedPrizeLevels;
+                _savedProjectData.SavedGameSetup = loadedProject.SavedGameSetup;
+                _savedProjectData.SavedDivisions = loadedProject.SavedDivisions;
 
-                loadProject();                
+                LoadProject();                
             }
         }
 
@@ -136,31 +136,29 @@ namespace Collection_Game_Tool.Main
 
         private void OpenItem_Clicked(object sender, RoutedEventArgs e)
         {
-            bool projectLoadingSuccessful = _savedProjectData.OpenProject();
-
-            if (projectLoadingSuccessful)
-                loadProject();
+			if ( _savedProjectData.OpenProject() )
+                LoadProject();
         }
 
-        private void loadProject()
+        private void LoadProject()
         {
-            MainWindowModel.Instance.PrizeLevelsModel = _savedProjectData.savedPrizeLevels;
-            PrizeLevels.PrizeLevels.numPrizeLevels = _savedProjectData.savedPrizeLevels.getNumPrizeLevels();
+            MainWindowModel.Instance.PrizeLevelsModel = _savedProjectData.SavedPrizeLevels;
+            PrizeLevels.PrizeLevels.numPrizeLevels = _savedProjectData.SavedPrizeLevels.getNumPrizeLevels();
             _userControlPrizeLevels.Prizes.Children.Clear();
-            for (int i = 0; i < MainWindowModel.Instance.PrizeLevelsModel.getNumPrizeLevels(); i++)
+            for (int i = 0; i < MainWindowModel.Instance.PrizeLevelsModel.getNumPrizeLevels(); ++i)
             {
                 _userControlPrizeLevels.loadExistingPrizeLevel(MainWindowModel.Instance.PrizeLevelsModel.prizeLevels[i]);
             }
             _userControlPrizeLevels.checkLoadedPrizeLevels();
 
-			MainWindowModel.Instance.GameSetupModel = _savedProjectData.savedGameSetup;
+			MainWindowModel.Instance.GameSetupModel = _savedProjectData.SavedGameSetup;
             _gameSetupUserControl.loadExistingData();
 
-            MainWindowModel.Instance.DivisionsModel = _savedProjectData.savedDivisions;
-            _divisionPanelUserControl.prizes = _savedProjectData.savedPrizeLevels;
+            MainWindowModel.Instance.DivisionsModel = _savedProjectData.SavedDivisions;
+            _divisionPanelUserControl.prizes = _savedProjectData.SavedPrizeLevels;
             _divisionPanelUserControl.divisionsHolderPanel.Children.Clear();
 
-            for (int i = 0; i < MainWindowModel.Instance.DivisionsModel.getSize(); i++)
+            for (int i = 0; i < MainWindowModel.Instance.DivisionsModel.getSize(); ++i)
             {
                 _divisionPanelUserControl.loadInDivision(MainWindowModel.Instance.DivisionsModel.divisions[i]);
             }

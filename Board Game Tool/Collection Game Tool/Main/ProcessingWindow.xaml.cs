@@ -22,8 +22,11 @@ namespace Collection_Game_Tool.Main
     /// </summary>
     public partial class ProcessingWindow : Window
     {
-        private bool processCanceled = false;
-        private BackgroundWorker bgWorker;
+        private bool _processCanceled = false;
+        private BackgroundWorker _backgroundWorker;
+		/// <summary>
+		/// Initializing the processing window
+		/// </summary>
         public ProcessingWindow()
         {
             InitializeComponent();
@@ -32,36 +35,36 @@ namespace Collection_Game_Tool.Main
         private void Window_Initialized(object sender, EventArgs e)
         {
             if (Parent != null && Parent is MainWindow) (Parent as MainWindow).IsEnabled = false;
-            bgWorker = new BackgroundWorker()
+            _backgroundWorker = new BackgroundWorker()
             {
                 WorkerReportsProgress = true
             };
-            bgWorker.DoWork += (s, e1) =>
+            _backgroundWorker.DoWork += (s, e1) =>
             {
-                processThread(e1);
+                ProcessThread(e1);
             };
-            bgWorker.RunWorkerCompleted += (s, e1) =>
+            _backgroundWorker.RunWorkerCompleted += (s, e1) =>
             {
-                if (!processCanceled)
+                if (!_processCanceled)
                 {
                     MessageBox.Show("File Generated!");
                 }
                 Close();
             };
-            bgWorker.RunWorkerAsync();
+            _backgroundWorker.RunWorkerAsync();
         }
 
         /// <summary>
         /// The thread to run to create the board file.
         /// </summary>
-        private void processThread(DoWorkEventArgs e)
+        private void ProcessThread(DoWorkEventArgs e)
         {
             //open save dialog
-            string filename = openSaveWindow();
+            string filename = OpenSaveWindow();
 
 			if ( !string.IsNullOrEmpty( filename ))
             {
-                processCanceled = false;
+                _processCanceled = false;
 
                 int minMove = 0;
                 int maxMove = 0;
@@ -110,7 +113,7 @@ namespace Collection_Game_Tool.Main
             }
             else
             {
-                processCanceled = true;
+                _processCanceled = true;
             }
         }
 
@@ -118,7 +121,7 @@ namespace Collection_Game_Tool.Main
         /// Opens the standard save menu for the user to specify the save location
         /// Initiates generation of the file once the user is finished
         /// </summary>
-        private string openSaveWindow()
+        private string OpenSaveWindow()
         {
             Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
             dlg.FileName = "CollectionGameFile"; // Default file name
@@ -142,13 +145,13 @@ namespace Collection_Game_Tool.Main
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            if (bgWorker != null && bgWorker.IsBusy)
+            if (_backgroundWorker != null && _backgroundWorker.IsBusy)
             {
                 var result = MessageBox.Show("Not finished, cancel?", "Cancel", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-                if (result.Equals(MessageBoxResult.Yes) && bgWorker != null && bgWorker.IsBusy)
+                if (result.Equals(MessageBoxResult.Yes) && _backgroundWorker != null && _backgroundWorker.IsBusy)
                 {
-                    bgWorker.CancelAsync();
-                    while (bgWorker.IsBusy) ;
+                    _backgroundWorker.CancelAsync();
+                    while (_backgroundWorker.IsBusy) ;
                 }
                 else
                 {
