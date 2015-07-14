@@ -31,7 +31,7 @@ namespace Collection_Game_Tool.Main
 
         private void Window_Initialized(object sender, EventArgs e)
         {
-            if (Parent != null && Parent is Window1) (Parent as Window1).IsEnabled = false;
+            if (Parent != null && Parent is MainWindow) (Parent as MainWindow).IsEnabled = false;
             bgWorker = new BackgroundWorker()
             {
                 WorkerReportsProgress = true
@@ -59,7 +59,7 @@ namespace Collection_Game_Tool.Main
             //open save dialog
             string filename = openSaveWindow();
 
-            if (filename != null && filename != "")
+			if ( !string.IsNullOrEmpty( filename ))
             {
                 processCanceled = false;
 
@@ -95,17 +95,18 @@ namespace Collection_Game_Tool.Main
                 if (e != null && e.Cancel) return;
 
                 GamePlayGeneration generator = new GamePlayGeneration(boards);
-                string formattedPlays = "";
+
+				StringBuilder formattedPlays = new StringBuilder();
                 foreach (Collection_Game_Tool.Services.Tiles.ITile board in boards)
                 {
                     if (e != null && e.Cancel) return;
-                    formattedPlays += generator.GetFormattedGameplay(boards);
+                    formattedPlays.Append(generator.GetFormattedGameplay(boards));
                 }
 
 
                 if (e != null && e.Cancel) return;
                 // write to file
-                File.WriteAllText(filename, formattedPlays);
+                File.WriteAllText(filename, formattedPlays.ToString());
             }
             else
             {
@@ -125,7 +126,7 @@ namespace Collection_Game_Tool.Main
             dlg.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension
 
             // Show save file dialog box
-            Nullable<bool> result = dlg.ShowDialog();
+            bool? result = dlg.ShowDialog();
 
 			string filename = "";
 			// Process save file dialog box results

@@ -148,13 +148,12 @@ namespace Collection_Game_Tool.GameSetup
         /// </summary>
         private void UpdateErrorText()
         {
-            string updatedErrorText = "";
+			StringBuilder updatedErrorText = new StringBuilder();
             foreach(KeyValuePair<Error,string> entry in _unresolvedErrors)
             {
-                updatedErrorText += entry.Value;
-                updatedErrorText += System.Environment.NewLine;
+				updatedErrorText.AppendLine( entry.Value );
             }
-            ErrorText = updatedErrorText;
+            ErrorText = updatedErrorText.ToString();
         }
 
         /// <summary>
@@ -230,13 +229,12 @@ namespace Collection_Game_Tool.GameSetup
         /// </summary>
         private void updateWarningText()
         {
-            string updatedWarningText = "";
+            StringBuilder updatedWarningText = new StringBuilder();
             foreach (KeyValuePair<Warning, string> entry in _unresolvedWarnings)
             {
-                updatedWarningText += entry.Value;
-                updatedWarningText += System.Environment.NewLine;
+                updatedWarningText.AppendLine(entry.Value);
             }
-            WarningText = updatedWarningText;
+            WarningText = updatedWarningText.ToString();
         }
 		/// <summary>
 		/// Notifies listeners that a property has changed

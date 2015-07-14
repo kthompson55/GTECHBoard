@@ -19,8 +19,6 @@ namespace Collection_Game_Tool.GameSetup
         [field: NonSerializedAttribute()]
         List<Listener> audience = new List<Listener>();
 
-        public GameSetupModel() { }
-
         public void initializeListener()
         {
             audience = new List<Listener>();
@@ -163,7 +161,7 @@ namespace Collection_Game_Tool.GameSetup
 					}
 					else
 					{
-						MainWindowModel.Instance.verifyNumTiles();
+						MainWindowModel.Instance.VerifyNumTiles();
 						ErrorService.Instance.ResolveWarning( "007", gsucID );
 						ErrorService.Instance.ResolveWarning( "008", gsucID );
 						ErrorService.Instance.ResolveError( "014", gsucID );
@@ -205,7 +203,7 @@ namespace Collection_Game_Tool.GameSetup
 					}
 					else
 					{
-						MainWindowModel.Instance.verifyNumTiles();
+						MainWindowModel.Instance.VerifyNumTiles();
 						ErrorService.Instance.ResolveError( "014", gsucID );
 					}
 				}
@@ -231,8 +229,8 @@ namespace Collection_Game_Tool.GameSetup
 				}
 				else
 				{
-					MainWindowModel.Instance.verifyNumTiles();
-					MainWindowModel.Instance.verifyDivisions();
+					MainWindowModel.Instance.VerifyNumTiles();
+					MainWindowModel.Instance.VerifyDivisions();
 					ErrorService.Instance.ResolveError( "014", gsucID );
 				}
 				if ( PropertyChanged != null )
@@ -258,7 +256,7 @@ namespace Collection_Game_Tool.GameSetup
 				else
 				{
 					ErrorService.Instance.ResolveError( "014", gsucID );
-					MainWindowModel.Instance.verifyNumTiles();
+					MainWindowModel.Instance.VerifyNumTiles();
 				}
 				if ( PropertyChanged != null )
 					PropertyChanged( this, new PropertyChangedEventArgs( "numDice" ) );
@@ -292,7 +290,7 @@ namespace Collection_Game_Tool.GameSetup
 					ErrorService.Instance.ResolveWarning( "007", gsucID );
 					ErrorService.Instance.ResolveWarning( "008", gsucID );
 				}
-                MainWindowModel.Instance.verifyNumTiles();
+                MainWindowModel.Instance.VerifyNumTiles();
 				if ( PropertyChanged != null )
 					PropertyChanged( this, new PropertyChangedEventArgs( "spinnerMaxValue" ) );
             }
@@ -330,7 +328,7 @@ namespace Collection_Game_Tool.GameSetup
 					{
 						boardSize = boardSizeTest;
 					}
-					MainWindowModel.Instance.verifyNumTiles();
+					MainWindowModel.Instance.VerifyNumTiles();
 				}
 				if ( PropertyChanged != null )
 					PropertyChanged( this, new PropertyChangedEventArgs( "BoardSizeTextBox" ) );
@@ -398,7 +396,7 @@ namespace Collection_Game_Tool.GameSetup
 				{
 					// confirm that there is enough space on board for desired number of move-backward tiles
 					numMoveBackwardTiles = numMBValue;
-					MainWindowModel.Instance.verifyNumTiles();
+					MainWindowModel.Instance.VerifyNumTiles();
 				}
 				if ( PropertyChanged != null )
 					PropertyChanged( this, new PropertyChangedEventArgs( "NumMoveBackwardTilesTextbox" ) );
@@ -422,7 +420,7 @@ namespace Collection_Game_Tool.GameSetup
 				{
 					// confirm that there is enough space on board for desired number of move-backward tiles
 					numMoveForwardTiles = numMFValue;
-					MainWindowModel.Instance.verifyNumTiles();
+					MainWindowModel.Instance.VerifyNumTiles();
 				}
 
 				if ( PropertyChanged != null )

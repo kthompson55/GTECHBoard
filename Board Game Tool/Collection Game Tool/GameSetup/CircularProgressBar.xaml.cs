@@ -7,11 +7,9 @@ using System.Windows.Shapes;
 
 namespace Collection_Game_Tool.GameSetup
 {
-    /// <span class="code-SummaryComment"><summary>
-//</span>    /// A circular type progress bar, that is simliar to popular web based
-    /// progress bars
-    /// <span class="code-SummaryComment"></summary>
-//</span>    
+	/// <summary>
+	///  A circular type progress bar, that is simliar to popular web based progress bars
+	/// </summary>
     public partial class CircularProgressBar
     {
         #region Data

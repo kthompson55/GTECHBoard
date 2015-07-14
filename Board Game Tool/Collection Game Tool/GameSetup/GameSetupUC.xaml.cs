@@ -53,7 +53,7 @@ namespace Collection_Game_Tool.GameSetup
             WarningTextBlock.DataContext = ErrorService.Instance;
             errorPanelScroll.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
 
-            MainWindowModel.Instance.verifyNumTiles();
+            MainWindowModel.Instance.VerifyNumTiles();
         }
 
         //populates the fields from a saved cggproj file
@@ -61,7 +61,7 @@ namespace Collection_Game_Tool.GameSetup
         {
 			MainWindowModel.Instance.GameSetupModel.initializeListener();
             Window parentWindow = Window.GetWindow(this.Parent);
-			MainWindowModel.Instance.GameSetupModel.AddListener( ( Window1 )parentWindow );
+			MainWindowModel.Instance.GameSetupModel.AddListener( ( MainWindow )parentWindow );
 
 			NumTurnsSlider.DataContext = MainWindowModel.Instance.GameSetupModel;
 			NearWinCheckbox.DataContext = MainWindowModel.Instance.GameSetupModel;
@@ -113,7 +113,7 @@ namespace Collection_Game_Tool.GameSetup
         private void GameSetupUserControl_Loaded(object sender, RoutedEventArgs e)
         {
             Window parentWindow = Window.GetWindow(this.Parent);
-			MainWindowModel.Instance.GameSetupModel.AddListener( ( Window1 )parentWindow );
+			MainWindowModel.Instance.GameSetupModel.AddListener( ( MainWindow )parentWindow );
         }
 
         public void Shout(object pass)

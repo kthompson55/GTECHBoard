@@ -63,7 +63,7 @@ namespace Collection_Game_Tool.PrizeLevels
         private void UserControlPrizeLevels_Loaded(object sender, RoutedEventArgs e)
         {
             Window parentWindow = Window.GetWindow(this.Parent);
-            AddListener((Window1)parentWindow);
+            AddListener((MainWindow)parentWindow);
         }
 
         public void Add_Prize_Level(object sender, RoutedEventArgs e)
@@ -101,8 +101,8 @@ namespace Collection_Game_Tool.PrizeLevels
 
             prizeLevelScroll.ScrollToBottom();
             prizeLevelCounterLabel.Content = Prizes.Children.Count;
-            MainWindowModel.Instance.verifyNumTiles();
-            MainWindowModel.Instance.verifyDivisions();
+            MainWindowModel.Instance.VerifyNumTiles();
+            MainWindowModel.Instance.VerifyDivisions();
             //Shouts the PrizeLevels object so that they can be analyzed in Divisions
             Shout(MainWindowModel.Instance.PrizeLevelsModel);
         }

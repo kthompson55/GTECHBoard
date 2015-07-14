@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Collection_Game_Tool.Divisions;
 using Collection_Game_Tool.GameSetup;
-using Collection_Game_Tool.PrizeLevels;
-using Collection_Game_Tool.Divisions;
+using System;
+using System.Collections.Generic;
 
 
 namespace Collection_Game_Tool.Main
@@ -23,7 +19,7 @@ namespace Collection_Game_Tool.Main
         /// <summary>
         /// Sends error report if board size is too small for the required number of special spaces
         /// </summary>
-        public void verifyNumTiles()
+        public void VerifyNumTiles()
         {
             int needed = PrizeLevels.PrizeLevels.totalCollections + GameSetupModel.numMoveBackwardTiles + GameSetupModel.numMoveForwardTiles;
             int actual = GameSetupModel.boardSize;
@@ -49,7 +45,7 @@ namespace Collection_Game_Tool.Main
         /// <summary>
         /// Sends error report if a division is impossible to obtain
         /// </summary>
-        public void verifyDivisions()
+        public void VerifyDivisions()
         {
             bool verifiedTurnCount = true;
             // verify that player has enough turns to get the largest division payout

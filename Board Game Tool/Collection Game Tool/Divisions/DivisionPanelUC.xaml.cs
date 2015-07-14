@@ -42,7 +42,7 @@ namespace Collection_Game_Tool.Divisions
         private void DivisionPanelUC_Loaded(object sender, RoutedEventArgs e)
         {
             Window parentWindow = Window.GetWindow(this.Parent);
-            AddListener((Window1)parentWindow);
+            AddListener((MainWindow)parentWindow);
             addDivision();
             divisionMaxPermutation.DataContext = MainWindowModel.Instance.DivisionsModel;
         }
@@ -146,7 +146,7 @@ namespace Collection_Game_Tool.Divisions
         {
             addDivision();
             divisionsScroll.ScrollToBottom();
-            MainWindowModel.Instance.verifyDivisions();
+            MainWindowModel.Instance.VerifyDivisions();
         }
 
         /// <summary>
