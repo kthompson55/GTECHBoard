@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Collection_Game_Tool.Services.Tiles
+﻿namespace Collection_Game_Tool.Services.Tiles
 {
+	/// <summary>
+	/// The tile types
+	/// </summary>
     public enum TileTypes
     {
         blank,

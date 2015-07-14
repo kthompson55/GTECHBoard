@@ -42,7 +42,7 @@ namespace Collection_Game_Tool.Divisions
         private void DivisionPanelUC_Loaded(object sender, RoutedEventArgs e)
         {
             Window parentWindow = Window.GetWindow(this.Parent);
-            addListener((Window1)parentWindow);
+            AddListener((Window1)parentWindow);
             addDivision();
             divisionMaxPermutation.DataContext = MainWindowModel.Instance.DivisionsModel;
         }
@@ -62,7 +62,7 @@ namespace Collection_Game_Tool.Divisions
 
                 divisionsHolderPanel.Children.Add(divUC);
                 MainWindowModel.Instance.DivisionsModel.addDivision(divUC.DivModel);
-                this.addListener(divUC);
+                this.AddListener(divUC);
                 validateDivision();
             }
 
@@ -96,7 +96,7 @@ namespace Collection_Game_Tool.Divisions
                 division.updateDivision();
 
                 divisionsHolderPanel.Children.Add(division);
-                this.addListener(division);
+                this.AddListener(division);
                 validateDivision();
             }
 
@@ -221,24 +221,24 @@ namespace Collection_Game_Tool.Divisions
             }
         }
 
-        public void onListen(object pass)
+        public void OnListen(object pass)
         {
             if (pass is PrizeLevels.PrizeLevels)
             {
                 prizes = (PrizeLevels.PrizeLevels)pass;
             }
-            shout(pass);
+            Shout(pass);
         }
 
-        public void shout(object pass)
+        public void Shout(object pass)
         {
             foreach (Listener list in listenerList)
             {
-                list.onListen(pass);
+                list.OnListen(pass);
             }
         }
 
-        public void addListener(Listener list)
+        public void AddListener(Listener list)
         {
             listenerList.Add(list);
         }

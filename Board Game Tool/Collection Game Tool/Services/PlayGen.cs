@@ -1,49 +1,73 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Collection_Game_Tool.Services
 {
-    class PlayGen
+	/// <summary>
+	/// A generated plays object
+	/// </summary>
+    internal class PlayGen
     {
-        Dictionary<String, int> collections;
+		/// <summary>
+		/// The collections
+		/// </summary>
+        private Dictionary<string, int> _collections;
+		/// <summary>
+		/// Generates a new PlayGen object
+		/// </summary>
         public PlayGen()
         {
-            collections = new Dictionary<string, int>();
+            _collections = new Dictionary<string, int>();
         }
 
-        public PlayGen(String pl)
+		/// <summary>
+		/// Generates a new PlayGen object
+		/// </summary>
+		/// <param name="pl">The pl</param>
+        public PlayGen(string pl)
         {
-            this.collections = new Dictionary<string, int>();
-            this.collections.Add(pl, 1);
+            this._collections = new Dictionary<string, int>();
+            this._collections.Add(pl, 1);
+        }
+		/// <summary>
+		/// Generates a new PlayGen object
+		/// </summary>
+		/// <param name="plCollections">The pl collections</param>
+        public PlayGen(Dictionary<string, int> plCollections)
+        {
+            _collections = plCollections;
         }
 
-        public PlayGen(Dictionary<String, int> plCollections)
+		/// <summary>
+		/// Generates a new PlayGen object
+		/// </summary>
+		/// <param name="playGen">The play gen</param>
+        public PlayGen(PlayGen playGen)
         {
-            collections = plCollections;
+            this._collections = playGen._collections;
         }
-
-        public PlayGen(PlayGen pg)
+		/// <summary>
+		/// Generates a new PlayGen object
+		/// </summary>
+		/// <param name="playGen">The playgen</param>
+		/// <param name="pl">The pl</param>
+        public PlayGen(PlayGen playGen, string pl)
         {
-            this.collections = pg.collections;
-        }
-
-        public PlayGen(PlayGen pg, String pl)
-        {
-            this.collections = pg.collections;
-            if (this.collections.ContainsKey(pl))
-                this.collections[pl] += 1;
+            this._collections = playGen._collections;
+            if (this._collections.ContainsKey(pl))
+                this._collections[pl] += 1;
             else
-                this.collections.Add(pl, 1);
+                this._collections.Add(pl, 1);
         }
-
-        public int hasCollection(String key)
+		/// <summary>
+		/// Checks if has collection
+		/// </summary>
+		/// <param name="key">The key</param>
+		/// <returns>An int</returns>
+        public int HasCollection(string key)
         {
-            if (collections.ContainsKey(key))
+            if (_collections.ContainsKey(key))
             {
-                return collections[key];
+                return _collections[key];
             }
             else
             {

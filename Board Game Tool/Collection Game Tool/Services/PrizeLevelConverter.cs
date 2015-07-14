@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Globalization;
 using System.Windows.Data;
 
 namespace Collection_Game_Tool.Services
 {
+	/// <summary>
+	/// Converts prize level int to letter
+	/// </summary>
     public class PrizeLevelConverter: IValueConverter
     {
-        List<String> levels = new List<String>()
+		/// <summary>
+		/// The prize level letters to convert
+		/// </summary>
+        private static List<String> _levels = new List<String>()
             {
                 "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T"
             };
@@ -17,18 +21,18 @@ namespace Collection_Game_Tool.Services
 		/// <summary>
 		/// Converts integer to letter reference
 		/// </summary>
-		/// <param name="value"></param>
-		/// <param name="targetType"></param>
-		/// <param name="parameter"></param>
-		/// <param name="culture"></param>
-		/// <returns></returns>
-		public object Convert( object value, Type targetType = null, object parameter = null, System.Globalization.CultureInfo culture = null )
+		/// <param name="value">The value produced by the binding source.</param>
+		/// <param name="targetType">The type of the binding target property.</param>
+		/// <param name="parameter">The converter parameter to use.</param>
+		/// <param name="culture">The culture to use in the converter.</param>
+		/// <returns>A converted value. If the method returns null, the valid null value is used.</returns>
+		public object Convert( object value, Type targetType = null, object parameter = null, CultureInfo culture = null )
         {
             int ret = 0;
             if (value is int)
             {
                 ret = (int)value;
-                return levels[ret - 1];
+                return _levels[ret - 1];
             }
 
             return "";
@@ -37,19 +41,19 @@ namespace Collection_Game_Tool.Services
 		/// <summary>
 		/// Converts letter reference back to integer
 		/// </summary>
-		/// <param name="value"></param>
-		/// <param name="targetType"></param>
-		/// <param name="parameter"></param>
-		/// <param name="culture"></param>
-		/// <returns></returns>
-		public object ConvertBack( object value, Type targetType = null, object parameter = null, System.Globalization.CultureInfo culture  = null)
+		/// <param name="value">The value that is produced by the binding target.</param>
+		/// <param name="targetType">The type to convert to.</param>
+		/// <param name="parameter">The converter parameter to use.</param>
+		/// <param name="culture">The culture to use in the converter.</param>
+		/// <returns>A converted value. If the method returns null, the valid null value is used.</returns>
+		public object ConvertBack( object value, Type targetType = null, object parameter = null, CultureInfo culture  = null)
         {
-            String text;
+            string text;
             if (value is string)
             {
                 text = (string)value;
 
-                int ret = levels.FindIndex(0, x => x == text);
+                int ret = _levels.FindIndex(0, x => x == text);
                 ret += 1;
                 return ret;
             }

@@ -1,32 +1,35 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Collection_Game_Tool.Services.Tiles;
 using System.ComponentModel;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-///NOT COMPLETE
 namespace Collection_Game_Tool.Services
 {
     /// <summary>
     /// Board Generation creates the board data to be used in game generation. 
     /// </summary>
+	/// <remarks>NOT COMPLETE</remarks>
     public class BoardGeneration
     {
         /// <summary>
         /// First tile is the starting tile of the board
         /// </summary>
-        private Tiles.ITile firstTile;
+        private ITile _firstTile;
 
         /// <summary>
         /// last tile is the last tile of the board.
         /// </summary>
-        private Tiles.ITile lastTile;
-		private DoWorkEventArgs threadCancel;
+        private ITile _lastTile;
+		/// <summary>
+		/// The thread args for cancelling.
+		/// </summary>
+		private DoWorkEventArgs _threadCancel;
+		/// <summary>
+		/// Instantiates a board generation
+		/// </summary>
+		/// <param name="threadCancel">Optional: arguments for cancelling the thread</param>
 		public BoardGeneration(DoWorkEventArgs threadCancel = null)
 		{
-			this.threadCancel = threadCancel;
+			this._threadCancel = threadCancel;
 		}
         /// <summary>
         /// Board generation creates the board for play. The board uses a doubly linked list for its design.
@@ -41,7 +44,7 @@ namespace Collection_Game_Tool.Services
         /// <param name="moveForward">How far move forward tiles will move you</param>
         /// <param name="moveBack">How far move back tiles will move you</param>
         /// <returns>Returns the first tile of the board.</returns>
-        public Tiles.ITile genBoard(int boardSize,
+        public ITile GenerateBoard(int boardSize,
             int initialReachable,
             int minMove,
             int maxMove,
@@ -54,186 +57,181 @@ namespace Collection_Game_Tool.Services
             int numberOfCollectionSpots = 0;
             foreach (PrizeLevels.PrizeLevel p in prizes.prizeLevels)
             {
-				if ( threadCancel != null && threadCancel.Cancel ) return null;
+				if ( _threadCancel != null && _threadCancel.Cancel ) return null;
                 numberOfCollectionSpots += p.numCollections;
             }
 
-            fillInBlankBoardTiles(boardSize);
-			if ( threadCancel != null && threadCancel.Cancel ) return null;
-            Tiles.TileTypes[] specialTiles = new Tiles.TileTypes[moveBackCount + moveForwardCount];
-            Tiles.TileTypes[] collectionTiles = new Tiles.TileTypes[numberOfCollectionSpots];
+            FillInBlankBoardTiles(boardSize);
+			if ( _threadCancel != null && _threadCancel.Cancel ) return null;
+            TileTypes[] specialTiles = new TileTypes[moveBackCount + moveForwardCount];
+            TileTypes[] collectionTiles = new TileTypes[numberOfCollectionSpots];
 
-			for ( int i = 0; i < collectionTiles.Length && !( threadCancel != null && threadCancel.Cancel ); ++i )
+			for ( int i = 0; i < collectionTiles.Length && !( _threadCancel != null && _threadCancel.Cancel ); ++i )
             {
-                collectionTiles[i] = Tiles.TileTypes.collection;
+                collectionTiles[i] = TileTypes.collection;
             }
-			if ( threadCancel != null && threadCancel.Cancel ) return null;
+			if ( _threadCancel != null && _threadCancel.Cancel ) return null;
             int index = 0;
-			while ( index < specialTiles.Length && !( threadCancel != null && threadCancel.Cancel ) )
+			while ( index < specialTiles.Length && !( _threadCancel != null && _threadCancel.Cancel ) )
             {
                 if (index < moveForwardCount)
                 {
-                    specialTiles[index] = Tiles.TileTypes.moveForward;
+                    specialTiles[index] = TileTypes.moveForward;
                 }
                 else
                 {
-                    specialTiles[index] = Tiles.TileTypes.moveBack;
+                    specialTiles[index] = TileTypes.moveBack;
                 }
                 ++index;
             }
-			if ( threadCancel != null && threadCancel.Cancel ) return null;
+			if ( _threadCancel != null && _threadCancel.Cancel ) return null;
 
-            specialTiles = ArrayShuffler<Tiles.TileTypes>.shuffle(specialTiles);
-			if ( threadCancel != null && threadCancel.Cancel ) return null;
-            fillInSpecialTiles(initialReachable, minMove, maxMove, moveForward, moveBack, specialTiles);
-			if ( threadCancel != null && threadCancel.Cancel ) return null;
-            fillInSpecialTiles(initialReachable, minMove, maxMove, moveForward, moveBack, collectionTiles);
-			if ( threadCancel != null && threadCancel.Cancel ) return null;
-			fillInCollectionTileValues(minMove, numberOfCollectionSpots, prizes);
-			if ( threadCancel != null && threadCancel.Cancel ) return null;
-			connectTiles(boardSize, minMove, maxMove, moveBack, moveForward);
+            specialTiles = ArrayShuffler<TileTypes>.Shuffle(specialTiles);
+			if ( _threadCancel != null && _threadCancel.Cancel ) return null;
+            FillInSpecialTiles(initialReachable, minMove, maxMove, moveForward, moveBack, specialTiles);
+			if ( _threadCancel != null && _threadCancel.Cancel ) return null;
+            FillInSpecialTiles(initialReachable, minMove, maxMove, moveForward, moveBack, collectionTiles);
+			if ( _threadCancel != null && _threadCancel.Cancel ) return null;
+			FillInCollectionTileValues(minMove, numberOfCollectionSpots, prizes);
+			if ( _threadCancel != null && _threadCancel.Cancel ) return null;
+			ConnectTiles(boardSize, minMove, maxMove, moveBack, moveForward);
 
 
-            return firstTile;
+            return _firstTile;
         }
 
         /// <summary>
         /// Populates the board with special tiles
         /// </summary>
-        /// <param name="initialReachable"></param>
-        /// <param name="minMove"></param>
-        /// <param name="maxMove"></param>
-        /// <param name="moveForward"></param>
-        /// <param name="moveBack"></param>
-        /// <param name="tiles"></param>
-        private void fillInSpecialTiles(int initialReachable,
+        /// <param name="initialReachable">The inital reachable</param>
+        /// <param name="minMove">The min move</param>
+        /// <param name="maxMove">The max move</param>
+        /// <param name="moveForward">The move forward</param>
+        /// <param name="moveBack">The move back</param>
+        /// <param name="tiles">The tiles</param>
+        private void FillInSpecialTiles(int initialReachable,
                 int minMove,
                 int maxMove,
                 int moveForward,
                 int moveBack,
-                Tiles.TileTypes[] tiles)
+                TileTypes[] tiles)
         {
-            Tiles.ITile currentTile = firstTile;
-			for ( int i = 0; i < tiles.Length && !( threadCancel != null && threadCancel.Cancel ); ++i )
+            ITile currentTile = _firstTile;
+			for ( int i = 0; i < tiles.Length && !( _threadCancel != null && _threadCancel.Cancel ); ++i )
             {
                 bool tilePlaced = false;
                 int currentSpace = 0;
                 Tiles.TileTypes myTile = tiles[i];
 
-                int moveAmount = SRandom.nextInt(minMove, (initialReachable / maxMove)) * (i + 1);
-				for ( int j = 0; j < moveAmount && !( threadCancel != null && threadCancel.Cancel ); j++ )
+                int moveAmount = SRandom.NextInt(minMove, (initialReachable / maxMove)) * (i + 1);
+				for ( int j = 0; j < moveAmount && !( _threadCancel != null && _threadCancel.Cancel ); ++j )
                 {
-                    if (currentTile.child != null && (currentSpace + 1) < initialReachable)
+                    if (currentTile.Child != null && (currentSpace + 1) < initialReachable)
                     {
-                        currentTile = currentTile.child;
-                        currentSpace++;
+                        currentTile = currentTile.Child;
+                        ++currentSpace;
                     }
                     else
                     {
-                        currentTile = firstTile;
+                        currentTile = _firstTile;
                         currentSpace = 0;
                     }
                 }
-				if ( threadCancel != null && threadCancel.Cancel ) return;
+				if ( _threadCancel != null && _threadCancel.Cancel ) return;
 
-				while ( !tilePlaced && !( threadCancel != null && threadCancel.Cancel ) )
+				while ( !tilePlaced && !( _threadCancel != null && _threadCancel.Cancel ) )
                 {
-                    if (currentTile.type == Tiles.TileTypes.blank && (currentSpace + 1) < initialReachable)
+                    if (currentTile.Type == TileTypes.blank && (currentSpace + 1) < initialReachable)
                     {
                         if (myTile.ToString().Equals("moveForward"))
                         {
-                            Tiles.ITile tempTile = currentTile;
-							for ( int k = 0; k < moveForward && !( threadCancel != null && threadCancel.Cancel ); k++ )
+                            ITile tempTile = currentTile;
+							for ( int k = 0; k < moveForward && !( _threadCancel != null && _threadCancel.Cancel ); k++ )
                             {
-                                if (tempTile.child != null)
+                                if (tempTile.Child != null)
                                 {
-                                    tempTile = tempTile.child;
+                                    tempTile = tempTile.Child;
                                 }
                             }
-							if ( threadCancel != null && threadCancel.Cancel ) return;
+							if ( _threadCancel != null && _threadCancel.Cancel ) return;
 
-                            if (tempTile.type != Tiles.TileTypes.moveBack)
+                            if (tempTile.Type != TileTypes.moveBack)
                             {
-                                currentTile.type = myTile;
+                                currentTile.Type = myTile;
                                 tilePlaced = true;
                             }
                             else
                             {
-                                if (currentTile.child != null)
+                                if (currentTile.Child != null)
                                 {
-                                    currentTile = currentTile.child;
-                                    currentSpace++;
+                                    currentTile = currentTile.Child;
+                                    ++currentSpace;
                                 }
                                 else
                                 {
-                                    currentTile = firstTile;
+                                    currentTile = _firstTile;
                                     currentSpace = 0;
                                 }
                             }
                         }
                         else if (myTile.ToString().Equals("moveBack"))
                         {
-                            Tiles.ITile tempTile = currentTile;
-							for ( int k = 0; k < moveBack && !( threadCancel != null && threadCancel.Cancel ); k++ )
+                            ITile tempTile = currentTile;
+							for ( int k = 0; k < moveBack && !( _threadCancel != null && _threadCancel.Cancel ); ++k )
                             {
-                                if (tempTile.parent != null)
+                                if (tempTile.Parent != null)
                                 {
-                                    tempTile = tempTile.parent;
+                                    tempTile = tempTile.Parent;
                                 }
                             }
-							if ( threadCancel != null && threadCancel.Cancel ) return;
-                            if (tempTile.type != Tiles.TileTypes.moveForward)
+							if ( _threadCancel != null && _threadCancel.Cancel ) return;
+                            if (tempTile.Type != TileTypes.moveForward)
                             {
-                                currentTile.type = myTile;
+                                currentTile.Type = myTile;
                                 tilePlaced = true;
                             }
                             else
                             {
-                                if (currentTile.child != null)
+                                if (currentTile.Child != null)
                                 {
-                                    currentTile = currentTile.child;
-                                    currentSpace++;
+                                    currentTile = currentTile.Child;
+                                    ++currentSpace;
                                 }
                                 else
                                 {
-                                    currentTile = firstTile;
+                                    currentTile = _firstTile;
                                     currentSpace = 0;
                                 }
                             }
                         }
                         else
                         {
-                            currentTile.type = myTile;
-                            string leType = "" + currentTile.type;
+                            currentTile.Type = myTile;
+                            string leType = "" + currentTile.Type;
                             tilePlaced = true;
                         }
                     }
-                    else if (currentTile.child != null && (currentSpace + 1) < initialReachable)
+                    else if (currentTile.Child != null && (currentSpace + 1) < initialReachable)
                     {
-                        currentTile = currentTile.child;
-                        currentSpace++;
+                        currentTile = currentTile.Child;
+                        ++currentSpace;
                     }
                     else
                     {
-                        currentTile = firstTile;
+                        currentTile = _firstTile;
                         currentSpace = 0;
                     }
                 }
             }
         }
 
-        private void calulateNextSpaceToTest()
-        {
-
-        }
-
         /// <summary>
         /// Fills in the collection spaces prize level values
         /// </summary>
-        /// <param name="minMove"></param>
-        /// <param name="numberOfCollectionSpots"></param>
-        /// <param name="prizes"></param>
-        private void fillInCollectionTileValues(
+        /// <param name="minMove">The min move</param>
+        /// <param name="numberOfCollectionSpots">The number of collection spots</param>
+        /// <param name="prizes">The prizes</param>
+        private void FillInCollectionTileValues(
             int minMove,
             int numberOfCollectionSpots,
             PrizeLevels.PrizeLevels prizes)
@@ -242,8 +240,8 @@ namespace Collection_Game_Tool.Services
             string[] prizeLevel = new string[numberOfCollectionSpots];
             foreach (PrizeLevels.PrizeLevel p in prizes.prizeLevels)
             {
-				if ( threadCancel != null && threadCancel.Cancel ) return;
-				for ( int i = 0; i < p.numCollections && !( threadCancel != null && threadCancel.Cancel ); ++i )
+				if ( _threadCancel != null && _threadCancel.Cancel ) return;
+				for ( int i = 0; i < p.numCollections && !( _threadCancel != null && _threadCancel.Cancel ); ++i )
                 {
                     StringBuilder sb = new StringBuilder();
                     //sb.Append("CS");
@@ -256,39 +254,39 @@ namespace Collection_Game_Tool.Services
                     ++index;
                 }
             }
-			if ( threadCancel != null && threadCancel.Cancel ) return;
+			if ( _threadCancel != null && _threadCancel.Cancel ) return;
 
             int collectionValuesFilled = 0;
-            Tiles.ITile current = firstTile;
-            prizeLevel = ArrayShuffler<string>.shuffle(prizeLevel);
-			if ( threadCancel != null && threadCancel.Cancel ) return;
+            Tiles.ITile current = _firstTile;
+            prizeLevel = ArrayShuffler<string>.Shuffle(prizeLevel);
+			if ( _threadCancel != null && _threadCancel.Cancel ) return;
 
-			while ( collectionValuesFilled != numberOfCollectionSpots && !( threadCancel != null && threadCancel.Cancel ) )
+			while ( collectionValuesFilled != numberOfCollectionSpots && !( _threadCancel != null && _threadCancel.Cancel ) )
             {
                 if (current == null)
                 {
-                    prizeLevel = ArrayShuffler<string>.shuffle(prizeLevel);
-					if ( threadCancel != null && threadCancel.Cancel ) return;
-                    current = firstTile;
+                    prizeLevel = ArrayShuffler<string>.Shuffle(prizeLevel);
+					if ( _threadCancel != null && _threadCancel.Cancel ) return;
+                    current = _firstTile;
                     collectionValuesFilled = 0;
                 }
 
-                if (current.type == Tiles.TileTypes.collection)
+                if (current.Type == Tiles.TileTypes.collection)
                 {
                     Tiles.ITile backtracker = current;
-					for ( int j = 1; j < minMove && !( threadCancel != null && threadCancel.Cancel ); ++j )
+					for ( int j = 1; j < minMove && !( _threadCancel != null && _threadCancel.Cancel ); ++j )
                     {
-                        if (backtracker.parent != null)
-                            backtracker = backtracker.parent;
+                        if (backtracker.Parent != null)
+                            backtracker = backtracker.Parent;
                     }
-					if ( threadCancel != null && threadCancel.Cancel ) return;
-                    if (backtracker == current || backtracker.type != Tiles.TileTypes.collection || (backtracker.type == Tiles.TileTypes.collection && backtracker.tileInformation != prizeLevel[collectionValuesFilled]))
+					if ( _threadCancel != null && _threadCancel.Cancel ) return;
+                    if (backtracker == current || backtracker.Type != Tiles.TileTypes.collection || (backtracker.Type == Tiles.TileTypes.collection && backtracker.TileInformation != prizeLevel[collectionValuesFilled]))
                     {
-                        current.tileInformation = prizeLevel[collectionValuesFilled++];
+                        current.TileInformation = prizeLevel[collectionValuesFilled++];
                     }
                 }
 
-                current = current.child;
+                current = current.Child;
             }
         }
 
@@ -296,106 +294,109 @@ namespace Collection_Game_Tool.Services
         /// <summary>
         /// Creates the blank board.
         /// </summary>
-        /// <param name="boardSize"> The size of hte board.</param>
-        private void fillInBlankBoardTiles(int boardSize)
+        /// <param name="boardSize"> The size of the board.</param>
+        private void FillInBlankBoardTiles(int boardSize)
         {
-            firstTile = new Tiles.Tile();
-            firstTile.type = Tiles.TileTypes.blank;
-            Tiles.ITile tempTile = firstTile;
-			for ( int i = 1; i < boardSize && !( threadCancel != null && threadCancel.Cancel ); ++i )
+            _firstTile = new Tile();
+            _firstTile.Type = TileTypes.blank;
+            ITile tempTile = _firstTile;
+			for ( int i = 1; i < boardSize && !( _threadCancel != null && _threadCancel.Cancel ); ++i )
             {
-                Tiles.ITile newTile = new Tiles.Tile();
-                newTile.type = Tiles.TileTypes.blank;
-                newTile.connectParentToChild(tempTile);
+                ITile newTile = new Tile();
+                newTile.Type = TileTypes.blank;
+                newTile.ConnectParentToChild(tempTile);
                 tempTile = newTile;
             }
-            lastTile = tempTile;
+            _lastTile = tempTile;
         }
 
         /// <summary>
         /// Fills the tiles with a list of links to other tiles that can be reached from dice rolls. 
         /// </summary>
-        /// <param name="boardSize"></param>
-        /// <param name="minMove"></param>
-        /// <param name="maxMove"></param>
-        /// <param name="BackMove"></param>
-        /// <param name="ForwardMove"></param>
-        private void connectTiles(int boardSize,
+        /// <param name="boardSize">The board size</param>
+        /// <param name="minMove">The min move</param>
+        /// <param name="maxMove">The max move</param>
+        /// <param name="BackMove">The back move</param>
+        /// <param name="ForwardMove">The forward move</param>
+        private void ConnectTiles(int boardSize,
             int minMove,
             int maxMove,
             int BackMove,
             int ForwardMove)
         {
-            Tiles.ITile currentTile = firstTile;
-			while ( currentTile.child != null && !( threadCancel != null && threadCancel.Cancel ) )
+            ITile currentTile = _firstTile;
+			while ( currentTile.Child != null && !( _threadCancel != null && _threadCancel.Cancel ) )
             {
-                if (currentTile.type == Tiles.TileTypes.moveBack)
+                if (currentTile.Type == TileTypes.moveBack)
                 {
-                    Tiles.ITile targetGameFromTile = currentTile;
-					for ( int j = 0; j < BackMove && targetGameFromTile != null && !( threadCancel != null && threadCancel.Cancel ); ++j )
+                    ITile targetGameFromTile = currentTile;
+					for ( int j = 0; j < BackMove && targetGameFromTile != null && !( _threadCancel != null && _threadCancel.Cancel ); ++j )
                     {
-                        targetGameFromTile = targetGameFromTile.child;
+                        targetGameFromTile = targetGameFromTile.Child;
                     }
-					if ( threadCancel != null && threadCancel.Cancel ) return;
+					if ( _threadCancel != null && _threadCancel.Cancel ) return;
 
                     if (targetGameFromTile != null)
                     {
-                        currentTile.addTile(BackMove, targetGameFromTile);
-                        currentTile.tileInformation = BackMove.ToString();
+                        currentTile.AddTile(BackMove, targetGameFromTile);
+                        currentTile.TileInformation = BackMove.ToString();
                     }
                 }
-                else if (currentTile.type == Tiles.TileTypes.moveForward)
+                else if (currentTile.Type == TileTypes.moveForward)
                 {
-                    Tiles.ITile targetGameFromTile = currentTile;
-					for ( int j = 0; j < ForwardMove && targetGameFromTile != null && !( threadCancel != null && threadCancel.Cancel ); j++ )
+                    ITile targetGameFromTile = currentTile;
+					for ( int j = 0; j < ForwardMove && targetGameFromTile != null && !( _threadCancel != null && _threadCancel.Cancel ); ++j )
                     {
-                        targetGameFromTile = targetGameFromTile.child;
+                        targetGameFromTile = targetGameFromTile.Child;
                     }
-					if ( threadCancel != null && threadCancel.Cancel ) return;
+					if ( _threadCancel != null && _threadCancel.Cancel ) return;
 
                     if (targetGameFromTile != null)
                     {
-                        currentTile.addTile(ForwardMove, targetGameFromTile);
-                        currentTile.tileInformation = ForwardMove.ToString();
+                        currentTile.AddTile(ForwardMove, targetGameFromTile);
+                        currentTile.TileInformation = ForwardMove.ToString();
                     }
                 }
                 else
                 {
-					for ( int i = minMove; i < maxMove + 1 && !( threadCancel != null && threadCancel.Cancel ); ++i )
+					for ( int i = minMove; i < maxMove + 1 && !( _threadCancel != null && _threadCancel.Cancel ); ++i )
                     {
-                        Tiles.ITile targetGameFromTile = currentTile;
-                        for (int j = 0; j < i && targetGameFromTile != null; j++)
+                        ITile targetGameFromTile = currentTile;
+                        for (int j = 0; j < i && targetGameFromTile != null; ++j)
                         {
-                            targetGameFromTile = targetGameFromTile.child;
+                            targetGameFromTile = targetGameFromTile.Child;
                         }
-						if ( threadCancel != null && threadCancel.Cancel ) return;
+						if ( _threadCancel != null && _threadCancel.Cancel ) return;
 
                         if (targetGameFromTile != null)
                         {
-                            currentTile.addTile(i, targetGameFromTile);
+                            currentTile.AddTile(i, targetGameFromTile);
                         }
                     }
                 }
-                currentTile = currentTile.child;
+                currentTile = currentTile.Child;
             }
         }
-
+		/// <summary>
+		/// The string representation of the board.
+		/// </summary>
+		/// <returns>The string representation of the board.</returns>
         public override string ToString()
         {
-            Tiles.ITile currentTile = firstTile;
+            ITile currentTile = _firstTile;
             StringBuilder sb = new StringBuilder();
             while (currentTile != null)
             {
-                if (currentTile.type != Tiles.TileTypes.blank)
+                if (currentTile.Type != TileTypes.blank)
                 {
-                    if (currentTile.tileInformation != null)
-                        sb.Append(currentTile.tileInformation + ", ");
+                    if (currentTile.TileInformation != null)
+                        sb.Append(currentTile.TileInformation + ", ");
                     else
-                        sb.Append(currentTile.type + ", ");
+                        sb.Append(currentTile.Type + ", ");
                 }
                 else
                     sb.Append("S, ");
-                currentTile = currentTile.child;
+                currentTile = currentTile.Child;
             }
             return sb.ToString();
         }

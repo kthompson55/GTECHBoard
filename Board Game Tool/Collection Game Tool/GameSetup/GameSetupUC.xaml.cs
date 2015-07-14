@@ -61,7 +61,7 @@ namespace Collection_Game_Tool.GameSetup
         {
 			MainWindowModel.Instance.GameSetupModel.initializeListener();
             Window parentWindow = Window.GetWindow(this.Parent);
-			MainWindowModel.Instance.GameSetupModel.addListener( ( Window1 )parentWindow );
+			MainWindowModel.Instance.GameSetupModel.AddListener( ( Window1 )parentWindow );
 
 			NumTurnsSlider.DataContext = MainWindowModel.Instance.GameSetupModel;
 			NearWinCheckbox.DataContext = MainWindowModel.Instance.GameSetupModel;
@@ -113,23 +113,23 @@ namespace Collection_Game_Tool.GameSetup
         private void GameSetupUserControl_Loaded(object sender, RoutedEventArgs e)
         {
             Window parentWindow = Window.GetWindow(this.Parent);
-			MainWindowModel.Instance.GameSetupModel.addListener( ( Window1 )parentWindow );
+			MainWindowModel.Instance.GameSetupModel.AddListener( ( Window1 )parentWindow );
         }
 
-        public void shout(object pass)
+        public void Shout(object pass)
         {
             foreach (Listener list in listenerList)
             {
-                list.onListen(pass);
+                list.OnListen(pass);
             }
         }
 
-        public void addListener(Listener list)
+        public void AddListener(Listener list)
         {
             listenerList.Add(list);
         }
 
-        public void onListen(object pass)
+        public void OnListen(object pass)
         {
             if (pass is int)
             {
