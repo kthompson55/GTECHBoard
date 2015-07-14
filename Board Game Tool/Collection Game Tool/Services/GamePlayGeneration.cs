@@ -96,7 +96,7 @@ namespace Collection_Game_Tool.Services
 		/// <param name="boardDesign">The board design</param>
 		/// <param name="currentPath">The current path</param>
 		/// <param name="playGen">The play gen</param>
-        private void GeneratePlaysFromBoardHelper(ITile board, int moves, string boardDesign, string currentPath, PlayGen playGen)
+        private void GeneratePlaysFromBoardHelper(ITile board, int moves, String boardDesign, String curPath, PlayGen pg)
         {
             if (moves == _numMoves) // last space
             {
@@ -104,9 +104,11 @@ namespace Collection_Game_Tool.Services
                 DivisionModel divWon = null;
                 foreach (DivisionModel d in _divisions)
                 {
+                    hasPrizes = true;
                     foreach (PrizeLevel pl in d.selectedPrizes)
                     {
-                        if (hasPrizes && pl.numCollections != playGen.HasCollection((string)_prizeLevelConverter.Convert(pl.prizeLevel)))
+                        int temp = pl.prizeLevel;
+                        if (hasPrizes && pl.numCollections != pg.HasCollection((String)_prizeLevelConverter.Convert(pl.prizeLevel)))
                         {
                             hasPrizes = false;
                         }
@@ -118,20 +120,20 @@ namespace Collection_Game_Tool.Services
                 bool hasOtherPrizes = false;
                 foreach (PrizeLevel pl in _prizeLevels)
                 {
-                    if (!hasOtherPrizes && divWon != null && !divWon.selectedPrizes.Contains(pl) && pl.numCollections == playGen.HasCollection((string)_prizeLevelConverter.Convert(pl.prizeLevel)))
+                    if (!hasOtherPrizes && divWon != null && !divWon.selectedPrizes.Contains(pl) && pl.numCollections == pg.HasCollection((String)_prizeLevelConverter.Convert(pl.prizeLevel)))
                     {
                         hasOtherPrizes = true;
                     }
-                    else if (!hasOtherPrizes && divWon == null && pl.numCollections == playGen.HasCollection((string)_prizeLevelConverter.Convert(pl.prizeLevel)))
-                    {
-                        hasOtherPrizes = true;
-                    }
+                    //else if (!hasOtherPrizes && divWon == null && pl.numCollections == pg.hasCollection((String)plc.Convert(pl.prizeLevel)))
+                    //{
+                    //    hasOtherPrizes = true;
+                    //}
                 }
 
                 if (hasPrizes && !hasOtherPrizes)
-                    AddPath(divWon.DivisionNumber.ToString(), boardDesign, currentPath);            ////EXIT
+                    AddPath(divWon.DivisionNumber.ToString(), boardDesign, curPath);            ////EXIT
                 else if (!hasOtherPrizes)
-                    AddPath("none", boardDesign, currentPath);                                      ////EXIT
+                    AddPath("none", boardDesign, curPath);                                      ////EXIT
             }
 
 
@@ -141,24 +143,25 @@ namespace Collection_Game_Tool.Services
                 {
                     if (board.Connections[t].Type == TileTypes.collection)
                     {
-                        string getter = board.Connections[t].TileAction().TileInformation;
-                        GeneratePlaysFromBoardHelper(board.Connections[t], moves + 1, boardDesign, currentPath + "," + t, new PlayGen(playGen, getter));
+                        String getter = board.Connections[t].TileAction().TileInformation;
+                        GeneratePlaysFromBoardHelper(board.Connections[t], moves + 1, boardDesign, curPath + "," + t, new PlayGen(pg, getter));
                     }
                     else
                     {
-                        GeneratePlaysFromBoardHelper(board.Connections[t], moves + 1, boardDesign, currentPath + "," + t, new PlayGen(playGen));
+                        GeneratePlaysFromBoardHelper(board.Connections[t], moves + 1, boardDesign, curPath + "," + t, new PlayGen(pg));
                     }
                 }
                 else
                 {
                     if (board.Connections[t].Type == TileTypes.collection)
                     {
-                        string getter = board.Connections[t].TileAction().TileInformation;
-                        GeneratePlaysFromBoardHelper(board.Connections[t], moves + 1, boardDesign, currentPath + "," + _rollOptions[t][SRandom.NextInt(0, _rollOptions[t].Count)], new PlayGen(playGen, getter));
+                        String getter = board.Connections[t].TileAction().TileInformation;
+                        getter = getter.Substring(getter.Length - 1);
+                        GeneratePlaysFromBoardHelper(board.Connections[t], moves + 1, boardDesign, curPath + "," + _rollOptions[t][SRandom.NextInt(0, _rollOptions[t].Count)], new PlayGen(pg, getter));
                     }
                     else
                     {
-                        GeneratePlaysFromBoardHelper(board.Connections[t], moves + 1, boardDesign, currentPath + "," + _rollOptions[t][SRandom.NextInt(0, _rollOptions[t].Count)], new PlayGen(playGen));
+                        GeneratePlaysFromBoardHelper(board.Connections[t], moves + 1, boardDesign, curPath + "," + _rollOptions[t][SRandom.NextInt(0, _rollOptions[t].Count)], new PlayGen(pg));
                     }
                 }
             }

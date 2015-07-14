@@ -15,7 +15,7 @@ namespace Collection_Game_Tool.Services
 		/// </summary>
         private static List<String> _levels = new List<String>()
             {
-                "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T"
+                "a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t"
             };
 
 		/// <summary>
@@ -32,7 +32,7 @@ namespace Collection_Game_Tool.Services
             if (value is int)
             {
                 ret = (int)value;
-                return _levels[ret - 1];
+                return _levels[ret];
             }
 
             return "";
