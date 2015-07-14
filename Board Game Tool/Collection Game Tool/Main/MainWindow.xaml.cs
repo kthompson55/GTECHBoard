@@ -169,6 +169,7 @@ namespace Collection_Game_Tool.Main
             {
                 divUC.loadInDivision(MainWindowModel.Instance.DivisionsModel.divisions[i]);
             }
+            divUC.SetLossPermutations(savedProject.savedDivisions.MaxLossPermutations);
 
             ErrorService.Instance.ClearErrors();
             ErrorService.Instance.ClearWarnings();
