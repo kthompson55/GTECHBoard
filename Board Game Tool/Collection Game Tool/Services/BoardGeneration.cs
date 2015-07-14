@@ -327,53 +327,53 @@ namespace Collection_Game_Tool.Services
             ITile currentTile = _firstTile;
 			while ( currentTile.Child != null && !( _threadCancel != null && _threadCancel.Cancel ) )
             {
-                //if (currentTile.Type == TileTypes.moveBack)
-                //{
-                //    ITile targetGameFromTile = currentTile;
-                //    for ( int j = 0; j < BackMove && targetGameFromTile != null && !( _threadCancel != null && _threadCancel.Cancel ); ++j )
-                //    {
-                //        targetGameFromTile = targetGameFromTile.Child;
-                //    }
-                //    if ( _threadCancel != null && _threadCancel.Cancel ) return;
+                if (currentTile.Type == TileTypes.moveBack)
+                {
+                    ITile targetGameFromTile = currentTile;
+                    for (int j = 0; j < BackMove && targetGameFromTile != null && !(_threadCancel != null && _threadCancel.Cancel); ++j)
+                    {
+                        targetGameFromTile = targetGameFromTile.Child;
+                    }
+                    if (_threadCancel != null && _threadCancel.Cancel) return;
 
-                //    if (targetGameFromTile != null)
-                //    {
-                //        currentTile.AddTile(BackMove, targetGameFromTile);
-                //        currentTile.TileInformation = BackMove.ToString();
-                //    }
-                //}
-                //else if (currentTile.Type == TileTypes.moveForward)
-                //{
-                //    ITile targetGameFromTile = currentTile;
-                //    for ( int j = 0; j < ForwardMove && targetGameFromTile != null && !( _threadCancel != null && _threadCancel.Cancel ); ++j )
-                //    {
-                //        targetGameFromTile = targetGameFromTile.Child;
-                //    }
-                //    if ( _threadCancel != null && _threadCancel.Cancel ) return;
+                    if (targetGameFromTile != null)
+                    {
+                        currentTile.AddTile(BackMove, targetGameFromTile);
+                        currentTile.TileInformation = BackMove.ToString();
+                    }
+                }
+                else if (currentTile.Type == TileTypes.moveForward)
+                {
+                    ITile targetGameFromTile = currentTile;
+                    for (int j = 0; j < ForwardMove && targetGameFromTile != null && !(_threadCancel != null && _threadCancel.Cancel); ++j)
+                    {
+                        targetGameFromTile = targetGameFromTile.Child;
+                    }
+                    if (_threadCancel != null && _threadCancel.Cancel) return;
 
-                //    if (targetGameFromTile != null)
-                //    {
-                //        currentTile.AddTile(ForwardMove, targetGameFromTile);
-                //        currentTile.TileInformation = ForwardMove.ToString();
-                //    }
-                //}
-                //else
-                //{
-					for ( int i = minMove; i < maxMove + 1 && !( _threadCancel != null && _threadCancel.Cancel ); ++i )
+                    if (targetGameFromTile != null)
+                    {
+                        currentTile.AddTile(ForwardMove, targetGameFromTile);
+                        currentTile.TileInformation = ForwardMove.ToString();
+                    }
+                }
+                else
+                {
+                    for (int i = minMove; i < maxMove + 1 && !(_threadCancel != null && _threadCancel.Cancel); ++i)
                     {
                         ITile targetGameFromTile = currentTile;
                         for (int j = 0; j < i && targetGameFromTile != null; ++j)
                         {
                             targetGameFromTile = targetGameFromTile.Child;
                         }
-						if ( _threadCancel != null && _threadCancel.Cancel ) return;
+                        if (_threadCancel != null && _threadCancel.Cancel) return;
 
                         if (targetGameFromTile != null)
                         {
                             currentTile.AddTile(i, targetGameFromTile);
                         }
                     }
-                //}
+                }
                 currentTile = currentTile.Child;
             }
         }

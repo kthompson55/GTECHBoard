@@ -126,6 +126,10 @@ namespace Collection_Game_Tool.Services
                         {
                             count++;
                         }
+                        else
+                        {
+                            count = Int32.MinValue;
+                        }
                     }
 
                     if (count == wonPL.Count)
@@ -139,19 +143,24 @@ namespace Collection_Game_Tool.Services
                 return;
             }
 
+            //if (board.Connections.Keys.Count < 6)
+            //{
+
+            //}
 
             foreach (int t in board.Connections.Keys)
             {
-                if (_numDice == 0)
+                if (_numDice == 0) //Spinner in use
                 {
                     if (board.Connections[t].Type == TileTypes.collection)
                     {
                         String getter = board.Connections[t].TileAction().TileInformation;
+                        getter = getter.Substring(getter.Length - 1);
                         GeneratePlaysFromBoardHelper(board.Connections[t], moves + 1, boardDesign, curPath + "," + t, new PlayGen(pg, getter));
                     }
                     else
                     {
-                        GeneratePlaysFromBoardHelper(board.Connections[t], moves + 1, boardDesign, curPath + "," + t, new PlayGen(pg));
+                        GeneratePlaysFromBoardHelper(board.Connections[t].TileAction(), moves + 1, boardDesign, curPath + "," + t, new PlayGen(pg));
                     }
                 }
                 else
@@ -164,7 +173,7 @@ namespace Collection_Game_Tool.Services
                     }
                     else
                     {
-                        GeneratePlaysFromBoardHelper(board.Connections[t], moves + 1, boardDesign, curPath + "," + _rollOptions[t][SRandom.NextInt(0, _rollOptions[t].Count)], new PlayGen(pg));
+                        GeneratePlaysFromBoardHelper(board.Connections[t].TileAction(), moves + 1, boardDesign, curPath + "," + _rollOptions[t][SRandom.NextInt(0, _rollOptions[t].Count)], new PlayGen(pg));
                     }
                 }
             }
