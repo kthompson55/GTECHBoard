@@ -3,6 +3,7 @@ using Collection_Game_Tool.PrizeLevels;
 using Collection_Game_Tool.Services.Tiles;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Collection_Game_Tool.Services
 {
@@ -100,40 +101,42 @@ namespace Collection_Game_Tool.Services
         {
             if (moves == _numMoves) // last space
             {
-                bool hasPrizes = true;
-                DivisionModel divWon = null;
-                foreach (DivisionModel d in _divisions)
-                {
-                    hasPrizes = true;
-                    foreach (PrizeLevel pl in d.selectedPrizes)
-                    {
-                        int temp = pl.prizeLevel;
-                        if (hasPrizes && pl.numCollections != pg.HasCollection((String)_prizeLevelConverter.Convert(pl.prizeLevel)))
-                        {
-                            hasPrizes = false;
-                        }
-                    }
-                    if (hasPrizes)
-                        divWon = d;
-                }
-
-                bool hasOtherPrizes = false;
+                List<PrizeLevel> wonPL = new List<PrizeLevel>();
                 foreach (PrizeLevel pl in _prizeLevels)
                 {
-                    if (!hasOtherPrizes && divWon != null && !divWon.selectedPrizes.Contains(pl) && pl.numCollections == pg.HasCollection((String)_prizeLevelConverter.Convert(pl.prizeLevel)))
+                    if (pl.numCollections == pg.HasCollection((String)_prizeLevelConverter.Convert(pl.prizeLevel)))
                     {
-                        hasOtherPrizes = true;
+                        wonPL.Add(pl);
                     }
-                    //else if (!hasOtherPrizes && divWon == null && pl.numCollections == pg.hasCollection((String)plc.Convert(pl.prizeLevel)))
-                    //{
-                    //    hasOtherPrizes = true;
-                    //}
                 }
 
-                if (hasPrizes && !hasOtherPrizes)
-                    AddPath(divWon.DivisionNumber.ToString(), boardDesign, curPath);            ////EXIT
-                else if (!hasOtherPrizes)
-                    AddPath("none", boardDesign, curPath);                                      ////EXIT
+                if (wonPL.Count == 0)
+                {
+                    AddPath("none", boardDesign, curPath);
+                    return;
+                }
+
+                int count = 0;
+                foreach (DivisionModel div in _divisions)
+                {
+                    count = 0;
+                    foreach (PrizeLevel pl in div.selectedPrizes)
+                    {
+                        if (wonPL.Contains(pl))
+                        {
+                            count++;
+                        }
+                    }
+
+                    if (count == wonPL.Count)
+                    {
+                        AddPath(div.DivisionNumber.ToString(), boardDesign, curPath);
+                        return;
+                    }
+                }
+
+                AddPath("BadGame", boardDesign, curPath);
+                return;
             }
 
 
