@@ -93,9 +93,12 @@ namespace Collection_Game_Tool.Services.Tiles
                 ITile ret = this;
                 for (int i = 0; i < moveAmount; i++)
                 {
-                    ret = ret.Parent;
+                    if (ret.Parent != null)
+                    {
+                        ret = ret.Parent;
+                    }
                 }
-                return ret;
+                return ret.TileAction();
             }
             else
             {
