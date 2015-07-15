@@ -28,6 +28,9 @@ namespace Collection_Game_Tool.PrizeLevels
         private const double MARGIN = 60;
         private string plsID;
 
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
         public UserControlPrizeLevels()
         {
             InitializeComponent();
@@ -39,6 +42,9 @@ namespace Collection_Game_Tool.PrizeLevels
             prizeLevelCounterLabel.Content = Prizes.Children.Count;
         }
 
+        /// <summary>
+        /// Games must have minimum of two prize levels, this places them with default info
+        /// </summary>
         public void AddDefaultPrizeLevels()
         {
             //SetsUp the default 2 PrizeLevel
@@ -66,6 +72,11 @@ namespace Collection_Game_Tool.PrizeLevels
             AddListener((MainWindow)parentWindow);
         }
 
+        /// <summary>
+        /// Adds a new prize level
+        /// </summary>
+        /// <param name="sender">GUI object that sent the event</param>
+        /// <param name="e"></param>
         public void Add_Prize_Level(object sender, RoutedEventArgs e)
         {
             if (MainWindowModel.Instance.PrizeLevelsModel.getNumPrizeLevels() < 12)
@@ -107,6 +118,10 @@ namespace Collection_Game_Tool.PrizeLevels
             Shout(MainWindowModel.Instance.PrizeLevelsModel);
         }
 
+        /// <summary>
+        /// Attach data from loadedPrizeLevel to prize level
+        /// </summary>
+        /// <param name="loadedPrizeLevel">Prize Level from the loaded project</param>
         public void loadExistingPrizeLevel(PrizeLevel loadedPrizeLevel)
         {
             UserControlPrizeLevel ucpl = new UserControlPrizeLevel();
@@ -121,6 +136,9 @@ namespace Collection_Game_Tool.PrizeLevels
             prizeLevelCounterLabel.Content = Prizes.Children.Count;
         }
 
+        /// <summary>
+        /// Verify that the prize levels being loaded are legitimate prize levels
+        /// </summary>
         public void checkLoadedPrizeLevels()
         {
             //Gets rid of any highlight of previously selected PrizeLevel
@@ -144,6 +162,10 @@ namespace Collection_Game_Tool.PrizeLevels
             }
         }
 
+        /// <summary>
+        /// Handles a shout from target object
+        /// </summary>
+        /// <param name="pass">The object that was shouted</param>
         public void OnListen(object pass)
         {
             if (pass is string)
@@ -250,6 +272,10 @@ namespace Collection_Game_Tool.PrizeLevels
             Shout(MainWindowModel.Instance.PrizeLevelsModel);
         }
 
+        /// <summary>
+        /// Inform listeners about event
+        /// </summary>
+        /// <param name="pass">What is being shouted</param>
         public void Shout(object pass)
         {
             foreach (Listener l in listenerList)
@@ -258,6 +284,10 @@ namespace Collection_Game_Tool.PrizeLevels
             }
         }
 
+        /// <summary>
+        /// Add listener object
+        /// </summary>
+        /// <param name="list">Object that will listen for shouts</param>
         public void AddListener(Listener list)
         {
             listenerList.Add(list);

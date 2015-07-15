@@ -24,9 +24,17 @@ namespace Collection_Game_Tool.Divisions
     [Serializable]
     public partial class PrizeLevelBox : UserControl
     {
+        /// <summary>
+        /// The prize level being represented in the division box
+        /// </summary>
         public LevelBox levelModel { get; set; }
         private DivisionUC division { get; set; }
 
+        /// <summary>
+        /// Constructor for PrizeLevelBox object
+        /// </summary>
+        /// <param name="div">The division that contains the prize level</param>
+        /// <param name="box">The PrizeLevel object being represented</param>
         public PrizeLevelBox(DivisionUC div, LevelBox box)
         {
             InitializeComponent();

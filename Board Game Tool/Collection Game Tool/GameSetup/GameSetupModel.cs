@@ -12,6 +12,9 @@ namespace Collection_Game_Tool.GameSetup
     [Serializable]
     public class GameSetupModel : INotifyPropertyChanged, Teller
     {
+        /// <summary>
+        /// Event handler for fields being changed
+        /// </summary>
         [field: NonSerializedAttribute()]
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -26,6 +29,9 @@ namespace Collection_Game_Tool.GameSetup
             _audience = new List<Listener>();
         }
 		private string _gsucID = null;
+        /// <summary>
+        /// The ID of the model for the ErrorService
+        /// </summary>
 		public string gsucID { get { return _gsucID; } set { _gsucID = value; } }
         
         private bool _isNearWin;
@@ -556,7 +562,7 @@ namespace Collection_Game_Tool.GameSetup
 		/// <summary>
 		/// Adds a listener
 		/// </summary>
-		/// <param name="listener">The listener to add</param>
+		/// <param name="list">The listener to add</param>
         public void AddListener(Listener list)
         {
             _audience.Add(list);

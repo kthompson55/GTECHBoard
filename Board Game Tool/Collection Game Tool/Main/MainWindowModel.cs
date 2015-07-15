@@ -6,24 +6,27 @@ using System.Collections.Generic;
 
 namespace Collection_Game_Tool.Main
 {
+    /// <summary>
+    /// Contains the model data for each panel of the GUI
+    /// </summary>
     public class MainWindowModel
     {
 		private static MainWindowModel _instance;
-		/// <summary>
-		/// The instance of the main window model
-		/// </summary>
+        /// <summary>
+        /// Singleton instance of the MainWindow Model
+        /// </summary>
 		public static MainWindowModel Instance { get { return _instance ?? ( _instance = new MainWindowModel() ); } set { _instance = value; } }
-		/// <summary>
-		/// The game setup model
-		/// </summary>
+        /// <summary>
+        /// The GameSetup Panel's model
+        /// </summary>
 		public GameSetupModel GameSetupModel { get; set; }
-		/// <summary>
-		/// The prize level model
-		/// </summary>
+        /// <summary>
+        /// The PrizeLevel Panel's model
+        /// </summary>
 		public PrizeLevels.PrizeLevels PrizeLevelsModel { get; set; }
-		/// <summary>
-		/// The divisions model
-		/// </summary>
+        /// <summary>
+        /// The Divisions Panel's model
+        /// </summary>
 		public DivisionsModel DivisionsModel { get; set; }
 
 		private string MainWindowErrorID { get; set; }
