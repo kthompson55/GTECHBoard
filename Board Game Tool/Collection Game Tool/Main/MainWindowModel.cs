@@ -9,9 +9,21 @@ namespace Collection_Game_Tool.Main
     public class MainWindowModel
     {
 		private static MainWindowModel _instance;
+		/// <summary>
+		/// The instance of the main window model
+		/// </summary>
 		public static MainWindowModel Instance { get { return _instance ?? ( _instance = new MainWindowModel() ); } set { _instance = value; } }
+		/// <summary>
+		/// The game setup model
+		/// </summary>
 		public GameSetupModel GameSetupModel { get; set; }
+		/// <summary>
+		/// The prize level model
+		/// </summary>
 		public PrizeLevels.PrizeLevels PrizeLevelsModel { get; set; }
+		/// <summary>
+		/// The divisions model
+		/// </summary>
 		public DivisionsModel DivisionsModel { get; set; }
 
 		private string MainWindowErrorID { get; set; }
