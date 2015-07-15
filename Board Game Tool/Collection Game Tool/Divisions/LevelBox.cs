@@ -8,9 +8,15 @@ using Collection_Game_Tool.PrizeLevels;
 
 namespace Collection_Game_Tool.Divisions
 {
+    /// <summary>
+    /// The PrizeLevel representation model in the division panel
+    /// </summary>
     [Serializable]
     public class LevelBox : INotifyPropertyChanged
     {
+        /// <summary>
+        /// Event handler for fields being changed
+        /// </summary>
         [field: NonSerializedAttribute()]
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -18,6 +24,10 @@ namespace Collection_Game_Tool.Divisions
         private bool _isAvailable;
         private int _prizeBoxLevel;
 
+        /// <summary>
+        /// Constructor for LevelBox in Division GUI object
+        /// </summary>
+        /// <param name="level">The index of the PrizeLevel being represented</param>
         public LevelBox(int level)
         {
             IsSelected = false;
@@ -25,17 +35,26 @@ namespace Collection_Game_Tool.Divisions
             PrizeBoxLevel = level;
         }
 
+        /// <summary>
+        /// The current Division contains the PrizeLevel
+        /// </summary>
         public void switchIsSelected()
         {
             IsSelected = !IsSelected;
         }
 
+        /// <summary>
+        /// Gray out selected PrizeLevel, used when a PrizeLevel no longer exists in the PrizeLevel panel
+        /// </summary>
         public void clear()
         {
             IsAvailable = false;
             IsSelected = false;
         }
 
+        /// <summary>
+        /// The division's inclusion of the PrizeLevel
+        /// </summary>
         public bool IsSelected
         {
             get
@@ -51,6 +70,9 @@ namespace Collection_Game_Tool.Divisions
             }
         }
 
+        /// <summary>
+        /// The PrizeLevel exists in the project setup
+        /// </summary>
         public bool IsAvailable
         {
             get
@@ -66,6 +88,9 @@ namespace Collection_Game_Tool.Divisions
             }
         }
 
+        /// <summary>
+        /// The PrizeLevel being represented
+        /// </summary>
         public int PrizeBoxLevel 
         {
             get

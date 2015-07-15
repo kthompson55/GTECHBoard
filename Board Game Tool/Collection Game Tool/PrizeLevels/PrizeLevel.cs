@@ -10,9 +10,15 @@ using System.Runtime.Serialization;
 
 namespace Collection_Game_Tool.PrizeLevels
 {
+    /// <summary>
+    /// Represents a prize level, with a value and collection requirement
+    /// </summary>
     [Serializable]
     public class PrizeLevel : IComparable, Teller, INotifyPropertyChanged
     {
+        /// <summary>
+        /// Notification that a field was changed
+        /// </summary>
         [field: NonSerializedAttribute()]
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -20,6 +26,9 @@ namespace Collection_Game_Tool.PrizeLevels
         List<Listener> audience = new List<Listener>();
 
         private int _prizeLevel;
+        /// <summary>
+        /// The index of the prize level in the collection of all Prize Levels
+        /// </summary>
         public int prizeLevel
         {
             get
@@ -36,6 +45,9 @@ namespace Collection_Game_Tool.PrizeLevels
         }
 
         private double _prizeValue;
+        /// <summary>
+        /// The monetary worth of the prize level
+        /// </summary>
         public double prizeValue
         {
             get
@@ -52,6 +64,9 @@ namespace Collection_Game_Tool.PrizeLevels
         }
 
         private int _numCollections;
+        /// <summary>
+        /// The number of collections required to win the prize level
+        /// </summary>
         public int numCollections
         {
             get
@@ -68,6 +83,9 @@ namespace Collection_Game_Tool.PrizeLevels
         }
 
         private bool _isInstantWin;
+        /// <summary>
+        /// Able to be won with a single collection
+        /// </summary>
         public bool isInstantWin
         {
             get
@@ -84,6 +102,9 @@ namespace Collection_Game_Tool.PrizeLevels
         }
 
         private bool _isBonusGame;
+        /// <summary>
+        /// Enables a bonus game
+        /// </summary>
         public bool isBonusGame
         {
             get
@@ -103,8 +124,8 @@ namespace Collection_Game_Tool.PrizeLevels
         /// Returns negative when first object is greater than second object.
         /// Returns positive when first object is less than second object.
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
+        /// <param name="obj">The PrizeLevel being compared against</param>
+        /// <returns>-1 when this object is greater than the compared against object, 0 if equal to, and 1 if less than</returns>
         public int CompareTo(object obj)
         {
             if (obj == null)
@@ -113,6 +134,10 @@ namespace Collection_Game_Tool.PrizeLevels
             return (int)Math.Ceiling(pl.prizeValue - this.prizeValue);
         }
 
+        /// <summary>
+        /// Shouts message to all listeners
+        /// </summary>
+        /// <param name="pass">The message being shouted</param>
         public void Shout(object pass)
         {
             foreach (Listener fans in audience)
@@ -121,11 +146,18 @@ namespace Collection_Game_Tool.PrizeLevels
             }
         }
 
+        /// <summary>
+        /// Add listener that will receive shouts
+        /// </summary>
+        /// <param name="list"></param>
         public void AddListener(Listener list)
         {
             audience.Add(list);
         }
 
+        /// <summary>
+        /// Initialize an empty list of listeners
+        /// </summary>
         public void initializeListener()
         {
             audience = new List<Listener>();

@@ -147,7 +147,7 @@ namespace Collection_Game_Tool.GameSetup
 		/// <summary>
 		/// Adds a listener
 		/// </summary>
-		/// <param name="listener">The listener to add</param>
+		/// <param name="list">The listener to add</param>
         public void AddListener(Listener list)
         {
             listenerList.Add(list);

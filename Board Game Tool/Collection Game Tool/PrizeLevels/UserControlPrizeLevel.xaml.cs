@@ -25,10 +25,16 @@ namespace Collection_Game_Tool.PrizeLevels
     /// </summary>
     public partial class UserControlPrizeLevel : UserControl, Teller, IComparable
     {
+        /// <summary>
+        /// The Prize Level object that is represented by this GUI element
+        /// </summary>
         public PrizeLevel plObject { get; set; }
         List<Listener> listenerList = new List<Listener>();
         private string ucplID = null;
 
+        /// <summary>
+        /// Default constructor for PrizeLevel GUI
+        /// </summary>
         public UserControlPrizeLevel()
         {
             InitializeComponent();
@@ -42,6 +48,9 @@ namespace Collection_Game_Tool.PrizeLevels
             this.Loaded += new RoutedEventHandler(MainView_Loaded);
         }
 
+        /// <summary>
+        /// Set GUI elements to represent the data of the model
+        /// </summary>
         public void setDataContext()
         {
             Level.DataContext = plObject;
@@ -58,6 +67,11 @@ namespace Collection_Game_Tool.PrizeLevels
             plObject.AddListener((MainWindow)parentWindow);
         }
 
+        /// <summary>
+        /// Removes prize level from prize level panel
+        /// </summary>
+        /// <param name="sender">GUI element that sent the event</param>
+        /// <param name="e"></param>
         public void Close_Prize_Level(object sender, RoutedEventArgs e)
         {
             //Shouts itself to PrizeLevels so PrizeLevels can close the individual PrizeLevel
@@ -86,6 +100,10 @@ namespace Collection_Game_Tool.PrizeLevels
             textBox.SelectAll();
         }
 
+        /// <summary>
+        /// Inform listeners that an event has occurred.
+        /// </summary>
+        /// <param name="pass">The shouted message</param>
         public void Shout(object pass)
         {
             foreach (Listener ucpls in listenerList)
@@ -105,6 +123,10 @@ namespace Collection_Game_Tool.PrizeLevels
             LevelGrid.Background = Brushes.Yellow;
         }
 
+        /// <summary>
+        /// Add an object that responds to shouts
+        /// </summary>
+        /// <param name="list">The new listener of shouts</param>
         public void AddListener(Listener list)
         {
             listenerList.Add(list);
@@ -134,6 +156,11 @@ namespace Collection_Game_Tool.PrizeLevels
             return Array.TrueForAll<Char>(p.ToCharArray(), delegate(Char c) { return Char.IsDigit(c) || Char.IsControl(c); });
         }
 
+        /// <summary>
+        /// Compares the PrizeLevel with another object
+        /// </summary>
+        /// <param name="obj">The object that is being compared against</param>
+        /// <returns>-1 if this object is less than obj, 0 if equal to, or 1 if greater than</returns>
         public int CompareTo(object obj)
         {
             if (obj == null)

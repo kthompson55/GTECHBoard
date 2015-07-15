@@ -24,10 +24,24 @@ namespace Collection_Game_Tool.Divisions
     /// </summary>
     public partial class DivisionUC : UserControl, Listener, IComparable
     {
+        /// <summary>
+        /// The model of the Division Panel
+        /// </summary>
         public DivisionModel DivModel { get; set; }
+        /// <summary>
+        /// The PrizeLevels that available for selection by the divisions
+        /// </summary>
         public PrizeLevels.PrizeLevels Prizes { get; set; }
+        /// <summary>
+        /// The GUI element that contains the Division objects
+        /// </summary>
         public DivisionPanelUC SectionContainer { get; set; }
 
+        /// <summary>
+        /// Constructor that takes in the initial PrizeLevels list, and the number of Divisions to start with
+        /// </summary>
+        /// <param name="initialPrizeLevels">The starting list of PrizeLevels</param>
+        /// <param name="number">Starting number of Divisions</param>
         public DivisionUC(PrizeLevels.PrizeLevels initialPrizeLevels, int number)
         {
             InitializeComponent();
@@ -46,6 +60,9 @@ namespace Collection_Game_Tool.Divisions
             }
         }
 
+        /// <summary>
+        /// Sets GUI element's DataContext to model values
+        /// </summary>
         public void setDataContextToModel()
         {
             totalPicksLabel.DataContext = DivModel;
@@ -163,6 +180,10 @@ namespace Collection_Game_Tool.Divisions
             return divisionsPanel.Children.IndexOf(this);
         }
 
+        /// <summary>
+        /// Reacts to shouts from objects being listened to
+        /// </summary>
+        /// <param name="pass">The message that was shouted</param>
         public void OnListen(object pass)
         {
             if (pass is PrizeLevels.PrizeLevels)
@@ -184,6 +205,11 @@ namespace Collection_Game_Tool.Divisions
             }
         }
 
+        /// <summary>
+        /// Compares this object with the paramater object
+        /// </summary>
+        /// <param name="obj">The object being compared against</param>
+        /// <returns>-1 if this is less than the compared object, 0 if equal to, and 1 if greater than</returns>
         public int CompareTo(object obj)
         {
             if (obj == null)

@@ -95,8 +95,8 @@ namespace Collection_Game_Tool.Services
 		/// <param name="board">The start tile of the board</param>
 		/// <param name="moves">The moves</param>
 		/// <param name="boardDesign">The board design</param>
-		/// <param name="currentPath">The current path</param>
-		/// <param name="playGen">The play gen</param>
+		/// <param name="curPath">The current path</param>
+		/// <param name="pg">The play gen</param>
         private void GeneratePlaysFromBoardHelper(ITile board, int moves, String boardDesign, String curPath, PlayGen pg)
         {
             if (moves == _numMoves) // last space
@@ -262,7 +262,7 @@ namespace Collection_Game_Tool.Services
 		/// <param name="moves">the moves</param>
 		/// <param name="divisions">The divisions</param>
 		/// <param name="prizeLevels">The prize levels</param>
-		/// <param name="NumDice">The number of dice</param>
+		/// <param name="numDice">The number of dice</param>
         public void Generate(int moves, List<DivisionModel> divisions, List<PrizeLevel> prizeLevels, int numDice = 0)
         {
             this._numMoves = moves;

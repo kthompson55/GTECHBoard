@@ -26,10 +26,16 @@ namespace Collection_Game_Tool.Divisions
     {
         List<Listener> listenerList = new List<Listener>();
         private double marginAmount;
+        /// <summary>
+        /// The prize levels that the Divisions will have access to
+        /// </summary>
         public PrizeLevels.PrizeLevels prizes { get; set; }
         private const int MAX_DIVISIONS = 30;
         private string dpucID;
 
+        /// <summary>
+        /// Constructor for Divisions panel of GUI
+        /// </summary>
         public DivisionPanelUC()
         {
             InitializeComponent();
@@ -47,6 +53,10 @@ namespace Collection_Game_Tool.Divisions
             divisionMaxPermutation.DataContext = MainWindowModel.Instance.DivisionsModel;
         }
 
+        /// <summary>
+        /// Set the values of Loss Permutations to be generated
+        /// </summary>
+        /// <param name="maxLossPermutations">The value that will represent the number of loss division permutations</param>
         public void SetLossPermutations(int maxLossPermutations)
         {
             MainWindowModel.Instance.DivisionsModel.MaxLossPermutations = maxLossPermutations;
@@ -228,6 +238,10 @@ namespace Collection_Game_Tool.Divisions
             }
         }
 
+        /// <summary>
+        /// Respond to shouted messages from listened objects
+        /// </summary>
+        /// <param name="pass">The message being shouted</param>
         public void OnListen(object pass)
         {
             if (pass is PrizeLevels.PrizeLevels)
@@ -237,6 +251,10 @@ namespace Collection_Game_Tool.Divisions
             Shout(pass);
         }
 
+        /// <summary>
+        /// Shout message for listeners to respond to
+        /// </summary>
+        /// <param name="pass">The message being shouted</param>
         public void Shout(object pass)
         {
             foreach (Listener list in listenerList)
@@ -245,6 +263,10 @@ namespace Collection_Game_Tool.Divisions
             }
         }
 
+        /// <summary>
+        /// Add listener that will respond to shouts
+        /// </summary>
+        /// <param name="list">The object that will listen to the object</param>
         public void AddListener(Listener list)
         {
             listenerList.Add(list);
