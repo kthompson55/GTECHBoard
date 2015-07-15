@@ -1,10 +1,8 @@
-﻿using System;
+﻿using Collection_Game_Tool.Services;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel;
-using Collection_Game_Tool.Services;
+using System.Text;
 
 namespace Collection_Game_Tool.GameSetup
 {

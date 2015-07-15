@@ -3,17 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Collection_Game_Tool.Main
 {
@@ -68,28 +60,28 @@ namespace Collection_Game_Tool.Main
 
                 int minMove = 0;
                 int maxMove = 0;
-                if (MainWindowModel.Instance.GameSetupModel.diceSelected)
+                if (MainWindowModel.Instance.GameSetupModel.DiceSelected)
                 {
-                    minMove = MainWindowModel.Instance.GameSetupModel.numDice;
-                    maxMove = MainWindowModel.Instance.GameSetupModel.numDice * 6;
+                    minMove = MainWindowModel.Instance.GameSetupModel.NumDice;
+                    maxMove = MainWindowModel.Instance.GameSetupModel.NumDice * 6;
                 }
                 else
                 {
                     minMove = 1;
-                    maxMove = MainWindowModel.Instance.GameSetupModel.spinnerMaxValue;
+                    maxMove = MainWindowModel.Instance.GameSetupModel.SpinnerMaxValue;
                 }
 
                 Collection_Game_Tool.Services.Tiles.ITile boardFirstTile =
                     new BoardGeneration(e).GenerateBoard(
-                        MainWindowModel.Instance.GameSetupModel.boardSize,
-                        MainWindowModel.Instance.GameSetupModel.initialReachableSpaces,
+                        MainWindowModel.Instance.GameSetupModel.BoardSize,
+                        MainWindowModel.Instance.GameSetupModel.InitialReachableSpaces,
                         minMove,
                         maxMove,
-                        MainWindowModel.Instance.GameSetupModel.numMoveBackwardTiles,
-                        MainWindowModel.Instance.GameSetupModel.numMoveForwardTiles,
+                        MainWindowModel.Instance.GameSetupModel.NumMoveBackwardTiles,
+                        MainWindowModel.Instance.GameSetupModel.NumMoveForwardTiles,
                         MainWindowModel.Instance.PrizeLevelsModel,
-                        MainWindowModel.Instance.GameSetupModel.moveForwardLength,
-                        MainWindowModel.Instance.GameSetupModel.moveBackwardLength
+                        MainWindowModel.Instance.GameSetupModel.MoveForwardLength,
+                        MainWindowModel.Instance.GameSetupModel.MoveBackwardLength
                     );
                 if (e != null && e.Cancel) return;
 

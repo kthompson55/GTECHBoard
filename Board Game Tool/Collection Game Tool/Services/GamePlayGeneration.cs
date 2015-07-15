@@ -253,7 +253,7 @@ namespace Collection_Game_Tool.Services
 		/// <param name="moves">the moves</param>
 		/// <param name="divisions">The divisions</param>
 		/// <param name="prizeLevels">The prize levels</param>
-		/// <param name="numDice">The number of dice</param>
+		/// <param name="NumDice">The number of dice</param>
         public void Generate(int moves, List<DivisionModel> divisions, List<PrizeLevel> prizeLevels, int numDice = 0)
         {
             this._numMoves = moves;

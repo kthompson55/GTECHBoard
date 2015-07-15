@@ -152,7 +152,7 @@ namespace Collection_Game_Tool.Main
             _userControlPrizeLevels.checkLoadedPrizeLevels();
 
 			MainWindowModel.Instance.GameSetupModel = _savedProjectData.SavedGameSetup;
-            _gameSetupUserControl.loadExistingData();
+            _gameSetupUserControl.LoadExistingData();
 
             MainWindowModel.Instance.DivisionsModel = _savedProjectData.SavedDivisions;
             _divisionPanelUserControl.prizes = _savedProjectData.SavedPrizeLevels;

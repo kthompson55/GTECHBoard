@@ -21,8 +21,8 @@ namespace Collection_Game_Tool.Main
         /// </summary>
         public void VerifyNumTiles()
         {
-            int needed = PrizeLevels.PrizeLevels.totalCollections + GameSetupModel.numMoveBackwardTiles + GameSetupModel.numMoveForwardTiles;
-            int actual = GameSetupModel.boardSize;
+            int needed = PrizeLevels.PrizeLevels.totalCollections + GameSetupModel.NumMoveBackwardTiles + GameSetupModel.NumMoveForwardTiles;
+            int actual = GameSetupModel.BoardSize;
             if (needed > actual)
             {
 				MainWindowErrorID = ErrorService.Instance.ReportError( "013", new List<String> { }, MainWindowErrorID );
@@ -31,7 +31,7 @@ namespace Collection_Game_Tool.Main
             {
 				ErrorService.Instance.ResolveError( "013", MainWindowErrorID );
             }
-            int maxDiceMovement = (GameSetupModel.diceSelected ? GameSetupModel.numDice * 6 : GameSetupModel.spinnerMaxValue) * GameSetupModel.numTurns;
+            int maxDiceMovement = (GameSetupModel.DiceSelected ? GameSetupModel.NumDice * 6 : GameSetupModel.SpinnerMaxValue) * GameSetupModel.NumTurns;
             if (maxDiceMovement > actual)
             {
 				MainWindowErrorID = ErrorService.Instance.ReportWarning( "009", new List<string> { }, MainWindowErrorID );
@@ -57,7 +57,7 @@ namespace Collection_Game_Tool.Main
                 {
                     divisionMinimumTurns += currentPrizeLevel.numCollections;
                 }
-                if(GameSetupModel.numTurns < divisionMinimumTurns)
+                if(GameSetupModel.NumTurns < divisionMinimumTurns)
                 {
                     // number of turns needed to obtain current prize level is not enough
 					MainWindowErrorID = ErrorService.Instance.ReportError( "010", new List<string> { currentDivision.DivisionNumber.ToString() }, MainWindowErrorID );

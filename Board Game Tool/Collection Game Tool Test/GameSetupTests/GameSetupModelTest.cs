@@ -20,36 +20,36 @@ namespace Collection_Game_Tool_Test.GameSetupTests
         public void TestIsNearWinGetSet()
         {
             //GameSetupModel gsm = new GameSetupModel();
-            //Assert.IsTrue(!gsm.isNearWin, "isNearWin should still be false.");
-            //gsm.isNearWin = true;
-            //Assert.IsTrue(gsm.isNearWin, "isNearWin should have been set to true.");
+            //Assert.IsTrue(!gsm.IsNearWin, "IsNearWin should still be false.");
+            //gsm.IsNearWin = true;
+            //Assert.IsTrue(gsm.IsNearWin, "IsNearWin should have been set to true.");
         }
 
         [TestMethod]
         public void TestToggleIsNearWin()
         {
             ///GameSetupModel gsm = new GameSetupModel();
-            ///Assert.IsTrue(!gsm.isNearWin, "isNearWin should still be false.");
+            ///Assert.IsTrue(!gsm.IsNearWin, "IsNearWin should still be false.");
             ///gsm.toggleNearWin();
-            ///Assert.IsTrue(gsm.isNearWin, "isNearWin should have been set to true.");
+            ///Assert.IsTrue(gsm.IsNearWin, "IsNearWin should have been set to true.");
             ///gsm.toggleNearWin();
-            ///Assert.IsTrue(!gsm.isNearWin, "isNearWin should be false again.");
+            ///Assert.IsTrue(!gsm.IsNearWin, "IsNearWin should be false again.");
         }
 
         [TestMethod]
         public void TestNearWinsGetSet()
         {
             GameSetupModel gsm = new GameSetupModel();
-            gsm.nearWins = 5;
-            Assert.IsTrue(gsm.nearWins == 5, "nearWins should have been set to 5.");
+            gsm.NearWins = 5;
+            Assert.IsTrue(gsm.NearWins == 5, "NearWins should have been set to 5.");
         }
 
         [TestMethod]
         public void TestMaxPermutationsGetSet()
         {
             GameSetupModel gsm = new GameSetupModel();
-            gsm.maxPermutations = 5;
-            Assert.IsTrue(gsm.maxPermutations == 5, "maxPermutations should have been set to 5.");
+            gsm.MaxPermutations = 5;
+            Assert.IsTrue(gsm.MaxPermutations == 5, "MaxPermutations should have been set to 5.");
         }
 
 

@@ -76,7 +76,7 @@
                             <Border BorderBrush="Black" BorderThickness="0,0,0,2">
                                 <StackPanel Orientation="Horizontal">
 									<Label Style="{StaticResource dataLabelStyle}" Content="Enforce Near Win Experience:"/>
-									<CheckBox x:Name="NearWinCheckbox" IsChecked="{Binding Mode=TwoWay, Path=isNearWin}" VerticalAlignment="Center" ToolTip="If checked, defines how many levels come within one collection of winning a prize"/>
+									<CheckBox x:Name="NearWinCheckbox" IsChecked="{Binding Mode=TwoWay, Path=IsNearWin}" VerticalAlignment="Center" ToolTip="If checked, defines how many levels come within one collection of winning a prize"/>
                                 </StackPanel>
                             </Border>
                             <StackPanel IsEnabled="{Binding ElementName=NearWinCheckbox, Path=IsChecked}" Orientation="Horizontal" x:Name="GSNearWinOptional" Background="#8a8a8a" >
@@ -93,7 +93,7 @@
                                 <StackPanel Orientation="Horizontal" Margin="10,0">
 									<Label FontSize="14" Content="1"/>
 									<Slider x:Name="NumNearWinsSlider" 
-                                            Value="{Binding Path=nearWins, Mode=TwoWay}"
+                                            Value="{Binding Path=NearWins, Mode=TwoWay}"
                                             MinWidth="200" Maximum="12" Minimum="1" 
                                             IsSelectionRangeEnabled="True" 
                                             VerticalAlignment="Center" 
@@ -128,7 +128,7 @@
 									<StackPanel Orientation="Horizontal" Margin="10,0">
 										<Label FontSize="14" Content="1"/>
 										<Slider x:Name="NumTurnsSlider" 
-                                            Value="{Binding Path=numTurns, Mode=TwoWay}"
+                                            Value="{Binding Path=NumTurns, Mode=TwoWay}"
                                             MinWidth="200" Maximum="10" Minimum="1" 
                                             IsSelectionRangeEnabled="True" 
                                             VerticalAlignment="Center" 
@@ -141,7 +141,7 @@
                                 <Grid Background="#8a8a8a">
                                     <StackPanel Orientation="Horizontal" Width="127">
 										<Label Content="Dice"/>
-										<RadioButton x:Name="DiceRadioButton" IsChecked="{Binding Path=diceSelected, Mode=TwoWay}" GroupName="DiceSpinnerSelection" VerticalAlignment="Center"/>
+										<RadioButton x:Name="DiceRadioButton" IsChecked="{Binding Path=DiceSelected, Mode=TwoWay}" GroupName="DiceSpinnerSelection" VerticalAlignment="Center"/>
 										<Label Margin="15,0,0,0" Content="Spinner"/>
 										<RadioButton x:Name="SpinnerRadioButton" IsChecked="{Binding Path=SpinnerSelected, Mode=TwoWay}" GroupName="DiceSpinnerSelection" VerticalAlignment="Center"/>
 									</StackPanel>
@@ -164,7 +164,7 @@
 									<StackPanel Orientation="Horizontal" Margin="10,0">
                                     <Label FontSize="14">1</Label>
 										<Slider x:Name="NumDiceSlider" 
-                                            Value="{Binding Path=numDice, Mode=TwoWay}"
+                                            Value="{Binding Path=NumDice, Mode=TwoWay}"
                                             MinWidth="200" Maximum="5" Minimum="1" 
                                             IsSelectionRangeEnabled="True" 
                                             VerticalAlignment="Center" 
@@ -190,7 +190,7 @@
 								<StackPanel Orientation="Horizontal" Margin="10,0">
 									<Label FontSize="14" Content="1"/>
 									<Slider x:Name="SpinnerValueSlider" 
-                                            Value="{Binding Path=spinnerMaxValue, Mode=TwoWay}"
+                                            Value="{Binding Path=SpinnerMaxValue, Mode=TwoWay}"
                                             MinWidth="200" Maximum="8" Minimum="1" 
                                             IsSelectionRangeEnabled="True" 
                                             VerticalAlignment="Center" 
@@ -255,7 +255,7 @@
 									<StackPanel Orientation="Horizontal">
 										<Label FontSize="14" Content="1"/>
 										<Slider x:Name="MoveForwardLengthSlider" 
-                                            Value="{Binding Path=moveForwardLength, Mode=TwoWay}"
+                                            Value="{Binding Path=MoveForwardLength, Mode=TwoWay}"
                                             MinWidth="120" Maximum="5" Minimum="1" 
                                             IsSelectionRangeEnabled="True" 
                                             VerticalAlignment="Center" 
@@ -294,7 +294,7 @@
 									<StackPanel Orientation="Horizontal">
 										<Label FontSize="14" Content="1"/>
 										<Slider x:Name="MoveBackwardLengthSlider" 
-												Value="{Binding Path=moveBackwardLength, Mode=TwoWay}"
+												Value="{Binding Path=MoveBackwardLength, Mode=TwoWay}"
                                             MinWidth="120" Maximum="5" Minimum="1" 
                                             IsSelectionRangeEnabled="True" 
                                             VerticalAlignment="Center" 
@@ -306,7 +306,7 @@
                         </StackPanel>
                     </Border>
 
-					<Button x:Name="CreateButton" Click="createButton_Click" Width="200" Height="50" FontSize="28" FontWeight="Bold" Background="#007CAA" Foreground="White" Margin="0,5,0,0" IsEnabled="{Binding Path=canCreate}" Opacity="{Binding Path=canCreate, Converter={StaticResource OpacityConverter}}">Create File</Button>
+					<Button x:Name="CreateButton" Click="CreateButton_Click" Width="200" Height="50" FontSize="28" FontWeight="Bold" Background="#007CAA" Foreground="White" Margin="0,5,0,0" IsEnabled="{Binding Path=CanCreate}" Opacity="{Binding Path=CanCreate, Converter={StaticResource OpacityConverter}}">Create File</Button>
 
 
 

@@ -28,14 +28,20 @@ namespace Collection_Game_Tool.GameSetup
     {
         private List<Listener> listenerList = new List<Listener>();
 		private ProcessingWindow processingWindow;
+		/// <summary>
+		/// Creates a new game setup user control
+		/// </summary>
         public GameSetupUC()
         {
             InitializeComponent();
         }
 
+		/// <summary>
+		/// Databind
+		/// </summary>
         public void DataBind()
         {
-            MainWindowModel.Instance.GameSetupModel.canCreate = true;
+            MainWindowModel.Instance.GameSetupModel.CanCreate = true;
 			NumTurnsSlider.DataContext = MainWindowModel.Instance.GameSetupModel;
 			NearWinCheckbox.DataContext = MainWindowModel.Instance.GameSetupModel;
             CreateButton.DataContext = MainWindowModel.Instance.GameSetupModel;
@@ -56,10 +62,12 @@ namespace Collection_Game_Tool.GameSetup
             MainWindowModel.Instance.VerifyNumTiles();
         }
 
-        //populates the fields from a saved cggproj file
-        public void loadExistingData()
+		/// <summary>
+		/// Populates the fields from a saved cggproj file
+		/// </summary>
+        public void LoadExistingData()
         {
-			MainWindowModel.Instance.GameSetupModel.initializeListener();
+			MainWindowModel.Instance.GameSetupModel.InitializeListener();
             Window parentWindow = Window.GetWindow(this.Parent);
 			MainWindowModel.Instance.GameSetupModel.AddListener( ( MainWindow )parentWindow );
 
@@ -77,21 +85,25 @@ namespace Collection_Game_Tool.GameSetup
 			NumMoveBackwardTilesTextBox.DataContext = MainWindowModel.Instance.GameSetupModel;
 			MoveBackwardLengthSlider.DataContext = MainWindowModel.Instance.GameSetupModel;
 
-			NearWinCheckbox.IsChecked = MainWindowModel.Instance.GameSetupModel.isNearWin;
-			NumNearWinsSlider.Value = MainWindowModel.Instance.GameSetupModel.nearWins;
-			NumTurnsSlider.Value = MainWindowModel.Instance.GameSetupModel.numTurns;
-			DiceRadioButton.IsChecked = MainWindowModel.Instance.GameSetupModel.diceSelected;
-			NumDiceSlider.Value = MainWindowModel.Instance.GameSetupModel.numDice;
-			SpinnerValueSlider.Value = MainWindowModel.Instance.GameSetupModel.spinnerMaxValue;
-			BoardSizeTextBox.Text = MainWindowModel.Instance.GameSetupModel.boardSize.ToString();
-			NumMoveForwardTilesTextBox.Text = MainWindowModel.Instance.GameSetupModel.numMoveForwardTiles.ToString();
-			MoveForwardLengthSlider.Value = MainWindowModel.Instance.GameSetupModel.moveForwardLength;
-			NumMoveBackwardTilesTextBox.Text = MainWindowModel.Instance.GameSetupModel.numMoveBackwardTiles.ToString();
-			MoveBackwardLengthSlider.Value = MainWindowModel.Instance.GameSetupModel.moveBackwardLength;
+			NearWinCheckbox.IsChecked = MainWindowModel.Instance.GameSetupModel.IsNearWin;
+			NumNearWinsSlider.Value = MainWindowModel.Instance.GameSetupModel.NearWins;
+			NumTurnsSlider.Value = MainWindowModel.Instance.GameSetupModel.NumTurns;
+			DiceRadioButton.IsChecked = MainWindowModel.Instance.GameSetupModel.DiceSelected;
+			NumDiceSlider.Value = MainWindowModel.Instance.GameSetupModel.NumDice;
+			SpinnerValueSlider.Value = MainWindowModel.Instance.GameSetupModel.SpinnerMaxValue;
+			BoardSizeTextBox.Text = MainWindowModel.Instance.GameSetupModel.BoardSize.ToString();
+			NumMoveForwardTilesTextBox.Text = MainWindowModel.Instance.GameSetupModel.NumMoveForwardTiles.ToString();
+			MoveForwardLengthSlider.Value = MainWindowModel.Instance.GameSetupModel.MoveForwardLength;
+			NumMoveBackwardTilesTextBox.Text = MainWindowModel.Instance.GameSetupModel.NumMoveBackwardTiles.ToString();
+			MoveBackwardLengthSlider.Value = MainWindowModel.Instance.GameSetupModel.MoveBackwardLength;
         }
 
-        //Initiates save process when Create Button is clicked
-        public void createButton_Click(object sender, RoutedEventArgs e)
+		/// <summary>
+		/// Initiates save process when Create Button is clicked
+		/// </summary>
+		/// <param name="sender">The object sender</param>
+		/// <param name="e">The event arguments</param>
+        public void CreateButton_Click(object sender, RoutedEventArgs e)
         {
 			processingWindow = new ProcessingWindow();
 			processingWindow.ShowDialog();
@@ -109,13 +121,21 @@ namespace Collection_Game_Tool.GameSetup
             return philTheOrphan < 100000 && philTheOrphan > 0;
         }
 
-
+		/// <summary>
+		/// Things to do when the window is loaded
+		/// </summary>
+		/// <param name="sender">The object that called this</param>
+		/// <param name="e">The event arguments</param>
         private void GameSetupUserControl_Loaded(object sender, RoutedEventArgs e)
         {
             Window parentWindow = Window.GetWindow(this.Parent);
 			MainWindowModel.Instance.GameSetupModel.AddListener( ( MainWindow )parentWindow );
         }
 
+		/// <summary>
+		/// Shouts to the listeners/audience.
+		/// </summary>
+		/// <param name="pass">The object to pass</param>
         public void Shout(object pass)
         {
             foreach (Listener list in listenerList)
@@ -124,11 +144,19 @@ namespace Collection_Game_Tool.GameSetup
             }
         }
 
+		/// <summary>
+		/// Adds a listener
+		/// </summary>
+		/// <param name="listener">The listener to add</param>
         public void AddListener(Listener list)
         {
             listenerList.Add(list);
         }
 
+		/// <summary>
+		/// Called when shouted
+		/// </summary>
+		/// <param name="pass">The object that was passed</param>
         public void OnListen(object pass)
         {
             if (pass is int)
@@ -140,33 +168,35 @@ namespace Collection_Game_Tool.GameSetup
         /// <summary>
         /// Ensures that the Create Button can only be pressed when there are no errors
         /// </summary>
-        public void adjustCreateButtonEnabled()
+        public void AdjustCreateButtonEnabled()
         {
-            if (ErrorService.Instance.ErrorText == "" || ErrorService.Instance.ErrorText == null)
-            {
-                CreateButton.IsEnabled = true;
-            }
-            else
-            {
-                CreateButton.IsEnabled = false;
-            }
+			CreateButton.IsEnabled = string.IsNullOrEmpty( ErrorService.Instance.ErrorText );
         }
 
+		/// <summary>
+		/// Textbox updated
+		/// </summary>
+		/// <param name="sender">The sender</param>
+		/// <param name="e">The event arguments</param>
         private void ErrorTextBlock_TargetUpdated(object sender, DataTransferEventArgs e)
         {
-            adjustBorderVisibility();
-            adjustCreateButtonEnabled();
+            AdjustBorderVisibility();
+            AdjustCreateButtonEnabled();
         }
-
+		/// <summary>
+		/// Textbox updated
+		/// </summary>
+		/// <param name="sender">The sender</param>
+		/// <param name="e">The event arguments</param>
         private void WarningTextBlock_TargetUpdated(object sender, DataTransferEventArgs e)
         {
-            adjustBorderVisibility();
+            AdjustBorderVisibility();
         }
 
         /// <summary>
         /// Ensures the Error/Warning box is only visible if there is at least one warning or error
         /// </summary>
-        private void adjustBorderVisibility()
+        private void AdjustBorderVisibility()
         {
             if (ErrorService.Instance.HasErrors() || ErrorService.Instance.HasWarnings())
             {
