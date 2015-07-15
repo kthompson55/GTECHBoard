@@ -74,5 +74,13 @@ namespace Collection_Game_Tool.Services
                 return 0;
             }
         }
+
+        public void addPl(string pl)
+        {
+            if (this._collections.ContainsKey(pl))
+                this._collections[pl] += 1;
+            else
+                this._collections.Add(pl, 1);
+        }
     }
 }

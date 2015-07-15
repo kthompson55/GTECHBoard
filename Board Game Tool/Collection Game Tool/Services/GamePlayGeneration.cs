@@ -83,9 +83,9 @@ namespace Collection_Game_Tool.Services
             foreach (int t in board.Connections.Keys)
             {
                 if (_numDice == 0)
-                    GeneratePlaysFromBoardHelper(board.Connections[t], 1, boardDesign, "|" + t, new PlayGen());
+                    GeneratePlaysFromBoardHelper(board.Connections[t], 1, boardDesign, "|" + t, new PlayGen(), " | ");
                 else
-                    GeneratePlaysFromBoardHelper(board.Connections[t], 1, boardDesign, "|" + _rollOptions[t][SRandom.NextInt(0, _rollOptions[t].Count)], new PlayGen());
+                    GeneratePlaysFromBoardHelper(board.Connections[t], 1, boardDesign, "|" + _rollOptions[t][SRandom.NextInt(0, _rollOptions[t].Count)], new PlayGen(), " | ");
             }
         }
 
@@ -97,8 +97,20 @@ namespace Collection_Game_Tool.Services
 		/// <param name="boardDesign">The board design</param>
 		/// <param name="curPath">The current path</param>
 		/// <param name="pg">The play gen</param>
-        private void GeneratePlaysFromBoardHelper(ITile board, int moves, String boardDesign, String curPath, PlayGen pg)
+        private void GeneratePlaysFromBoardHelper(ITile board, int moves, String boardDesign, String curPath, PlayGen pg, String tilesLandedOn)
         {
+
+            ITile passThroughTile = board.TileAction();
+            if (passThroughTile.Type == TileTypes.collection)
+            {
+                String getter = passThroughTile.TileInformation;
+                getter = getter.Substring(getter.Length - 1);
+                pg.addPl(getter);
+            }
+
+            string tileInfo = (passThroughTile.Type == TileTypes.blank) ? "BS, " : passThroughTile.TileInformation + ", ";
+            tilesLandedOn += tileInfo;
+
             if (moves == _numMoves) // last space
             {
                 List<PrizeLevel> wonPL = new List<PrizeLevel>();
@@ -108,11 +120,16 @@ namespace Collection_Game_Tool.Services
                     {
                         wonPL.Add(pl);
                     }
+                    else if (pl.numCollections < pg.HasCollection((String)_prizeLevelConverter.Convert(pl.prizeLevel)))
+                    {
+                        AddPath("BadBadGame", boardDesign, curPath + tilesLandedOn);
+                        return;
+                    }
                 }
 
                 if (wonPL.Count == 0)
                 {
-                    AddPath("none", boardDesign, curPath);
+                    AddPath("none", boardDesign, curPath + tilesLandedOn);
                     return;
                 }
 
@@ -134,47 +151,25 @@ namespace Collection_Game_Tool.Services
 
                     if (count == wonPL.Count)
                     {
-                        AddPath(div.DivisionNumber.ToString(), boardDesign, curPath);
+                        AddPath(div.DivisionNumber.ToString(), boardDesign, curPath + tilesLandedOn);
                         return;
                     }
                 }
 
-                AddPath("BadGame", boardDesign, curPath);
+                AddPath("BadGame", boardDesign, curPath + tilesLandedOn);
                 return;
             }
 
-            //if (board.Connections.Keys.Count < 6)
-            //{
-
-            //}
-
-            foreach (int t in board.Connections.Keys)
+            foreach (int t in passThroughTile.Connections.Keys)
             {
-                if (_numDice == 0) //Spinner in use
+                if (_numDice == 0)
                 {
-                    if (board.Connections[t].Type == TileTypes.collection)
-                    {
-                        String getter = board.Connections[t].TileAction().TileInformation;
-                        getter = getter.Substring(getter.Length - 1);
-                        GeneratePlaysFromBoardHelper(board.Connections[t], moves + 1, boardDesign, curPath + "," + t, new PlayGen(pg, getter));
-                    }
-                    else
-                    {
-                        GeneratePlaysFromBoardHelper(board.Connections[t].TileAction(), moves + 1, boardDesign, curPath + "," + t, new PlayGen(pg));
-                    }
+                    GeneratePlaysFromBoardHelper(board.Connections[t].TileAction(), moves + 1, boardDesign, curPath + "," + t, new PlayGen(pg), tilesLandedOn);
+
                 }
                 else
                 {
-                    if (board.Connections[t].Type == TileTypes.collection)
-                    {
-                        String getter = board.Connections[t].TileAction().TileInformation;
-                        getter = getter.Substring(getter.Length - 1);
-                        GeneratePlaysFromBoardHelper(board.Connections[t], moves + 1, boardDesign, curPath + "," + _rollOptions[t][SRandom.NextInt(0, _rollOptions[t].Count)], new PlayGen(pg, getter));
-                    }
-                    else
-                    {
-                        GeneratePlaysFromBoardHelper(board.Connections[t].TileAction(), moves + 1, boardDesign, curPath + "," + _rollOptions[t][SRandom.NextInt(0, _rollOptions[t].Count)], new PlayGen(pg));
-                    }
+                    GeneratePlaysFromBoardHelper(passThroughTile.Connections[t], moves + 1, boardDesign, curPath + "," + _rollOptions[t][SRandom.NextInt(0, _rollOptions[t].Count)], pg, tilesLandedOn);
                 }
             }
         }
