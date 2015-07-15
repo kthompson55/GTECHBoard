@@ -1,31 +1,32 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Threading;
 using System.Windows.Input;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace Collection_Game_Tool.GameSetup
 {
-    /// <span class="code-SummaryComment"><summary>
-//</span>    /// A circular type progress bar, that is simliar to popular web based
-    /// progress bars
-    /// <span class="code-SummaryComment"></summary>
-//</span>    
+	/// <summary>
+	///  A circular type progress bar, that is simliar to popular web based progress bars
+	/// </summary>
     public partial class CircularProgressBar
     {
         #region Data
-        private readonly DispatcherTimer animationTimer;
+        private readonly DispatcherTimer _animationTimer;
         #endregion
 
         #region Constructor
+		/// <summary>
+		/// Create a circular progress bar
+		/// </summary>
         public CircularProgressBar()
         {
             InitializeComponent();
 
-            animationTimer = new DispatcherTimer(
+            _animationTimer = new DispatcherTimer(
                 DispatcherPriority.ContextIdle, Dispatcher);
-            animationTimer.Interval = new TimeSpan(0, 0, 0, 0, 75);
+            _animationTimer.Interval = new TimeSpan(0, 0, 0, 0, 75);
         }
         #endregion
 
@@ -33,15 +34,15 @@ namespace Collection_Game_Tool.GameSetup
         private void Start()
         {
             Mouse.OverrideCursor = Cursors.Wait;
-            animationTimer.Tick += HandleAnimationTick;
-            animationTimer.Start();
+            _animationTimer.Tick += HandleAnimationTick;
+            _animationTimer.Start();
         }
 
         private void Stop()
         {
-            animationTimer.Stop();
+            _animationTimer.Stop();
             Mouse.OverrideCursor = Cursors.Arrow;
-            animationTimer.Tick -= HandleAnimationTick;
+            _animationTimer.Tick -= HandleAnimationTick;
         }
 
         private void HandleAnimationTick(object sender, EventArgs e)

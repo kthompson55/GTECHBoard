@@ -55,7 +55,7 @@ namespace Collection_Game_Tool.PrizeLevels
         {
             Window parentWindow = Window.GetWindow(this.Parent);
             //Listens to the PrizeLevels window
-            plObject.AddListener((Window1)parentWindow);
+            plObject.AddListener((MainWindow)parentWindow);
         }
 
         public void Close_Prize_Level(object sender, RoutedEventArgs e)
@@ -63,8 +63,8 @@ namespace Collection_Game_Tool.PrizeLevels
             //Shouts itself to PrizeLevels so PrizeLevels can close the individual PrizeLevel
             Shout(this);
             Shout("Update");
-            MainWindowModel.Instance.verifyDivisions();
-            MainWindowModel.Instance.verifyNumTiles();
+            MainWindowModel.Instance.VerifyDivisions();
+            MainWindowModel.Instance.VerifyNumTiles();
         }
 
         private void boxChangedEventHandler(object sender, RoutedEventArgs args)
@@ -186,8 +186,8 @@ namespace Collection_Game_Tool.PrizeLevels
                 ErrorService.Instance.ResolveError("008", ucplID);
             }
             Shout("Update");
-            MainWindowModel.Instance.verifyDivisions();
-            MainWindowModel.Instance.verifyNumTiles();
+            MainWindowModel.Instance.VerifyDivisions();
+            MainWindowModel.Instance.VerifyNumTiles();
         }
     }
 }

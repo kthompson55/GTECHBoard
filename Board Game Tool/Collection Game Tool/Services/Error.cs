@@ -34,20 +34,8 @@ namespace Collection_Game_Tool.Services
 		/// <returns>True if the specified object is equal to the current warning; otherwise, false.</returns>
         public override bool Equals(Object obj) {
             Error er = obj as Error;
-            if(this == obj)
-                return true;
-            if(obj == null)
-                return false;
-            if (ErrorCode != er.ErrorCode)
-            {
-                return false;
-            }
-            if (SenderId != er.SenderId)
-            {
-                return false;
-            }
-           
-            return true;
+
+			return obj != null && ( this == er || ( ErrorCode == er.ErrorCode && SenderId == er.SenderId ) );
         }
 
 		/// <summary>

@@ -128,7 +128,7 @@ namespace Collection_Game_Tool.Divisions
             set
             {
                 _totalPlayerPicks = value;
-                MainWindowModel.Instance.verifyDivisions();
+                MainWindowModel.Instance.VerifyDivisions();
                 if (PropertyChanged != null)
                     PropertyChanged(this, new PropertyChangedEventArgs("TotalPlayerPicks"));
             }

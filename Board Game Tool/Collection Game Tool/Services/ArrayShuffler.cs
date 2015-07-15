@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace Collection_Game_Tool.Services
 {
-    static class ArrayShuffler<T>
+   internal static class ArrayShuffler<T>
     {
         private static Random rand = new Random();
         /// <summary>

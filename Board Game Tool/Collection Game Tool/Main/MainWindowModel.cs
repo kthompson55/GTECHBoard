@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Collection_Game_Tool.Divisions;
 using Collection_Game_Tool.GameSetup;
-using Collection_Game_Tool.PrizeLevels;
-using Collection_Game_Tool.Divisions;
+using System;
+using System.Collections.Generic;
 
 
 namespace Collection_Game_Tool.Main
@@ -23,10 +19,10 @@ namespace Collection_Game_Tool.Main
         /// <summary>
         /// Sends error report if board size is too small for the required number of special spaces
         /// </summary>
-        public void verifyNumTiles()
+        public void VerifyNumTiles()
         {
-            int needed = PrizeLevels.PrizeLevels.totalCollections + GameSetupModel.numMoveBackwardTiles + GameSetupModel.numMoveForwardTiles;
-            int actual = GameSetupModel.boardSize;
+            int needed = PrizeLevels.PrizeLevels.totalCollections + GameSetupModel.NumMoveBackwardTiles + GameSetupModel.NumMoveForwardTiles;
+            int actual = GameSetupModel.BoardSize;
             if (needed > actual)
             {
 				MainWindowErrorID = ErrorService.Instance.ReportError( "013", new List<String> { }, MainWindowErrorID );
@@ -35,7 +31,7 @@ namespace Collection_Game_Tool.Main
             {
 				ErrorService.Instance.ResolveError( "013", MainWindowErrorID );
             }
-            int maxDiceMovement = (GameSetupModel.diceSelected ? GameSetupModel.numDice * 6 : GameSetupModel.spinnerMaxValue) * GameSetupModel.numTurns;
+            int maxDiceMovement = (GameSetupModel.DiceSelected ? GameSetupModel.NumDice * 6 : GameSetupModel.SpinnerMaxValue) * GameSetupModel.NumTurns;
             if (maxDiceMovement > actual)
             {
 				MainWindowErrorID = ErrorService.Instance.ReportWarning( "009", new List<string> { }, MainWindowErrorID );
@@ -49,7 +45,7 @@ namespace Collection_Game_Tool.Main
         /// <summary>
         /// Sends error report if a division is impossible to obtain
         /// </summary>
-        public void verifyDivisions()
+        public void VerifyDivisions()
         {
             bool verifiedTurnCount = true;
             // verify that player has enough turns to get the largest division payout
@@ -61,7 +57,7 @@ namespace Collection_Game_Tool.Main
                 {
                     divisionMinimumTurns += currentPrizeLevel.numCollections;
                 }
-                if(GameSetupModel.numTurns < divisionMinimumTurns)
+                if(GameSetupModel.NumTurns < divisionMinimumTurns)
                 {
                     // number of turns needed to obtain current prize level is not enough
 					MainWindowErrorID = ErrorService.Instance.ReportError( "010", new List<string> { currentDivision.DivisionNumber.ToString() }, MainWindowErrorID );

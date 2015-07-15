@@ -1,4 +1,4 @@
-﻿<Window x:Class="Collection_Game_Tool.Main.Window1"
+﻿<Window x:Class="Collection_Game_Tool.Main.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:gs="clr-namespace:Collection_Game_Tool.GameSetup"
@@ -6,7 +6,7 @@
         xmlns:dv="clr-namespace:Collection_Game_Tool.Divisions"
         Title="Board Game Tool" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
         SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen"
-        LayoutUpdated="Window_LayoutUpdated_1"
+        LayoutUpdated="WindowLayoutUpdated"
         Closing="Window_Closing"
 		Icon="logo.png" MinHeight="600">
 

@@ -30,23 +30,12 @@
 		/// </summary>
 		/// <param name="obj">The object to compare with the current warning.</param>
 		/// <returns>True if the specified object is equal to the current warning; otherwise, false.</returns>
-        public override bool Equals(object obj) {
-            Warning war = obj as Warning;
-            if(this == obj)
-                return true;
-            if(obj == null)
-                return false;
-            if (ErrorCode != war.ErrorCode)
-            {
-                return false;
-            }
-            if (SenderId != war.SenderId)
-            {
-                return false;
-            }
-           
-            return true;
-        }
+		public override bool Equals( object obj )
+		{
+			Warning war = obj as Warning;
+
+			return obj != null && (this == war || (ErrorCode == war.ErrorCode && SenderId == war.SenderId));
+		}
 
 		/// <summary>
 		/// Serves as a hash function for a particular type.

@@ -1,15 +1,14 @@
-﻿using System;
+﻿using Collection_Game_Tool.Main;
+using Collection_Game_Tool.Services;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Collection_Game_Tool.Services;
-using System.Runtime.Serialization;
-using Collection_Game_Tool.Main;
 
 namespace Collection_Game_Tool.GameSetup
 {
+	/// <summary>
+	/// The game setup model
+	/// </summary>
     [Serializable]
     public class GameSetupModel : INotifyPropertyChanged, Teller
     {
@@ -17,34 +16,38 @@ namespace Collection_Game_Tool.GameSetup
         public event PropertyChangedEventHandler PropertyChanged;
 
         [field: NonSerializedAttribute()]
-        List<Listener> audience = new List<Listener>();
+        private List<Listener> _audience = new List<Listener>();
 
-        public GameSetupModel() { }
-
-        public void initializeListener()
+		/// <summary>
+		/// Initialize the listener
+		/// </summary>
+        public void InitializeListener()
         {
-            audience = new List<Listener>();
+            _audience = new List<Listener>();
         }
 		private string _gsucID = null;
 		public string gsucID { get { return _gsucID; } set { _gsucID = value; } }
         
-        private bool inw;
-        public bool isNearWin 
+        private bool _isNearWin;
+		/// <summary>
+		/// Is near win bool
+		/// </summary>
+        public bool IsNearWin 
         {
             get
             {
-                return inw;
+                return _isNearWin;
             }
             set
             {
-                inw = value;
-				if ( inw )
+                _isNearWin = value;
+				if ( _isNearWin )
 				{
-					if ( nearWins > PrizeLevels.PrizeLevels.numPrizeLevels )
+					if ( NearWins > PrizeLevels.PrizeLevels.numPrizeLevels )
 					{
 						gsucID = ErrorService.Instance.ReportError( "007", new List<string> { }, gsucID );
 					}
-					else if ( nearWins <= PrizeLevels.PrizeLevels.numPrizeLevels )
+					else if ( NearWins <= PrizeLevels.PrizeLevels.numPrizeLevels )
 					{
 						ErrorService.Instance.ResolveError( "007", gsucID );
 					}
@@ -54,62 +57,71 @@ namespace Collection_Game_Tool.GameSetup
 					ErrorService.Instance.ResolveError( "007", gsucID );
 				}
 				if ( PropertyChanged != null )
-					PropertyChanged( this, new PropertyChangedEventArgs( "isNearWin" ) );
+					PropertyChanged( this, new PropertyChangedEventArgs( "IsNearWin" ) );
             }
         }
 
-        private short nw = 1;
-        public short nearWins 
+        private short _nearWins = 1;
+		/// <summary>
+		/// The near win amount
+		/// </summary>
+        public short NearWins 
         {
             get
             {
-                return nw;
+                return _nearWins;
             }
             set
             {
-                nw = value;
-				if ( nw > PrizeLevels.PrizeLevels.numPrizeLevels )
+                _nearWins = value;
+				if ( _nearWins > PrizeLevels.PrizeLevels.numPrizeLevels )
 				{
 					gsucID = ErrorService.Instance.ReportError( "007", new List<string> { }, gsucID );
 				}
-				else if ( nw <= PrizeLevels.PrizeLevels.numPrizeLevels )
+				else if ( _nearWins <= PrizeLevels.PrizeLevels.numPrizeLevels )
 				{
 					ErrorService.Instance.ResolveError( "007", gsucID );
 				}
 				if ( PropertyChanged != null )
-					PropertyChanged( this, new PropertyChangedEventArgs( "nearWins" ) );
+					PropertyChanged( this, new PropertyChangedEventArgs( "NearWins" ) );
             }
         } //Max 12
 
 
-        private uint mp = 1;
-        public uint maxPermutations 
+        private uint _maxPermutations = 1;
+		/// <summary>
+		/// The max permutations
+		/// </summary>
+        public uint MaxPermutations 
         {
             get
             {
-                return mp;
+                return _maxPermutations;
             }
             set
             {
-                mp = value;
+                _maxPermutations = value;
             }
         }
 
+		/// <summary>
+		/// Set and get max permutations by string
+		/// </summary>
 		public string MaxPermutationsTextbox
 		{
 			get
 			{
-				return maxPermutations.ToString();
+				return MaxPermutations.ToString();
 			}
 			set
 			{
 				if ( value == "" )
 				{
-					maxPermutations = 1;
+					MaxPermutations = 1;
 				}
 				else if ( WithinPermutationRange( value ) )
 				{
-					maxPermutations = Convert.ToUInt32( value );
+					MaxPermutations = Convert.ToUInt32( value );
 				}
 				Shout( "validate" );
 				if ( PropertyChanged != null )
@@ -130,7 +142,10 @@ namespace Collection_Game_Tool.GameSetup
 		}
 
         private bool _canCreate;
-        public bool canCreate
+		/// <summary>
+		/// Boolean if can create
+		/// </summary>
+        public bool CanCreate
         {
             get
             {
@@ -141,55 +156,61 @@ namespace Collection_Game_Tool.GameSetup
                 _canCreate = value;
 
                 if (PropertyChanged != null)
-                    PropertyChanged(this, new PropertyChangedEventArgs("canCreate"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("CanCreate"));
             }
         }
 
-        private bool ds = true;
-        public bool diceSelected
+        private bool _diceSelected = true;
+		/// <summary>
+		/// Boolean if dice is selected
+		/// </summary>
+        public bool DiceSelected
         {
             get
             {
-                return ds;
+                return _diceSelected;
             }
             set
             {
-                ds = value;
-				if(ds)
+                _diceSelected = value;
+				if(_diceSelected)
 				{
-					if ( boardSize < MinimumBoardSize() )
+					if ( BoardSize < MinimumBoardSize() )
 					{
 						gsucID = ErrorService.Instance.ReportError( "014", new List<String> { }, gsucID );
 					}
 					else
 					{
-						MainWindowModel.Instance.verifyNumTiles();
+						MainWindowModel.Instance.VerifyNumTiles();
 						ErrorService.Instance.ResolveWarning( "007", gsucID );
 						ErrorService.Instance.ResolveWarning( "008", gsucID );
 						ErrorService.Instance.ResolveError( "014", gsucID );
 					}
 				}
 				if ( PropertyChanged != null )
-					PropertyChanged( this, new PropertyChangedEventArgs( "diceSelected" ) );
+					PropertyChanged( this, new PropertyChangedEventArgs( "DiceSelected" ) );
             }
         }
 
+		/// <summary>
+		/// Boolean if spinner is selected. Uses the DiceSelected value for the bool.
+		/// </summary>
 		public bool SpinnerSelected 
 		{ 
-			get { return !diceSelected; }
+			get { return !DiceSelected; }
 			set
 			{
-				diceSelected = !value;
-				if ( !diceSelected )
+				DiceSelected = !value;
+				if ( !DiceSelected )
 				{
 					// single-value spinner
-					if ( spinnerMaxValue == 1 )
+					if ( SpinnerMaxValue == 1 )
 					{
 						gsucID = ErrorService.Instance.ReportWarning( "007", new List<string> { }, gsucID );
 						ErrorService.Instance.ResolveWarning( "008", gsucID );
 					}
 					// "coin-flip" spinner
-					else if ( spinnerMaxValue == 2 )
+					else if ( SpinnerMaxValue == 2 )
 					{
 						gsucID = ErrorService.Instance.ReportWarning( "008", new List<string> { }, gsucID );
 						ErrorService.Instance.ResolveWarning( "007", gsucID );
@@ -199,13 +220,13 @@ namespace Collection_Game_Tool.GameSetup
 						ErrorService.Instance.ResolveWarning( "007", gsucID );
 						ErrorService.Instance.ResolveWarning( "008", gsucID );
 					}
-					if ( boardSize < MinimumBoardSize() )
+					if ( BoardSize < MinimumBoardSize() )
 					{
 						gsucID = ErrorService.Instance.ReportError( "014", new List<String> { }, gsucID );
 					}
 					else
 					{
-						MainWindowModel.Instance.verifyNumTiles();
+						MainWindowModel.Instance.VerifyNumTiles();
 						ErrorService.Instance.ResolveError( "014", gsucID );
 					}
 				}
@@ -215,74 +236,84 @@ namespace Collection_Game_Tool.GameSetup
 			}
 		}
 
-        private int nt = 1;
-        public int numTurns
+        private int _numTurns = 1;
+
+		/// <summary>
+		/// Number of turns
+		/// </summary>
+        public int NumTurns
         {
             get
             {
-                return nt;
+                return _numTurns;
             }
 			set
 			{
-				nt = value;
-				if ( boardSize < MinimumBoardSize() )
+				_numTurns = value;
+				if ( BoardSize < MinimumBoardSize() )
 				{
 					gsucID = ErrorService.Instance.ReportError( "014", new List<String> { }, gsucID );
 				}
 				else
 				{
-					MainWindowModel.Instance.verifyNumTiles();
-					MainWindowModel.Instance.verifyDivisions();
+					MainWindowModel.Instance.VerifyNumTiles();
+					MainWindowModel.Instance.VerifyDivisions();
 					ErrorService.Instance.ResolveError( "014", gsucID );
 				}
 				if ( PropertyChanged != null )
-					PropertyChanged( this, new PropertyChangedEventArgs( "numTurns" ) );
+					PropertyChanged( this, new PropertyChangedEventArgs( "NumTurns" ) );
 			}
         }
 
-        private int nd = 1;
-        public int numDice
+        private int _numDice = 1;
+		/// <summary>
+		/// The number of dice
+		/// </summary>
+        public int NumDice
         {
             get
             {
-                return nd;
+                return _numDice;
             }
             set
             {
-                nd = value;
-				//Insert error logging here
-				if ( boardSize < MinimumBoardSize() )
+                _numDice = value;
+
+				if ( BoardSize < MinimumBoardSize() )
 				{
 					gsucID = ErrorService.Instance.ReportError( "014", new List<String> { }, gsucID );
 				}
 				else
 				{
 					ErrorService.Instance.ResolveError( "014", gsucID );
-					MainWindowModel.Instance.verifyNumTiles();
+					MainWindowModel.Instance.VerifyNumTiles();
 				}
 				if ( PropertyChanged != null )
-					PropertyChanged( this, new PropertyChangedEventArgs( "numDice" ) );
+					PropertyChanged( this, new PropertyChangedEventArgs( "NumDice" ) );
             }
         }
 
-        private int smv = 1;
-        public int spinnerMaxValue
+        private int _spinnerMaxValue = 1;
+		/// <summary>
+		/// The max value of the spinner
+		/// </summary>
+        public int SpinnerMaxValue
         {
             get
             {
-                return smv;
+                return _spinnerMaxValue;
             }
             set
             {
-                smv = value;
+                _spinnerMaxValue = value;
 
 				// Warnings only, referring to a single value spinner or a coin-flip spinner
-				if ( smv == 1 )
+				if ( _spinnerMaxValue == 1 )
 				{
 					gsucID = ErrorService.Instance.ReportWarning( "007", new List<string> { }, gsucID );
 					ErrorService.Instance.ResolveWarning( "008", gsucID );
 				}
-				else if ( smv == 2 )
+				else if ( _spinnerMaxValue == 2 )
 				{
 					gsucID = ErrorService.Instance.ReportWarning( "008", new List<String> { }, gsucID );
 					ErrorService.Instance.ResolveWarning( "007", gsucID );
@@ -292,45 +323,50 @@ namespace Collection_Game_Tool.GameSetup
 					ErrorService.Instance.ResolveWarning( "007", gsucID );
 					ErrorService.Instance.ResolveWarning( "008", gsucID );
 				}
-                MainWindowModel.Instance.verifyNumTiles();
+                MainWindowModel.Instance.VerifyNumTiles();
 				if ( PropertyChanged != null )
-					PropertyChanged( this, new PropertyChangedEventArgs( "spinnerMaxValue" ) );
+					PropertyChanged( this, new PropertyChangedEventArgs( "SpinnerMaxValue" ) );
             }
         }
 
-        private int bs = 1;
-        public int boardSize
+        private int _boardSize = 1;
+		/// <summary>
+		/// The board size
+		/// </summary>
+        public int BoardSize
         {
             get
             {
-                return bs;
+                return _boardSize;
             }
             set
             {
-                bs = value;
+                _boardSize = value;
             }
         }
-
+		/// <summary>
+		/// The string version of board size
+		/// </summary>
 		public string BoardSizeTextBox
 		{
 			get
 			{
-				return bs.ToString();
+				return _boardSize.ToString();
 			}
 			set
 			{
 				if ( value == "" )
 				{
-					boardSize = 0;
+					BoardSize = 0;
 				}
 				else if ( WithinViableBoardSizeRange( value ) )
 				{
 					int boardSizeTest;
 					if ( Int32.TryParse( value, out boardSizeTest ) && boardSizeTest >= 0 )
 					{
-						boardSize = boardSizeTest;
+						BoardSize = boardSizeTest;
 					}
-					MainWindowModel.Instance.verifyNumTiles();
+					MainWindowModel.Instance.VerifyNumTiles();
 				}
 				if ( PropertyChanged != null )
 					PropertyChanged( this, new PropertyChangedEventArgs( "BoardSizeTextBox" ) );
@@ -340,7 +376,7 @@ namespace Collection_Game_Tool.GameSetup
 		private bool WithinViableBoardSizeRange( string s )
 		{
 			int boardSizeValue;
-			bool successful = Int32.TryParse( s, out boardSizeValue );
+			bool successful = int.TryParse( s, out boardSizeValue );
 			if ( successful )
 			{
 				if ( boardSizeValue < MinimumBoardSize() )
@@ -355,74 +391,85 @@ namespace Collection_Game_Tool.GameSetup
 			return successful;
 		}
 
-        private int nmft = 1;
-        public int numMoveForwardTiles
+        private int _numMoveForwardTiles = 1;
+		/// <summary>
+		/// Number of move forward tiles
+		/// </summary>
+        public int NumMoveForwardTiles
         {
             get
             {
-                return nmft;
+                return _numMoveForwardTiles;
             }
             set
             {
-                nmft = value;
+                _numMoveForwardTiles = value;
             }
         }
 
-        private int nmbt = 1;
-        public int numMoveBackwardTiles
+        private int _numMoveBackwardTiles = 1;
+		/// <summary>
+		/// Number of move backward tiles
+		/// </summary>
+        public int NumMoveBackwardTiles
         {
             get
             {
-                return nmbt;
+                return _numMoveBackwardTiles;
             }
             set
             {
-                nmbt = value;
+                _numMoveBackwardTiles = value;
             }
         }
 
+		/// <summary>
+		/// String version of NumMoveBackwardTiles
+		/// </summary>
 		public string NumMoveBackwardTilesTextbox
 		{
 			get
 			{
-				return numMoveBackwardTiles + "";
+				return NumMoveBackwardTiles + "";
 			}
 			set
 			{
 				int numMBValue;
 				if ( value == "" )
 				{
-					numMoveBackwardTiles = 0;
+					NumMoveBackwardTiles = 0;
 				}
 				else if ( Int32.TryParse( value, out numMBValue ) && numMBValue >= 0 )
 				{
 					// confirm that there is enough space on board for desired number of move-backward tiles
-					numMoveBackwardTiles = numMBValue;
-					MainWindowModel.Instance.verifyNumTiles();
+					NumMoveBackwardTiles = numMBValue;
+					MainWindowModel.Instance.VerifyNumTiles();
 				}
 				if ( PropertyChanged != null )
 					PropertyChanged( this, new PropertyChangedEventArgs( "NumMoveBackwardTilesTextbox" ) );
 			}
 		}
-
+		/// <summary>
+		/// String version of NumMoveForwardTiles
+		/// </summary>
 		public string NumMoveForwardTilesTextbox
 		{
 			get
 			{
-				return numMoveForwardTiles + "";
+				return NumMoveForwardTiles + "";
 			}
 			set
 			{
 				int numMFValue;
 				if ( value == "" )
 				{
-					numMoveForwardTiles = 0;
+					NumMoveForwardTiles = 0;
 				}
 				else if ( Int32.TryParse( value, out numMFValue ) && numMFValue >= 0 )
 				{
 					// confirm that there is enough space on board for desired number of move-backward tiles
-					numMoveForwardTiles = numMFValue;
-					MainWindowModel.Instance.verifyNumTiles();
+					NumMoveForwardTiles = numMFValue;
+					MainWindowModel.Instance.VerifyNumTiles();
 				}
 
 				if ( PropertyChanged != null )
@@ -430,79 +477,104 @@ namespace Collection_Game_Tool.GameSetup
 			}
 		}
 
-        private int mfl = 0;
-        public int moveForwardLength
+        private int _moveForwardLength = 0;
+		/// <summary>
+		/// Steps for move forward
+		/// </summary>
+        public int MoveForwardLength
         {
             get
             {
-                return mfl;
+                return _moveForwardLength;
             }
             set
             {
-                mfl = value;
+                _moveForwardLength = value;
 				if ( PropertyChanged != null )
-					PropertyChanged( this, new PropertyChangedEventArgs( "moveForwardLength" ) );
+					PropertyChanged( this, new PropertyChangedEventArgs( "MoveForwardLength" ) );
             }
         }
 
-        private int mbl = 0;
-        public int moveBackwardLength
+        private int _moveBackwardLength = 0;
+		/// <summary>
+		/// Steps for move backward
+		/// </summary>
+        public int MoveBackwardLength
         {
             get
             {
-                return mbl;
+                return _moveBackwardLength;
             }
             set
             {
-                mbl = value;
+                _moveBackwardLength = value;
+				if ( PropertyChanged != null )
+					PropertyChanged( this, new PropertyChangedEventArgs( "MoveBackwardLength" ) );
             }
         }
 
-        public int initialReachableSpaces
+		/// <summary>
+		/// The number of initial reachable spaces
+		/// </summary>
+        public int InitialReachableSpaces
         {
             get
             {
-                if (diceSelected)
+                if (DiceSelected)
                 {
-                    return (numDice * 6) * numTurns;
+                    return (NumDice * 6) * NumTurns;
                 }
                 else
                 {
-                    return spinnerMaxValue * numTurns;
+                    return SpinnerMaxValue * NumTurns;
                 }
             }
         }
 
-        public int finalReachableSpaces
+		/// <summary>
+		/// The number of initial reachable spaces
+		/// </summary>
+        public int FinalReachableSpaces
         {
             get
             {
-                return initialReachableSpaces + (numMoveForwardTiles * moveForwardLength);
+                return InitialReachableSpaces + (NumMoveForwardTiles * MoveForwardLength);
             }
         }
 
+		/// <summary>
+		/// Shouts to the listeners/audience.
+		/// </summary>
+		/// <param name="pass">The object to pass</param>
         public void Shout(object pass)
         {
-            foreach (Listener fans in audience)
+            foreach (Listener fans in _audience)
             {
                 fans.OnListen(pass);
             }
         }
-
+		/// <summary>
+		/// Adds a listener
+		/// </summary>
+		/// <param name="listener">The listener to add</param>
         public void AddListener(Listener list)
         {
-            audience.Add(list);
+            _audience.Add(list);
         }
 
+		/// <summary>
+		/// The minimum board size
+		/// </summary>
+		/// <returns>The minimum board size</returns>
 		public int MinimumBoardSize()
 		{
-			if ( diceSelected )
+			if ( DiceSelected )
 			{
-				return ( numDice ) * numTurns;
+				return ( NumDice ) * NumTurns;
 			}
 			else
 			{
-				return 1 * numTurns;
+				return 1 * NumTurns;
 			}
 		}
     }
