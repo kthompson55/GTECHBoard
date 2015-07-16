@@ -306,11 +306,25 @@
                         </StackPanel>
                     </Border>
 
+                    <Border Style="{StaticResource externalBorderStyle}">
+                        <StackPanel x:Name="SingleMultipleBoard" Background="#ADADAD">
+                            <Label Style="{StaticResource titleStyle}" ToolTip="The board on which the game will take place" Content="Single or Multiple Board Generation"/>
+                            <Border BorderBrush="Black" BorderThickness="0,0,0,2">
+                                <Label Style="{StaticResource instructionStyle}" Content="Generate single board for all divisions, or different boards for each division"/>
+                            </Border>
+                            <Border Style="{StaticResource internalBorderStyle}">
+                                <StackPanel Orientation="Horizontal" Width="210">
+                                    <Label Content="Single Board"/>
+                                    <RadioButton x:Name="SingleBoardRadioButton" GroupName="SingleMultipleBoardSelection" VerticalAlignment="Center"/>
+                                    <Label Margin="15,0,0,0" Content="Multiple Boards"/>
+                                    <RadioButton x:Name="MultipleBoardRadioButton" GroupName="SingleMultipleBoardSelection" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                    
 					<Button x:Name="CreateButton" Click="CreateButton_Click" Width="200" Height="50" FontSize="28" FontWeight="Bold" Background="#007CAA" Foreground="White" Margin="0,5,0,0" IsEnabled="{Binding Path=CanCreate}" Opacity="{Binding Path=CanCreate, Converter={StaticResource OpacityConverter}}">Create File</Button>
-
-
-
-
+                    
 				</StackPanel>
             </ScrollViewer>
 			<Border x:Name="ErrorBoxBorder" Grid.Row="4" BorderThickness="0,2" BorderBrush="Black" MaxHeight="150">
