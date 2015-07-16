@@ -75,6 +75,19 @@ namespace Collection_Game_Tool.Services
             }
         }
 
+        /// <summary>
+        /// Gets the collection of prizelevels
+        /// </summary>
+        /// <returns>A dictionary</returns>
+        public Dictionary<string, int> getCollection()
+        {
+            return _collections;
+        }
+
+        /// <summary>
+        /// Add prize level to the collected prize levels
+        /// </summary>
+        /// <param name="pl">the prize level</param>
         public void addPl(string pl)
         {
             if (this._collections.ContainsKey(pl))
