@@ -315,9 +315,9 @@
                             <Border Style="{StaticResource internalBorderStyle}">
                                 <StackPanel Orientation="Horizontal" Width="210">
                                     <Label Content="Single Board"/>
-                                    <RadioButton x:Name="SingleBoardRadioButton" GroupName="SingleMultipleBoardSelection" VerticalAlignment="Center"/>
+									<RadioButton x:Name="SingleBoardRadioButton" IsChecked="{Binding Path=SingleBoard, Mode=TwoWay}" GroupName="SingleMultipleBoardSelection" VerticalAlignment="Center"/>
                                     <Label Margin="15,0,0,0" Content="Multiple Boards"/>
-                                    <RadioButton x:Name="MultipleBoardRadioButton" GroupName="SingleMultipleBoardSelection" VerticalAlignment="Center"/>
+									<RadioButton x:Name="MultipleBoardRadioButton" IsChecked="{Binding Path=MultipleBoards, Mode=TwoWay}" GroupName="SingleMultipleBoardSelection" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </Border>
                         </StackPanel>
