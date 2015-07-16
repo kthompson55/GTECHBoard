@@ -135,6 +135,40 @@ namespace Collection_Game_Tool.GameSetup
 			}
 		}
 
+        private bool _singleBoard;
+        /// <summary>
+        /// If true, generate a single board and create as many permutations as possible
+        /// </summary>
+        public bool SingleBoard
+        {
+            get
+            {
+                return _singleBoard;
+            }
+
+            set
+            {
+                _singleBoard = value;
+            }
+        }
+
+        private bool _multipleBoards;
+        /// <summary>
+        /// If true, generates multiple boards for each division
+        /// </summary>
+        public bool MultipleBoards
+        {
+            get
+            {
+                return _multipleBoards;
+            }
+
+            set
+            {
+                _multipleBoards = value;
+            }
+        }
+
 		/// <summary>
 		/// Checks that the value entered in Max Permutations is acceptable
 		/// </summary>
