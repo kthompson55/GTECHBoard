@@ -1,23 +1,11 @@
-﻿using System;
+﻿using Collection_Game_Tool.Main;
+using Collection_Game_Tool.Services;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Collection_Game_Tool.Services;
-using Collection_Game_Tool.Main;
-using System.Windows.Threading;
-using System.IO;
-using System.Threading;
-using System.ComponentModel;
 
 namespace Collection_Game_Tool.GameSetup
 {
@@ -55,6 +43,8 @@ namespace Collection_Game_Tool.GameSetup
 			MoveForwardLengthSlider.DataContext = MainWindowModel.Instance.GameSetupModel;
 			NumMoveBackwardTilesTextBox.DataContext = MainWindowModel.Instance.GameSetupModel;
 			MoveBackwardLengthSlider.DataContext = MainWindowModel.Instance.GameSetupModel;
+			SingleBoardRadioButton.DataContext = MainWindowModel.Instance.GameSetupModel;
+			MultipleBoardRadioButton.DataContext = MainWindowModel.Instance.GameSetupModel;
             ErrorTextBlock.DataContext = ErrorService.Instance;
             WarningTextBlock.DataContext = ErrorService.Instance;
             errorPanelScroll.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;

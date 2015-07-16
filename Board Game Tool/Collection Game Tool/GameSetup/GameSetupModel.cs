@@ -135,7 +135,7 @@ namespace Collection_Game_Tool.GameSetup
 			}
 		}
 
-        private bool _singleBoard;
+        private bool _singleBoard = true;
         /// <summary>
         /// If true, generate a single board and create as many permutations as possible
         /// </summary>
@@ -149,10 +149,11 @@ namespace Collection_Game_Tool.GameSetup
             set
             {
                 _singleBoard = value;
+				if ( PropertyChanged != null )
+					PropertyChanged( this, new PropertyChangedEventArgs( "SingleBoard" ) );
             }
         }
 
-        private bool _multipleBoards;
         /// <summary>
         /// If true, generates multiple boards for each division
         /// </summary>
@@ -160,12 +161,14 @@ namespace Collection_Game_Tool.GameSetup
         {
             get
             {
-                return _multipleBoards;
+				return !_singleBoard;
             }
 
             set
             {
-                _multipleBoards = value;
+				_singleBoard = !value;
+				if ( PropertyChanged != null )
+					PropertyChanged( this, new PropertyChangedEventArgs( "MultipleBoards" ) );
             }
         }
 
