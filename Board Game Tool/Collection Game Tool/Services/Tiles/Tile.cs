@@ -83,7 +83,7 @@ namespace Collection_Game_Tool.Services.Tiles
                     //Moves down the board (forward) moveAmount times
                     ret = ret.Child;
                 }
-                return ret;
+                return ret.TileAction();
             }
             else if (Type == TileTypes.moveBack)
             {
