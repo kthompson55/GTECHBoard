@@ -113,7 +113,7 @@ namespace Collection_Game_Tool.Services
                     string key = s.Substring(s.Length - 1);
                     if (key.Length > 0 && !key.Equals("S") && !key.Equals("") && !key.Equals(" "))
                     {
-                        pg.addPl(key);
+                        pg.addPl(key.ToUpper());
                     }
                 }
 

@@ -249,7 +249,7 @@ namespace Collection_Game_Tool.Services
                         sb.Append(":I");
                     if (p.isBonusGame)
                         sb.Append(":B");
-                    sb.Append((":" + (char)(p.prizeLevel + 97)));
+                    sb.Append((":" + (char)(p.prizeLevel + 96)));
                     prizeLevel[index] = sb.ToString();
                     ++index;
                 }
