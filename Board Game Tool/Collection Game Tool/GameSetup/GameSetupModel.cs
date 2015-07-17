@@ -520,7 +520,7 @@ namespace Collection_Game_Tool.GameSetup
 			}
 		}
 
-        private int _moveForwardLength = 0;
+        private int _moveForwardLength = 1;
 		/// <summary>
 		/// Steps for move forward
 		/// </summary>
@@ -538,7 +538,7 @@ namespace Collection_Game_Tool.GameSetup
             }
         }
 
-        private int _moveBackwardLength = 0;
+        private int _moveBackwardLength = 1;
 		/// <summary>
 		/// Steps for move backward
 		/// </summary>
