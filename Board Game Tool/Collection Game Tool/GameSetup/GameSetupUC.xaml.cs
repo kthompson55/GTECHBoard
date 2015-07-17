@@ -74,6 +74,8 @@ namespace Collection_Game_Tool.GameSetup
 			MoveForwardLengthSlider.DataContext = MainWindowModel.Instance.GameSetupModel;
 			NumMoveBackwardTilesTextBox.DataContext = MainWindowModel.Instance.GameSetupModel;
 			MoveBackwardLengthSlider.DataContext = MainWindowModel.Instance.GameSetupModel;
+			SingleBoardRadioButton.DataContext = MainWindowModel.Instance.GameSetupModel;
+			MultipleBoardRadioButton.DataContext = MainWindowModel.Instance.GameSetupModel;
 
 			NearWinCheckbox.IsChecked = MainWindowModel.Instance.GameSetupModel.IsNearWin;
 			NumNearWinsSlider.Value = MainWindowModel.Instance.GameSetupModel.NearWins;
@@ -86,6 +88,8 @@ namespace Collection_Game_Tool.GameSetup
 			MoveForwardLengthSlider.Value = MainWindowModel.Instance.GameSetupModel.MoveForwardLength;
 			NumMoveBackwardTilesTextBox.Text = MainWindowModel.Instance.GameSetupModel.NumMoveBackwardTiles.ToString();
 			MoveBackwardLengthSlider.Value = MainWindowModel.Instance.GameSetupModel.MoveBackwardLength;
+			SingleBoardRadioButton.IsChecked = MainWindowModel.Instance.GameSetupModel.SingleBoard;
+			MultipleBoardRadioButton.IsChecked = MainWindowModel.Instance.GameSetupModel.MultipleBoards;
         }
 
 		/// <summary>
