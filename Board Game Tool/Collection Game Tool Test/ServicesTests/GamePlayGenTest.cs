@@ -60,13 +60,13 @@ namespace Collection_Game_Tool_Test.ServicesTests
             PrizeLevels prizes = new PrizeLevels();
             PrizeLevel A1 = new PrizeLevel();
             A1.numCollections = 1;
-            A1.prizeLevel = 0;
+            A1.prizeLevel = 1;
             A1.isBonusGame = true;
             prizes.addPrizeLevel(A1);
 
             PrizeLevel A2 = new PrizeLevel();
             A2.numCollections = 1;
-            A2.prizeLevel = 1;
+            A2.prizeLevel = 2;
             prizes.addPrizeLevel(A2);
 
             //PrizeLevel A3 = new PrizeLevel();
