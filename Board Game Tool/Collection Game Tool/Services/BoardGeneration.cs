@@ -116,11 +116,11 @@ namespace Collection_Game_Tool.Services
                 int moveBack,
                 TileTypes[] tiles)
         {
-            ITile currentTile = _firstTile;
+            ITile currentTile = _firstTile.Child;
 			for ( int i = 0; i < tiles.Length && !( _threadCancel != null && _threadCancel.Cancel ); ++i )
             {
                 bool tilePlaced = false;
-                int currentSpace = 0;
+                int currentSpace = 1;
                 Tiles.TileTypes myTile = tiles[i];
 
                 int moveAmount = SRandom.NextInt(minMove, (initialReachable / maxMove)) * (i + 1);
@@ -133,8 +133,8 @@ namespace Collection_Game_Tool.Services
                     }
                     else
                     {
-                        currentTile = _firstTile;
-                        currentSpace = 0;
+                        currentTile = _firstTile.Child;
+                        currentSpace = 1;
                     }
                 }
 				if ( _threadCancel != null && _threadCancel.Cancel ) return;
@@ -169,8 +169,8 @@ namespace Collection_Game_Tool.Services
                                 }
                                 else
                                 {
-                                    currentTile = _firstTile;
-                                    currentSpace = 0;
+                                    currentTile = _firstTile.Child;
+                                    currentSpace = 1;
                                 }
                             }
                         }
@@ -199,8 +199,8 @@ namespace Collection_Game_Tool.Services
                                 }
                                 else
                                 {
-                                    currentTile = _firstTile;
-                                    currentSpace = 0;
+                                    currentTile = _firstTile.Child;
+                                    currentSpace = 1;
                                 }
                             }
                         }
@@ -218,8 +218,8 @@ namespace Collection_Game_Tool.Services
                     }
                     else
                     {
-                        currentTile = _firstTile;
-                        currentSpace = 0;
+                        currentTile = _firstTile.Child;
+                        currentSpace = 1;
                     }
                 }
             }
